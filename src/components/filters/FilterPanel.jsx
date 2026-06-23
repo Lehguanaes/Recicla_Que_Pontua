@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { COLORS, MATERIAL_TYPES, SORT_OPTIONS, DISTANCE_OPTIONS, SEARCH_MODES } from '../../constants';
 import Button from '../common/Button';
 
