@@ -1,0 +1,116 @@
+/* ======================================================
+   NAVBAR
+====================================================== */
+
+.navbar{
+    width:100%;
+    min-height:80px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:0 5%;
+    background:var(--white);
+    border-bottom:1px solid var(--border);
+    position:sticky;
+    top:0;
+    z-index:1000;
+
+}
+
+/* ======================================================
+   LOGO
+====================================================== */
+
+.navbar-logo{
+    display:flex;
+    align-items:center;
+    flex-shrink:0;
+    text-decoration:none;
+
+}
+
+.navbar-logo img{
+    height:90px;
+    width:auto;
+    display:block;
+
+}
+
+/* ======================================================
+   MENU
+====================================================== */
+
+.navbar-menu{
+    display:flex;
+    align-items:center;
+    gap:2rem;
+}
+
+.navbar-link{
+    text-decoration:none;
+    color:var(--text-primary);
+    font-size:16px;
+    font-weight:500;
+    transition:.25s;
+
+}
+
+.navbar-link:hover{
+    color:var(--secondary);
+}
+
+/* ======================================================
+   BOTÃO
+====================================================== */
+
+.navbar-button{
+    background:var(--secondary);
+    color:var(--white);
+    text-decoration:none;
+    padding:12px 28px;
+    border-radius:10px;
+    font-weight:600;
+    transition:.25s;
+}
+
+.navbar-button:hover{
+    background:var(--secondary-dark);
+
+}
+
+/* ======================================================
+   TABLET
+====================================================== */
+
+@media(max-width:900px){
+    .navbar{
+        padding:0 30px;
+    }
+
+    .navbar-logo img{
+        height:45px;
+    }
+
+    .navbar-menu{
+        gap:20px;
+    }
+
+}
+
+/* ======================================================
+   CELULAR
+====================================================== */
+
+@media(max-width:600px){
+    .navbar{
+        flex-direction:column;
+        justify-content:center;
+        gap:18px;
+        padding:20px;
+    }
+
+    .navbar-menu{
+        width:100%;
+        justify-content:center;
+    }
+}

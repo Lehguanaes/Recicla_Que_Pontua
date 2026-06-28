@@ -3,6 +3,17 @@
 // ============================================================
 
 export const COLORS = {
+  //Verde
+  verdeEscuro: "#2E7D32",
+  verdeMedio: "#43A047",
+  verdeSuave: "#C8E6C9",
+  verdeFundo: "#F1F8E9",
+  
+  //Marrom
+  marrom: "#6D4C41",
+  marromClaro: "#8D6E63",
+  bege: "#D7CCC8",
+
   // Primária
   primary: '#6B1FA2',        // roxo principal (header, botões primários)
   primaryLight: '#8B3FC4',   // roxo claro (hover)

@@ -1,0 +1,20 @@
+.rodape{
+    width:100%;
+    padding:18px 30px;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    background:var(--verdeEscuro);
+}
+
+.rodape p{
+    margin:0;
+    color:rgba(0, 0, 0, 0.85);
+    font-size:14px;
+}
+
+.rodape strong{
+    color:var(--verdeSuave);
+}
