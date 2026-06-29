@@ -46,15 +46,15 @@ const Login = () => {
                     />
 
                     <button
+                        type="button"
                         className="show-password"
-                        onClick={()=>setShowPassword(!showPassword)}
-                    >
-                        {showPassword ? ".." : "👁"}
+                        onClick={() => setShowPassword(!showPassword)}
+                     >
                     </button>
 
                 </div>
 
-                <a href="#" className="forgot">
+                <a href="/recuperar-senha" className="forgot">
                     Esqueceu sua senha?
                 </a>
 
@@ -67,7 +67,7 @@ const Login = () => {
 
                 <p className="register">
                     Ainda não possui conta?
-                    <a href="#"> Cadastre-se</a>
+                    <a href="/cadastro"> Cadastre-se</a>
                 </p>
 
             </div>
