@@ -1,0 +1,14 @@
+.button {
+  background: var(--secondary);
+  color: var(--white);
+  text-decoration: none;
+  padding: 12px 28px;
+  border-radius: 10px;
+  font-weight: 600;
+  transition: 0.25s;
+  white-space: nowrap;
+}
+
+.button:hover {
+  background: var(--secondary-dark);
+}

@@ -1,0 +1,43 @@
+/* ==========================
+   Container
+========================== */
+
+.select-user {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* ==========================
+   Título e descrição
+========================== */
+
+.titulo {
+  color: var(--secondary);
+  font-size: 1.8rem;
+  font-weight: 700;
+}
+
+.description {
+  color: #777;
+  line-height: 1.5;
+  font-size: 0.95rem;
+}
+
+/* ==========================
+   Grid de perfis
+========================== */
+
+.select-user-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+/* Tablet e celular */
+
+@media (max-width: 768px) {
+  .select-user-grid {
+    grid-template-columns: 1fr;
+  }
+}

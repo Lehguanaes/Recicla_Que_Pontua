@@ -1,8 +1,9 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./pages/home/Home";
-import Login from './pages/login/Login'
-import BuscarCatadores from './pages/BuscarCatadores'
+import Login from './pages/login/Login';
+import Cadastro from './pages/cadastro/Cadastro';
+import BuscarCatadores from './pages/BuscarCatadores';
 
 /**
  * App root — adicione roteamento (React Router) conforme o projeto crescer
@@ -13,6 +14,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/cadastro" element={<Cadastro />} />
         <Route path="/buscarCatadores" element={<BuscarCatadores />} />
       </Routes>
     </BrowserRouter>

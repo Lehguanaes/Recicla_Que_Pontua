@@ -103,17 +103,15 @@
 /* ============================= */
 
 .forgot{
-    align-self:flex-end;
-
+    align-self:end;
     margin-top:4px;
     margin-bottom:25px;
-
     color:var(--verde-suave);
     text-decoration:none;
 }
 
 .forgot:hover{
-    color:var(--secondaryLight);
+    color:var(--white);
 }
 
 /* ============================= */
@@ -137,6 +135,7 @@
 
 .login-button:hover{
     background:var(--secondaryDark);
+    border: solid 1px var(--white);
 }
 
 /* ============================= */
@@ -208,10 +207,6 @@
 
     .login-panel{
         max-width:100%;
-    }
-
-    .forgot{
-        align-self:center;
     }
 
     .imgLateral img{

@@ -1,11 +1,12 @@
 import { useState } from "react";
-import './login.css';
-import '../../global.css'
 import ReciclaMais from "../../assets/ReciclaMais.png";
 import Navbar from "../../components/navbar/Navbar";
 import Rodape from '../../components/rodape/Rodape'
+import './login.css';
+import '../../global.css'
 
-const Login = () => {
+
+function Login () {
     const [identifier, setIdentifier] = useState("");
     const [password, setPassword] = useState("");
     const [showPassword, setShowPassword] = useState(false);
