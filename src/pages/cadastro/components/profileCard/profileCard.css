@@ -39,24 +39,6 @@
 }
 
 /* ==========================
-   Imagem
-========================== */
-
-.profile-card-image {
-  width: 90px;
-  height: 90px;
-
-  object-fit: contain;
-
-  border-radius: 18px;
-  background: #e8f5e9;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-/* ==========================
    Nome
 ========================== */
 

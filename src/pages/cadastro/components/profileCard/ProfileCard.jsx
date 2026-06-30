@@ -16,12 +16,11 @@ export default function ProfileCard({
       aria-pressed={selected}
       onKeyDown={(e) => e.key === "Enter" && onSelect()}
     > 
-      <span className="profile-card-name">{name}</span>
 
       <div className="profile-card-image">
         <img src={image} alt={name} />
       </div>
-
+      <span className="profile-card-name">{name}</span>
       <span className="profile-card-desc">
         {description}
       </span>
