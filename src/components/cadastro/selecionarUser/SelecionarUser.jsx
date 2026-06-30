@@ -1,10 +1,10 @@
 import "./selecionarUser.css";
 import ProfileCard from "../profileCard/ProfileCard";
 
-import Catador from "../../../../assets/catador.png";
-import CentroColeta from "../../../../assets/centrocoleta.png";
-import Instituicao from "../../../../assets/instituicao.png";
-import PessoaRec from "../../../../assets/pessoa-recicladora.png";
+import Catador from "../../../assets/catador.png";
+import CentroColeta from "../../../assets/centrocoleta.png";
+import Instituicao from "../../../assets/instituicao.png";
+import PessoaRec from "../../../assets/pessoa-recicladora.png";
 
 export const perfis = [
   {
