@@ -1,12 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { COLORS, MAP_CONFIG, LOCAL_TYPES } from '../../constants';
 
-/**
- * Mapa com marcadores de catadores/centros — IBL 03
- *
- * Usa Leaflet (OpenStreetMap) via CDN.
- * Para produção, instale: npm install react-leaflet leaflet
- */
+// Mapa com marcadores de catadores/centros
 const CollectorMap = ({ collectors = [], selected, onSelectCollector }) => {
   const mapRef = useRef(null);
   const leafletRef = useRef(null);
@@ -34,6 +29,7 @@ const CollectorMap = ({ collectors = [], selected, onSelectCollector }) => {
       }).addTo(map);
 
       leafletRef.current = map;
+      setTimeout(() => map.invalidateSize(), 0);
     };
 
     tryInit();
@@ -52,13 +48,15 @@ const CollectorMap = ({ collectors = [], selected, onSelectCollector }) => {
     const map = leafletRef.current;
     if (!map || !L) return;
 
+    map.invalidateSize();
+
     // Remove marcadores antigos
     markersRef.current.forEach((m) => m.remove());
     markersRef.current = [];
 
     collectors.forEach((collector) => {
       const isCenter = collector.tipo === LOCAL_TYPES.CENTER;
-      const color = isCenter ? COLORS.info : COLORS.primary;
+      const color = isCenter ? COLORS.info : COLORS.orange;
       const isSelected = selected?.id === collector.id;
 
       const icon = L.divIcon({
@@ -92,6 +90,15 @@ const CollectorMap = ({ collectors = [], selected, onSelectCollector }) => {
     });
   }, [collectors, selected, onSelectCollector]);
 
+  useEffect(() => {
+    const map = leafletRef.current;
+    if (!map) return;
+
+    const resizeMap = () => map.invalidateSize();
+    window.addEventListener('resize', resizeMap);
+    return () => window.removeEventListener('resize', resizeMap);
+  }, []);
+
   // Centraliza no selecionado
   useEffect(() => {
     const map = leafletRef.current;
@@ -105,6 +112,7 @@ const CollectorMap = ({ collectors = [], selected, onSelectCollector }) => {
       style={{
         width: '100%',
         height: '100%',
+        minHeight: '100%',
         borderRadius: '0',
         zIndex: 1,
       }}

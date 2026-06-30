@@ -1,10 +1,11 @@
 import React from 'react';
+import {
+  FaStar,
+} from "react-icons/fa";
+
 import { COLORS } from '../../constants';
 
-/**
- * Card de destaque exibido sobre o mapa quando um catador é selecionado
- * (igual ao card verde do app original)
- */
+// Card de destaque exibido sobre o mapa quando um catador é selecionado
 const SelectedCard = ({ collector, onClose }) => {
   if (!collector) return null;
 
@@ -47,7 +48,7 @@ const SelectedCard = ({ collector, onClose }) => {
       <div style={{ flex: 1 }}>
         <div style={{ fontWeight: 700, fontSize: '17px', marginBottom: '2px' }}>{collector.nome}</div>
         <div style={{ fontSize: '13px', opacity: 0.9, marginBottom: '4px' }}>
-          {collector.subtipo} • ❤️ {collector.rating?.toFixed(1)}
+          {collector.subtipo} • <FaStar style={{ color: 'gold' }} /> {collector.rating?.toFixed(1)}
         </div>
         {collector.veiculo && (
           <div style={{ fontSize: '13px', opacity: 0.85 }}>🚗 {collector.veiculo}</div>
