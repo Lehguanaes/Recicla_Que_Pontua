@@ -14,22 +14,33 @@
     color:rgba(0, 0, 0, 0.85);
     font-size:14px;
     text-align:center;
+    line-height:1.6;
 }
 
 .rodape strong{
     color:var(--verde-escuro);
 }
 
+.quebra-mobile{
+    display:none;
+}
+
+/* ======================================================
+   RESPONSIVO
+====================================================== */
+
 @media (max-width:600px){
 
-    .rodape p{
+    .quebra-mobile{
         display:block;
-        text-align:center;
-        line-height:1.6;
     }
 
-    .rodape strong{
-        display:block;
+    .rodape{
+        padding:16px 20px;
+    }
+
+    .rodape p{
+        font-size:13px;
     }
 
 }
