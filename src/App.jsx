@@ -6,7 +6,8 @@ import Login from "./pages/login/Login";
 import Cadastro from "./pages/cadastro/Cadastro";
 import ComoFunciona from "./pages/comoFunciona/ComoFunciona";
 import Ranking from "./pages/ranking/Ranking";
-import DoarMateriais from "./pages/doacao/DoarMateriais";
+import EncontrarParceiros from "./pages/doacao/DoarMateriais";
+import CadastrarMateriais from "./pages/doacao/CadastrarMateriais";
 import Recompensas from "./pages/recompensas/Recompensas";
 
 function App() {
@@ -18,10 +19,13 @@ function App() {
         <Route path="/cadastro" element={<Cadastro />} />
         <Route path="/como-funciona" element={<ComoFunciona />} />
         <Route path="/ranking" element={<Ranking />} />
-        <Route path="/doacao/DoarMateriais" element={<DoarMateriais />} />
+        <Route path="/doacao/cadastrar-materiais" element={<CadastrarMateriais />} />
+        <Route path="/doacao/encontrarParceiros" element={<EncontrarParceiros />} />
+        <Route path="/doacao/encontrar-parceiros" element={<Navigate to="/doacao/encontrarParceiros" replace />} />
         <Route path="/recompensas" element={<Recompensas />} />
-        <Route path="/buscarCatadores" element={<Navigate to="/doacao/DoarMateriais" replace />} />
-        <Route path="/buscarcatadores" element={<Navigate to="/doacao/DoarMateriais" replace />} />
+        <Route path="/doacao/DoarMateriais" element={<Navigate to="/doacao/cadastrar-materiais" replace />} />
+        <Route path="/buscarCatadores" element={<Navigate to="/doacao/cadastrar-materiais" replace />} />
+        <Route path="/buscarcatadores" element={<Navigate to="/doacao/cadastrar-materiais" replace />} />
         <Route path="/sobre" element={<Navigate to="/como-funciona" replace />} />
       </Routes>
     </BrowserRouter>

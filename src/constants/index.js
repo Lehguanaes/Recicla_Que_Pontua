@@ -11,7 +11,6 @@ export const MATERIAL_TYPES = [
   { value: 'vidro', label: 'Vidro' },
   { value: 'metal', label: 'Metal' },
   { value: 'eletronico', label: 'Eletrônico' },
-  { value: 'organico', label: 'Orgânico' },
   { value: 'oleo', label: 'Óleo de Cozinha' },
 ];
 

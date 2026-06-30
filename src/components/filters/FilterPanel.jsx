@@ -2,7 +2,6 @@ import React from "react";
 import { FaTimes } from "react-icons/fa";
 import {
   DISTANCE_OPTIONS,
-  MATERIAL_TYPES,
   SEARCH_MODES,
   SORT_OPTIONS,
 } from "../../constants";
@@ -23,6 +22,21 @@ const SelectField = ({ label, value, onChange, options }) => (
 );
 
 const FilterPanel = ({ filters, onUpdateFilter, onReset, onClose }) => {
+  const sortOptions =
+    filters.modo === SEARCH_MODES.DONATE
+      ? SORT_OPTIONS.filter((option) => option.value !== "maior_preco")
+      : SORT_OPTIONS;
+  const sortValue = sortOptions.some((option) => option.value === filters.ordenar_por)
+    ? filters.ordenar_por
+    : "";
+
+  const handleModeChange = (value) => {
+    onUpdateFilter("modo", value);
+    if (value === SEARCH_MODES.DONATE && filters.ordenar_por === "maior_preco") {
+      onUpdateFilter("ordenar_por", "");
+    }
+  };
+
   return (
     <div className="filter-overlay" role="presentation" onClick={onClose}>
       <aside
@@ -53,7 +67,7 @@ const FilterPanel = ({ filters, onUpdateFilter, onReset, onClose }) => {
                   key={option.value}
                   type="button"
                   className={filters.modo === option.value ? "active" : ""}
-                  onClick={() => onUpdateFilter("modo", option.value)}
+                  onClick={() => handleModeChange(option.value)}
                 >
                   {option.label}
                 </button>
@@ -65,13 +79,6 @@ const FilterPanel = ({ filters, onUpdateFilter, onReset, onClose }) => {
           </div>
 
           <SelectField
-            label="Tipo de material"
-            value={filters.filtro_material}
-            onChange={(value) => onUpdateFilter("filtro_material", value)}
-            options={MATERIAL_TYPES}
-          />
-
-          <SelectField
             label="Raio de distância"
             value={filters.raio_distancia}
             onChange={(value) => onUpdateFilter("raio_distancia", Number(value))}
@@ -80,9 +87,9 @@ const FilterPanel = ({ filters, onUpdateFilter, onReset, onClose }) => {
 
           <SelectField
             label="Ordenar por"
-            value={filters.ordenar_por}
+            value={sortValue}
             onChange={(value) => onUpdateFilter("ordenar_por", value)}
-            options={SORT_OPTIONS}
+            options={sortOptions}
           />
         </div>
 

@@ -113,7 +113,7 @@
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  background: var(--orange);
+  background: var(--secondary);
   color: var(--text-primary);
   font-size: 0.72rem;
 }
@@ -123,6 +123,46 @@
   margin: 0 auto;
   padding: 0 0 48px;
   position: relative;
+}
+
+.donation-material-tags {
+  margin: 0 0 16px;
+  padding: 14px 16px;
+  border: 1px solid rgba(40, 186, 27, 0.22);
+  border-radius: 8px;
+  background: rgba(124, 198, 20, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+.donation-material-tags > span {
+  color: #14213d;
+  font-size: 1rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.donation-material-tags > div {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.donation-material-tags strong {
+  min-height: 30px;
+  padding: 6px 10px;
+  border: 1px solid rgba(245, 158, 11, 0.28);
+  border-radius: 999px;
+  background: var(--secondary);
+  color: var(--white);
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.82rem;
+  font-weight: 800;
+  line-height: 1.1;
 }
 
 .donation-empty-image-button {
@@ -136,24 +176,9 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  animation: emptyFloat 3.2s ease-in-out infinite;
-  transition: filter 0.2s ease;
+  transition: 0.2s ease;
 }
 
-.donation-empty-image-button span {
-  position: absolute;
-  top: 18px;
-  left: 50%;
-  z-index: 2;
-  width: 100%;
-  transform: translateX(-50%);
-  color: var(--verde-escuro);
-  font-size: 1rem;
-  font-weight: 800;
-  text-align: center;
-  pointer-events: none;
-  animation: emptyPulse 1.8s ease-in-out infinite;
-}
 
 .donation-empty-image {
   width: 230px;
@@ -164,29 +189,7 @@
 }
 
 .donation-empty-image-button:hover {
-  filter: brightness(1.04);
-}
-
-@keyframes emptyFloat {
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-
-  50% {
-    transform: translateY(-8px);
-  }
-}
-
-@keyframes emptyPulse {
-  0%,
-  100% {
-    opacity: 0.78;
-  }
-
-  50% {
-    opacity: 1;
-  }
+  transform: translateY(-2px);
 }
 
 .donation-map-layout {
@@ -354,6 +357,15 @@
 
   .donation-toolbar {
     flex-direction: column;
+  }
+
+  .donation-material-tags {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .donation-material-tags > div {
+    justify-content: flex-start;
   }
 
   .donation-tabs,

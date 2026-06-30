@@ -1,25 +1,17 @@
 import { useState, useCallback, useEffect } from 'react';
 import { mockSearch } from '../services/mockData';
-// import { collectorsService } from '../services/api'; // trocar quando tiver backend
 
 const DEFAULT_FILTERS = {
   nome: '',
   filtro_material: '',
+  materiais_cadastrados: [],
   raio_distancia: 10,
   ordenar_por: '',
   modo: 'todos',
 };
 
-/**
- * Hook — IBL 03: Buscar e Filtrar Centros e Catadores
- *
- * Contém:
- * - Estado dos filtros
- * - Lógica de busca (mock ou API real)
- * - Regras de negócio (ex: modo "vender" oculta autônomos)
- */
-const useCollectorSearch = (userLocation = null) => {
-  const [filters, setFilters] = useState(DEFAULT_FILTERS);
+const useCollectorSearch = (userLocation = null, initialFilters = {}) => {
+  const [filters, setFilters] = useState({ ...DEFAULT_FILTERS, ...initialFilters });
   const [results, setResults] = useState([]);
   const [selected, setSelected] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -56,8 +48,8 @@ const useCollectorSearch = (userLocation = null) => {
   }, []);
 
   const resetFilters = useCallback(() => {
-    setFilters(DEFAULT_FILTERS);
-  }, []);
+    setFilters({ ...DEFAULT_FILTERS, ...initialFilters });
+  }, [initialFilters]);
 
   const selectCollector = useCallback((collector) => {
     setSelected(collector);

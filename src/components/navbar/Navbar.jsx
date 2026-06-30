@@ -66,12 +66,12 @@ function Navbar() {
           </NavLink>
 
           <NavLink
-            to="/doacao/DoarMateriais"
+            to="/doacao/cadastrar-materiais"
             className={getLinkClass}
             onClick={closeMenu}
           >
             <FaHandHoldingHeart className="navbar-icon" />
-            <span>Doar Materiais</span>
+            <span>Reciclar Materiais</span>
           </NavLink>
 
           <NavLink

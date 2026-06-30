@@ -72,7 +72,7 @@ export const MOCK_COLLECTORS = [
 /**
  * Simula a busca com filtros (IBL 03)
  */
-export const mockSearch = ({ nome = '', filtro_material = '', raio_distancia = 50, ordenar_por = '', modo = 'todos' } = {}) => {
+export const mockSearch = ({ nome = '', filtro_material = '', materiais_cadastrados = [], raio_distancia = 50, ordenar_por = '', modo = 'todos' } = {}) => {
   let results = [...MOCK_COLLECTORS];
 
   // Regra de Negócio: modo "vender" oculta catadores autônomos
@@ -85,9 +85,17 @@ export const mockSearch = ({ nome = '', filtro_material = '', raio_distancia = 5
     results = results.filter((c) => c.nome.toLowerCase().includes(nome.toLowerCase()));
   }
 
-  // Filtro por material
-  if (filtro_material) {
-    results = results.filter((c) => c.materiais.includes(filtro_material));
+  // Filtro por materiais cadastrados
+  const materialFilters = materiais_cadastrados.length > 0
+    ? materiais_cadastrados
+    : filtro_material
+      ? [filtro_material]
+      : [];
+
+  if (materialFilters.length > 0) {
+    results = results.filter((c) =>
+      materialFilters.some((material) => c.materiais.includes(material))
+    );
   }
 
   // Filtro por raio

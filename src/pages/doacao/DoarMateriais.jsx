@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
+import { useLocation } from "react-router-dom";
 import {
   FaFilter,
   FaListUl,
@@ -17,6 +18,19 @@ import Rodape from "../../components/rodape/Rodape";
 import "./doarMateriais.css";
 
 const DoarMateriais = () => {
+  const location = useLocation();
+  const registeredMaterials = useMemo(
+    () => location.state?.registeredMaterials || [],
+    [location.state]
+  );
+  const registeredMaterialValues = useMemo(
+    () => registeredMaterials.map((material) => material.value),
+    [registeredMaterials]
+  );
+  const initialFilters = useMemo(
+    () => ({ materiais_cadastrados: registeredMaterialValues }),
+    [registeredMaterialValues]
+  );
   const [view, setView] = useState("mapa");
   const [showFilters, setShowFilters] = useState(false);
 
@@ -30,15 +44,28 @@ const DoarMateriais = () => {
     resetFilters,
     search,
     selectCollector,
-  } = useCollectorSearch();
+  } = useCollectorSearch(null, initialFilters);
 
   const activeFilterCount = [
     filters.nome,
-    filters.filtro_material,
     filters.ordenar_por,
     filters.raio_distancia !== 10 ? filters.raio_distancia : "",
     filters.modo !== "todos" ? filters.modo : "",
   ].filter(Boolean).length;
+
+  const renderRegisteredMaterialTags = () =>
+    registeredMaterials.length > 0 && (
+      <div className="donation-material-tags" aria-label="Materiais cadastrados">
+        <span>Materiais cadastrados</span>
+        <div>
+          {registeredMaterials.map((material) => (
+            <strong key={material.value}>
+              {material.quantity} {material.unit} de {material.label}
+            </strong>
+          ))}
+        </div>
+      </div>
+    );
 
   const renderResultList = (compact = false) => (
     <div
@@ -92,12 +119,13 @@ const DoarMateriais = () => {
         <section className="donation-hero">
           <div className="donation-hero-text">
             <span className="donation-kicker">
-              <FaRecycle /> Doação de materiais
+              <FaRecycle /> Reciclagem de Materiais
             </span>
             <h2>Encontre catadores e centros de coleta perto de você</h2>
             <p>
-              Busque por nome, material, distância e intenção para combinar sua
-              doação com quem pode receber ou coletar.
+              {registeredMaterials.length > 0
+                ? "Sua busca já esta filtrada pelos materiais cadastrados! Agora escolha quem pode receber ou coletar."
+                : "Busque por nome, material, distância e intenção para combinar sua doação com quem pode receber ou coletar."}
             </p>
           </div>
 
@@ -144,6 +172,8 @@ const DoarMateriais = () => {
           {loading && <div className="donation-loading">Buscando locais...</div>}
 
           {error && <div className="donation-error">{error}</div>}
+
+          {renderRegisteredMaterialTags()}
 
           {view === "mapa" ? (
             <div className="donation-map-layout">
