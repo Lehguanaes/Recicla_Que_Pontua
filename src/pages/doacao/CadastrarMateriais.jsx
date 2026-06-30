@@ -164,7 +164,7 @@ const CadastrarMateriais = () => {
           <span className="materials-kicker">
             <FaRecycle /> Reciclagem de Materiais
           </span>
-          <h1>Cadastre os materiais que você tem disponíveis!</h1>
+          <h1>Cadastre os materiais disponíveis que você tem!</h1>
           <p>
             Informe as quantidades antes de procurar catadores e centros de
             coleta. A calculadora estima o impacto ambiental e prepara sua
@@ -226,8 +226,7 @@ const CadastrarMateriais = () => {
 
         <section className="impact-section" aria-label="Resultados estimados">
           <div className="impact-heading">
-            <FaLeaf />
-            <h2>Resultados estimados</h2>
+            <h2><FaLeaf color="var(--secondary)" />  Resultados estimados</h2>
             <p>
             O quanto você pode impactar com a reciclagem dos seus materiais?
           </p>

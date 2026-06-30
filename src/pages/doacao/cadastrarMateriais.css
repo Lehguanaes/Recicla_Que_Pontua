@@ -181,18 +181,28 @@ p {
 
 .impact-heading {
   display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-bottom: 14px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+  margin-bottom: 22px;
   color: #14213d;
 }
 
-.impact-heading svg {
-  color: var(--orange);
+.impact-heading svg{
+  font-size:1.5rem;
+  color:var(--orange);
 }
 
-.impact-heading h2 {
-  font-size: 1.25rem;
+.impact-heading h2{
+  font-size:1.45rem;
+  margin:0;
+}
+
+.impact-heading p{
+  margin:0;
+  font-size:1.08rem;
+  line-height:1.6;
+  color:var(--text-secondary);
 }
 
 .impact-grid {
@@ -396,39 +406,123 @@ p {
   }
 }
 
-@media (max-width: 620px) {
-  .materials-page {
-    padding-top: 28px;
+@media (max-width:620px){
+  .materials-page{
+    padding:32px 10px 60px;
   }
 
   .materials-hero,
   .materials-grid,
   .impact-section,
-  .materials-actions {
-    width: min(100% - 24px, 1180px);
+  .materials-actions{
+    width:calc(100% - 36px);
   }
 
-  .impact-grid {
-    grid-template-columns: 1fr;
+  .materials-kicker{
+    font-size:1.08rem;
   }
 
-  .materials-grid {
-    grid-template-columns: minmax(0, 340px);
+  .materials-hero h1{
+    font-size:2rem;
+    line-height:1.2;
   }
 
-  .materials-hero h1 {
-    font-size: 2rem;
+  .materials-hero p{
+    font-size:1.12rem;
+    line-height:1.8;
   }
 
-  .material-card {
-    min-height: 164px;
+  .materials-grid{
+    grid-template-columns:minmax(0,340px);
+    gap:20px;
   }
 
-  .materials-confirm {
-    padding: 24px 18px;
+  .material-card{
+    min-height:175px;
+    padding:22px 18px;
   }
 
-  .materials-confirm-actions {
-    grid-template-columns: 1fr;
+  .material-icon{
+    width:44px;
+    height:44px;
+    font-size:1.3rem;
   }
+
+  .material-card strong{
+    font-size:1.08rem;
+  }
+
+  .material-card>span{
+    font-size:.86rem;
+  }
+
+  .material-stepper button{
+    width:40px;
+    height:40px;
+    font-size:1rem;
+  }
+
+  .material-stepper input{
+    font-size:1.3rem;
+  }
+
+  .impact-heading{
+    margin-bottom:20px;
+  }
+
+  .impact-heading h2{
+    font-size:1.6rem;
+  }
+
+  .impact-heading p{
+    font-size:1.15rem;
+  }
+
+  .impact-grid{
+    grid-template-columns:1fr;
+    gap:18px;
+  }
+
+  .impact-card{
+    padding:26px;
+  }
+
+  .impact-card svg{
+    font-size:1.5rem;
+  }
+
+  .impact-card strong{
+    font-size:2rem;
+  }
+
+  .impact-card span{
+    font-size:.9rem;
+  }
+
+  .materials-submit{
+    width:100%;
+    min-height:56px;
+    font-size:1.05rem;
+  }
+
+  .materials-confirm{
+    padding:26px 22px;
+  }
+
+  .materials-confirm h2{
+    font-size:1.7rem;
+  }
+
+  .materials-confirm p{
+    font-size:1.05rem;
+  }
+
+  .materials-confirm-tags span{
+    font-size:.92rem;
+  }
+
+  .materials-confirm-actions{
+    grid-template-columns:1fr;
+  }
+
 }
