@@ -14,7 +14,7 @@
     --bege: #D7CCC8;
 
     /* Primária */
-    --primary: #6B1FA2;
+    --primary:#efa31f;/* #6B1FA2 */
     --primary-light: #8B3FC4;
     --primary-dark: #4A1570;
 
@@ -22,6 +22,9 @@
     --secondary: #4CAF50;
     --secondary-light: #81C784;
     --secondary-dark: #388E3C;
+
+    /*Detalhes*/
+    --orange: #f59e0b;
 
     /* Neutras */
     --white: #FFFFFF;

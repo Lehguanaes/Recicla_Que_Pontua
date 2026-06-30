@@ -3,9 +3,9 @@ import { COLORS } from '../../constants';
 
 const variants = {
   primary: {
-    background: COLORS.primary,
-    color: COLORS.white,
-    border: 'none',
+    background: 'transparent',
+    color: COLORS.orange,
+    border: `1.5px solid ${COLORS.orange}`,
   },
   secondary: {
     background: COLORS.secondary,
@@ -14,8 +14,8 @@ const variants = {
   },
   outline: {
     background: 'transparent',
-    color: COLORS.primary,
-    border: `1.5px solid ${COLORS.primary}`,
+    color: COLORS.orange,
+    border: `1.5px solid ${COLORS.orange}`,
   },
   ghost: {
     background: 'transparent',

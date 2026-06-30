@@ -4,17 +4,21 @@
 
 .navbar{
     width:100%;
-    min-height:80px;
+    height:82px;
+
     display:flex;
     justify-content:space-between;
     align-items:center;
+
     padding:0 5%;
+
     background:var(--white);
+
     border-bottom:1px solid var(--border);
+
     position:sticky;
     top:0;
     z-index:1000;
-
 }
 
 /* ======================================================
@@ -24,20 +28,16 @@
 .navbar-logo{
     display:flex;
     align-items:center;
-    flex-shrink:0;
     text-decoration:none;
-
 }
 
 .navbar-logo img{
     height:90px;
-    width:auto;
     display:block;
-
 }
 
 /* ======================================================
-   MENU
+   MENU DESKTOP
 ====================================================== */
 
 .navbar-menu{
@@ -47,16 +47,75 @@
 }
 
 .navbar-link{
+    position:relative;
+
+    display:flex;
+    align-items:center;
+    gap:8px;
+
     text-decoration:none;
+
     color:var(--text-primary);
+
     font-size:16px;
     font-weight:500;
-    transition:.25s;
 
+    transition:.45s;
 }
 
-.navbar-link:hover{
+.navbar-icon{
+    font-size:17px;
+    transition:.45s;
+}
+
+/* ======================================================
+   HOVER
+====================================================== */
+
+.navbar-link:not(.active):hover{
+    color:var(--orange);
+}
+
+.navbar-link:not(.active):hover .navbar-icon{
+    color:var(--orange);
+    transform:scale(1.18);
+}
+
+.navbar-link::after{
+
+    content:"";
+
+    position:absolute;
+
+    left:0;
+    bottom:-8px;
+
+    width:0%;
+    height:3px;
+
+    border-radius:50px;
+
+    background:var(--orange);
+
+    transition:.45s;
+}
+
+.navbar-link:hover::after{
+    width:100%;
+}
+
+/* ======================================================
+   LINK ATIVO
+====================================================== */
+
+.navbar-link.active{
     color:var(--secondary);
+    font-weight:600;
+}
+
+.navbar-link.active::after{
+    width:100%;
+    background:var(--secondary);
 }
 
 /* ======================================================
@@ -64,35 +123,223 @@
 ====================================================== */
 
 .navbar-button{
+
     background:var(--secondary);
-    color:var(--white);
-    text-decoration:none;
-    padding:12px 28px;
+    color:white;
+
+    padding:11px 26px;
+
     border-radius:10px;
+
+    text-decoration:none;
+
     font-weight:600;
-    transition:.25s;
+
+    transition:.35s;
 }
 
 .navbar-button:hover{
+
     background:var(--secondary-dark);
 
+    transform:translateY(-2px);
+
+    box-shadow:0 10px 25px rgba(0,0,0,.15);
+
+}
+
+/* ======================================================
+   BOTÃO MENU
+====================================================== */
+
+.menu-toggle{
+
+    display:none;
+
+    border:none;
+
+    background:none;
+
+    cursor:pointer;
+
+    color:var(--text-primary);
+
+    font-size:28px;
+
+    transition:.35s;
+
+    z-index:1002;
+}
+
+.menu-toggle:hover{
+
+    color:var(--secondary);
+
+    transform:rotate(90deg);
+
+}
+
+/* ======================================================
+   OVERLAY
+====================================================== */
+
+.navbar-overlay{
+
+    position:fixed;
+
+    inset:0;
+
+    background:rgba(0,0,0,.35);
+
+    backdrop-filter:blur(3px);
+
+    opacity:0;
+
+    visibility:hidden;
+
+    transition:.35s;
+
+    z-index:998;
+}
+
+.navbar-overlay.show{
+
+    opacity:1;
+
+    visibility:visible;
+
+}
+
+/* ======================================================
+   MASCOTE MENU
+====================================================== */
+
+.navbar-pet-menu{
+    display:none;
 }
 
 /* ======================================================
    TABLET
 ====================================================== */
 
-@media(max-width:900px){
+@media(max-width:960px){
+
     .navbar{
+
         padding:0 30px;
+
     }
 
     .navbar-logo img{
-        height:45px;
+
+        height:75px;
+
+    }
+
+    .menu-toggle{
+
+        display:block;
+
     }
 
     .navbar-menu{
-        gap:20px;
+
+        position:fixed;
+
+        top:0;
+
+        right:-100%;
+
+        width:300px;
+
+        max-width:80%;
+
+        height:100vh;
+
+        background:white;
+
+        display:flex;
+
+        flex-direction:column;
+
+        align-items:flex-start;
+
+        justify-content:flex-start;
+
+        padding:120px 35px 40px;
+
+        gap:28px;
+
+        box-shadow:-10px 0 40px rgba(0,0,0,.12);
+
+        transition:right .4s ease;
+
+        z-index:1001;
+    }
+
+    .navbar-menu.open{
+
+        right:0;
+
+    }
+
+    .navbar-link{
+
+        width:100%;
+
+        font-size:18px;
+
+        padding-bottom:10px;
+    }
+
+    .navbar-link::after{
+
+        bottom:0;
+
+    }
+
+    .navbar-icon{
+
+        font-size:20px;
+
+        width:24px;
+
+    }
+
+    .navbar-button{
+        width:100%;
+
+        text-align:center;
+
+        padding:14px;
+
+        border-radius:12px;
+
+        font-size:17px;
+    }
+
+    .navbar-pet-menu{
+        display:block;
+        width:200px;
+        height:auto;
+        margin-top:auto;
+        margin-left:auto;
+        margin-right:auto;
+        user-select:none;
+        pointer-events:none;
+        animation: flutuar 3s ease-in-out infinite;
+    }
+
+    @keyframes flutuar {
+        0% {
+            transform: translateY(0);
+        }
+        50% {
+            transform: translateY(-12px);
+        }
+        100% {
+            transform: translateY(0);
+        }
     }
 
 }
@@ -101,16 +348,32 @@
    CELULAR
 ====================================================== */
 
-@media(max-width:600px){
+@media(max-width:480px){
+
     .navbar{
-        flex-direction:column;
-        justify-content:center;
-        gap:18px;
-        padding:20px;
+        height:74px;
+        padding:0 20px;
+    }
+
+    .navbar-logo img{
+        height:65px;
     }
 
     .navbar-menu{
-        width:100%;
-        justify-content:center;
+        width:250px;
+        padding:110px 25px 30px;
     }
+
+    .navbar-link{
+        font-size:17px;
+        margin-bottom: 10px;
+    }
+
+    .navbar-button{
+        font-size:16px;
+    }
+    .navbar-pet-menu{
+    width:180px;
+    }
+
 }

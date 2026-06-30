@@ -24,6 +24,10 @@ export const COLORS = {
   secondaryLight: '#81C784',
   secondaryDark: '#388E3C',
 
+  // Detalhes
+  orange: '#f59e0b',
+
+
   // Neutros
   white: '#FFFFFF',
   background: '#F5F5F5',

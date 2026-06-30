@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Modal from "../../components/modal/Modal";
-import SelecionarUser from "./components/selecionarUser/SelecionarUser";
+import SelecionarUser from "../../components/cadastro/selecionarUser/SelecionarUser";
 import "./cadastro.css";
 
 
