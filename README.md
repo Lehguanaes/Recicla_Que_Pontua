@@ -1,3 +1,3 @@
 # Recicla que Pontua — React.js
 
-Projeto para plataforma de coleta de recicláveis.git rm -r --cached node_modules
+Projeto para plataforma de incentivo a coleta e descarte correto de recicláveis.
