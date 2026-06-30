@@ -56,7 +56,7 @@ const DoarMateriais = () => {
   const renderRegisteredMaterialTags = () =>
     registeredMaterials.length > 0 && (
       <div className="donation-material-tags" aria-label="Materiais cadastrados">
-        <span>Materiais cadastrados</span>
+        <span>Materiais Cadastrados</span>
         <div>
           {registeredMaterials.map((material) => (
             <strong key={material.value}>
@@ -121,7 +121,7 @@ const DoarMateriais = () => {
             <span className="donation-kicker">
               <FaRecycle /> Reciclagem de Materiais
             </span>
-            <h2>Encontre catadores e centros de coleta perto de você</h2>
+            <h2>Encontre catadores e centros de coleta perto de você!</h2>
             <p>
               {registeredMaterials.length > 0
                 ? "Sua busca já esta filtrada pelos materiais cadastrados! Agora escolha quem pode receber ou coletar."

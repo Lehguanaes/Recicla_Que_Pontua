@@ -364,6 +364,10 @@
     flex-direction: column;
   }
 
+  h2{
+    font-size: 1.8rem;
+  }
+
   .donation-material-tags > div {
     justify-content: flex-start;
   }
