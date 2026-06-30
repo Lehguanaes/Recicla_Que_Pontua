@@ -2,10 +2,8 @@ import { useState } from "react";
 import Modal from "../../components/modal/Modal";
 import SelecionarUser from "./components/selecionarUser/SelecionarUser";
 import "./cadastro.css";
-import Button from '../../components/button/Button'
-/* ════════════════════════════════
-   CORRIGIDO: campos para todos os 4 perfis
-════════════════════════════════ */
+
+
 const camposPorPerfil = {
   "pessoa-recicladora": [
     { name: "nome",     label: "Nome completo", type: "text",  placeholder: "Ex: João Silva",  required: true  },
@@ -76,11 +74,11 @@ function Cadastro() {
 
   const strength = calcStrength(password);
 
-  function handleConfirmPerfil() {
+  /*function handleConfirmPerfil() {
     if (!perfilSelecionado) return;
     setModalOpen(false);
     setStep(2);
-  }
+  }*/
 
   function handleSubmit(e) {
     e.preventDefault();
