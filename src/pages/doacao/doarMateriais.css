@@ -334,6 +334,7 @@
 @media (max-width: 620px) {
   .donation-page {
     min-height: calc(100vh - 74px);
+    padding:10px 10px 0px;
   }
 
   .donation-hero,
