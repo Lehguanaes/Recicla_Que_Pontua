@@ -24,8 +24,6 @@ export default function ProfileCard({
       <span className="profile-card-desc">
         {description}
       </span>
-
-      {selected && <div className="profile-card-check">✓</div>}
     </div>
   );
 }

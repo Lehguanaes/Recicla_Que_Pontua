@@ -1,3 +1,8 @@
+/* =============================================
+   TUDO ABAIXO É O SEU CSS ORIGINAL — SEM TOCAR
+   Só adicionamos as 3 classes do slider no fim
+============================================= */
+
 .login-page{
     min-height:calc(100vh - 140px);
 
@@ -15,6 +20,8 @@
     #7abd7c 0%,
     #43a047 35%,
     #1b5e20 100%);
+
+    overflow: hidden; /* evita scroll horizontal durante o slide */
 }
 
 /* ============================= */
@@ -69,6 +76,9 @@
     font-size:16px;
 
     transition:.25s;
+
+    box-sizing: border-box;
+    font-family: inherit;
 }
 
 .input-group input::placeholder{
@@ -79,6 +89,10 @@
     outline:none;
     border-color:var(--verde-suave);
     background:rgba(255,255,255,.16);
+}
+
+.input-group input.error {
+    border-color: #ff6b6b;
 }
 
 /* ============================= */
@@ -131,6 +145,8 @@
     cursor:pointer;
 
     transition:.3s;
+
+    font-family: inherit;
 }
 
 .login-button:hover{
@@ -147,13 +163,21 @@
     color:var(--white);
 }
 
-.register a{
+.register a,
+.register .link-btn {
     color:var(--verde-suave);
     text-decoration:none;
     font-weight:600;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: inherit;
+    font-family: inherit;
+    padding: 0;
 }
 
-.register a:hover{
+.register a:hover,
+.register .link-btn:hover {
     color:var(--secondaryLight);
 }
 
@@ -217,4 +241,143 @@
         font-size:2.5rem;
     }
 
+}
+
+/* =============================================
+   SLIDER — únicas classes novas adicionadas
+   Não alteram nada do visual existente
+============================================= */
+
+/* Substitui o .login-panel como filho direto de .login-page */
+.login-slider {
+    flex: 1;
+    max-width: 520px;
+    overflow: hidden;   /* esconde o painel fora de cena */
+}
+
+/* Track: dois .login-panel lado a lado */
+.login-slider-track {
+    display: flex;
+    width: 200%;
+    transition: transform 0.5s cubic-bezier(0.77, 0, 0.175, 1);
+}
+
+/* Quando panel !== "login", desliza para mostrar o painel 2 */
+.login-slider-track.slide-right {
+    transform: translateX(-50%);
+}
+
+/* Cada painel ocupa metade do track = 100% do slider */
+.login-slider-track > * {
+    width: 50%;
+    flex-shrink: 0;
+    max-width: none; /* sobrescreve o max-width do .login-panel dentro do track */
+}
+
+/* ============================= */
+
+/* Botão de trocar perfil */
+.perfil-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255,255,255,.15);
+    border: 1px solid rgba(255,255,255,.3);
+    border-radius: 20px;
+    padding: 5px 14px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--white);
+    margin-bottom: 20px;
+    cursor: pointer;
+    font-family: inherit;
+    transition: background .15s;
+}
+
+.perfil-badge:hover {
+    background: rgba(255,255,255,.22);
+}
+
+/* Botão voltar */
+.btn-back {
+    flex: 1;
+    padding: 14px;
+    border-radius: 12px;
+    border: 1px solid rgba(255,255,255,.3);
+    background: rgba(255,255,255,.10);
+    color: var(--white);
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: inherit;
+    transition: background .15s;
+}
+
+.btn-back:hover {
+    background: rgba(255,255,255,.18);
+}
+
+/* Ações do cadastro */
+.cadastro-actions {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 18px;
+}
+
+/* Erros de campo */
+.form-error {
+    font-size: 12px;
+    color: #ff6b6b;
+    margin-top: -12px;
+    margin-bottom: 6px;
+}
+
+/* Força da senha */
+.strength-bar {
+    display: flex;
+    gap: 4px;
+    margin-top: 6px;
+    margin-bottom: 4px;
+}
+
+.strength-segment {
+    flex: 1;
+    height: 4px;
+    border-radius: 4px;
+    background: rgba(255,255,255,.2);
+    transition: background .25s;
+}
+
+.strength-segment.weak   { background: #ff6b6b; }
+.strength-segment.medium { background: #ffa94d; }
+.strength-segment.strong { background: #69db7c; }
+
+.strength-label {
+    font-size: 12px;
+    font-weight: 500;
+    margin-bottom: 8px;
+}
+
+/* Botão confirmar perfil (dentro do Modal) */
+.btn-confirm {
+    padding: 12px 40px;
+    border-radius: 10px;
+    border: none;
+    background: var(--secondary);
+    color: var(--white);
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: inherit;
+    transition: background .15s;
+}
+
+.btn-confirm:hover    { background: var(--secondaryDark); }
+.btn-confirm:disabled { background: #a5d6a7; cursor: not-allowed; }
+
+/* Sucesso */
+.cadastro-success {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
 }

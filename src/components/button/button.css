@@ -1,14 +1,35 @@
-.button {
-  background: var(--secondary);
-  color: var(--white);
-  text-decoration: none;
-  padding: 12px 28px;
-  border-radius: 10px;
-  font-weight: 600;
-  transition: 0.25s;
-  white-space: nowrap;
+.button{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+
+    padding:14px 28px;
+
+    border:none;
+    border-radius:12px;
+
+    background:var(--secondary);
+    color:var(--white);
+
+    font-size:15px;
+    font-weight:600;
+    font-family:inherit;
+
+    cursor:pointer;
+    transition:.2s;
+
+    text-decoration:none;
 }
 
-.button:hover {
-  background: var(--secondary-dark);
+.button:hover{
+    background:var(--secondary-dark);
+}
+
+.button:active{
+    transform:scale(.98);
+}
+
+.button:disabled{
+    background:#A5D6A7;
+    cursor:not-allowed;
 }

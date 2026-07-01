@@ -1,8 +1,34 @@
 import "./button.css";
 
-export default function Button({ href = "/login" }) {
+export default function Button({
+  children,
+  onClick,
+  type = "button",
+  href,
+  disabled = false,
+  className = "",
+}) {
+
+  if (href) {
+    return (
+      <a
+        href={href}
+        className={`button ${className}`}
+      >
+        {children}
+      </a>
+    );
+  }
+
   return (
-    <a href={href} className="button">
-    </a>
+    <button
+      type={type}
+      className={`button ${className}`}
+      onClick={onClick}
+      disabled={disabled}
+    >
+      {children}
+    </button>
   );
 }
+
