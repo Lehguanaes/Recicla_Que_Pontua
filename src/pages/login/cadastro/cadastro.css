@@ -1,0 +1,151 @@
+.cadastro-form{
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+}
+
+.cadastro-fields{
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+    width:100%;
+}
+
+.cadastro-secao{
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+}
+
+.secao-titulo{
+    color:rgba(255,255,255,.6);
+
+    font-size:13px;
+    font-weight:600;
+
+    text-transform:uppercase;
+    letter-spacing:.5px;
+}
+
+.secao-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:11px 14px;
+}
+
+/* =====================================================
+   CAMPOS
+===================================================== */
+
+.input-group{
+    display:flex;
+    flex-direction:column;
+    width:100%;
+}
+
+.input-group.full{
+    grid-column:1/-1;
+}
+
+.input-group.small{
+    grid-column:span 1;
+}
+
+.input-group input[type="date"]::-webkit-calendar-picker-indicator{
+    opacity:0;
+    cursor:pointer;
+}
+
+/* =====================================================
+   SENHA
+===================================================== */
+
+.strength-bar{
+    display:flex;
+    gap:4px;
+
+    margin:6px 0 4px;
+}
+
+.strength-segment{
+    flex:1;
+    height:4px;
+
+    border-radius:4px;
+
+    background:rgba(255,255,255,.2);
+
+    transition:.25s;
+}
+
+.strength-segment.weak{
+    background:#ff6b6b;
+}
+
+.strength-segment.medium{
+    background:#ffa94d;
+}
+
+.strength-segment.strong{
+    background:#69db7c;
+}
+
+.strength-label{
+    margin-bottom:8px;
+
+    font-size:12px;
+    font-weight:500;
+}
+
+/* =====================================================
+   BOTÕES
+===================================================== */
+
+.cadastro-actions{
+    display:flex;
+    gap:10px;
+    width:100%;
+}
+
+.cadastro-actions button{
+    flex:1;
+}
+
+.next-button,
+.register-button{
+
+    width:100%;
+    padding:16px;
+
+    border:none;
+    border-radius:12px;
+
+    background:var(--secondary);
+
+    color:var(--white);
+
+    font-size:17px;
+    font-weight:bold;
+
+    cursor:pointer;
+
+    transition:.3s;
+}
+
+.next-button:hover,
+.register-button:hover{
+
+    background:var(--secondary-dark);
+    border:1px solid var(--white);
+
+}
+
+/* =====================================================
+   SUCESSO
+===================================================== */
+
+.cadastro-success{
+    display:flex;
+    flex-direction:column;
+    gap:16px;
+}

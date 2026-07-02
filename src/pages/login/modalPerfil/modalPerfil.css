@@ -1,6 +1,21 @@
-/* ════════════════════════════════
-   Overlay
-════════════════════════════════ */
+/* Botão confirmar perfil (dentro do Modal) */
+.btn-confirm {
+    padding: 12px 40px;
+    border-radius: 10px;
+    border: none;
+    background: var(--secondary);
+    color: var(--white);
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: inherit;
+    transition: background .15s;
+}
+
+.btn-confirm:hover    { background: var(--secondaryDark); }
+.btn-confirm:disabled { background: #a5d6a7; cursor: not-allowed; }
+
+
 .modal-overlay {
   position: fixed;
   inset: 0;

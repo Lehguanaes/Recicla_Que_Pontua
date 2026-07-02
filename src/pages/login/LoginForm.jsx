@@ -6,7 +6,7 @@ export default function LoginForm({
   onCadastrar,
 }) {
   return (
-    <div className="login-panel">
+    <div className="auth-panel">
       <h1>
         Que bom ver <span>você</span> de novo!
       </h1>

@@ -1,35 +1,105 @@
-
-
 export const camposPorPerfil = {
   "pessoa-recicladora": [
-    { name: "nome",     label: "Nome completo", type: "text",  placeholder: "Ex: João Silva",  required: true  },
-    { name: "email",    label: "E-mail",        type: "email", placeholder: "joao@email.com",  required: true  },
-    { name: "telefone", label: "Telefone",      type: "tel",   placeholder: "(11) 99999-9999", required: false },
-    { name: "cidade",   label: "Cidade",        type: "text",  placeholder: "Ex: São Paulo",   required: true  },
+    {
+      titulo: "Dados pessoais",
+      campos: [
+        { name: "nome",      label: "Nome completo",      type: "text",  placeholder: "Nome completo", required: true },
+        { name: "data_nasc", label: "Data de nascimento", type: "date",  placeholder: "dd/mm/aaaa",     required: true, size: "small" },
+        { name: "cpf",       label: "CPF",                type: "text",  placeholder: "CPF",  required: true, size: "small" },
+      ],
+    },
+    {
+      titulo: "Contato",
+      campos: [
+        { name: "email",    label: "E-mail",   type: "email", placeholder: "Email",    required: true },
+        { name: "telefone", label: "Telefone", type: "tel",   placeholder: "Telefone", required: false },
+      ],
+    },
+    {
+      titulo: "Localização",
+      campos: [
+        { name: "cidade", label: "Cidade", type: "text", placeholder: "Cidade", required: true, size: "small" },
+        { name: "estado", label: "Estado", type: "text", placeholder: "Estado", required: true, size: "small" },
+      ],
+    },
   ],
+
   "catador-autonomo": [
-    { name: "nome",     label: "Nome completo",     type: "text",  placeholder: "Ex: Maria Silva", required: true },
-    { name: "email",    label: "E-mail",            type: "email", placeholder: "maria@email.com", required: true },
-    { name: "telefone", label: "Telefone",          type: "tel",   placeholder: "(11) 99999-9999", required: true },
-    { name: "regiao",   label: "Região de atuação", type: "text",  placeholder: "Ex: Zona Norte",  required: true },
+    {
+      titulo: "Dados pessoais",
+      campos: [
+        { name: "nome", label: "Nome completo", type: "text", placeholder: "Nome completo", required: true },
+        { name: "data_nasc", label: "Data de nascimento", type: "date",  placeholder: "dd/mm/aaaa",     required: true, size: "small" },
+        { name: "cpf",       label: "CPF",                type: "text",  placeholder: "CPF",  required: true, size: "small" },
+
+      ],
+    },
+    {
+      titulo: "Contato",
+      campos: [
+        { name: "email",    label: "E-mail",   type: "email", placeholder: "Email",  required: true },
+        { name: "telefone", label: "Telefone", type: "tel",   placeholder: "Telefone",  required: true },
+      ],
+    },
+    {
+      titulo: "Atuação",
+      campos: [
+        { name: "cidade", label: "Cidade", type: "text", placeholder: "Cidade", required: true, size: "small" },
+        { name: "estado", label: "Estado", type: "text", placeholder: "Estado", required: true, size: "small" },
+      ],
+    },
   ],
+
   "instituicao-recicladora": [
-    { name: "nome",   label: "Nome da instituição", type: "text",  placeholder: "Ex: Instituto Verde", required: true },
-    { name: "cnpj",   label: "CNPJ",               type: "text",  placeholder: "00.000.000/0001-00",   required: true },
-    { name: "email",  label: "E-mail",             type: "email", placeholder: "contato@inst.com",     required: true },
-    { name: "cidade", label: "Cidade",             type: "text",  placeholder: "Ex: São Paulo",        required: true },
+    {
+      titulo: "Dados da instituição",
+      campos: [
+        { name: "nome", label: "Nome da instituição", type: "text", placeholder: "Nome da instituição", required: true },
+        { name: "cnpj", label: "CNPJ", type: "text", placeholder: "CNPJ",  required: true},
+      ],
+    },
+    {
+      titulo: "Contato",
+      campos: [
+        { name: "email", label: "E-mail", type: "email", placeholder: "Email", required: true },
+      ],
+    },
+    {
+      titulo: "Endereço",
+      campos: [
+        { name: "cidade", label: "Cidade", type: "text", placeholder: "Cidade", required: true, size: "small" },
+        { name: "estado", label: "Estado", type: "text", placeholder: "Estado", required: true, size: "small" },
+      ],
+    },
   ],
+
   "centro-coleta": [
-    { name: "nome",     label: "Nome do centro", type: "text",  placeholder: "Ex: Ecoponto Central", required: true },
-    { name: "cnpj",     label: "CNPJ",           type: "text",  placeholder: "00.000.000/0001-00",    required: true },
-    { name: "email",    label: "E-mail",         type: "email", placeholder: "ecoponto@email.com",   required: true },
-    { name: "endereco", label: "Endereço",       type: "text",  placeholder: "Rua, número, bairro",  required: true },
+    {
+      titulo: "Dados do centro",
+      campos: [
+        { name: "nome", label: "Nome do centro", type: "text", placeholder: "Nome da organização", required: true },
+        { name: "cnpj", label: "CNPJ", type: "text", placeholder: "CNPJ",   required: true },
+      ],
+    },
+    {
+      titulo: "Contato",
+      campos: [
+        { name: "email", label: "E-mail", type: "email", placeholder: "Email", required: true },
+      ],
+    },
+    {
+      titulo: "Endereço",
+      campos: [
+        { name: "cidade", label: "Cidade", type: "text", placeholder: "Cidade", required: true, size: "small" },
+        { name: "estado", label: "Estado", type: "text", placeholder: "Estado", required: true, size: "small" },
+      ],
+    },
   ],
 };
 
 export const perfilInfo = {
-  "pessoa-recicladora":     { label: "Pessoa Recicladora"    },
-  "catador-autonomo":       { label: "Catador Autônomo"      },
-  "instituicao-recicladora":{ label: "Instituição Recicladora"},
-  "centro-coleta":          { label: "Centro de Reciclagem"  },
+  "pessoa-recicladora":      { label: "Pessoa Recicladora"     },
+  "catador-autonomo":        { label: "Catador Autônomo"       },
+  "instituicao-recicladora": { label: "Instituição Recicladora" },
+  "centro-coleta":           { label: "Centro de Reciclagem"   },
 };

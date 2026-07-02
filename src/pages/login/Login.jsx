@@ -4,7 +4,7 @@ import Navbar from "../../components/navbar/Navbar";
 import Rodape from "../../components/rodape/Rodape";
 import LoginForm     from "../login/LoginForm";
 import CadastroPanel from "../login/cadastro/CadastroPanel";
-import ModalPerfil   from "../login/cadastro/ModalPerfil";
+import ModalPerfil   from "../login/modalPerfil/ModalPerfil";
 import "./login.css";
 import "../../global.css";
 
@@ -60,7 +60,7 @@ function Login() {
     <>
       <Navbar />
 
-      <div className="login-page">
+      <div className="auth-page">
 
         {/* ── Slider: só .login-panel desliza, imgLateral fica fixa ── */}
         <div className="login-slider">
@@ -77,9 +77,8 @@ function Login() {
 
             {/* Painel 2 — Cadastro ou Sucesso */}
             {panel === "sucesso" ? (
-              <div className="login-panel">
+              <div className="auth-panel">
                 <div className="cadastro-success">
-                  <p style={{ fontSize: "3rem" }}>🎉</p>
                   <h1>Conta criada <span>com sucesso!</span></h1>
                   <p className="subtitle">
                     Bem-vindo(a) ao <strong>Recicla que Pontua</strong>

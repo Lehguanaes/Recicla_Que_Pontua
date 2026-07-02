@@ -1,87 +1,119 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+/*@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap");*/
 
-:root{
+/* ==========================================
+   Variáveis
+========================================== */
+:root {
+  /* Verdes */
+  --verde-escuro: #2E7D32;
+  --verde-medio: #43A047;
+  --verde-suave: #C8E6C9;
+  --verde-fundo: #F1F8E9;
 
-    /* Verdes */
-    --verde-escuro: #2E7D32;
-    --verde-medio: #43A047;
-    --verde-suave: #C8E6C9;
-    --verde-fundo: #F1F8E9;
+  /* Marrons */
+  --marrom: #6D4C41;
+  --marrom-claro: #8D6E63;
+  --bege: #D7CCC8;
 
-    /* Marrons */
-    --marrom: #6D4C41;
-    --marrom-claro: #8D6E63;
-    --bege: #D7CCC8;
+  /* Cores principais */
+  --primary: #efa31f;
+  --primary-light: #8B3FC4;
+  --primary-dark: #4A1570;
 
-    /* Primária */
-    --primary:#efa31f;/* #6B1FA2 */
-    --primary-light: #8B3FC4;
-    --primary-dark: #4A1570;
+  --secondary: #4CAF50;
+  --secondary-light: #81C784;
+  --secondary-dark: #388E3C;
 
-    /* Secundária */
-    --secondary: #4CAF50;
-    --secondary-light: #81C784;
-    --secondary-dark: #388E3C;
+  --orange: #F59E0B;
 
-    /*Detalhes*/
-    --orange: #f59e0b;
+  /* Neutras */
+  --white: #FFFFFF;
+  --background: #F5F5F5;
+  --surface: #FFFFFF;
+  --border: #E0E0E0;
+  --divider: #EEEEEE;
 
-    /* Neutras */
-    --white: #FFFFFF;
-    --background: #F5F5F5;
-    --surface: #FFFFFF;
-    --border: #E0E0E0;
-    --divider: #EEEEEE;
-
-    /* Texto */
-    --text-primary: #212121;
-    --text-secondary: #757575;
-    --text-disabled: #BDBDBD;
+  /* Texto */
+  --text-primary: #212121;
+  --text-secondary: #757575;
+  --text-disabled: #BDBDBD;
 }
-/* Resete da margem padrão do arquivo */
-*{
+
+/* ==========================================
+   Reset
+========================================== */
+
+*,
+*::before,
+*::after {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-body{
-  background-color: var(--branco);
+/* ==========================================
+   Base
+========================================== */
+
+html {
+  scroll-behavior: smooth;
 }
 
-body, input, textarea{
-  font-family: sans-serif;
+body {
+  background: var(--background);
+  color: var(--text-primary);
+  font-family: "Poppins", sans-serif;
   font-size: 1rem;
-  color: var(--preto);
+  line-height: 1.5;
 }
 
-.vw-plugin-wrapper, .vlibras-widget {
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* ==========================================
+   VLibras
+========================================== */
+
+.vw-plugin-wrapper,
+.vlibras-widget {
   display: block !important;
   opacity: 1 !important;
   visibility: visible !important;
   transform: scale(1.3) !important;
   right: 20px !important;
   bottom: 20px !important;
-  display: block !important;
-  opacity: 1 !important;
-  visibility: visible !important;
 }
+
 .vw-access-button {
   all: unset !important;
-  display: block !important;
-  opacity: 1 !important;
-  visibility: visible !important;
-  width: 50px !important;
-  height: 50px !important;
-  background: url('https://vlibras.gov.br/app/assets/access_icon.svg') center/contain no-repeat !important;
+
   position: fixed !important;
   right: 20px !important;
   bottom: 20px !important;
   z-index: 2147483647 !important;
+
+  width: 50px !important;
+  height: 50px !important;
+
+  background: url("https://vlibras.gov.br/app/assets/access_icon.svg")
+    center/contain no-repeat !important;
+
   cursor: pointer !important;
 }
 
-/* Remove fallback se estiver usando */
 #vlibras-container {
   all: unset;
 }
