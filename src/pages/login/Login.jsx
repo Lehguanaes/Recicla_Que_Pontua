@@ -2,9 +2,9 @@ import { useState } from "react";
 import ReciclaMais from "../../assets/ReciclaMais.png";
 import Navbar from "../../components/navbar/Navbar";
 import Rodape from "../../components/rodape/Rodape";
-import LoginForm     from "../login/componentes/LoginForm";
-import CadastroPanel from "../login/componentes/CadastroPanel";
-import ModalPerfil   from "../login/componentes/ModalPerfil";
+import LoginForm     from "../login/LoginForm";
+import CadastroPanel from "../login/cadastro/CadastroPanel";
+import ModalPerfil   from "../login/cadastro/ModalPerfil";
 import "./login.css";
 import "../../global.css";
 

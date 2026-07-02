@@ -3,7 +3,6 @@ import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import "./global.css";
 import Home from "./pages/home/Home";
 import Login from "./pages/login/Login";
-import Cadastro from "./pages/cadastro/Cadastro";
 import ComoFunciona from "./pages/comoFunciona/ComoFunciona";
 import Ranking from "./pages/ranking/Ranking";
 import EncontrarParceiros from "./pages/doacao/DoarMateriais";
@@ -16,7 +15,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/cadastro" element={<Cadastro />} />
+        <Route path="/cadastro" element={<Navigate to="/login" replace />} />
         <Route path="/como-funciona" element={<ComoFunciona />} />
         <Route path="/ranking" element={<Ranking />} />
         <Route path="/doacao/cadastrar-materiais" element={<CadastrarMateriais />} />
