@@ -15,9 +15,9 @@ export const perfis = [
     "Moradores, condomínios e estabelecimentos que separam e destinam corretamente seus resíduos recicláveis.",
   },
   {
-    id: "catador-autonomo",
+    id: "coletor-autonomo",
     image: Catador,
-    label: "Catador Autônomo",
+    label: "Caletor Autônomo",
     description: 
     "Profissional que coleta, separa e comercializa materiais recicláveis, contribuindo para a economia circular e a preservação ambiental.",
   },

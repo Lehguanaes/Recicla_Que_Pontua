@@ -24,7 +24,7 @@ export const camposPorPerfil = {
     },
   ],
 
-  "catador-autonomo": [
+  "coletor-autonomo": [
     {
       titulo: "Dados pessoais",
       campos: [
@@ -56,6 +56,8 @@ export const camposPorPerfil = {
       campos: [
         { name: "nome", label: "Nome da instituição", type: "text", placeholder: "Nome da instituição", required: true },
         { name: "cnpj", label: "CNPJ", type: "text", placeholder: "CNPJ",  required: true},
+        { name: "tipo-instituicao", label: "Tipo de instituição", type: "text", placeholder: "Tipo de instituição", required: true },
+
       ],
     },
     {

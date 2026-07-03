@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { FaArrowLeft } from "react-icons/fa";
 import { camposPorPerfil } from "./CadastroData";
-import { validarCadastro } from "../../../auth/AuthValidation";
+import { validarCadastro , validarCampos } from "../../../auth/AuthValidation";
 import CadastroFields from "./CadastroFields";
 import PasswordFields from "./PasswordFields";
 import './cadastro.css';

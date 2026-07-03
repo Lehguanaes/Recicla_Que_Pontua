@@ -1,3 +1,11 @@
+import  { maskCPF, maskCNPJ, maskTelefone } from '../../../auth/Formatters';
+
+const mascaras = {
+  cpf: maskCPF,
+  cnpj: maskCNPJ,
+  telefone: maskTelefone,
+};
+
 export default function CadastroFields({
   secoes,
   formData,
@@ -5,6 +13,21 @@ export default function CadastroFields({
   setFormData,
   setErrors,
 }) {
+  function handleChange(campo, rawValue) {
+    const aplicarMascara = mascaras[campo.name];
+    const valor = aplicarMascara ? aplicarMascara(rawValue) : rawValue;
+
+    setFormData((prev) => ({
+      ...prev,
+      [campo.name]: valor,
+    }));
+
+    setErrors((prev) => ({
+      ...prev,
+      [campo.name]: undefined,
+    }));
+  }
+
   return (
     <div className="cadastro-fields">
       {secoes.map((secao) => (
@@ -22,17 +45,12 @@ export default function CadastroFields({
                   placeholder={campo.placeholder}
                   value={formData[campo.name] || ""}
                   className={errors[campo.name] ? "error" : ""}
-                  onChange={(e) => {
-                    setFormData((prev) => ({
-                      ...prev,
-                      [campo.name]: e.target.value,
-                    }));
-
-                    setErrors((prev) => ({
-                      ...prev,
-                      [campo.name]: undefined,
-                    }));
-                  }}
+                  inputMode={
+                    ["cpf", "cnpj", "telefone", "cep"].includes(campo.name)
+                      ? "numeric"
+                      : undefined
+                  }
+                  onChange={(e) => handleChange(campo, e.target.value)}
                 />
 
                 {errors[campo.name] && (
