@@ -10,7 +10,6 @@ import {
   FaBuilding,
   FaCheck,
   FaCircleQuestion,
-  FaHandshake,
   FaHouseChimney,
   FaLeaf,
   FaLocationDot,
@@ -29,7 +28,6 @@ import Coletor from "../../assets/catador.png";
 import CentroColeta from "../../assets/centrocoleta.png";
 import PetDuvidas from "../../assets/PetDuvidas.png";
 import PetComecar from "../../assets/PetComecar.png";
-import Logo from "../../assets/logo.png";
 import "./home.css";
 
 const websiteFeatures = [
