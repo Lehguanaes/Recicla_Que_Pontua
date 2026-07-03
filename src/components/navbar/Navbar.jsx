@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../contexts/AuthContext";
 import "./navbar.css";
 import Logo from "../../assets/logo.png";
 import PetMenu from "../../assets/PetMenu.png";
@@ -13,12 +15,17 @@ import {
   FaHandHoldingHeart,
 } from "react-icons/fa";
 
-function Navbar() {
+export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
-
+  const navigate = useNavigate();
+  const { user, logout } = useAuth();
   const closeMenu = () => setMenuOpen(false);
-  const getLinkClass = ({ isActive }) =>
-    isActive ? "navbar-link active" : "navbar-link";
+  const getLinkClass = ({ isActive }) => isActive ? "navbar-link active" : "navbar-link";
+
+  async function handleLogout() {
+      await logout();
+      navigate("/");
+  }
 
   return (
     <>
@@ -56,36 +63,78 @@ function Navbar() {
             <span>Como funciona</span>
           </NavLink>
 
-          <NavLink
-            to="/ranking"
-            className={getLinkClass}
-            onClick={closeMenu}
-          >
-            <FaTrophy className="navbar-icon" />
-            <span>Ranking</span>
-          </NavLink>
+          {/* Links para visitantes */}
+  {!user && (
+    <>
+      <NavLink
+        to="/ranking"
+        className={getLinkClass}
+        onClick={closeMenu}
+      >
+        <FaTrophy className="navbar-icon" />
+        <span>Ranking</span>
+      </NavLink>
 
-          <NavLink
-            to="/doacao/cadastrar-materiais"
-            className={getLinkClass}
-            onClick={closeMenu}
-          >
-            <FaHandHoldingHeart className="navbar-icon" />
-            <span>Reciclar Materiais</span>
-          </NavLink>
+      <NavLink
+        to="/recompensas"
+        className={getLinkClass}
+        onClick={closeMenu}
+      >
+        <FaGift className="navbar-icon" />
+        <span>Recompensas</span>
+      </NavLink>
 
-          <NavLink
-            to="/recompensas"
-            className={getLinkClass}
-            onClick={closeMenu}
-          >
-            <FaGift className="navbar-icon" />
-            <span>Recompensas</span>
-          </NavLink>
+      <NavLink
+        to="/login"
+        className="navbar-button"
+        onClick={closeMenu}
+      >
+        Entrar
+      </NavLink>
+    </>
+  )}
 
-          <NavLink to="/login" className="navbar-button" onClick={closeMenu}>
-            Entrar
-          </NavLink>
+  {/* Links para usuários logados */}
+  {user && (
+    <>
+      <NavLink
+        to="/perfil"
+        className={getLinkClass}
+        onClick={closeMenu}
+      >
+        <FaHome className="navbar-icon" />
+        <span>Meu Perfil</span>
+      </NavLink>
+
+      <NavLink
+        to="/doacao/cadastrar-materiais"
+        className={getLinkClass}
+        onClick={closeMenu}
+      >
+        <FaHandHoldingHeart className="navbar-icon" />
+        <span>Reciclar Materiais</span>
+      </NavLink>
+
+      <NavLink
+        to="/recompensas"
+        className={getLinkClass}
+        onClick={closeMenu}
+      >
+        <FaGift className="navbar-icon" />
+        <span>Minhas Recompensas</span>
+      </NavLink>
+
+      <button
+        className="navbar-button"
+        onClick={() => {
+          handleLogout();
+          closeMenu();
+        }}
+      >
+        Sair
+      </button>
+    </>
+  )}
 
             <img
             src={PetMenu}
@@ -98,4 +147,3 @@ function Navbar() {
   );
 }
 
-export default Navbar;

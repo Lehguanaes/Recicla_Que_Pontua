@@ -24,15 +24,7 @@ export default function Perfil() {
 
       <h1>Meu Perfil</h1>
 
-      <p>Seja bem-vindo!</p>
-
-      <p>Email: {user?.email}</p>
-
-      <p>UID: {user?.uid}</p>
-
-      <button onClick={handleLogout}>
-        Sair
-      </button>
+      <p>Seja bem-vindo(a)!</p> <p>Email: {user?.email}</p>
 
       <Rodape />
     </>

@@ -126,7 +126,7 @@
 
     background:var(--secondary);
     color:white;
-
+    border: none;
     padding:11px 26px;
 
     border-radius:10px;
