@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import ReciclaMais from "../../assets/ReciclaMais.png";
+import ReciclaMais from "../../assets/Recicla_Que_Pontua_loginTela.png";
 import Navbar from "../../components/navbar/Navbar";
 import Rodape from "../../components/rodape/Rodape";
 import LoginForm from "../login/LoginForm";
@@ -30,9 +30,8 @@ export default function Login() {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
 
-  // nome para tela de sucesso
-  const [nomeUsuario, setNomeUsuario] = useState("");
 
+  //FUNÇÃO
   async function handleLogin() {
   setErroLogin("");
 
@@ -83,12 +82,6 @@ export default function Login() {
     setPanel("login");
   }
 
-  // cadastro concluído → desliza para sucesso
-  function handleSucesso(nome) {
-    setNomeUsuario(nome?.split(" ")[0] || "");
-    setPanel("sucesso");
-  }
-
   return (
     <>
       <Navbar />
@@ -113,36 +106,12 @@ export default function Login() {
               onCadastrar={handleCadastrar}
             />
 
-            {/* CADASTRO OU SUCESSO */}
-            {panel === "sucesso" ? (
-              <div className="auth-panel">
-                <div className="cadastro-success">
-                  <h1>
-                    Conta criada <span>com sucesso!</span>
-                  </h1>
-
-                  <p className="subtitle">
-                    Bem-vindo(a) ao <strong>Recicla que Pontua</strong>
-                    {nomeUsuario ? `, ${nomeUsuario}` : ""}! Agora você pode
-                    reciclar, acumular pontos e fazer a diferença.
-                  </p>
-
-                  <button
-                    className="login-button"
-                    onClick={handleVoltarLogin}
-                  >
-                    Ir para o login
-                  </button>
-                </div>
-              </div>
-            ) : (
-              <CadastroPanel
-                perfilSelecionado={perfilSelecionado}
-                onVoltarPerfil={handleVoltarPerfil}
-                onVoltarLogin={handleVoltarLogin}
-                onSucesso={handleSucesso}
-              />
-            )}
+            {/* CADASTRO */}
+            <CadastroPanel
+              perfilSelecionado={perfilSelecionado}
+              onVoltarPerfil={handleVoltarPerfil}
+              onVoltarLogin={handleVoltarLogin}
+            />
           </div>
         </div>
 

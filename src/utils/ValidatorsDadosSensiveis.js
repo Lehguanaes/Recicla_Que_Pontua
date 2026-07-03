@@ -1,9 +1,11 @@
+import { parsePhoneNumberFromString } from "libphonenumber-js";
+
 // Validação de CPF (algoritmo padrão da Receita Federal)
 export function validarCPF(cpf) {
   cpf = (cpf || "").replace(/\D/g, "");
 
   if (cpf.length !== 11) return false;
-  if (/^(\d)\1{10}$/.test(cpf)) return false; // rejeita sequências tipo 111.111.111-11
+  if (/^(\d)\1{10}$/.test(cpf)) return false; 
 
   let soma = 0;
   for (let i = 0; i < 9; i++) {
@@ -57,8 +59,9 @@ export function validarEmail(email) {
 }
 
 export function validarTelefone(telefone) {
-  const numeros = (telefone || "").replace(/\D/g, "");
-  return numeros.length === 10 || numeros.length === 11;
+  const phone = parsePhoneNumberFromString(telefone, "BR");
+
+  return phone ? phone.isValid() : false;
 }
 
 export function validarCEP(cep) {

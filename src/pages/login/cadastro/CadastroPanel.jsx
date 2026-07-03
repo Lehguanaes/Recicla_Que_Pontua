@@ -1,17 +1,25 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../../contexts/AuthContext";
+import { db } from "../../../services/Firebase";
+import { doc, setDoc, serverTimestamp } from "firebase/firestore";
 import { FaArrowLeft } from "react-icons/fa";
 import { camposPorPerfil } from "./CadastroData";
 import { validarCadastro } from "../../../utils/AuthValidation";
+import { validarCampos } from "../../../utils/AuthValidation";
+
 import CadastroFields from "./CadastroFields";
 import PasswordFields from "./PasswordFields";
+
 import './cadastro.css';
 
 export default function CadastroPanel({
   perfilSelecionado,
   onVoltarPerfil,
-  onSucesso,
   onVoltarLogin,
 }) {
+  const navigate = useNavigate();
   const [step, setStep] = useState(1);
 
   const [formData, setFormData] = useState({});
@@ -24,39 +32,108 @@ export default function CadastroPanel({
   const secoes = camposPorPerfil[perfilSelecionado] || [];
   const campos = secoes.flatMap((secao) => secao.campos); 
   //const perfil = perfilInfo[perfilSelecionado];
+  const { cadastrar } = useAuth();
+  const [aceitouTermos, setAceitouTermos] = useState(false);
 
+
+  //FUNÇÕES
   function validarPrimeiraEtapa() {
-    const novosErros = {};
-
-    campos.forEach(({ name, required }) => {
-      if (required && !formData[name]?.trim()) {
-        novosErros[name] = "Campo obrigatório.";
-      }
-    });
+    const novosErros = validarCampos(
+      campos,
+      formData
+    );
 
     setErrors(novosErros);
 
     if (Object.keys(novosErros).length === 0) {
       setStep(2);
     }
+
   }
 
-  function handleSubmit(e) {
-    e.preventDefault();
+  async function handleSubmit(e) {
+  e.preventDefault();
 
-    const novosErros = validarCadastro(
-      campos,
-      formData,
-      password,
-      confirmPassword
+  // Valida apenas os campos da segunda etapa
+  const novosErros = validarCadastro(
+    password,
+    confirmPassword
+  );
+
+  // Verifica aceite dos termos
+  if (!aceitouTermos) {
+    novosErros.termos = "Você deve aceitar os Termos de Uso.";
+  }
+
+  setErrors(novosErros);
+
+  if (Object.keys(novosErros).length > 0) return;
+
+  try {
+    // Cria usuário no Firebase Authentication
+    const usuario = await cadastrar(
+      formData.email,
+      password
     );
 
-    setErrors(novosErros);
+    // Salva dados no Firestore
+    await setDoc(doc(db, "usuarios", usuario.uid), {
+      ...formData,
 
-    if (Object.keys(novosErros).length > 0) return;
+      uid: usuario.uid,
+      email: usuario.email,
+      perfil: perfilSelecionado,
 
-    onSucesso(formData.nome);
+      pontos: 0,
+
+      aceitouTermos: true,
+      aceitouEm: serverTimestamp(),
+
+      criadoEm: serverTimestamp(),
+    });
+
+    navigate("/perfil");
+
+  } catch (error) {
+
+    switch (error.code) {
+
+      case "auth/email-already-in-use":
+        setErrors(prev => ({
+          ...prev,
+          email: "Este e-mail já está cadastrado.",
+        }));
+        break;
+
+      case "auth/invalid-email":
+        setErrors(prev => ({
+          ...prev,
+          email: "E-mail inválido.",
+        }));
+        break;
+
+      case "auth/weak-password":
+        setErrors(prev => ({
+          ...prev,
+          senha: "A senha deve possuir pelo menos 6 caracteres.",
+        }));
+        break;
+
+      case "auth/network-request-failed":
+        setErrors(prev => ({
+          ...prev,
+          geral: "Sem conexão com a internet.",
+        }));
+        break;
+
+      default:
+        setErrors(prev => ({
+          ...prev,
+          geral: "Não foi possível criar sua conta.",
+        }));
+    }
   }
+}
 
   return (
     <div className="auth-panel">
@@ -95,11 +172,7 @@ export default function CadastroPanel({
             />
 
             <div className="cadastro-actions">
-              <button
-                type="button"
-                className="next-button"
-                onClick={validarPrimeiraEtapa}
-              >
+              <button type="button" className="next-button" onClick={validarPrimeiraEtapa}>
                 Continuar
               </button>
             </div>
@@ -118,12 +191,27 @@ export default function CadastroPanel({
               errors={errors}
               setErrors={setErrors}
             />
+    <div className="termos-container">
+    <label
+      htmlFor="aceitou-termos" className="checkbox-termos">
+      <input id="aceitou-termos" type="checkbox"
+        checked={aceitouTermos} onChange={(e) => setAceitouTermos(e.target.checked)}
+      />
+              <span>Li e concordo com os{" "}
+              <Link
+                to="/termos" target="_blank"
+                rel="noopener noreferrer" className="link-btn"
+                >
+                  Termos de Uso e Política de Privacidade
+                </Link>.
+              </span>
+            </label>
+          </div>
 
             <div className="cadastro-actions">
-              <button
-                type="submit"
-                className="register-button"
-              >
+              <button type="submit" 
+              className="register-button" 
+              disabled={!aceitouTermos}>
                 Criar conta
               </button>
             </div>
@@ -144,3 +232,5 @@ export default function CadastroPanel({
     </div>
   );
 }
+
+//Adicionar a verificção de telefone, adcionar options de tipos de intituição, cidade/estado tbm.

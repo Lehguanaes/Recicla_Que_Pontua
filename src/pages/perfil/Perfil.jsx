@@ -1,22 +1,10 @@
-import { useNavigate } from "react-router-dom";
 import Navbar from "../../components/navbar/Navbar";
 import Rodape from "../../components/rodape/Rodape";
 import { useAuth } from "../../contexts/AuthContext";
 
 export default function Perfil() {
 
-  const navigate = useNavigate();
-
-  const { user, logout } = useAuth();
-
-  async function handleLogout() {
-    try {
-      await logout();
-      navigate("/login");
-    } catch (error) {
-      console.error(error);
-    }
-  }
+  const { user } = useAuth();
 
   return (
     <>
@@ -24,7 +12,8 @@ export default function Perfil() {
 
       <h1>Meu Perfil</h1>
 
-      <p>Seja bem-vindo(a)!</p> <p>Email: {user?.email}</p>
+      <p>Seja bem-vindo(a)!</p>
+      <p>Email: {user?.email}</p>
 
       <Rodape />
     </>

@@ -1,8 +1,8 @@
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-import {
+/*import {
   calcStrength,
   strengthConfig,
-} from "../../../utils/PasswordStrength";
+} from "../../../utils/PasswordStrength";*/
 
 export default function PasswordFields({
   password,
@@ -14,7 +14,7 @@ export default function PasswordFields({
   errors,
   setErrors,
 }) {
-  const strength = calcStrength(password);
+  //const strength = calcStrength(password);
 
   return (
     <>
@@ -42,7 +42,7 @@ export default function PasswordFields({
         >
           {showPassword ? <FaEyeSlash /> : <FaEye />}
         </button>
-
+{/* 
         {password && (
           <>
             <div className="strength-bar">
@@ -70,7 +70,8 @@ export default function PasswordFields({
                 : ""}
             </span>
           </>
-        )}
+        )} /
+*/} 
 
         {errors.senha && (
           <span className="form-error">
@@ -95,6 +96,7 @@ export default function PasswordFields({
             }));
           }}
         />
+        
 
         {errors.confirmSenha && (
           <span className="form-error">

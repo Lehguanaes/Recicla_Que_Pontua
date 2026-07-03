@@ -6,25 +6,94 @@ import {
   validarCEP,
 } from "./ValidatorsDadosSensiveis";
 
-// Valida o formato de cada campo, de acordo com o "name"
-function validarFormatoCampo(name, valor) {
-  switch (name) {
-    case "cpf":
-      return validarCPF(valor) ? null : "CPF inválido.";
-    case "cnpj":
-      return validarCNPJ(valor) ? null : "CNPJ inválido.";
-    case "email":
-      return validarEmail(valor) ? null : "E-mail inválido.";
-    case "telefone":
-      return validarTelefone(valor) ? null : "Telefone inválido.";
-    case "cep":
-      return validarCEP(valor) ? null : "CEP inválido.";
-    default:
-      return null;
-  }
+// ==========================================
+// Validações auxiliares
+// ==========================================
+
+export function validarNome(nome) {
+
+  nome = (nome || "").trim();
+
+  const partes = nome.split(/\s+/);
+
+  if (partes.length < 2) return false;
+
+  return partes.every(parte =>
+    /^[A-Za-zÀ-ÿ]{2,}$/.test(parte)
+  );
 }
 
-// Valida apenas os campos dinâmicos do cadastro (etapa 1), sem mexer em senha
+function validarTexto(texto) {
+  return /^[A-Za-zÀ-ÿ\s]{2,}$/.test(texto.trim());
+}
+
+function validarDataNascimento(data) {
+  return new Date(data) <= new Date();
+}
+
+// ==========================================
+// Validação de formato por campo
+// ==========================================
+
+function validarFormatoCampo(name, valor) {
+  const validadores = {
+    nome: {
+      validar: validarNome,
+      mensagem: "Nome inválido.",
+    },
+
+    cpf: {
+      validar: validarCPF,
+      mensagem: "CPF inválido.",
+    },
+
+    cnpj: {
+      validar: validarCNPJ,
+      mensagem: "CNPJ inválido.",
+    },
+
+    email: {
+      validar: validarEmail,
+      mensagem: "E-mail inválido.",
+    },
+
+    telefone: {
+      validar: validarTelefone,
+      mensagem: "Telefone inválido.",
+    },
+
+    cep: {
+      validar: validarCEP,
+      mensagem: "CEP inválido.",
+    },
+
+    cidade: {
+      validar: validarTexto,
+      mensagem: "Cidade inválida.",
+    },
+
+    estado: {
+      validar: validarTexto,
+      mensagem: "Estado inválido.",
+    },
+
+    dataNascimento: {
+      validar: validarDataNascimento,
+      mensagem: "Data de nascimento inválida.",
+    },
+  };
+
+  const regra = validadores[name];
+
+  if (!regra) return null;
+
+  return regra.validar(valor) ? null : regra.mensagem;
+}
+
+// ==========================================
+// Validação dos campos do formulário
+// ==========================================
+
 export function validarCampos(campos, formData) {
   const erros = {};
 
@@ -36,9 +105,11 @@ export function validarCampos(campos, formData) {
       return;
     }
 
-    if (!valor) return; // campo opcional vazio, sem checar formato
+    // Campo opcional vazio
+    if (!valor) return;
 
     const erroFormato = validarFormatoCampo(name, valor);
+
     if (erroFormato) {
       erros[name] = erroFormato;
     }
@@ -47,24 +118,27 @@ export function validarCampos(campos, formData) {
   return erros;
 }
 
-//validar cadastro
+// ==========================================
+// Validação completa do cadastro
+// ==========================================
+
 export function validarCadastro(
-  campos,
-  formData,
   password,
   confirmPassword
 ) {
-  const erros = validarCampos(campos, formData);
+  const erros = {};
 
-  // Validação da senha
+  // Senha
   if (!password) {
     erros.senha = "Campo obrigatório.";
   } else if (password.length < 6) {
-    erros.senha = "Mínimo de 6 caracteres.";
+    erros.senha = "A senha deve possuir pelo menos 6 caracteres.";
   }
 
-  // Confirmação da senha
-  if (password !== confirmPassword) {
+  // Confirmar senha
+  if (!confirmPassword) {
+    erros.confirmSenha = "Campo obrigatório.";
+  } else if (password !== confirmPassword) {
     erros.confirmSenha = "As senhas não coincidem.";
   }
 

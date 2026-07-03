@@ -1,0 +1,85 @@
+.termos-page {
+  min-height: 100vh;
+  background: #f5f7fa;
+  padding: 50px 20px;
+}
+
+.termos-card {
+  max-width: 900px;
+  margin: 0 auto;
+  background: #fff;
+  border-radius: 18px;
+  padding: 50px;
+  box-shadow: 0 10px 35px rgba(0,0,0,.08);
+}
+
+.termos-header {
+  text-align: center;
+  margin-bottom: 35px;
+}
+
+.termos-header h1 {
+  font-size: 2rem;
+  color: var(--verde-escuro);
+  margin-bottom: 10px;
+}
+
+.termos-header p {
+  color: #666;
+}
+
+.termos-alert {
+  background: #eef8ee;
+  border-left: 5px solid var(--secondary);
+  padding: 18px;
+  border-radius: 10px;
+  margin-bottom: 40px;
+  line-height: 1.6;
+}
+
+.termos-card section {
+  margin-bottom: 35px;
+}
+
+.termos-card h2 {
+  color: var(--verde-escuro);
+  margin-bottom: 12px;
+  font-size: 1.25rem;
+}
+
+.termos-card p {
+  line-height: 1.8;
+  color: #444;
+  margin-bottom: 12px;
+}
+
+.termos-card ul {
+  padding-left: 22px;
+  margin-bottom: 15px;
+}
+
+.termos-card li {
+  margin-bottom: 8px;
+  line-height: 1.7;
+  color: #444;
+}
+
+.termos-footer {
+  margin-top: 50px;
+  padding: 20px;
+  background: #f1f8e9;
+  border-radius: 12px;
+  text-align: center;
+  color: var(--verde-escuro);
+  font-size: 1rem;
+}
+
+@media (max-width: 768px) {
+  .termos-card {
+    padding: 30px 22px;
+  }
+
+  .termos-header h1 {
+    font-size: 1.7rem;
+  }
+}
