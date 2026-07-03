@@ -1,4 +1,4 @@
-import  { maskCPF, maskCNPJ, maskTelefone } from '../../../auth/Formatters';
+import  { maskCPF, maskCNPJ, maskTelefone } from '../../../utils/Formatters';
 
 const mascaras = {
   cpf: maskCPF,

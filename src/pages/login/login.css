@@ -111,6 +111,14 @@
     border-color: #ff6b6b;
 }
 
+.login-error{
+    color:#f11717;
+    font-size:14px;
+    margin-bottom:8px;
+    display:block;
+    text-align: center;
+}
+
 /* =====================================================
    SENHA
 ===================================================== */

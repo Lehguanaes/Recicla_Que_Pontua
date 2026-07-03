@@ -1,7 +1,10 @@
+import { FaEye, FaEyeSlash } from "react-icons/fa";
+import './login.css';
+
 export default function LoginForm({
   identifier, setIdentifier,
   password, setPassword,
-  showPassword, setShowPassword,
+  showPassword, setShowPassword, erroLogin,
   onLogin,
   onCadastrar,
 }) {
@@ -16,9 +19,15 @@ export default function LoginForm({
       </p>
 
       <div className="input-group">
+        {erroLogin && (
+        <span className="login-error">
+          {erroLogin}
+        </span>
+      )}
+
         <input
           type="text"
-          placeholder="E-mail ou telefone"
+          placeholder="E-mail"
           value={identifier}
           onChange={(e) => setIdentifier(e.target.value)}
         />
@@ -32,10 +41,12 @@ export default function LoginForm({
           onChange={(e) => setPassword(e.target.value)}
         />
         <button
-          type="button"
-          className="show-password"
-          onClick={() => setShowPassword((v) => !v)}
-        />
+                 type="button"
+                 className="show-password"
+                 onClick={() => setShowPassword((prev) => !prev)}
+               >
+                 {showPassword ? <FaEyeSlash /> : <FaEye />}
+               </button>
       </div>
 
       <a href="/recuperar-senha" className="forgot">

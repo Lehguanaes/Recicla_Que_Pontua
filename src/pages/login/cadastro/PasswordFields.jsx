@@ -2,7 +2,7 @@ import { FaEye, FaEyeSlash } from "react-icons/fa";
 import {
   calcStrength,
   strengthConfig,
-} from "../../../auth/PasswordStrength";
+} from "../../../utils/PasswordStrength";
 
 export default function PasswordFields({
   password,

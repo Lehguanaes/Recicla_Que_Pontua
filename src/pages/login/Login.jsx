@@ -1,32 +1,64 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+
 import ReciclaMais from "../../assets/ReciclaMais.png";
 import Navbar from "../../components/navbar/Navbar";
 import Rodape from "../../components/rodape/Rodape";
-import LoginForm     from "../login/LoginForm";
+import LoginForm from "../login/LoginForm";
 import CadastroPanel from "../login/cadastro/CadastroPanel";
-import ModalPerfil   from "../login/modalPerfil/ModalPerfil";
+import ModalPerfil from "../login/modalPerfil/ModalPerfil";
+
+import { useAuth } from "../../contexts/AuthContext";
+
 import "./login.css";
 import "../../global.css";
 
-function Login() {
+export default function Login() {
+  const navigate = useNavigate();
+  const { login } = useAuth();
+  const [erroLogin, setErroLogin] = useState("");
+
   // "login" | "cadastro" | "sucesso"
   const [panel, setPanel] = useState("login");
 
   // modal de seleção de perfil
-  const [modalAberto,       setModalAberto]       = useState(false);
+  const [modalAberto, setModalAberto] = useState(false);
   const [perfilSelecionado, setPerfilSelecionado] = useState(null);
 
   // campos do login
-  const [identifier,    setIdentifier]    = useState("");
-  const [password,      setPassword]      = useState("");
-  const [showPassword,  setShowPassword]  = useState(false);
+  const [identifier, setIdentifier] = useState("");
+  const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
 
   // nome para tela de sucesso
   const [nomeUsuario, setNomeUsuario] = useState("");
 
-  function handleLogin() {
-    alert(`Login com ${identifier}`);
+  async function handleLogin() {
+  setErroLogin("");
+
+  try {
+    await login(identifier, password);
+    navigate("/perfil");
+
+  } catch (error) {
+
+    switch (error.code) {
+
+      case "auth/invalid-credential":
+      case "auth/user-not-found":
+      case "auth/wrong-password":
+        setErroLogin("E-mail ou senha incorretos.");
+        break;
+
+      case "auth/network-request-failed":
+        setErroLogin("Sem conexão com a internet.");
+        break;
+
+      default:
+        setErroLogin("Não foi possível fazer login.");
+    }
   }
+}
 
   // "Cadastre-se" → abre modal
   function handleCadastrar() {
@@ -36,6 +68,7 @@ function Login() {
   // confirma perfil no modal → fecha modal e desliza para cadastro
   function handleConfirmPerfil() {
     if (!perfilSelecionado) return;
+
     setModalAberto(false);
     setPanel("cadastro");
   }
@@ -61,31 +94,43 @@ function Login() {
       <Navbar />
 
       <div className="auth-page">
-
-        {/* ── Slider: só .login-panel desliza, imgLateral fica fixa ── */}
         <div className="login-slider">
-          <div className={`login-slider-track ${panel !== "login" ? "slide-right" : ""}`}>
-
-            {/* Painel 1 — Login */}
+          <div
+            className={`login-slider-track ${
+              panel !== "login" ? "slide-right" : ""
+            }`}
+          >
+            {/* LOGIN */}
             <LoginForm
-              identifier={identifier}     setIdentifier={setIdentifier}
-              password={password}         setPassword={setPassword}
-              showPassword={showPassword} setShowPassword={setShowPassword}
+              identifier={identifier}
+              setIdentifier={setIdentifier}
+              password={password}
+              setPassword={setPassword}
+              showPassword={showPassword}
+              setShowPassword={setShowPassword}
               onLogin={handleLogin}
+              erroLogin={erroLogin}
               onCadastrar={handleCadastrar}
             />
 
-            {/* Painel 2 — Cadastro ou Sucesso */}
+            {/* CADASTRO OU SUCESSO */}
             {panel === "sucesso" ? (
               <div className="auth-panel">
                 <div className="cadastro-success">
-                  <h1>Conta criada <span>com sucesso!</span></h1>
+                  <h1>
+                    Conta criada <span>com sucesso!</span>
+                  </h1>
+
                   <p className="subtitle">
                     Bem-vindo(a) ao <strong>Recicla que Pontua</strong>
-                    {nomeUsuario ? `, ${nomeUsuario}` : ""}!{" "}
-                    Agora você pode reciclar, acumular pontos e fazer a diferença.
+                    {nomeUsuario ? `, ${nomeUsuario}` : ""}! Agora você pode
+                    reciclar, acumular pontos e fazer a diferença.
                   </p>
-                  <button className="login-button" onClick={handleVoltarLogin}>
+
+                  <button
+                    className="login-button"
+                    onClick={handleVoltarLogin}
+                  >
                     Ir para o login
                   </button>
                 </div>
@@ -98,18 +143,15 @@ function Login() {
                 onSucesso={handleSucesso}
               />
             )}
-
           </div>
         </div>
 
-        {/* Imagem lateral — não se move */}
+        {/* Imagem lateral */}
         <div className="imgLateral">
           <img src={ReciclaMais} alt="Incentivo Reciclagem" />
         </div>
-
       </div>
 
-      {/* Modal de seleção de perfil */}
       <ModalPerfil
         isOpen={modalAberto}
         perfilSelecionado={perfilSelecionado}
@@ -122,5 +164,3 @@ function Login() {
     </>
   );
 }
-
-export default Login;
