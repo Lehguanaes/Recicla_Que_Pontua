@@ -76,9 +76,19 @@ export default function CadastroPanel({
       password
     );
 
+    // Cidade e estado ficam agrupados dentro de "endereco", junto com o
+    // que o usuário puder complementar depois na tela de Perfil (rua,
+    // número, bairro, complemento). Só o CEP é salvo como campo separado.
+    const { cidade, estado, ...outrosCampos } = formData;
+
     // Salva dados no Firestore
     await setDoc(doc(db, "usuarios", usuario.uid), {
-      ...formData,
+      ...outrosCampos,
+
+      endereco: {
+        cidade: cidade || "",
+        estado: estado || "",
+      },
 
       uid: usuario.uid,
       email: usuario.email,
