@@ -1,4 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
+import Loading from "./Loading";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
@@ -16,9 +17,12 @@ export function AuthProvider({ children }) {
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (usuario) => {
-      setUser(usuario);
+    setUser(usuario);
+
+    setTimeout(() => {
       setLoading(false);
-    });
+    }); 
+  });
 
     return unsubscribe;
   }, []);
@@ -45,6 +49,10 @@ export function AuthProvider({ children }) {
 
   async function logout() {
     await signOut(auth);
+  }
+
+  if (loading) {
+    return <Loading mensagem="Espere um pouco..." />;
   }
 
   return (

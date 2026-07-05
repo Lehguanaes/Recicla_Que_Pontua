@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import Loading from "../../contexts/Loading";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 import {
   FaMapMarkerAlt,
@@ -93,16 +94,8 @@ export default function Perfil() {
         .join("/") || "Não informado";
 
   if (carregando) {
-    return (
-      <>
-        <Navbar />
-        <main className="perfil-page">
-          <p className="perfil-carregando">Carregando seu perfil...</p>
-        </main>
-      </>
-    );
+    return <Loading mensagem="Carregando seu perfil..." />;
   }
-
   return (
     <>
       <Navbar />
