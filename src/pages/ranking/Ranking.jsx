@@ -2,23 +2,12 @@ import Navbar from "../../components/navbar/Navbar";
 import Rodape from "../../components/rodape/Rodape";
 import './ranking.css';
 import { useMemo, useState } from "react";
-import {
-  FaTrophy,
-  FaRecycle,
-  FaUsers,
-  FaArrowUp,
-  FaArrowDown,
-  FaMinus,
-  FaChevronDown,
-  FaPaw,
-} from "react-icons/fa";
+import {FaTrophy,FaRecycle,FaUsers,FaArrowUp,FaArrowDown,FaMinus,FaChevronDown,FaPaw,} from "react-icons/fa";
+import {useAuth} from '../../contexts/AuthContext';
 import {
   USUARIOS_MOCK,
   ID_USUARIO_LOGADO,
-  FILTROS,
-  calcularRanking,
-  calcularEstatisticas,
-  calcularPosicaoUsuario,
+  FILTROS,calcularRanking,calcularEstatisticas,calcularPosicaoUsuario,
 } from "../../utils/RankingMock";
 import Mascote from "../../assets/PetComecar.png";
 
@@ -69,6 +58,7 @@ const FAQ_ITEMS = [
 export default function Ranking() {
   const [filtro, setFiltro] = useState("geral");
   const [faqAberta, setFaqAberta] = useState(null);
+  const { user } = useAuth();
 
   // Em produção, troque USUARIOS_MOCK por dados vindos do Firestore (useEffect + onSnapshot / getDocs)
   const ranking = useMemo(() => calcularRanking(USUARIOS_MOCK, filtro), [filtro]);
@@ -129,7 +119,7 @@ export default function Ranking() {
         </div>
 
         {/* Card "você está em Xº lugar" */}
-        {usuarioLogado && (
+        {user && usuarioLogado && (
           <div className="usuario-ranking">
             <div className="usuario-ranking-posicao">
               <p className="usuario-ranking-label">Você está em</p>
@@ -139,6 +129,18 @@ export default function Ranking() {
               <VariacaoPosicao valor={usuarioLogado.variacaoPosicoes} />
               <p className="usuario-ranking-pontos-semana">
                 +{usuarioLogado.pontosGanhosSemana} pontos nesta semana
+              </p>
+            </div>
+          </div>
+        )}
+        {!user && (
+          <div className="usuario-ranking">
+            <div className="usuario-ranking-posicao">
+              <p className="usuario-ranking-label">
+                Quer aparecer no ranking?
+              </p>
+              <p className="usuario-ranking-valor">
+              Crie sua conta e comece a acumular pontos!
               </p>
             </div>
           </div>
@@ -172,14 +174,13 @@ export default function Ranking() {
               {ranking.map((usuario) => (
                 <tr
                   key={usuario.id}
-                  className={usuario.id === ID_USUARIO_LOGADO ? "usuario-logado" : ""}
-                >
+                  className={user && usuario.id === ID_USUARIO_LOGADO ? "usuario-logado" : ""}                >
                   <td className="medalha">
                     {usuario.posicao <= 3 ? MEDALHA[usuario.posicao - 1] : `${usuario.posicao}º`}
                   </td>
                   <td>
                     {usuario.nome}
-                    {usuario.id === ID_USUARIO_LOGADO && (
+                      {user && usuario.id === ID_USUARIO_LOGADO && (
                       <span className="usuario-badge">você</span>
                     )}
                   </td>
