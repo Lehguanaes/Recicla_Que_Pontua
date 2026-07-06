@@ -1,0 +1,443 @@
+/* ===========================
+   Paleta
+   Verde = reciclagem | Laranja/marrom = cores do mascote (Reci)
+   Creme = fundo, pra não competir com as cores do cachorro
+=========================== */
+:root {
+  --reci-verde-escuro: #14532d;
+  --reci-verde: #15803d;
+  --reci-verde-claro: #ecfdf3;
+  --reci-verde-borda: #8fd3a8;
+  --reci-creme: #fdfaf1;
+  --reci-laranja: #d97706;
+  --reci-laranja-claro: #fef3e2;
+  --reci-texto: #3f3f2e;
+}
+
+.ranking-container {
+  position: relative;
+  max-width: 1100px;
+  margin: 40px auto;
+  padding: 20px;
+  overflow: hidden;
+}
+
+/* ===========================
+   Elementos decorativos de fundo
+   Ícones bem sutis, só pra dar textura de "reciclagem" sem poluir
+=========================== */
+
+.ranking-bg-decor {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+}
+
+.decor-icon {
+  position: absolute;
+  color: var(--reci-verde);
+  opacity: 0.06;
+}
+
+.decor-icon-1 { top: 10px; right: 40px; font-size: 140px; transform: rotate(15deg); }
+.decor-icon-2 { top: 520px; left: -30px; font-size: 110px; transform: rotate(-20deg); }
+.decor-icon-3 { top: 280px; right: -10px; font-size: 70px; color: var(--reci-laranja); opacity: 0.08; }
+.decor-icon-4 { bottom: 40px; left: 60px; font-size: 60px; color: var(--reci-laranja); opacity: 0.08; }
+
+/* ===========================
+   Hero (título + mascote)
+=========================== */
+
+.ranking-hero {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 30px;
+  flex-wrap: wrap;
+}
+
+.ranking-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--reci-verde-escuro);
+  font-size: 2rem;
+  font-weight: bold;
+  margin: 0;
+}
+
+.ranking-subtitle {
+  margin: 6px 0 0;
+  color: #6b6b58;
+}
+
+.ranking-mascote {
+  display: flex;
+  align-items: flex-end;
+  gap: 12px;
+}
+
+.ranking-mascote img {
+  width: 84px;
+  height: auto;
+  filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.12));
+}
+
+.mascote-fala {
+  position: relative;
+  background: white;
+  border: 1px solid var(--reci-verde-borda);
+  border-radius: 16px;
+  padding: 10px 14px;
+  font-size: 0.85rem;
+  color: var(--reci-verde-escuro);
+  font-weight: 500;
+  max-width: 190px;
+  margin-bottom: 8px;
+}
+
+.mascote-fala::after {
+  content: "";
+  position: absolute;
+  right: -8px;
+  bottom: 14px;
+  width: 14px;
+  height: 14px;
+  background: white;
+  border-right: 1px solid var(--reci-verde-borda);
+  border-bottom: 1px solid var(--reci-verde-borda);
+  transform: rotate(-45deg);
+}
+
+/* ===========================
+   Cards superiores
+=========================== */
+
+.cards-ranking {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+}
+
+.card-ranking {
+  background: #fff;
+  border: 1px solid #e2e2d6;
+  border-radius: 15px;
+  padding: 18px;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.05);
+}
+
+.card-ranking-destaque {
+  background: var(--reci-laranja-claro);
+  border-color: #f3d29e;
+}
+
+.card-ranking-top {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #6b6b58;
+  margin-bottom: 10px;
+  font-size: 0.9rem;
+}
+
+.card-ranking-destaque .card-ranking-top {
+  color: var(--reci-laranja);
+}
+
+.card-ranking-valor {
+  margin: 0;
+  color: var(--reci-verde-escuro);
+  font-size: 1.3rem;
+  font-weight: bold;
+}
+
+.card-ranking-sub {
+  margin-top: 4px;
+  color: #6b6b58;
+  font-size: 0.9rem;
+}
+
+/* ===========================
+   Card usuário logado
+=========================== */
+
+.usuario-ranking {
+  margin-top: 30px;
+  background: var(--reci-verde-claro);
+  border: 1px solid var(--reci-verde-borda);
+  border-radius: 15px;
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.usuario-ranking-label {
+  margin: 0;
+  color: var(--reci-verde);
+  font-size: 0.9rem;
+}
+
+.usuario-ranking-valor {
+  margin: 4px 0 0;
+  color: var(--reci-verde-escuro);
+  font-size: 1.4rem;
+  font-weight: bold;
+}
+
+.usuario-ranking-variacao {
+  text-align: right;
+}
+
+.usuario-ranking-pontos-semana {
+  margin: 3px 0 0;
+  color: var(--reci-verde);
+  font-size: 0.85rem;
+}
+
+/* ===========================
+   Filtros
+=========================== */
+
+.filtros-ranking {
+  margin: 35px 0 20px;
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.filtro-btn {
+  border: none;
+  padding: 10px 18px;
+  border-radius: 30px;
+  background: #ececdf;
+  cursor: pointer;
+  transition: 0.3s;
+  font-weight: 500;
+  color: var(--reci-texto);
+}
+
+.filtro-btn:hover {
+  background: #d9ecdd;
+}
+
+.filtro-btn.active {
+  background: var(--reci-verde);
+  color: white;
+}
+
+/* ===========================
+   Tabela
+=========================== */
+
+.tabela-ranking {
+  overflow: hidden;
+  border-radius: 15px;
+  border: 1px solid #e2e2d6;
+  background: white;
+}
+
+.tabela-ranking table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.tabela-ranking thead {
+  background: #f7f6ef;
+}
+
+.tabela-ranking th {
+  padding: 15px;
+  text-align: left;
+  color: #6b6b58;
+  font-size: 0.9rem;
+}
+
+.tabela-ranking td {
+  padding: 15px;
+  border-top: 1px solid #eee;
+  color: var(--reci-texto);
+}
+
+.tabela-ranking tr:hover {
+  background: #f9fbf4;
+}
+
+.usuario-logado {
+  background: var(--reci-verde-claro);
+}
+
+.usuario-badge {
+  margin-left: 10px;
+  background: var(--reci-verde);
+  color: white;
+  border-radius: 15px;
+  padding: 3px 10px;
+  font-size: 0.75rem;
+}
+
+.pontos {
+  text-align: right;
+  font-weight: bold;
+  color: var(--reci-verde-escuro);
+}
+
+.medalha {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: var(--reci-texto);
+}
+
+/* ===========================
+   Tendência de posição
+=========================== */
+
+.subiu {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 6px;
+  color: var(--reci-verde);
+  font-weight: bold;
+  margin: 0;
+}
+
+.caiu {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 6px;
+  color: #dc2626;
+  font-weight: bold;
+  margin: 0;
+}
+
+.neutro {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 6px;
+  color: #6b6b58;
+  margin: 0;
+}
+
+/* ===========================
+   FAQ
+=========================== */
+
+.faq-ranking {
+  margin-top: 45px;
+}
+
+.faq-titulo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--reci-verde-escuro);
+  font-size: 1.3rem;
+  margin-bottom: 18px;
+}
+
+.faq-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.faq-item {
+  background: white;
+  border: 1px solid #e2e2d6;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.faq-item-aberta {
+  border-color: var(--reci-verde-borda);
+}
+
+.faq-pergunta {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  background: none;
+  border: none;
+  text-align: left;
+  padding: 16px 18px;
+  font-weight: 500;
+  font-size: 0.95rem;
+  color: var(--reci-texto);
+  cursor: pointer;
+}
+
+.faq-chevron {
+  flex-shrink: 0;
+  color: var(--reci-verde);
+  transition: transform 0.2s ease;
+}
+
+.faq-item-aberta .faq-chevron {
+  transform: rotate(180deg);
+}
+
+.faq-resposta {
+  margin: 0;
+  padding: 0 18px 18px;
+  color: #6b6b58;
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+/* ===========================
+   Responsivo
+=========================== */
+
+@media (max-width: 768px) {
+  .ranking-hero {
+    align-items: center;
+  }
+
+  .ranking-mascote {
+    flex-direction: column-reverse;
+    align-items: center;
+  }
+
+  .mascote-fala {
+    max-width: 100%;
+    text-align: center;
+  }
+
+  .mascote-fala::after {
+    display: none;
+  }
+
+  .usuario-ranking {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .usuario-ranking-variacao {
+    text-align: left;
+  }
+
+  .subiu,
+  .caiu,
+  .neutro {
+    justify-content: flex-start;
+  }
+
+  .tabela-ranking {
+    overflow-x: auto;
+  }
+
+  .decor-icon-1,
+  .decor-icon-2 {
+    display: none;
+  }
+}
