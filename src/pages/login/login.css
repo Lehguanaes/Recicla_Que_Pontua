@@ -11,18 +11,14 @@
 
     overflow: hidden;
 
-    background:
-        radial-gradient(
-            circle at 70% 30%,
-            #7abd7c 0%,
-            #43a047 35%,
-            #1b5e20 100%
-        );
+    background: white;
 }
 
 .login-slider{
     flex: 1;
     max-width: 520px;
+    padding: 30px;
+    border-radius: 25px;
     overflow: hidden;
 }
 
@@ -42,6 +38,7 @@
 }
 
 .auth-panel{
+    padding-inline: 32px;
     display: flex;
     flex-direction: column;
     flex: 1;
@@ -52,19 +49,18 @@
 .auth-panel h1{
     margin-bottom: 20px;
 
-    color: var(--white);
+    color: rgb(32, 32, 32);
     font-size: 3.2rem;
     font-weight: 800;
     line-height: 1.15;
 }
 
-.auth-panel span{
-    color: var(--verde-suave);
+.destaque-titulo{
+    color: var(--secondary);
 }
-
 .subtitle{
     margin-bottom: 15px;
-    color: var(--white);
+    color: black;
     opacity: .85;
 
     font-size: 1.05rem;
@@ -84,19 +80,19 @@
     width: 100%;
     padding: 16px 18px;
 
-    border: 1px solid rgba(255,255,255,.25);
+    border: 1px solid rgba(6, 97, 36, 0.507);
     border-radius: 12px;
 
     background: rgba(255,255,255,.10);
 
-    color: var(--white);
+    color: black;
     font-size: 16px;
 
     transition: .25s;
 }
 
 .input-group input::placeholder{
-    color: rgba(255,255,255,.7);
+    color: rgba(0, 0, 0, 0.7);
 }
 
 .input-group input:focus{
@@ -115,7 +111,6 @@
     font-size:14px;
     margin-bottom:8px;
     display:block;
-    text-align: center;
 }
 
 /* =====================================================
@@ -142,7 +137,7 @@
     border: none;
     background: none;
 
-    color: var(--white);
+    color: black;
     font-size: 18px;
 
     cursor: pointer;
@@ -161,19 +156,19 @@
 
     margin: 4px 0 25px;
 
-    color: var(--verde-suave);
+    color: var(--secondary-dark);
     text-decoration: none;
 }
 
 .forgot:hover{
-    color: var(--white);
+    color: rgb(15, 66, 15);
 }
 
 .register{
     margin-top: 25px;
 
     text-align: center;
-    color: var(--white);
+    color: rgb(58, 57, 57);
 }
 
 .register a,
@@ -183,9 +178,8 @@
     border: none;
     background: none;
 
-    color: var(--verde-suave);
+    color: var(--secondary);
     font-size: inherit;
-    font-weight: 600;
     text-decoration: none;
 
     cursor: pointer;
@@ -193,7 +187,7 @@
 
 .register a:hover,
 .link-btn:hover{
-    color: var(--secondary-light);
+    color: rgb(15, 66, 15);
 }
 
 /* =====================================================
@@ -220,37 +214,9 @@
 
 .login-button:hover{
     background: var(--secondary-dark);
-    border: 1px solid var(--white);
 }
 
-.perfil-badge{
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
 
-    width: fit-content;
-
-    margin-bottom: 20px;
-    padding: 5px 14px;
-
-    border: 1px solid rgba(255,255,255,.3);
-    border-radius: 20px;
-
-    background: rgba(255,255,255,.15);
-
-    color: var(--white);
-
-    font-size: 13px;
-    font-weight: 600;
-
-    cursor: pointer;
-
-    transition: background .2s;
-}
-
-.perfil-badge:hover{
-    background: rgba(255,255,255,.22);
-}
 
 /* =====================================================
    IMAGEM

@@ -11,7 +11,7 @@ export default function LoginForm({
   return (
     <div className="auth-panel">
       <h1>
-        Que bom ver <span>você</span> de novo!
+        Que bom ver <span className="destaque-titulo">você</span> de novo!
       </h1>
       <p className="subtitle">
         Entre na sua conta para registrar seus materiais,
@@ -19,12 +19,6 @@ export default function LoginForm({
       </p>
 
       <div className="input-group">
-        {erroLogin && (
-        <span className="login-error">
-          {erroLogin}
-        </span>
-      )}
-
         <input
           type="text"
           placeholder="E-mail"
@@ -48,6 +42,12 @@ export default function LoginForm({
                  {showPassword ? <FaEyeSlash /> : <FaEye />}
                </button>
       </div>
+
+      {erroLogin && (
+        <span className="login-error">
+          {erroLogin}
+        </span>
+      )}
 
       <a href="/recuperar-senha" className="forgot">
         Esqueceu sua senha?

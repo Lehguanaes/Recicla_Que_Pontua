@@ -8,7 +8,7 @@ import { FaArrowLeft } from "react-icons/fa";
 import { camposPorPerfil } from "./CadastroData";
 import { validarCadastro } from "../../../utils/AuthValidation";
 import { validarCampos } from "../../../utils/AuthValidation";
-
+import EditPerfil from '../../../assets/editPerfil.png';
 import CadastroFields from "./CadastroFields";
 import PasswordFields from "./PasswordFields";
 
@@ -160,7 +160,8 @@ export default function CadastroPanel({
         onClick={step === 1 ? onVoltarPerfil : () => setStep(1)}
       >
         {step === 1 ? (
-          <span>Trocar perfil</span>
+          <img src={EditPerfil} alt="Troque de perfil" />
+
         ) : (
           <FaArrowLeft size={18} aria-label="Voltar para revisar seus dados" />
         )}

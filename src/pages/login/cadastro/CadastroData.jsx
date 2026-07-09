@@ -43,7 +43,7 @@ export const camposPorPerfil = {
           label: "Telefone",
           type: "tel",
           placeholder: "Telefone",
-          required: false,
+          required: true,
         },
       ],
     },

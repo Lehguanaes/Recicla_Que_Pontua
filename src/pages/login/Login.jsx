@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import ReciclaMais from "../../assets/Recicla_Que_Pontua_loginTela.png";
+import ReciclaMais from "../../assets/ReciclaQuePontua.png";
 import Navbar from "../../components/navbar/Navbar";
 import Rodape from "../../components/rodape/Rodape";
 import LoginForm from "../login/LoginForm";
@@ -18,7 +18,6 @@ export default function Login() {
   const { login } = useAuth();
   const [erroLogin, setErroLogin] = useState("");
 
-  // "login" | "cadastro" | "sucesso"
   const [panel, setPanel] = useState("login");
 
   // modal de seleção de perfil

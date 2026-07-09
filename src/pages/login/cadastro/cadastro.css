@@ -1,3 +1,27 @@
+.perfil-badge{
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    width: fit-content;
+    margin-bottom: 20px;
+    padding: 5px 14px;
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    border-radius: 20px;
+    background: rgba(255,255,255,.15);
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background .2s;
+}
+.perfil-badge span{
+    color: rgb(11, 102, 11);
+}
+.perfil-badge:hover{
+    background: rgba(37, 27, 27, 0.295);
+}
+.perfil-badge img{
+    width: 20px;
+}
 .cadastro-form{
     display:flex;
     flex-wrap:wrap;
@@ -18,7 +42,7 @@
 }
 
 .secao-titulo{
-    color:rgba(255,255,255,.6);
+    color:rgb(1, 68, 7);
 
     font-size:13px;
     font-weight:600;
@@ -55,7 +79,9 @@
     opacity:0;
     cursor:pointer;
 }
-
+.form-error{
+    color: rgb(116, 114, 114);
+}
 /* =====================================================
    SENHA
 ===================================================== */
@@ -134,10 +160,7 @@
 
 .next-button:hover,
 .register-button:hover{
-
     background:var(--secondary-dark);
-    border:1px solid var(--white);
-
 }
 
 .register-button:disabled{
