@@ -9,8 +9,8 @@ import {
   ID_USUARIO_LOGADO,
   FILTROS,calcularRanking,calcularEstatisticas,calcularPosicaoUsuario,
 } from "../../utils/RankingMock";
-import Mascote from "../../assets/PetComecar.png";
-
+import Mascote from "../../assets/PetCampeao.png";
+import Mascote2 from "../../assets/PetComecar.png"
 const LABEL_TIPO = {
   pessoa: "Pessoa Recicladora",
   instituicao: "Instituição Recicladora",
@@ -91,10 +91,17 @@ export default function Ranking() {
             </p>
           </div>
 
-          <div className="ranking-mascote">
-            <div className="mascote-fala">{falaDoMascote(usuarioLogado?.posicao)}</div>
-            <img src={Mascote} alt="Reci, o mascote, torcendo por você" />
-          </div>
+          {user && usuarioLogado && (
+             <div className="ranking-mascote">  
+             <div className="mascote-fala">{falaDoMascote(usuarioLogado?.posicao)}</div>
+              <img src={Mascote2} alt="Reci, o mascote, torcendo por você" />
+            </div>
+         )}
+           {!user && (
+            <div className="ranking-mascote">
+              <img src={Mascote} alt="Reci, o mascote, torcendo por você" />
+            </div>
+          )}
         </div>
 
         {/* Cards de destaque */}

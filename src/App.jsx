@@ -20,7 +20,7 @@ function App() {
         <Route path="/cadastro" element={<Navigate to="/login" replace />} />
         <Route path="/perfil" element={<Perfil />} />
         <Route path="/termos" element={<TermosUso />} />
-        <Route path="/como-funciona" element={<ComoFunciona />} />
+        <Route path="/comoFunciona" element={<ComoFunciona />} />
         <Route path="/ranking" element={<Ranking />} />
         <Route path="/doacao/cadastrar-materiais" element={<CadastrarMateriais />} />
         <Route path="/doacao/encontrarParceiros" element={<EncontrarParceiros />} />

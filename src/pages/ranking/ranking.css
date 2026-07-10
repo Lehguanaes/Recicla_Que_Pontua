@@ -80,10 +80,11 @@
 }
 
 .ranking-mascote img {
-  width: 84px;
+  width: 180px;
   height: auto;
   filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.12));
 }
+
 
 .mascote-fala {
   position: relative;
