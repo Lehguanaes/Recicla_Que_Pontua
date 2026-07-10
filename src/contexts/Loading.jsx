@@ -1,5 +1,5 @@
 // Imagem do mascote utilizada na tela de carregamento
-import Mascote from "../assets/PetComecar.png";
+import Mascote from "../assets/PetCarregar.png";
 
 // Estilos do componente
 import "./loading.css";
@@ -49,10 +49,6 @@ export default function Loading({ mensagem = "Carregando" }) {
           role="status"
           aria-live="polite"
         >
-          <span className="loading-label">
-            {mensagem}
-          </span>
-
           {/* Animação dos três pontos */}
           <span
             className="dot-pulse"

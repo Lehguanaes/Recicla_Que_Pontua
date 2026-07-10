@@ -78,7 +78,7 @@ export function AuthProvider({ children }) {
   }
 
   if (loading) {
-    return <Loading mensagem="Espere um pouco..." />;
+    return <Loading/>;
   }
 
   return (
