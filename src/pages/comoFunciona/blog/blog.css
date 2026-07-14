@@ -1,0 +1,90 @@
+.section-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:18px;
+}
+.section-head h3{
+    margin:0;
+}
+.grid{display:grid;}
+.grid-gap-sm{gap:16px;}
+.grid-gap{gap:24px;}
+.grid-gap-lg{gap:32px;}
+
+.card {
+    background: #fff;
+    border: 1px solid rgba(76, 175, 80, .15);
+    border-radius: 14px;
+}
+
+.card-hover {transition: .2s ease;}
+
+.card-hover:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(31,53,37,.08);
+}
+.card-title{
+    color:#1f3525;
+    font-weight:700;
+}
+
+.text-muted{color:#6b7d70;}
+
+.text-small{font-size:.8rem;}
+.badge-green{
+    display:inline-flex;
+    align-items:center;
+    padding:4px 10px;
+    border-radius:999px;
+    background:rgba(76,175,80,.12);
+    color:var(--secondary-dark);
+    font-size:.72rem;
+    font-weight:700;
+    text-transform:uppercase;
+}
+
+.icon-box{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    width:44px;
+    height:44px;
+    border-radius:12px;
+    background:rgba(9, 216, 16, 0.12);
+    color:var(--secondary-dark);
+}
+.panel{
+    display:flex;
+    gap:18px;
+    padding:20px;
+    border-radius:16px;
+    background:#fff;
+    border:1px solid rgba(76,175,80,.15);
+}
+
+.cta-card{
+    border-radius:22px;
+    padding:40px;
+    color:#fff;
+    background:linear-gradient(
+        120deg,
+        #1f3525,
+        #2e7d32
+    );
+}
+.stat{
+    text-align:center;
+}
+
+.stat-value{
+    display:block;
+    font-size:1.6rem;
+    color:var(--secondary-dark);
+    font-weight:700;
+}
+
+.stat-label{
+    font-size:.8rem;
+    color:#6b7d70;
+}
