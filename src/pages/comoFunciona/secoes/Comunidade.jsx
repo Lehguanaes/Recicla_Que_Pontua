@@ -20,34 +20,28 @@ export default function Comunidade({
   return (
     <section id="comunidade" className="comunidade">
        <div className="comunidade-header">
+        <div className="mascote-box">
+          <div className="fala-mascote">
+            <strong>Dica do Reci!</strong>
 
-    <div className="mascote-box">
-      <div className="fala-mascote">
-        <strong>Dica do Reci!</strong>
+            <p>
+              Aqui você encontra notícias, vídeos, guias e desafios para aprender
+              mais sobre reciclagem.
+            </p>
+          </div>
+          <img src={Mascote2} alt="Reci, o mascote"/>
+        </div>
 
-        <p>
-          Aqui você encontra notícias, vídeos, guias e desafios para aprender
-          mais sobre reciclagem.
-        </p>
+        <div className="comunidade-texto">
+          <h2>A comunidade continua depois do login.</h2>
+
+          <p className="comunidade-intro">
+            O <strong>Recicla que Pontua</strong> não é só um mapa de pontos de
+            coleta. É também onde participantes contam o que aprenderam, a equipe
+            publica guias e vídeos, e você acompanha seu próprio impacto.
+          </p>
+        </div>
       </div>
-
-      <img
-        src={Mascote2}
-        alt="Reci, o mascote"
-      />
-    </div>
-
-    <div className="comunidade-texto">
-      <h2>A comunidade continua depois do login.</h2>
-
-      <p className="comunidade-intro">
-        O <strong>Recicla que Pontua</strong> não é só um mapa de pontos de
-        coleta. É também onde participantes contam o que aprenderam, a equipe
-        publica guias e vídeos, e você acompanha seu próprio impacto.
-      </p>
-    </div>
-
-  </div>
 
       <div className="section-inner">
         <div className="comunidade-layout">
@@ -88,46 +82,34 @@ export default function Comunidade({
                 </div>
               </div>
             ))}
-
           </aside>
 
           {/* Conteúdo principal */}
-
           <div className="comunidade-main">
-
             {/* Destaque */}
-
             <section>
-
               <div className="comunidade-section-head">
                 <h3>Em destaque</h3>
               </div>
-
               <div className="comunidade-featured">
-
                 <Thumb
                   icone={<FaLeaf />}
                   cor="b"
                   size="lg"
                 />
-
                 <div className="comunidade-featured-body">
-
                   <span className="comunidade-featured-label">
                     Reportagem
                   </span>
-
                   <h2 className="comunidade-featured-title">
                     De onde vem o que você recicla: uma visita aos centros parceiros
                   </h2>
-
                   <p className="comunidade-featured-text">
                     Acompanhamos uma tarde na cooperativa Vida Verde para entender
                     o que acontece com o material depois que ele sai da sua casa.
                   </p>
 
                   <div className="comunidade-featured-footer">
-
                     <button
                       className="comunidade-read-more"
                       onClick={onCriarConta}
@@ -135,36 +117,27 @@ export default function Comunidade({
                       Ler matéria completa
                       <span className="comunidade-arrow"> → </span>
                     </button>
-
                     <div className="comunidade-actions">
                       <LockedAction
                         icon={<FaHeart />}
                         label="Curtir"
                         count={128}
                       />
-
                       <LockedAction
                         icon={<FaComment />}
                         label="Comentar"
                         count={14}
                       />
                     </div>
-
                   </div>
-
                 </div>
-
               </div>
-
             </section>
 
             {/* Vídeos */}
-
             <section>
-
               <div className="comunidade-section-head">
                 <h3>Vídeos</h3>
-
                 <button
                   className="link-btn"
                   onClick={onCriarConta}
@@ -174,56 +147,40 @@ export default function Comunidade({
               </div>
 
               <div className="comunidade-video-grid">
-
                 {videos.map((video) => (
-
                   <div
                     key={video.titulo}
                     className="comunidade-video-card"
                   >
-
                     <div className="comunidade-video-thumb">
-
                       <Thumb
                         icone={video.icone}
                         cor={video.cor}
                         size="md"
                       />
-
                       <div className="comunidade-video-play">
                         <FaPlay />
                       </div>
-
                       <div className="comunidade-video-duration">
                         {video.duracao}
                       </div>
-
                     </div>
-
                     <h4>{video.titulo}</h4>
-
                     <div className="comunidade-video-footer">
-
                       <span>
                         Centro de aprendizagem
                       </span>
-
                       <LockedAction
                         icon={<FaHeart />}
                         label="Curtir"
                       />
-
                     </div>
-
                   </div>
-
                 ))}
-
               </div>
-
             </section>
 
-            {/* Guias */}
+        {/* Guias */}
         <section className="comunidade-full-width">
             <section>
               <div className="comunidade-section-head">

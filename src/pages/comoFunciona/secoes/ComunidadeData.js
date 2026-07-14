@@ -34,6 +34,7 @@ export const videos = [
   { titulo: "Como higienizar embalagens antes de reciclar", duracao: "4:12", icone: <FaSoap />, cor: "b" },
   { titulo: "Plástico, vidro, papel: o que pode e o que não pode", duracao: "6:03", icone: <FaRecycle />, cor: "c" },
   { titulo: "Compostagem em 5 passos simples", duracao: "5:47", icone: <FaSeedling />, cor: "a" },
+  { titulo: "Compostagem em 5 passos simples", duracao: "5:47", icone: <FaSeedling />, cor: "a" },
 ];
 
 export const guias = [

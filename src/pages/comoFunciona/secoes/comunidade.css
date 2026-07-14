@@ -98,11 +98,10 @@
   color: #1f3525;
 }
 
-/* --- Layout geral: sidebar + conteúdo principal --- */
 
 .comunidade-layout {
   display: grid;
-  grid-template-columns: 280px 1fr;
+  /*grid-template-columns: 280px 1fr;*/
   gap: 40px;
   align-items: start;
   margin-bottom: 56px;
