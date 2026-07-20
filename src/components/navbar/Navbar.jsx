@@ -1,33 +1,23 @@
 import { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
-
 import "./navbar.css";
-
 import Logo from "../../assets/logo.png";
 import PetMenu from "../../assets/PetMenu.png";
-
-import {
-  FaBars,
-  FaTimes,
-} from "react-icons/fa";
-
+import {FaBars, FaTimes,} from "react-icons/fa";
 import { navbarPorPerfil } from "./NavbarConfig";
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
-
+  const [userMenuOpen, setUserMenuOpen] = useState(false);
   const navigate = useNavigate();
-
   const { user, logout } = useAuth();
-
   const closeMenu = () => setMenuOpen(false);
 
   const getLinkClass = ({ isActive }) =>
     isActive ? "navbar-link active" : "navbar-link";
 
   const perfil = user?.perfil || "visitante";
-
   const menu = navbarPorPerfil[perfil] || navbarPorPerfil.visitante;
 
   async function handleLogout() {
@@ -84,14 +74,58 @@ export default function Navbar() {
           </NavLink>
         )}
 
-        {user && (
-          <button
-            className="navbar-button"
-            onClick={handleLogout}
-          >
-            <span>Sair</span>
-          </button>
+      {user && (
+      <div className="navbar-user">
+        <button
+          className="navbar-user-btn"
+          onClick={() => setUserMenuOpen(!userMenuOpen)}
+        >
+         <FaBars />
+        </button>
+
+        {userMenuOpen && (
+          <div className="navbar-user-menu">
+
+            <NavLink
+              to="/perfil"
+              onClick={() => {
+                setUserMenuOpen(false);
+                closeMenu();
+              }}
+            >
+              Meu Perfil
+            </NavLink>
+
+            <NavLink
+              to="/configuracoes"
+              onClick={() => {
+                setUserMenuOpen(false);
+                closeMenu();
+              }}
+            >
+              Configurações
+            </NavLink>
+
+            <NavLink
+              to="/notificacoes"
+              onClick={() => {
+                setUserMenuOpen(false);
+                closeMenu();
+              }}
+            >
+              Notificações
+            </NavLink>
+
+            <button
+              onClick={handleLogout}
+            >
+              Sair
+            </button>
+
+          </div>
         )}
+      </div>
+    )}
 
         <img
           src={PetMenu}

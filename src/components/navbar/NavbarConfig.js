@@ -1,9 +1,6 @@
 import {
-FaHome,
-  FaNewspaper,
+  FaHome,
   FaComments,
-  FaUser,
-  FaBell,
   FaRecycle,
   FaChartBar,
   FaTrophy,
@@ -37,8 +34,8 @@ export const navbarPorPerfil = {
   "pessoa-recicladora": [
     {
       to: "/blog",
-      label: "Blog",
-      icon: FaNewspaper,
+      label: "Principal",
+      icon: FaHome,
     },
     {
       to: "/doacao/cadastrar-materiais",
@@ -55,28 +52,13 @@ export const navbarPorPerfil = {
       label: "Chat",
       icon: FaComments,
     },
-    {
-      to: "/notificacoes",
-      label: "Notificações",
-      icon: FaBell,
-    },
-    {
-      to: "/perfil",
-      label: "Meu Perfil",
-      icon: FaUser,
-    },
   ],
 
   "coletor-autonomo": [
     {
       to: "/blog",
-      label: "Blog",
-      icon: FaNewspaper,
-    },
-    {
-      to: "/chat",
-      label: "Chat",
-      icon: FaComments,
+      label: "Principal",
+      icon: FaHome,
     },
     {
       to: "/estatisticas",
@@ -88,23 +70,18 @@ export const navbarPorPerfil = {
       label: "Ranking",
       icon: FaTrophy,
     },
-     {
-      to: "/notificacoes",
-      label: "Notificações",
-      icon: FaBell,
-    },
     {
-      to: "/perfil",
-      label: "Meu Perfil",
-      icon: FaUser,
+      to: "/chat",
+      label: "Chat",
+      icon: FaComments,
     },
   ],
 
   "instituicao-recicladora": [
     {
       to: "/dashboard",
-      label: "Dashboard",
-      icon: FaChartBar,
+      label: "Principal",
+      icon: FaHome,
     },
     {
       to: "/ranking",
@@ -116,38 +93,18 @@ export const navbarPorPerfil = {
       label: "Chat",
       icon: FaComments,
     },
-    {
-      to: "/notificacoes",
-      label: "Notificações",
-      icon: FaBell,
-    },
-    {
-      to: "/perfil",
-      label: "Meu Perfil",
-      icon: FaUser,
-    },
   ],
 
   "centro-coleta": [
     {
       to: "/dashboard",
-      label: "Dashboard",
-      icon: FaChartBar,
+      label: "Principal",
+      icon: FaHome,
     },
     {
       to: "/chat",
       label: "Chat",
       icon: FaComments,
-    },
-    {
-      to: "/notificacoes",
-      label: "Notificações",
-      icon: FaBell,
-    },
-    {
-      to: "/perfil",
-      label: "Meu Perfil",
-      icon: FaUser,
     },
   ],
 };
