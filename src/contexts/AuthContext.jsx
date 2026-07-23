@@ -21,32 +21,22 @@ export function AuthProvider({ children }) {
   const unsubscribe = onAuthStateChanged(auth, async (usuario) => {
 
     if (usuario) {
-
       const docRef = doc(db, "usuarios", usuario.uid);
-
       const snapshot = await getDoc(docRef);
 
       if (snapshot.exists()) {
-
         setUser({
           ...usuario,
           ...snapshot.data(),
         });
-
       } else {
-
         setUser(usuario);
-
       }
 
     } else {
-
       setUser(null);
-
     }
-
     setLoading(false);
-
   });
 
   return unsubscribe;
