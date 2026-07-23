@@ -33,7 +33,7 @@ export const navbarPorPerfil = {
 
   "pessoa-recicladora": [
     {
-      to: "/blog",
+      to: "/comoFunciona",
       label: "Principal",
       icon: FaHome,
     },
@@ -56,7 +56,7 @@ export const navbarPorPerfil = {
 
   "coletor-autonomo": [
     {
-      to: "/blog",
+      to: "/comoFunciona",
       label: "Principal",
       icon: FaHome,
     },

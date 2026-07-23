@@ -6,7 +6,6 @@ import {
   FaRecycle,
   FaSeedling,
   FaGraduationCap,
-  FaBoxOpen,
   FaSoap,
   FaBook,
   FaBookOpen,
@@ -27,7 +26,6 @@ export const artigosComunidade = [
   { titulo: "Como reduzi meu lixo em 60% em 3 meses", autor: "Rafael Tavares", tag: "participante", icone: <FaRecycle />, cor: "a" },
   { titulo: "Composteira de apartamento: o que aprendi errando", autor: "Beatriz Lima", tag: "participante", icone: <FaSeedling />, cor: "b" },
   { titulo: "Levei a reciclagem pra escola dos meus filhos", autor: "Diego Andrade", tag: "participante", icone: <FaGraduationCap />, cor: "c" },
-  { titulo: "5 potes de vidro que reaproveito toda semana", autor: "Sofia Martins", tag: "participante", icone: <FaBoxOpen />, cor: "a" },
 ];
 
 export const videos = [

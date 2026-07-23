@@ -1,31 +1,21 @@
-/* ===========================
-   Paleta
-   Verde = reciclagem | Laranja/marrom = cores do mascote (Reci)
-   Creme = fundo, pra não competir com as cores do cachorro
-=========================== */
 :root {
-  --reci-verde-escuro: #14532d;
-  --reci-verde: #15803d;
-  --reci-verde-claro: #ecfdf3;
-  --reci-verde-borda: #8fd3a8;
-  --reci-creme: #fdfaf1;
-  --reci-laranja: #d97706;
-  --reci-laranja-claro: #fef3e2;
-  --reci-texto: #3f3f2e;
+  --reci-verde-escuro: #1f3525;
+  --reci-verde: #388e3c;
+  --reci-verde-claro: #e9f6ed;
+  --reci-verde-borda: rgba(76, 175, 80, 0.24);
+  --reci-creme: #f6fbf4;
+  --reci-laranja: #f59e0b;
+  --reci-laranja-claro: #fff2d7;
+  --reci-texto: #3f4f45;
 }
 
 .ranking-container {
   position: relative;
-  max-width: 1100px;
-  margin: 40px auto;
-  padding: 20px;
+  margin: 0;
   overflow: hidden;
+  background: #f6fbf4;
+  color: var(--reci-texto);
 }
-
-/* ===========================
-   Elementos decorativos de fundo
-   Ícones bem sutis, só pra dar textura de "reciclagem" sem poluir
-=========================== */
 
 .ranking-bg-decor {
   position: absolute;
@@ -37,7 +27,7 @@
 .decor-icon {
   position: absolute;
   color: var(--reci-verde);
-  opacity: 0.06;
+  opacity: 0.045;
 }
 
 .decor-icon-1 { top: 10px; right: 40px; font-size: 140px; transform: rotate(15deg); }
@@ -45,17 +35,72 @@
 .decor-icon-3 { top: 280px; right: -10px; font-size: 70px; color: var(--reci-laranja); opacity: 0.08; }
 .decor-icon-4 { bottom: 40px; left: 60px; font-size: 60px; color: var(--reci-laranja); opacity: 0.08; }
 
-/* ===========================
-   Hero (título + mascote)
-=========================== */
+.ranking-hero-section {
+  position: relative;
+  padding: 68px 7% 56px;
+  background:
+    radial-gradient(circle at 82% 8%, rgba(245, 158, 11, 0.16), transparent 28%),
+    radial-gradient(circle at 12% 24%, rgba(76, 175, 80, 0.08), transparent 38%),
+    linear-gradient(180deg, #f6fbf4 0%, #ffffff 100%);
+}
+
+.ranking-hero-section .ranking-section-header {
+  margin-top: 0;
+}
+
+.ranking-table-section {
+  position: relative;
+  padding: 56px 7%;
+  background: linear-gradient(180deg, #ffffff 0%, #f5fbf6 100%);
+}
+
+.ranking-faq-section {
+  position: relative;
+  padding: 56px 7% 84px;
+  background: #ffffff;
+}
+
+.ranking-kicker,
+.ranking-section-header span {
+  width: fit-content;
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 9px 14px;
+  border: 1px solid rgba(76, 175, 80, 0.2);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.78);
+  color: var(--reci-verde);
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0;
+}
+
+.ranking-section-header {
+  max-width: 760px;
+  margin-bottom: 34px;
+}
+
+.ranking-section-header h2 {
+  margin-top: 16px;
+  color: var(--reci-verde-escuro);
+  font-size: clamp(2rem, 3vw, 3.4rem);
+  line-height: 1.05;
+  letter-spacing: 0;
+}
+
+.ranking-section-header p {
+  margin-top: 14px;
+  color: #607066;
+  font-size: 1.2rem;
+}
 
 .ranking-hero {
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: 20px;
-  margin-bottom: 30px;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(280px, 400px);
+  align-items: center;
+  gap: 34px;
 }
 
 .ranking-title {
@@ -63,40 +108,47 @@
   align-items: center;
   gap: 10px;
   color: var(--reci-verde-escuro);
-  font-size: 2rem;
-  font-weight: bold;
+  font-size: clamp(2rem, 3vw, 3.4rem);
+  font-weight: 900;
+  line-height: 1.05;
   margin: 0;
+  letter-spacing: 0;
 }
 
 .ranking-subtitle {
-  margin: 6px 0 0;
-  color: #6b6b58;
+  max-width: 560px;
+  margin: 14px 0 0;
+  color: #607066;
+  font-size: 1.2rem;
 }
 
 .ranking-mascote {
   display: flex;
   align-items: flex-end;
-  gap: 12px;
+  justify-content: flex-end;
+  gap: 18px;
 }
 
 .ranking-mascote img {
-  width: 180px;
+  width: min(340px, 66vw);
   height: auto;
-  filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.12));
+  filter: drop-shadow(0 18px 24px rgba(32, 57, 38, 0.12));
 }
-
 
 .mascote-fala {
   position: relative;
-  background: white;
-  border: 1px solid var(--reci-verde-borda);
-  border-radius: 16px;
-  padding: 10px 14px;
-  font-size: 0.85rem;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.98), rgba(244, 251, 239, 0.96));
+  border: 1px solid rgba(34, 83, 45, 0.14);
+  border-radius: 28px 28px 10px 28px;
+  padding: 14px 18px;
+  font-size: 0.9rem;
   color: var(--reci-verde-escuro);
-  font-weight: 500;
-  max-width: 190px;
+  font-weight: 700;
+  line-height: 1.45;
+  max-width: 230px;
   margin-bottom: 8px;
+  box-shadow: 0 18px 38px rgba(32, 57, 38, 0.08);
 }
 
 .mascote-fala::after {
@@ -107,14 +159,10 @@
   width: 14px;
   height: 14px;
   background: white;
-  border-right: 1px solid var(--reci-verde-borda);
-  border-bottom: 1px solid var(--reci-verde-borda);
+  border-right: 1px solid rgba(34, 83, 45, 0.14);
+  border-bottom: 1px solid rgba(34, 83, 45, 0.14);
   transform: rotate(-45deg);
 }
-
-/* ===========================
-   Cards superiores
-=========================== */
 
 .cards-ranking {
   display: grid;
@@ -123,25 +171,60 @@
 }
 
 .card-ranking {
-  background: #fff;
-  border: 1px solid #e2e2d6;
-  border-radius: 15px;
-  padding: 18px;
-  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.05);
+  background: rgba(255, 255, 255, 0.94);
+  border: 1px solid rgba(34, 83, 45, 0.1);
+  border-radius: 8px;
+  padding: 22px;
+  box-shadow: 0 18px 48px rgba(32, 57, 38, 0.07);
+  transition: transform 0.28s ease, box-shadow 0.28s ease, border-color 0.28s ease, background 0.28s ease;
+}
+
+.card-ranking:hover {
+  transform: translateY(-5px);
+  border-color: rgba(76, 175, 80, 0.32);
+  box-shadow: 0 26px 54px rgba(32, 57, 38, 0.12);
+}
+
+.card-ranking-verde:hover {
+  border-color: rgba(56, 142, 60, 0.5);
+  background:
+    radial-gradient(circle at 88% 10%, rgba(76, 175, 80, 0.22), transparent 45%),
+    rgba(255, 255, 255, 0.98);
+  box-shadow: 0 26px 54px rgba(56, 142, 60, 0.22);
+}
+
+.card-ranking-verde:hover .card-ranking-top {
+  color: var(--reci-verde);
+}
+
+.card-ranking-azul:hover {
+  border-color: rgba(245, 158, 11, 0.5);
+  background:
+    radial-gradient(circle at 88% 10%, rgba(245, 158, 11, 0.22), transparent 45%),
+    rgba(255, 255, 255, 0.98);
+  box-shadow: 0 26px 54px rgba(180, 108, 0, 0.22);
+}
+
+.card-ranking-azul:hover .card-ranking-top {
+  color: var(--reci-laranja);
 }
 
 .card-ranking-destaque {
-  background: var(--reci-laranja-claro);
-  border-color: #f3d29e;
+  background:
+    radial-gradient(circle at 88% 12%, rgba(245, 158, 11, 0.16), transparent 42%),
+    rgba(255, 255, 255, 0.96);
+  border-color: rgba(245, 158, 11, 0.24);
 }
 
 .card-ranking-top {
   display: flex;
   align-items: center;
   gap: 10px;
-  color: #6b6b58;
+  color: #607066;
   margin-bottom: 10px;
   font-size: 0.9rem;
+  font-weight: 900;
+  text-transform: uppercase;
 }
 
 .card-ranking-destaque .card-ranking-top {
@@ -151,31 +234,29 @@
 .card-ranking-valor {
   margin: 0;
   color: var(--reci-verde-escuro);
-  font-size: 1.3rem;
-  font-weight: bold;
+  font-size: 1.35rem;
+  font-weight: 900;
 }
 
 .card-ranking-sub {
   margin-top: 4px;
-  color: #6b6b58;
+  color: #607066;
   font-size: 0.9rem;
 }
 
-/* ===========================
-   Card usuário logado
-=========================== */
-
 .usuario-ranking {
   margin-top: 30px;
-  background: var(--reci-verde-claro);
+  background:
+    linear-gradient(135deg, rgba(233, 246, 237, 0.92), rgba(255, 255, 255, 0.92));
   border: 1px solid var(--reci-verde-borda);
-  border-radius: 15px;
-  padding: 20px;
+  border-radius: 8px;
+  padding: 22px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
   gap: 15px;
+  box-shadow: 0 18px 42px rgba(32, 57, 38, 0.07);
 }
 
 .usuario-ranking-label {
@@ -188,7 +269,7 @@
   margin: 4px 0 0;
   color: var(--reci-verde-escuro);
   font-size: 1.4rem;
-  font-weight: bold;
+  font-weight: 900;
 }
 
 .usuario-ranking-variacao {
@@ -201,9 +282,81 @@
   font-size: 0.85rem;
 }
 
-/* ===========================
-   Filtros
-=========================== */
+.usuario-ranking-cta {
+  padding: 34px 36px;
+  gap: 24px;
+  border: 1px solid rgba(56, 142, 60, 0.4);
+  background:
+    radial-gradient(circle at 92% 0%, rgba(76, 175, 80, 0.28), transparent 55%),
+    radial-gradient(circle at 5% 100%, rgba(76, 175, 80, 0.16), transparent 55%),
+    linear-gradient(135deg, #e3f5e6 0%, #f6fbf4 100%);
+  box-shadow: 0 26px 56px rgba(32, 57, 38, 0.14);
+  transition: transform 0.28s ease, box-shadow 0.28s ease, border-color 0.28s ease, background 0.28s ease;
+}
+
+.usuario-ranking-cta:hover {
+  transform: translateY(-4px);
+  border-color: rgba(245, 158, 11, 0.45);
+  background:
+    radial-gradient(circle at 92% 0%, rgba(245, 158, 11, 0.24), transparent 55%),
+    radial-gradient(circle at 5% 100%, rgba(76, 175, 80, 0.18), transparent 55%),
+    linear-gradient(135deg, #fff2d7 0%, #f6fbf4 100%);
+  box-shadow: 0 30px 60px rgba(120, 72, 0, 0.18), 0 20px 40px rgba(32, 57, 38, 0.1);
+}
+
+.usuario-ranking-cta .usuario-ranking-label {
+  font-family: inherit;
+  color: var(--reci-verde);
+  font-size: 0.95rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.usuario-ranking-cta .usuario-ranking-valor {
+  font-family: inherit;
+  margin-top: 8px;
+  color: var(--reci-verde-escuro);
+  font-size: clamp(1.5rem, 2vw, 1.9rem);
+  font-weight: 900;
+  line-height: 1.15;
+  letter-spacing: 0;
+}
+
+.usuario-ranking-texto {
+  font-family: inherit;
+  margin-top: 10px;
+  max-width: 460px;
+  color: #4a5b4f;
+  font-size: 1.05rem;
+  line-height: 1.55;
+}
+
+.usuario-ranking-cta-btn {
+  font-family: inherit;
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 56px;
+  padding: 16px 28px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, var(--secondary), var(--orange));
+  box-shadow: 0 20px 38px rgba(245, 158, 11, 0.24);
+  color: white;
+  font-size: 1.05rem;
+  font-weight: 800;
+  letter-spacing: 0;
+  box-shadow: 0 18px 34px rgba(245, 158, 11, 0.3);
+  transition: transform 0.28s ease, box-shadow 0.28s ease, background 0.28s ease;
+}
+
+.usuario-ranking-cta-btn:hover {
+  transform: translateY(-3px);
+  background: linear-gradient(135deg, #c2720b 0%, #8f5407 100%);
+  box-shadow: 0 22px 44px rgba(245, 158, 11, 0.4);
+}
 
 .filtros-ranking {
   margin: 35px 0 20px;
@@ -213,34 +366,35 @@
 }
 
 .filtro-btn {
-  border: none;
-  padding: 10px 18px;
-  border-radius: 30px;
-  background: #ececdf;
+  border: 1px solid rgba(46, 125, 50, 0.18);
+  padding: 11px 18px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.86);
   cursor: pointer;
-  transition: 0.3s;
-  font-weight: 500;
+  transition: transform 0.24s ease, background 0.24s ease, border-color 0.24s ease;
+  font-weight: 800;
   color: var(--reci-texto);
 }
 
 .filtro-btn:hover {
-  background: #d9ecdd;
+  transform: translateY(-2px);
+  background: #f6fbf4;
+  border-color: rgba(76, 175, 80, 0.34);
 }
 
 .filtro-btn.active {
   background: var(--reci-verde);
   color: white;
+  border-color: var(--reci-verde);
+  box-shadow: 0 14px 28px rgba(56, 142, 60, 0.2);
 }
-
-/* ===========================
-   Tabela
-=========================== */
 
 .tabela-ranking {
   overflow: hidden;
-  border-radius: 15px;
-  border: 1px solid #e2e2d6;
-  background: white;
+  border-radius: 8px;
+  border: 1px solid rgba(34, 83, 45, 0.1);
+  background: rgba(255, 255, 255, 0.96);
+  box-shadow: 0 18px 48px rgba(32, 57, 38, 0.07);
 }
 
 .tabela-ranking table {
@@ -249,19 +403,21 @@
 }
 
 .tabela-ranking thead {
-  background: #f7f6ef;
+  background: #f6fbf4;
 }
 
 .tabela-ranking th {
   padding: 15px;
   text-align: left;
-  color: #6b6b58;
+  color: #607066;
   font-size: 0.9rem;
+  font-weight: 900;
+  text-transform: uppercase;
 }
 
 .tabela-ranking td {
   padding: 15px;
-  border-top: 1px solid #eee;
+  border-top: 1px solid rgba(34, 83, 45, 0.08);
   color: var(--reci-texto);
 }
 
@@ -270,21 +426,22 @@
 }
 
 .usuario-logado {
-  background: var(--reci-verde-claro);
+  background: #e9f6ed;
 }
 
 .usuario-badge {
   margin-left: 10px;
   background: var(--reci-verde);
   color: white;
-  border-radius: 15px;
+  border-radius: 999px;
   padding: 3px 10px;
   font-size: 0.75rem;
+  font-weight: 900;
 }
 
 .pontos {
   text-align: right;
-  font-weight: bold;
+  font-weight: 900;
   color: var(--reci-verde-escuro);
 }
 
@@ -294,17 +451,13 @@
   color: var(--reci-texto);
 }
 
-/* ===========================
-   Tendência de posição
-=========================== */
-
 .subiu {
   display: flex;
   align-items: center;
   justify-content: flex-end;
   gap: 6px;
   color: var(--reci-verde);
-  font-weight: bold;
+  font-weight: 900;
   margin: 0;
 }
 
@@ -314,7 +467,7 @@
   justify-content: flex-end;
   gap: 6px;
   color: #dc2626;
-  font-weight: bold;
+  font-weight: 900;
   margin: 0;
 }
 
@@ -327,81 +480,99 @@
   margin: 0;
 }
 
-/* ===========================
-   FAQ
-=========================== */
-
-.faq-ranking {
-  margin-top: 45px;
-}
-
-.faq-titulo {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  color: var(--reci-verde-escuro);
-  font-size: 1.3rem;
-  margin-bottom: 18px;
-}
-
 .faq-lista {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
+  display: grid;
+  gap: 12px;
 }
 
 .faq-item {
-  background: white;
-  border: 1px solid #e2e2d6;
-  border-radius: 12px;
+  border: 1px solid rgba(34, 83, 45, 0.1);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 18px 48px rgba(32, 57, 38, 0.07);
   overflow: hidden;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
 }
 
+.faq-item:hover,
 .faq-item-aberta {
-  border-color: var(--reci-verde-borda);
+  border-color: rgba(76, 175, 80, 0.36);
+  box-shadow: 0 22px 46px rgba(32, 57, 38, 0.1);
 }
 
 .faq-pergunta {
   width: 100%;
+  min-height: 64px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 10px;
+  gap: 18px;
   background: none;
   border: none;
   text-align: left;
-  padding: 16px 18px;
-  font-weight: 500;
-  font-size: 0.95rem;
-  color: var(--reci-texto);
+  padding: 18px 22px;
+  font: inherit;
+  font-weight: 900;
+  color: #223c2a;
   cursor: pointer;
 }
 
 .faq-chevron {
   flex-shrink: 0;
   color: var(--reci-verde);
-  transition: transform 0.2s ease;
+  transition: transform 0.3s ease;
 }
 
 .faq-item-aberta .faq-chevron {
   transform: rotate(180deg);
 }
 
+.faq-panel {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.35s ease;
+}
+
+.faq-item-aberta .faq-panel {
+  grid-template-rows: 1fr;
+}
+
+.faq-panel-inner {
+  min-height: 0;
+  overflow: hidden;
+}
+
 .faq-resposta {
   margin: 0;
-  padding: 0 18px 18px;
-  color: #6b6b58;
+  padding: 0 22px 22px;
+  color: #607066;
   font-size: 0.9rem;
   line-height: 1.6;
 }
 
-/* ===========================
-   Responsivo
-=========================== */
-
 @media (max-width: 768px) {
+  .ranking-hero-section,
+  .ranking-table-section,
+  .ranking-faq-section {
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+
+  .ranking-hero-section {
+    padding-top: 42px;
+  }
+
+  .ranking-faq-section {
+    padding-bottom: 54px;
+  }
+
   .ranking-hero {
+    grid-template-columns: 1fr;
     align-items: center;
+  }
+
+  .ranking-mascote img {
+    width: min(220px, 55vw);
   }
 
   .ranking-mascote {
@@ -425,6 +596,10 @@
 
   .usuario-ranking-variacao {
     text-align: left;
+  }
+
+  .usuario-ranking-cta-btn {
+    width: 100%;
   }
 
   .subiu,
