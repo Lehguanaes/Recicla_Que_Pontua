@@ -62,7 +62,7 @@ export default function PasswordFields({
               className="strength-label"
               style={{
                 color:
-                  ["#e53935", "#f57c00", "#43a047"][strength - 1] || "#aaa",
+                  ["var(--color-hex-e53935)", "var(--color-hex-f57c00)", "var(--color-hex-43a047)"][strength - 1] || "var(--color-hex-aaa)",
               }}
             >
               {strength > 0

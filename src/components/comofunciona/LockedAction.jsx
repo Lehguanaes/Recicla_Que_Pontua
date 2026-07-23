@@ -28,9 +28,9 @@ onClick = () => {},
       gap: 6px;
       padding: 6px 10px;
       border-radius: 999px;
-      border: 1px solid rgba(76, 175, 80, 0.2);
-      background: #ffffff;
-      color: #6b7d70;
+      border: 1px solid var(--color-rgba-76-175-80-0p2);
+      background: var(--color-hex-ffffff);
+      color: var(--color-hex-6b7d70);
       font-size: 0.82rem;
       font-weight: 600;
       cursor: pointer;
@@ -38,15 +38,15 @@ onClick = () => {},
     }
     
     .comunidade-locked-action:hover {
-      background: rgba(76, 175, 80, 0.08);
-      border-color: rgba(76, 175, 80, 0.35);
+      background: var(--color-rgba-76-175-80-0p08);
+      border-color: var(--color-rgba-76-175-80-0p35);
     }
     
     .comunidade-locked-action-icon {
       display: inline-flex;
       align-items: center;
       font-size: 0.95rem;
-      color: var(--secondary-dark, #2e7d32);
+      color: var(--secondary-dark, var(--color-hex-2e7d32));
     }
     
     .comunidade-locked-action-count {

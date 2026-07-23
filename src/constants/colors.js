@@ -4,60 +4,60 @@
 
 export const COLORS = {
   //Verde
-  verdeEscuro: "#2E7D32",
-  verdeMedio: "#43A047",
-  verdeSuave: "#C8E6C9",
-  verdeFundo: "#F1F8E9",
+  verdeEscuro: "var(--color-hex-2e7d32)",
+  verdeMedio: "var(--color-hex-43a047)",
+  verdeSuave: "var(--color-hex-c8e6c9)",
+  verdeFundo: "var(--color-hex-f1f8e9)",
   
   //Marrom
-  marrom: "#6D4C41",
-  marromClaro: "#8D6E63",
-  bege: "#D7CCC8",
+  marrom: "var(--color-hex-6d4c41)",
+  marromClaro: "var(--color-hex-8d6e63)",
+  bege: "var(--color-hex-d7ccc8)",
 
   // Primária
-  primary: '#6B1FA2',        // roxo principal (header, botões primários)
-  primaryLight: '#8B3FC4',   // roxo claro (hover)
-  primaryDark: '#4A1570',    // roxo escuro (pressed)
+  primary: 'var(--color-hex-6b1fa2)',        // roxo principal (header, botões primários)
+  primaryLight: 'var(--color-hex-8b3fc4)',   // roxo claro (hover)
+  primaryDark: 'var(--color-hex-4a1570)',    // roxo escuro (pressed)
 
   // Secundária
-  secondary: '#4CAF50',      // verde (botões de ação, badges ativos)
-  secondaryLight: '#81C784',
-  secondaryDark: '#388E3C',
+  secondary: 'var(--color-hex-4caf50)',      // verde (botões de ação, badges ativos)
+  secondaryLight: 'var(--color-hex-81c784)',
+  secondaryDark: 'var(--color-hex-388e3c)',
 
   // Detalhes
-  orange: '#f59e0b',
+  orange: 'var(--color-hex-f59e0b)',
 
 
   // Neutros
-  white: '#FFFFFF',
-  background: '#F5F5F5',
-  surface: '#FFFFFF',
-  border: '#E0E0E0',
-  divider: '#EEEEEE',
+  white: 'var(--color-hex-ffffff)',
+  background: 'var(--color-hex-f5f5f5)',
+  surface: 'var(--color-hex-ffffff)',
+  border: 'var(--color-hex-e0e0e0)',
+  divider: 'var(--color-hex-eeeeee)',
 
   // Texto
-  textPrimary: '#212121',
-  textSecondary: '#757575',
-  textDisabled: '#BDBDBD',
-  textOnPrimary: '#FFFFFF',
+  textPrimary: 'var(--color-hex-212121)',
+  textSecondary: 'var(--color-hex-757575)',
+  textDisabled: 'var(--color-hex-bdbdbd)',
+  textOnPrimary: 'var(--color-hex-ffffff)',
 
   // Status
-  success: '#4CAF50',
-  warning: '#FFC107',
-  error: '#F44336',
-  info: '#2196F3',
+  success: 'var(--color-hex-4caf50)',
+  warning: 'var(--color-hex-ffc107)',
+  error: 'var(--color-hex-f44336)',
+  info: 'var(--color-hex-2196f3)',
 
   // Mapa / Marcadores
-  markerCollector: '#6B1FA2',  // catador autônomo
-  markerCenter: '#2196F3',     // centro de coleta
-  markerSelected: '#FF5722',
+  markerCollector: 'var(--color-hex-6b1fa2)',  // catador autônomo
+  markerCenter: 'var(--color-hex-2196f3)',     // centro de coleta
+  markerSelected: 'var(--color-hex-ff5722)',
 
   // Rating
-  ratingColor: '#E91E63',
+  ratingColor: 'var(--color-hex-e91e63)',
 
   // Outros
-  overlayDark: 'rgba(0,0,0,0.5)',
-  cardShadow: 'rgba(0,0,0,0.12)',
+  overlayDark: 'var(--color-rgba-0-0-0-0p5)',
+  cardShadow: 'var(--color-rgba-0-0-0-0p12)',
 };
 
 export const GRADIENTS = {

@@ -30,6 +30,6 @@
 }
 
 .button:disabled{
-    background:#A5D6A7;
+    background:var(--color-hex-a5d6a7);
     cursor:not-allowed;
 }

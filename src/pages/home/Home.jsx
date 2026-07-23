@@ -175,10 +175,13 @@ const faqs = [
   },
 ];
 
-function SectionHeader({ eyebrow, title, text }) {
+function SectionHeader({ eyebrow, title, text, icon }) {
   return (
     <div className="home-section-header">
-      <span>{eyebrow}</span>
+      <span>
+        {icon}
+        {eyebrow}
+      </span>
       <h2>{title}</h2>
       <p>{text}</p>
     </div>
@@ -297,8 +300,8 @@ export default function Home() {
               <Link className="home-primary-button" to="/doacao/cadastrar-materiais">
                 Cadastrar materiais <FaArrowRight />
               </Link>
-              <Link className="home-secondary-button" to="/como-funciona">
-                Ver como funciona
+              <Link className="home-secondary-button" to="/como-reciclar">
+                Ver como reciclar
               </Link>
             </div>
 
@@ -312,6 +315,7 @@ export default function Home() {
         <section className="home-explanation">
           <SectionHeader
             eyebrow="O que é o site"
+            icon={<FaRecycle />}
             title="Um intermediador entre quem separa e quem recicla"
             text="A plataforma organiza materiais, preferências e parceiros para que o descarte deixe de ser confuso e vire uma escolha simples."
           />
@@ -326,6 +330,7 @@ export default function Home() {
         <section className="home-audience-section">
           <SectionHeader
             eyebrow="Por que usar"
+            icon={<FaPeopleCarryBox />}
             title="Quem se beneficia com a plataforma?"
             text="Cada perfil entra na plataforma com uma necessidade diferente, mas todos ganham com uma reciclagem mais organizada, rastreável e recompensada."
           />
@@ -339,6 +344,7 @@ export default function Home() {
                 <section className="home-partners-section">
           <SectionHeader
             eyebrow="Escolha consciente"
+            icon={<FaScaleBalanced />}
             title="Lucrar ou doar: o destino muda conforme seu objetivo"
             text="O sistema ajuda a filtrar o tipo de parceiro ideal para cada situação, sem obrigar você a visitar vários locais."
           />
@@ -352,7 +358,10 @@ export default function Home() {
 
         <section className="home-gamification">
           <div className="home-gamification-text">
-            <span>Gamificação</span>
+            <span>
+              <FaMedal />
+              Gamificação
+            </span>
             <h2>Reciclar também vira conquista</h2>
             <p>
               Pontos, medalhas, ranking regional e estatísticas de impacto
@@ -386,6 +395,7 @@ export default function Home() {
         <section className="home-flow-section">
           <SectionHeader
             eyebrow="Passo a passo"
+            icon={<FaAward />}
             title="Como sair do material parado para os pontos"
             text="O caminho é curto: separar, cadastrar, escolher o melhor destino e confirmar a entrega para pontuar."
           />
@@ -401,6 +411,7 @@ export default function Home() {
           <div className="home-materials-intro">
             <SectionHeader
               eyebrow="Aprenda a separar"
+              icon={<FaLeaf />}
               title="Materiais recicláveis que podem ganhar novo destino"
               text="Separar corretamente aumenta as chances de venda, evita contaminação e ajuda centros e coletores a trabalharem melhor."
             />
@@ -419,6 +430,7 @@ export default function Home() {
             <div>
               <SectionHeader
                 eyebrow="Perguntas frequentes"
+                icon={<FaCircleQuestion />}
                 title="Dúvidas comuns antes de começar"
                 text="As respostas essenciais para usar a plataforma com segurança e entender a proposta."
               />

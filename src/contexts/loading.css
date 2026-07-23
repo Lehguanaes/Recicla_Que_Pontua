@@ -10,8 +10,8 @@
 
   background: linear-gradient(
     180deg,
-    #dff5df 0%,
-    #d2f0d2 100%
+    var(--color-hex-dff5df) 0%,
+    var(--color-hex-d2f0d2) 100%
   );
 }
 
@@ -39,7 +39,7 @@
 
   animation: mascoteFloat 2.5s ease-in-out infinite;
 
-  filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.15));
+  filter: drop-shadow(0 10px 20px var(--color-rgba-0-0-0-0p15));
 
   user-select: none;
   pointer-events: none;
@@ -96,7 +96,7 @@
 .loading-label {
   font-size: 1.1rem;
   font-weight: 600;
-  color: #2f5d2f;
+  color: var(--color-hex-2f5d2f);
   letter-spacing: 0.5px;
 }
 
@@ -111,7 +111,7 @@
   height: 7px;
 
   border-radius: 50%;
-  background: #4caf50;
+  background: var(--color-hex-4caf50);
 
   animation: dotPulse 1.4s infinite ease-in-out;
 }

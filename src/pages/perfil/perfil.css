@@ -36,12 +36,12 @@
   display: flex;
   align-items: flex-start;
   gap: 14px;
-  background: #fff8e6;
+  background: var(--color-hex-fff8e6);
   border-left: 5px solid var(--primary);
   border-radius: 12px;
   padding: 18px 20px;
   margin-bottom: 28px;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 4px 14px var(--color-rgba-0-0-0-0p05);
 }
 
 .perfil-alerta-icone {
@@ -88,7 +88,7 @@
 }
 
 .perfil-alerta-botao:hover {
-  background: #d8900f;
+  background: var(--color-hex-d8900f);
 }
 
 .perfil-alerta-fechar {
@@ -111,7 +111,7 @@
   border-radius: 16px;
   padding: 26px 28px;
   margin-bottom: 22px;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 4px 16px var(--color-rgba-0-0-0-0p05);
 }
 
 .perfil-card-titulo {
@@ -173,7 +173,7 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 2px 6px var(--color-rgba-0-0-0-0p2);
   transition: background 0.2s;
 }
 
@@ -318,7 +318,7 @@
 }
 
 .perfil-input-group input.error {
-  border-color: #e53935;
+  border-color: var(--color-hex-e53935);
 }
 
 .perfil-input-senha {
@@ -344,7 +344,7 @@
 }
 
 .perfil-form-error {
-  color: #e53935;
+  color: var(--color-hex-e53935);
   font-size: 12.5px;
 }
 
@@ -390,7 +390,7 @@
 }
 
 .perfil-botao-primario:disabled {
-  background: #a5d6a7;
+  background: var(--color-hex-a5d6a7);
   cursor: not-allowed;
 }
 
@@ -451,7 +451,7 @@
 .perfil-link-remover {
   background: none;
   border: none;
-  color: #e53935;
+  color: var(--color-hex-e53935);
   font-size: 13.5px;
   font-weight: 600;
   cursor: pointer;

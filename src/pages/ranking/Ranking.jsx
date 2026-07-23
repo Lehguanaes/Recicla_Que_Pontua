@@ -65,10 +65,13 @@ const FAQ_ITEMS = [
   },
 ];
 
-function SectionHeader({ eyebrow, title, text }) {
+function SectionHeader({ eyebrow, title, text, icon }) {
   return (
     <div className="ranking-section-header">
-      <span>{eyebrow}</span>
+      <span>
+        {icon}
+        {eyebrow}
+      </span>
       <h2>{title}</h2>
       <p>{text}</p>
     </div>
@@ -105,6 +108,7 @@ export default function Ranking() {
             <div className="ranking-hero-texto">
             <SectionHeader
               eyebrow="Ranking"
+              icon={<FaTrophy />}
               title="Quem está liderando a reciclagem"
               text="Acompanhe os destaques da comunidade e veja como sua reciclagem se compara com a de outros participantes."
             />
@@ -186,6 +190,7 @@ export default function Ranking() {
         <section className="ranking-table-section">
           <SectionHeader
             eyebrow="Classificação"
+            icon={<FaUsers />}
             title="Ranking completo de pontuação"
             text="Filtre por período e veja a posição de todos os participantes da plataforma."
           />
@@ -241,6 +246,7 @@ export default function Ranking() {
         <section className="ranking-faq-section">
           <SectionHeader
             eyebrow="Dúvidas"
+            icon={<FaCircleQuestion />}
             title="Perguntas frequentes sobre o ranking"
             text="Tudo que você precisa saber para entender pontos, posições e o funcionamento do ranking."
           />

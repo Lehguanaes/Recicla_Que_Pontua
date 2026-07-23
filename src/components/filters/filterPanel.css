@@ -2,7 +2,7 @@
   position: fixed;
   inset: 0;
   z-index: 1200;
-  background: rgba(33, 33, 33, 0.34);
+  background: var(--color-rgba-33-33-33-0p34);
   display: flex;
   justify-content: flex-end;
 }
@@ -11,7 +11,7 @@
   width: min(380px, 100%);
   height: 100%;
   background: var(--surface);
-  box-shadow: -18px 0 45px rgba(33, 33, 33, 0.18);
+  box-shadow: -18px 0 45px var(--color-rgba-33-33-33-0p18);
   display: flex;
   flex-direction: column;
 }
@@ -43,7 +43,7 @@
   height: 38px;
   border: 0;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.16);
+  background: var(--color-rgba-255-255-255-0p16);
   color: var(--white);
   display: inline-flex;
   align-items: center;
@@ -115,7 +115,7 @@
 
 .filter-field select:focus {
   border-color: var(--secondary);
-  box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.16);
+  box-shadow: 0 0 0 3px var(--color-rgba-76-175-80-0p16);
 }
 
 .filter-footer {

@@ -20,8 +20,9 @@ function App() {
         <Route path="/cadastro" element={<Navigate to="/login" replace />} />
         <Route path="/perfil" element={<Perfil />} />
         <Route path="/termos" element={<TermosUso />} />
-        <Route path="/comoFunciona" element={<ComoFunciona />} />
-        <Route path="/como-funciona" element={<Navigate to="/comoFunciona" replace />} />
+        <Route path="/como-reciclar" element={<ComoFunciona />} />
+        <Route path="/comoFunciona" element={<Navigate to="/como-reciclar" replace />} />
+        <Route path="/como-funciona" element={<Navigate to="/como-reciclar" replace />} />
         <Route path="/ranking" element={<Ranking />} />
         <Route path="/doacao/cadastrar-materiais" element={<CadastrarMateriais />} />
         <Route path="/doacao/encontrarParceiros" element={<EncontrarParceiros />} />
@@ -30,7 +31,7 @@ function App() {
         <Route path="/doacao/DoarMateriais" element={<Navigate to="/doacao/cadastrar-materiais" replace />} />
         <Route path="/buscarCatadores" element={<Navigate to="/doacao/cadastrar-materiais" replace />} />
         <Route path="/buscarcatadores" element={<Navigate to="/doacao/cadastrar-materiais" replace />} />
-        <Route path="/sobre" element={<Navigate to="/comoFunciona" replace />} />
+        <Route path="/sobre" element={<Navigate to="/como-reciclar" replace />} />
       </Routes>
     </BrowserRouter>
   );

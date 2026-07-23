@@ -9,7 +9,7 @@
 
 .rodape p{
     margin:0;
-    color:rgba(0, 0, 0, 0.85);
+    color:var(--color-rgba-0-0-0-0p85);
     font-size:14px;
     text-align:center;
     line-height:1.6;

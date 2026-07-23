@@ -19,7 +19,7 @@
 }
 
 .description {
-  color: #777;
+  color: var(--color-hex-777);
   line-height: 1.5;
   font-size: 0.95rem;
 }

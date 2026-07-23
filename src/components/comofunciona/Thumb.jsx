@@ -14,19 +14,19 @@ export default function Thumb({ icone, cor = "a", size = "md" }) {
           justify-content: center;
           border-radius: 12px;
           flex-shrink: 0;
-          color: var(--secondary-dark, #2e7d32);
+          color: var(--secondary-dark, var(--color-hex-2e7d32));
         }
         
         .comunidade-thumb-a {
-          background: rgba(76, 175, 80, 0.15);
+          background: var(--color-rgba-76-175-80-0p15);
         }
         
         .comunidade-thumb-b {
-          background: rgba(46, 125, 50, 0.12);
+          background: var(--color-rgba-46-125-50-0p12);
         }
         
         .comunidade-thumb-c {
-          background: rgba(129, 199, 132, 0.22);
+          background: var(--color-rgba-129-199-132-0p22);
         }
         
         .comunidade-thumb-sm {

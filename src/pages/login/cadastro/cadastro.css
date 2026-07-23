@@ -5,19 +5,19 @@
     width: fit-content;
     margin-bottom: 20px;
     padding: 5px 14px;
-    border: 1px solid rgba(0, 0, 0, 0.3);
+    border: 1px solid var(--color-rgba-0-0-0-0p3);
     border-radius: 20px;
-    background: rgba(255,255,255,.15);
+    background: var(--color-rgba-255-255-255-p15);
     font-size: 13px;
     font-weight: 600;
     cursor: pointer;
     transition: background .2s;
 }
 .perfil-badge span{
-    color: rgb(11, 102, 11);
+    color: var(--color-rgb-11-102-11);
 }
 .perfil-badge:hover{
-    background: rgba(37, 27, 27, 0.295);
+    background: var(--color-rgba-37-27-27-0p295);
 }
 .perfil-badge img{
     width: 20px;
@@ -42,7 +42,7 @@
 }
 
 .secao-titulo{
-    color:rgb(1, 68, 7);
+    color:var(--color-rgb-1-68-7);
 
     font-size:13px;
     font-weight:600;
@@ -80,7 +80,7 @@
     cursor:pointer;
 }
 .form-error{
-    color: rgb(116, 114, 114);
+    color: var(--color-rgb-116-114-114);
 }
 /* =====================================================
    SENHA
@@ -99,21 +99,21 @@
 
     border-radius:4px;
 
-    background:rgba(255,255,255,.2);
+    background:var(--color-rgba-255-255-255-p2);
 
     transition:.25s;
 }
 
 .strength-segment.weak{
-    background:#ff6b6b;
+    background:var(--color-hex-ff6b6b);
 }
 
 .strength-segment.medium{
-    background:#ffa94d;
+    background:var(--color-hex-ffa94d);
 }
 
 .strength-segment.strong{
-    background:#69db7c;
+    background:var(--color-hex-69db7c);
 }
 
 .strength-label{
@@ -164,8 +164,8 @@
 }
 
 .register-button:disabled{
-    background:rgba(255,255,255,.15);
-    color:rgba(255,255,255,.5);
+    background:var(--color-rgba-255-255-255-p15);
+    color:var(--color-rgba-255-255-255-p5);
     cursor:not-allowed;
 }
 

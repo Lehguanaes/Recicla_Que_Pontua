@@ -31,7 +31,7 @@
   font-size: clamp(2rem, 2vw, 2rem);
   line-height: 1.08;
   margin-bottom: 14px;
-  color: #14213d;
+  color: var(--color-hex-14213d);
 }
 
 p {
@@ -54,7 +54,7 @@ p {
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: 8px;
-  box-shadow: 0 14px 32px rgba(46, 125, 50, 0.09);
+  box-shadow: 0 14px 32px var(--color-rgba-46-125-50-0p09);
 }
 
 .material-card {
@@ -99,7 +99,7 @@ p {
 
 .material-card.active {
   border-color: var(--orange);
-  box-shadow: 0 16px 36px rgba(245, 158, 11, 0.14);
+  box-shadow: 0 16px 36px var(--color-rgba-245-158-11-0p14);
 }
 
 .material-card:hover {
@@ -119,13 +119,13 @@ p {
 }
 
 .material-card strong {
-  color: #14213d;
+  color: var(--color-hex-14213d);
   font-size: 0.94rem;
   line-height: 1.25;
 }
 
 .material-card > span {
-  color: #8ea0bd;
+  color: var(--color-hex-8ea0bd);
   font-size: 0.72rem;
   font-weight: 700;
 }
@@ -141,13 +141,13 @@ p {
 .material-stepper button {
   width: 34px;
   height: 34px;
-  border: 1px solid #dce5f2;
+  border: 1px solid var(--color-hex-dce5f2);
   border-radius: 50%;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   background: var(--white);
-  color: #49637f;
+  color: var(--color-hex-49637f);
   cursor: pointer;
   transition: 0.2s ease;
 }
@@ -161,8 +161,8 @@ p {
   width: 100%;
   min-width: 0;
   border: 0;
-  background: transparent;
-  color: #14213d;
+  background: var(--color-keyword-transparent);
+  color: var(--color-hex-14213d);
   text-align: center;
   font-size: 1.1rem;
   font-weight: 800;
@@ -185,7 +185,7 @@ p {
   align-items: flex-start;
   gap: 6px;
   margin-bottom: 22px;
-  color: #14213d;
+  color: var(--color-hex-14213d);
 }
 
 .impact-heading svg{
@@ -229,7 +229,7 @@ p {
   bottom: -30px;
   width: 86px;
   height: 86px;
-  border: 8px solid rgba(245, 158, 11, 0.08);
+  border: 8px solid var(--color-rgba-245-158-11-0p08);
   border-radius: 18px;
   transform: rotate(45deg);
 }
@@ -240,13 +240,13 @@ p {
 }
 
 .impact-card strong {
-  color: #14213d;
+  color: var(--color-hex-14213d);
   font-size: 1.8rem;
   line-height: 1;
 }
 
 .impact-card span {
-  color: #8ea0bd;
+  color: var(--color-hex-8ea0bd);
   font-size: 0.75rem;
   font-weight: 800;
   letter-spacing: 0.04em;
@@ -272,13 +272,13 @@ p {
   color: var(--white);
   font-weight: 800;
   cursor: pointer;
-  box-shadow: 0 16px 32px rgba(46, 125, 50, 0.2);
+  box-shadow: 0 16px 32px var(--color-rgba-46-125-50-0p2);
   transition: 0.2s ease;
 }
 
 .materials-submit:hover:not(:disabled) {
   transform: translateY(-1px);
-  background: #256729;
+  background: var(--color-hex-256729);
 }
 
 .materials-submit:disabled {
@@ -292,7 +292,7 @@ p {
   inset: 0;
   z-index: 1300;
   padding: 24px;
-  background: rgba(20, 33, 61, 0.36);
+  background: var(--color-rgba-20-33-61-0p36);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -301,10 +301,10 @@ p {
 .materials-confirm {
   width: min(100%, 460px);
   padding: 28px;
-  border: 1px solid rgba(76, 175, 80, 0.22);
+  border: 1px solid var(--color-rgba-76-175-80-0p22);
   border-radius: 8px;
   background: var(--surface);
-  box-shadow: 0 24px 70px rgba(20, 33, 61, 0.24);
+  box-shadow: 0 24px 70px var(--color-rgba-20-33-61-0p24);
   text-align: center;
 }
 
@@ -322,7 +322,7 @@ p {
 }
 
 .materials-confirm h2 {
-  color: #14213d;
+  color: var(--color-hex-14213d);
   font-size: 1.55rem;
   line-height: 1.15;
   margin-bottom: 10px;
@@ -347,9 +347,9 @@ p {
 .materials-confirm-tags span {
   min-height: 30px;
   padding: 6px 10px;
-  border: 1px solid rgba(245, 158, 11, 0.3);
+  border: 1px solid var(--color-rgba-245-158-11-0p3);
   border-radius: 999px;
-  background: rgba(245, 158, 11, 0.09);
+  background: var(--color-rgba-245-158-11-0p09);
   color: var(--orange);
   display: inline-flex;
   align-items: center;
@@ -372,7 +372,7 @@ p {
 }
 
 .materials-confirm-cancel {
-  border: 1.5px solid rgba(245, 158, 11, 0.42);
+  border: 1.5px solid var(--color-rgba-245-158-11-0p42);
   background: var(--surface);
   color: var(--orange);
 }

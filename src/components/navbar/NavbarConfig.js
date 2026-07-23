@@ -4,7 +4,6 @@ import {
   FaRecycle,
   FaChartBar,
   FaTrophy,
-  FaGift,
 } from "react-icons/fa";
 
 export const navbarPorPerfil = {
@@ -15,8 +14,8 @@ export const navbarPorPerfil = {
       icon: FaHome,
     },
     {
-      to: "/comoFunciona",
-      label: "Como Funciona",
+      to: "/como-reciclar",
+      label: "Como Reciclar",
       icon: FaRecycle,
     },
     {
@@ -24,16 +23,11 @@ export const navbarPorPerfil = {
       label: "Ranking",
       icon: FaTrophy,
     },
-    {
-      to: "/recompensas",
-      label: "Recompensas",
-      icon: FaGift,
-    },
   ],
 
   "pessoa-recicladora": [
     {
-      to: "/comoFunciona",
+      to: "/como-reciclar",
       label: "Principal",
       icon: FaHome,
     },
@@ -56,7 +50,7 @@ export const navbarPorPerfil = {
 
   "coletor-autonomo": [
     {
-      to: "/comoFunciona",
+      to: "/como-reciclar",
       label: "Principal",
       icon: FaHome,
     },

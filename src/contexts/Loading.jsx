@@ -73,7 +73,7 @@ function RecycleStar() {
   return (
     <svg
       viewBox="0 0 20 20"
-      fill="#69f0ae"
+      fill="var(--color-hex-69f0ae)"
       aria-hidden="true"
     >
       <path d="M10 0l1.8 8.2L20 10l-8.2 1.8L10 20l-1.8-8.2L0 10l8.2-1.8z" />

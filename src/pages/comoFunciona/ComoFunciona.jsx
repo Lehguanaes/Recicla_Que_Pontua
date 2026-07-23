@@ -121,10 +121,13 @@ const faqItems = [
   },
 ];
 
-function SectionHeader({ eyebrow, title, text }) {
+function SectionHeader({ eyebrow, title, text, icon }) {
   return (
     <div className="comunidade-section-header">
-      <span>{eyebrow}</span>
+      <span>
+        {icon}
+        {eyebrow}
+      </span>
       <h2>{title}</h2>
       <p>{text}</p>
     </div>
@@ -384,7 +387,8 @@ export default function ComoFunciona() {
           <section className="comunidade-learning-section comunidade-learning-main-section">
             <div className="comunidade-main-intro">
               <SectionHeader
-                eyebrow="Como funciona"
+                eyebrow="Como reciclar"
+                icon={<FaRecycle />}
                 title="Aprenda, prepare seus materiais e recicle com mais seguranca"
                 text="Nesta pagina voce encontra dicas, relatos, videos, guias e respostas praticas para usar melhor o Recicla que Pontua no dia a dia."
               />
@@ -477,6 +481,7 @@ export default function ComoFunciona() {
             <div className="comunidade-prep-intro">
               <SectionHeader
                 eyebrow="Antes de entregar"
+                icon={<FaRegCircleCheck />}
                 title="Pequenos cuidados que aumentam o valor do material"
                 text="Separacao correta reduz rejeito, evita mau cheiro e ajuda centros e coletores a trabalharem com mais agilidade."
               />
@@ -519,6 +524,7 @@ export default function ComoFunciona() {
           <section id="videos-reciclagem" className="comunidade-videos-section">
             <SectionHeader
               eyebrow="Videos"
+              icon={<FaVideo />}
               title="Aprenda vendo exemplos reais"
               text="Conteudos curtos para entender o que pode ser reciclado, como limpar embalagens e como evitar os erros mais comuns."
             />
@@ -558,6 +564,7 @@ export default function ComoFunciona() {
             <div>
               <SectionHeader
                 eyebrow="Na pratica"
+                icon={<FaCircleQuestion />}
                 title="Dicas para decidir o destino certo"
                 text="Use estas regras simples antes de cadastrar seus materiais na plataforma."
               />

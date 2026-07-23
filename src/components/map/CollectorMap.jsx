@@ -68,8 +68,8 @@ const CollectorMap = ({ collectors = [], selected, onSelectCollector }) => {
             background: ${isSelected ? COLORS.markerSelected : color};
             border-radius: 50% 50% 50% 0;
             transform: rotate(-45deg);
-            border: 3px solid white;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+            border: 3px solid var(--color-keyword-white);
+            box-shadow: 0 2px 8px var(--color-rgba-0-0-0-0p3);
             display: flex; align-items: center; justify-content: center;
             transition: all 0.2s;
           ">

@@ -78,7 +78,7 @@ const CollectorCard = ({ collector, onClick, compact = false }) => {
         </div>
 
         <div style={{ display: 'flex', gap: '12px', fontSize: '13px', color: COLORS.textSecondary, marginBottom: '6px' }}>
-          <span><FaStar style={{ color: 'gold' }} /> {collector.rating?.toFixed(1)}</span>
+          <span><FaStar style={{ color: 'var(--color-keyword-gold)' }} /> {collector.rating?.toFixed(1)}</span>
           <span>📍 {collector.distancia_km?.toFixed(1)} km</span>
           {collector.veiculo && <span>🚗 {collector.veiculo}</span>}
         </div>

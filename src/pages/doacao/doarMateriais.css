@@ -44,7 +44,7 @@
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: 8px;
-  box-shadow: 0 16px 40px rgba(46, 125, 50, 0.1);
+  box-shadow: 0 16px 40px var(--color-rgba-46-125-50-0p1);
 }
 
 .donation-search-panel {
@@ -85,14 +85,14 @@
 .donation-tabs button {
   min-width: 110px;
   padding: 0 14px;
-  background: transparent;
+  background: var(--color-keyword-transparent);
   color: var(--text-secondary);
 }
 
 .donation-tabs button.active {
   background: var(--secondary);
   color: var(--white);
-  box-shadow: 0 6px 16px rgba(76, 175, 80, 0.25);
+  box-shadow: 0 6px 16px var(--color-rgba-76-175-80-0p25);
 }
 
 .donation-filter-button {
@@ -128,9 +128,9 @@
 .donation-material-tags {
   margin: 0 0 16px;
   padding: 14px 16px;
-  border: 1px solid rgba(40, 186, 27, 0.22);
+  border: 1px solid var(--color-rgba-40-186-27-0p22);
   border-radius: 8px;
-  background: rgba(124, 198, 20, 0.08);
+  background: var(--color-rgba-124-198-20-0p08);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -138,7 +138,7 @@
 }
 
 .donation-material-tags > span {
-  color: #14213d;
+  color: var(--color-hex-14213d);
   font-size: 1rem;
   font-weight: 600;
   white-space: nowrap;
@@ -154,7 +154,7 @@
 .donation-material-tags strong {
   min-height: 30px;
   padding: 6px 10px;
-  border: 1px solid rgba(245, 158, 11, 0.28);
+  border: 1px solid var(--color-rgba-245-158-11-0p28);
   border-radius: 999px;
   background: var(--secondary);
   color: var(--white);
@@ -168,7 +168,7 @@
 .donation-empty-image-button {
   position: relative;
   border: 0;
-  background: transparent;
+  background: var(--color-keyword-transparent);
   padding: 0;
   margin: 0 auto;
   cursor: pointer;
@@ -322,7 +322,7 @@
 
 .donation-error {
   margin-bottom: 14px;
-  background: #ffebee;
+  background: var(--color-hex-ffebee);
   color: var(--error);
   font-weight: 700;
 }

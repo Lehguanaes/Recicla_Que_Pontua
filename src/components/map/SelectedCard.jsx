@@ -19,7 +19,7 @@ const SelectedCard = ({ collector, onClose }) => {
         background: COLORS.secondary,
         borderRadius: '16px',
         padding: '16px',
-        boxShadow: '0 8px 24px rgba(0,0,0,0.25)',
+        boxShadow: '0 8px 24px var(--color-rgba-0-0-0-0p25)',
         zIndex: 500,
         display: 'flex',
         gap: '12px',
@@ -33,7 +33,7 @@ const SelectedCard = ({ collector, onClose }) => {
           width: 52,
           height: 52,
           borderRadius: '50%',
-          background: 'rgba(255,255,255,0.25)',
+          background: 'var(--color-rgba-255-255-255-0p25)',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
@@ -48,7 +48,7 @@ const SelectedCard = ({ collector, onClose }) => {
       <div style={{ flex: 1 }}>
         <div style={{ fontWeight: 700, fontSize: '17px', marginBottom: '2px' }}>{collector.nome}</div>
         <div style={{ fontSize: '13px', opacity: 0.9, marginBottom: '4px' }}>
-          {collector.subtipo} • <FaStar style={{ color: 'gold' }} /> {collector.rating?.toFixed(1)}
+          {collector.subtipo} • <FaStar style={{ color: 'var(--color-keyword-gold)' }} /> {collector.rating?.toFixed(1)}
         </div>
         {collector.veiculo && (
           <div style={{ fontSize: '13px', opacity: 0.85 }}>🚗 {collector.veiculo}</div>
@@ -63,7 +63,7 @@ const SelectedCard = ({ collector, onClose }) => {
           position: 'absolute',
           top: '10px',
           right: '12px',
-          background: 'rgba(255,255,255,0.3)',
+          background: 'var(--color-rgba-255-255-255-0p3)',
           border: 'none',
           color: COLORS.white,
           width: '26px',

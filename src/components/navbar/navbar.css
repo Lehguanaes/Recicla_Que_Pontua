@@ -11,8 +11,8 @@
     gap:8px;
     border: none;
     border-radius:20px;
-    background:#89918a00;
-    color:#000000;
+    background:var(--color-hex-89918a00);
+    color:var(--color-hex-000000);
     cursor:pointer;
 }
 
@@ -21,14 +21,14 @@
     top:110%;
     right:0;
     width:220px;
-    background:#fff;
+    background:var(--color-hex-fff);
     border-radius:12px;
-    box-shadow:0 10px 30px rgba(0,0,0,.12);
+    box-shadow:0 10px 30px var(--color-rgba-0-0-0-p12);
     overflow:hidden;
     z-index:100;
 }
 .navbar-user-menu span{
-    color: #fff;
+    color: var(--color-hex-fff);
 }
 .navbar-user-menu a,
 .navbar-user-menu button{
@@ -39,12 +39,12 @@
     border:none;
     background:none;
     cursor:pointer;
-    color:#333;
+    color:var(--color-hex-333);
 }
 
 .navbar-user-menu a:hover,
 .navbar-user-menu button:hover{
-    background:#f5f5f5;
+    background:var(--color-hex-f5f5f5);
 }
 
 
@@ -171,7 +171,7 @@
 .navbar-button{
 
     background:var(--secondary);
-    color:white;
+    color:var(--color-keyword-white);
     border: none;
     padding:11px 26px;
 
@@ -190,7 +190,7 @@
 
     transform:translateY(-2px);
 
-    box-shadow:0 10px 25px rgba(0,0,0,.15);
+    box-shadow:0 10px 25px var(--color-rgba-0-0-0-p15);
 
 }
 
@@ -235,7 +235,7 @@
 
     inset:0;
 
-    background:rgba(0,0,0,.35);
+    background:var(--color-rgba-0-0-0-p35);
 
     backdrop-filter:blur(3px);
 
@@ -304,7 +304,7 @@
     overflow-y: auto;
     overflow-x: hidden;
 
-    background: white;
+    background: var(--color-keyword-white);
 
     display: flex;
     flex-direction: column;
@@ -316,7 +316,7 @@
 
     gap: 28px;
 
-    box-shadow: -10px 0 40px rgba(0,0,0,.12);
+    box-shadow: -10px 0 40px var(--color-rgba-0-0-0-p12);
 
     transition: right .4s ease;
 
