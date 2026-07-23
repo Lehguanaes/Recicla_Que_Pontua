@@ -24,7 +24,6 @@ import Navbar from "../../components/navbar/Navbar";
 import Rodape from "../../components/rodape/Rodape";
 import LogoRetrato from "../../assets/LogoRetrato.png";
 import { useAuth } from "../../contexts/AuthContext";
-import PetComecar from "../../assets/PetComecar.png";
 import PetDicas from "../../assets/PetDicas.png";
 import PetMateriais from "../../assets/PetMateriais.png";
 import {

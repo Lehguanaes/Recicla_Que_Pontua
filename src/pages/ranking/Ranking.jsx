@@ -11,7 +11,6 @@ import {
   FaArrowDown,
   FaMinus,
   FaPaw,
-  FaMedal,
 } from "react-icons/fa";
 import { FaArrowRight, FaCircleQuestion } from "react-icons/fa6";
 import {useAuth} from '../../contexts/AuthContext';
