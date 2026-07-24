@@ -202,33 +202,33 @@ export default function CadastroPanel({
               errors={errors}
               setErrors={setErrors}
             />
-    <div className="termos-container">
-    <label
-      htmlFor="aceitou-termos" className="checkbox-termos">
-      <input id="aceitou-termos" type="checkbox"
-        checked={aceitouTermos} onChange={(e) => setAceitouTermos(e.target.checked)}
-      />
-              <span>Li e concordo com os{" "}
-              <Link
-                to="/termos" target="_blank"
-                rel="noopener noreferrer" className="link-btn"
-                >
-                  Termos de Uso e Política de Privacidade
-                </Link>.
-              </span>
-            </label>
-          </div>
+          <div className="termos-container">
+          <label
+            htmlFor="aceitou-termos" className="checkbox-termos">
+            <input id="aceitou-termos" type="checkbox"
+              checked={aceitouTermos} onChange={(e) => setAceitouTermos(e.target.checked)}
+            />
+                    <span>Li e concordo com os{" "}
+                    <Link
+                      to="/termos" target="_blank"
+                      rel="noopener noreferrer" className="link-btn"
+                      >
+                        Termos de Uso e Política de Privacidade
+                      </Link>.
+                    </span>
+                  </label>
+                </div>
 
-            <div className="cadastro-actions">
-              <button type="submit" 
-              className="register-button" 
-              disabled={!aceitouTermos}>
-                Criar conta
-              </button>
-            </div>
-          </>
-        )}
-      </form>
+                  <div className="cadastro-actions">
+                    <button type="submit" 
+                    className="register-button" 
+                    disabled={!aceitouTermos}>
+                      Criar conta
+                    </button>
+                  </div>
+                </>
+              )}
+            </form>
 
       <p className="register">
         Já tem uma conta?{" "}

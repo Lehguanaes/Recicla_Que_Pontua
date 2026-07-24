@@ -48,12 +48,6 @@ export const navbarPorPerfil = {
   ],
 
   "coletor-autonomo": [
-   {
-      to: "/dashboard",
-      label: "Principal",
-      icon: FaHome,
-    },
-
     {
       to: "/ranking",
       label: "Ranking",

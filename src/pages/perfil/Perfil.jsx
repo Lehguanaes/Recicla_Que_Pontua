@@ -11,6 +11,7 @@ import {
   FaUserCircle,
   FaEdit,
   FaTimes,
+  FaRecycle,
 } from "react-icons/fa";
 
 import Navbar from "../../components/navbar/Navbar";
@@ -22,6 +23,7 @@ import ModalEditarEndereco from "./ModalEditarEndereco";
 import ModalEditarTelefone from "./ModalEditarTelefone";
 import ModalEditarSenha from "./ModalEditarSenha";
 import ModalEditarFoto from "./ModalEditarFoto";
+import ModalConfigurarColeta from "./ModalConfigurarColeta";
 
 import "./perfil.css";
 
@@ -30,8 +32,9 @@ export default function Perfil() {
 
   const [dados, setDados] = useState(null);
   const [carregando, setCarregando] = useState(true);
-  const [modalAberto, setModalAberto] = useState(null); // "endereco" | "telefone" | "senha" | "foto" | null
+  const [modalAberto, setModalAberto] = useState(null); // "endereco" | "telefone" | "senha" | "foto" | "coleta" | null
   const [alertaFechado, setAlertaFechado] = useState(false);
+  const [alertaColetaFechado, setAlertaColetaFechado] = useState(false);
 
   useEffect(() => {
     async function carregarDados() {
@@ -56,7 +59,6 @@ export default function Perfil() {
     carregarDados();
   }, [user]);
 
-  // Mescla novos campos salvos localmente, sem precisar buscar tudo de novo no Firestore
   function atualizarDadosLocais(novosCampos) {
     setDados((prev) => ({ ...(prev || {}), ...novosCampos }));
   }
@@ -78,6 +80,21 @@ export default function Perfil() {
   const ehPessoaJuridica =
     dados?.perfil === "instituicao-recicladora" ||
     dados?.perfil === "centro-coleta";
+
+  // Perfis para os quais informar materiais aceitos e disponibilidade de
+  // veículo é essencial, pois influencia diretamente o recebimento de
+  // solicitações de doação.
+  const ehPerfilDeColeta =
+    dados?.perfil === "coletor-autonomo" || dados?.perfil === "centro-coleta";
+
+  const materiaisCadastrados =
+    Array.isArray(dados?.materiaisAceitos) && dados.materiaisAceitos.length > 0;
+
+  const veiculoInformado =
+    dados?.possuiVeiculo === true || dados?.possuiVeiculo === false;
+
+  const perfilColetaIncompleto =
+    ehPerfilDeColeta && (!materiaisCadastrados || !veiculoInformado);
 
   const rotuloDocumento = ehPessoaJuridica ? "CNPJ" : "CPF";
   const numeroDocumento = ehPessoaJuridica ? dados?.cnpj : dados?.cpf;
@@ -131,6 +148,41 @@ export default function Perfil() {
                   className="perfil-alerta-fechar"
                   aria-label="Fechar aviso"
                   onClick={() => setAlertaFechado(true)}
+                >
+                  <FaTimes />
+                </button>
+              </div>
+            </div>
+          )}
+
+          {perfilColetaIncompleto && !alertaColetaFechado && (
+            <div className="perfil-alerta perfil-alerta-coleta">
+              <FaRecycle className="perfil-alerta-icone" />
+
+              <div className="perfil-alerta-texto">
+                <strong>Complete seu perfil de coleta</strong>
+                <p>
+                  Informe os materiais que você recebe e se possui veículo
+                  para realizar coletas. Essas informações ajudam os
+                  usuários a encontrarem o coletor mais adequado e aumentam
+                  suas chances de receber novas solicitações.
+                </p>
+              </div>
+
+              <div className="perfil-alerta-acoes">
+                <button
+                  type="button"
+                  className="perfil-alerta-botao"
+                  onClick={() => setModalAberto("coleta")}
+                >
+                  Configurar coleta
+                </button>
+
+                <button
+                  type="button"
+                  className="perfil-alerta-fechar"
+                  aria-label="Fechar aviso"
+                  onClick={() => setAlertaColetaFechado(true)}
                 >
                   <FaTimes />
                 </button>
@@ -227,6 +279,33 @@ export default function Perfil() {
               </button>
             </div>
 
+            {ehPerfilDeColeta && (
+              <div className="perfil-info-linha">
+                <FaRecycle className="perfil-info-icone" />
+                <div className="perfil-info-texto">
+                  <span className="perfil-info-label">Informações de coleta</span>
+                  <span className="perfil-info-valor">
+                    {materiaisCadastrados
+                      ? `${dados.materiaisAceitos.length} material(is) aceito(s)`
+                      : "Nenhum material informado"}
+                    {" · "}
+                    {veiculoInformado
+                      ? dados.possuiVeiculo
+                        ? `Possui veículo (${dados.tipoVeiculo || "não especificado"})`
+                        : "Não possui veículo"
+                      : "Veículo não informado"}
+                  </span>
+                </div>
+                <button
+                  type="button"
+                  className="perfil-info-editar"
+                  onClick={() => setModalAberto("coleta")}
+                >
+                  <FaEdit /> {materiaisCadastrados || veiculoInformado ? "Editar" : "Adicionar"}
+                </button>
+              </div>
+            )}
+
             <div className="perfil-info-linha">
               <FaLock className="perfil-info-icone" />
               <div className="perfil-info-texto">
@@ -271,6 +350,14 @@ export default function Perfil() {
         isOpen={modalAberto === "foto"}
         onClose={() => setModalAberto(null)}
         fotoAtual={dados?.fotoPerfil}
+        onSalvar={salvarNoFirestore}
+        onSalvo={atualizarDadosLocais}
+      />
+
+      <ModalConfigurarColeta
+        isOpen={modalAberto === "coleta"}
+        onClose={() => setModalAberto(null)}
+        dadosAtuais={dados}
         onSalvar={salvarNoFirestore}
         onSalvo={atualizarDadosLocais}
       />

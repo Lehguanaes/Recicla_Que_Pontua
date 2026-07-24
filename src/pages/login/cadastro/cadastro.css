@@ -164,8 +164,6 @@
 }
 
 .register-button:disabled{
-    background:var(--color-rgba-255-255-255-p15);
-    color:var(--color-rgba-255-255-255-p5);
     cursor:not-allowed;
 }
 

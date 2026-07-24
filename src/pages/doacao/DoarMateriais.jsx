@@ -17,6 +17,16 @@ import Navbar from "../../components/navbar/Navbar";
 import Rodape from "../../components/rodape/Rodape";
 import "./doarMateriais.css";
 
+// Nem todo coletor/centro tem endereço geocodificável (CEP inválido,
+// endereço incompleto, falha na consulta externa etc). Esses ainda aparecem
+// na lista, mas não podem ser desenhados no mapa (o Leaflet quebra se
+// receber lat/lng nulos).
+const temCoordenadasValidas = (collector) =>
+  typeof collector?.lat === "number" &&
+  typeof collector?.lng === "number" &&
+  !Number.isNaN(collector.lat) &&
+  !Number.isNaN(collector.lng);
+
 const DoarMateriais = () => {
   const location = useLocation();
   const registeredMaterials = useMemo(
@@ -52,6 +62,15 @@ const DoarMateriais = () => {
     filters.raio_distancia !== 10 ? filters.raio_distancia : "",
     filters.modo !== "todos" ? filters.modo : "",
   ].filter(Boolean).length;
+
+  // O mapa só pode receber quem tem coordenadas válidas; a lista continua
+  // mostrando todo mundo (com "distância não disponível" quando for o caso).
+  const mapCollectors = useMemo(
+    () => results.filter(temCoordenadasValidas),
+    [results]
+  );
+  const semLocalizacaoCount = results.length - mapCollectors.length;
+  const selectedForMap = temCoordenadasValidas(selected) ? selected : null;
 
   const renderRegisteredMaterialTags = () =>
     registeredMaterials.length > 0 && (
@@ -182,13 +201,18 @@ const DoarMateriais = () => {
                   <div>
                     <span>Mapa de coleta</span>
                     <strong>{results.length} locais encontrados</strong>
+                    {semLocalizacaoCount > 0 && (
+                      <small className="donation-map-aviso">
+                        {semLocalizacaoCount} sem localização no mapa
+                      </small>
+                    )}
                   </div>
                 </div>
 
                 <div className="donation-map-frame">
                   <CollectorMap
-                    collectors={results}
-                    selected={selected}
+                    collectors={mapCollectors}
+                    selected={selectedForMap}
                     onSelectCollector={selectCollector}
                   />
                   {selected && (

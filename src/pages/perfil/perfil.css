@@ -103,6 +103,26 @@
   color: var(--text-primary);
 }
 
+/* Variação do alerta para o perfil de coleta (coletor autônomo / centro de
+   coleta), reforçando visualmente sua importância em relação ao alerta
+   padrão de endereço. */
+.perfil-alerta-coleta {
+  background: var(--verde-fundo);
+  border-left-color: var(--verde-escuro);
+}
+
+.perfil-alerta-coleta .perfil-alerta-icone {
+  color: var(--verde-escuro);
+}
+
+.perfil-alerta-coleta .perfil-alerta-botao {
+  background: var(--verde-escuro);
+}
+
+.perfil-alerta-coleta .perfil-alerta-botao:hover {
+  background: var(--secondary-dark);
+}
+
 /* ==========================================
    Cards
 ========================================== */
@@ -321,6 +341,67 @@
   border-color: var(--color-hex-e53935);
 }
 
+.perfil-input-group select {
+  padding: 11px 14px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  font-size: 14px;
+  font-family: inherit;
+  outline: none;
+  background: var(--surface);
+  color: var(--text-primary);
+  transition: border-color 0.15s;
+}
+
+.perfil-input-group select:focus {
+  border-color: var(--secondary);
+}
+
+.perfil-checkbox-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px 16px;
+}
+
+.perfil-checkbox-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--text-primary);
+  cursor: pointer;
+}
+
+.perfil-checkbox-item input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--verde-escuro);
+  cursor: pointer;
+}
+
+.perfil-radio-group {
+  display: flex;
+  gap: 24px;
+}
+
+.perfil-radio-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--text-primary);
+  cursor: pointer;
+}
+
+.perfil-radio-item input[type="radio"] {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--verde-escuro);
+  cursor: pointer;
+}
+
 .perfil-input-senha {
   position: relative;
   display: flex;
@@ -478,6 +559,10 @@
 
   .perfil-info-editar {
     margin-left: 32px;
+  }
+
+  .perfil-checkbox-grid {
+    grid-template-columns: 1fr;
   }
 
   .perfil-form-grid {
