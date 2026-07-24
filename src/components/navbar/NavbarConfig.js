@@ -2,7 +2,6 @@ import {
   FaHome,
   FaComments,
   FaRecycle,
-  FaChartBar,
   FaTrophy,
 } from "react-icons/fa";
 
@@ -49,16 +48,12 @@ export const navbarPorPerfil = {
   ],
 
   "coletor-autonomo": [
-    {
-      to: "/como-reciclar",
+   {
+      to: "/dashboard",
       label: "Principal",
       icon: FaHome,
     },
-    {
-      to: "/estatisticas",
-      label: "Estatísticas",
-      icon: FaChartBar,
-    },
+
     {
       to: "/ranking",
       label: "Ranking",
@@ -73,9 +68,14 @@ export const navbarPorPerfil = {
 
   "instituicao-recicladora": [
     {
-      to: "/dashboard",
+      to: "/como-reciclar",
       label: "Principal",
       icon: FaHome,
+    },
+    {
+      to: "/doacao/cadastrar-materiais",
+      label: "Reciclar",
+      icon: FaRecycle,
     },
     {
       to: "/ranking",
