@@ -1,10 +1,20 @@
+//NAVBAR RESPONSIVA VIRANDO SANDUICHE SOMENTE EM TELAS MENORES O DROPDOWM SÓ PARA APARECE PARA ACESSAR O TELA PERFIL, CONSFFIGUAÇÕES E SAIR (LOGOUT)
+//em telas menores o dropdown some mantendo da mesma forma que os demais
 import { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
 import "./navbar.css";
 import Logo from "../../assets/logo.png";
 import PetMenu from "../../assets/PetMenu.png";
-import {FaBars, FaTimes,} from "react-icons/fa";
+import {
+  FaBars,
+  FaTimes,
+  FaUserCircle,
+  FaUser,
+  FaCog,
+  FaBell,
+  FaSignOutAlt,
+} from "react-icons/fa";
 import { navbarPorPerfil } from "./NavbarConfig";
 
 export default function Navbar() {
@@ -28,6 +38,7 @@ export default function Navbar() {
 
   return (
     <header className="navbar">
+     <div className="navbar-inner">
       <NavLink to="/" className="navbar-logo" onClick={closeMenu}>
         <img src={Logo} alt="Recicla que Pontua" />
       </NavLink>
@@ -79,51 +90,58 @@ export default function Navbar() {
         <button
           className="navbar-user-btn"
           onClick={() => setUserMenuOpen(!userMenuOpen)}
+          aria-label={userMenuOpen ? "Fechar menu do perfil" : "Abrir menu do perfil"}
         >
-         <FaBars />
+         <FaUserCircle />
         </button>
 
-        {userMenuOpen && (
-          <div className="navbar-user-menu">
+        <div className={`navbar-user-menu ${userMenuOpen ? "show" : ""}`}>
 
-            <NavLink
-              to="/perfil"
-              onClick={() => {
-                setUserMenuOpen(false);
-                closeMenu();
-              }}
-            >
-              Meu Perfil
-            </NavLink>
+          <NavLink
+            to="/perfil"
+            className={getLinkClass}
+            onClick={() => {
+              setUserMenuOpen(false);
+              closeMenu();
+            }}
+          >
+            <FaUser className="navbar-icon" />
+            <span>Meu Perfil</span>
+          </NavLink>
 
-            <NavLink
-              to="/configuracoes"
-              onClick={() => {
-                setUserMenuOpen(false);
-                closeMenu();
-              }}
-            >
-              Configurações
-            </NavLink>
+          <NavLink
+            to="/configuracoes"
+            className={getLinkClass}
+            onClick={() => {
+              setUserMenuOpen(false);
+              closeMenu();
+            }}
+          >
+            <FaCog className="navbar-icon" />
+            <span>Configurações</span>
+          </NavLink>
 
-            <NavLink
-              to="/notificacoes"
-              onClick={() => {
-                setUserMenuOpen(false);
-                closeMenu();
-              }}
-            >
-              Notificações
-            </NavLink>
+          <NavLink
+            to="/notificacoes"
+            className={getLinkClass}
+            onClick={() => {
+              setUserMenuOpen(false);
+              closeMenu();
+            }}
+          >
+            <FaBell className="navbar-icon" />
+            <span>Notificações</span>
+          </NavLink>
 
-            <button
-              onClick={handleLogout}
-            >
-              Sair
-            </button>
+          <button
+            className="navbar-link navbar-logout-btn"
+            onClick={handleLogout}
+          >
+            <FaSignOutAlt className="navbar-icon" />
+            <span>Sair</span>
+          </button>
 
-          </div>
-        )}
+        </div>
       </div>
     )}
 
@@ -133,6 +151,7 @@ export default function Navbar() {
           className="navbar-pet-menu"
         />
       </nav>
+     </div>
     </header>
   );
 }
