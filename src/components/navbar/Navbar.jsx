@@ -68,94 +68,98 @@ export default function Navbar() {
 
       <nav className={`navbar-menu ${menuOpen ? "open" : ""}`}>
 
-        {menu.map((item) => {
-          const Icon = item.icon;
+        <div className="navbar-links">
+          {menu.map((item) => {
+            const Icon = item.icon;
 
-          return (
+            return (
+              <NavLink
+                key={item.to}
+                to={item.to}
+                className={getLinkClass}
+                onClick={closeMenu}
+              >
+                <Icon className="navbar-icon" />
+                <span>{item.label}</span>
+              </NavLink>
+            );
+          })}
+        </div>
+
+        <div className="navbar-actions">
+          {!user && (
             <NavLink
-              key={item.to}
-              to={item.to}
-              className={getLinkClass}
+              to="/login"
+              className="navbar-button"
               onClick={closeMenu}
             >
-              <Icon className="navbar-icon" />
-              <span>{item.label}</span>
+              Entrar
             </NavLink>
-          );
-        })}
+          )}
 
-        {!user && (
-          <NavLink
-            to="/login"
-            className="navbar-button"
-            onClick={closeMenu}
-          >
-            Entrar
-          </NavLink>
+          {user && (
+          <div className="navbar-user">
+            <button
+              className="navbar-user-btn"
+              onClick={() => setUserMenuOpen(!userMenuOpen)}
+              aria-label={userMenuOpen ? "Fechar menu do perfil" : "Abrir menu do perfil"}
+            >
+             <FaUserCircle />
+            </button>
+
+            <div className={`navbar-user-menu ${userMenuOpen ? "show" : ""}`}>
+
+              <NavLink
+                to="/perfil"
+                className={getLinkClass}
+                onClick={() => {
+                  setUserMenuOpen(false);
+                  closeMenu();
+                }}
+              >
+                <FaUser className="navbar-icon" />
+                <span>Meu perfil</span>
+              </NavLink>
+
+              <NavLink
+                to="/configuracoes"
+                className={getLinkClass}
+                onClick={() => {
+                  setUserMenuOpen(false);
+                  closeMenu();
+                }}
+              >
+                <FaCog className="navbar-icon" />
+                <span>Configurações</span>
+              </NavLink>
+
+              <NavLink
+                to="/notificacoes"
+                className={getLinkClass}
+                onClick={() => {
+                  setUserMenuOpen(false);
+                  closeMenu();
+                }}
+              >
+                <FaBell className="navbar-icon" />
+                <span>Notificações</span>
+              </NavLink>
+
+              <button
+                className="navbar-link navbar-logout-btn"
+                onClick={() => {
+                  setUserMenuOpen(false);
+                  setLogoutAlertOpen(true);
+                }}
+              >
+                <FaSignOutAlt className="navbar-icon" />
+                <span>Sair</span>
+              </button>
+
+            </div>
+          </div>
         )}
-
-      {user && (
-      <div className="navbar-user">
-        <button
-          className="navbar-user-btn"
-          onClick={() => setUserMenuOpen(!userMenuOpen)}
-          aria-label={userMenuOpen ? "Fechar menu do perfil" : "Abrir menu do perfil"}
-        >
-         <FaUserCircle />
-        </button>
-
-        <div className={`navbar-user-menu ${userMenuOpen ? "show" : ""}`}>
-
-          <NavLink
-            to="/perfil"
-            className={getLinkClass}
-            onClick={() => {
-              setUserMenuOpen(false);
-              closeMenu();
-            }}
-          >
-            <FaUser className="navbar-icon" />
-            <span>Meu perfil</span>
-          </NavLink>
-
-          <NavLink
-            to="/configuracoes"
-            className={getLinkClass}
-            onClick={() => {
-              setUserMenuOpen(false);
-              closeMenu();
-            }}
-          >
-            <FaCog className="navbar-icon" />
-            <span>Configurações</span>
-          </NavLink>
-
-          <NavLink
-            to="/notificacoes"
-            className={getLinkClass}
-            onClick={() => {
-              setUserMenuOpen(false);
-              closeMenu();
-            }}
-          >
-            <FaBell className="navbar-icon" />
-            <span>Notificações</span>
-          </NavLink>
-
-          <button
-            className="navbar-link navbar-logout-btn"
-            onClick={() => {
-              setUserMenuOpen(false);
-              setLogoutAlertOpen(true);
-            }}
-          >
-            <FaSignOutAlt className="navbar-icon" />
-            <span>Sair</span>
-          </button>
-
         </div>
-      </div>
-    )}
 
         <img
           src={PetMenu}

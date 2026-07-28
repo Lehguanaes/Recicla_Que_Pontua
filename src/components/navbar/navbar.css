@@ -82,7 +82,6 @@
 
 .navbar-inner{
     width:100%;
-    max-width:1440px;
 
     display:flex;
     justify-content:space-between;
@@ -115,6 +114,18 @@
     display:flex;
     align-items:center;
     gap:clamp(1.5rem, 2.2vw, 2.75rem);
+}
+
+.navbar-links{
+    display:flex;
+    align-items:center;
+    gap:clamp(1.5rem, 2.2vw, 2.75rem);
+}
+
+.navbar-actions{
+    display:flex;
+    align-items:center;
+    gap:20px;
 }
 
 .navbar-link{
@@ -339,6 +350,8 @@
     align-items: flex-start;
     justify-content: flex-start;
 
+    margin-left: 0;
+
     padding: 90px 35px 25px;
 
     gap: 28px;
@@ -350,6 +363,11 @@
     z-index: 1001;
 
     box-sizing: border-box;
+}
+
+.navbar-links,
+.navbar-actions{
+    display:contents;
 }
 
     .navbar-menu.open{
