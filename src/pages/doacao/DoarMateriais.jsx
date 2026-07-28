@@ -13,6 +13,7 @@ import FilterPanel from "../../components/filters/FilterPanel";
 import CollectorMap from "../../components/map/CollectorMap";
 import CollectorCard from "../../components/cards/CollectorCard";
 import SelectedCard from "../../components/map/SelectedCard";
+import ConfirmarConvite from "../convites/ConfirmarConvites";
 import Navbar from "../../components/navbar/Navbar";
 import Rodape from "../../components/rodape/Rodape";
 import "./doarMateriais.css";
@@ -43,6 +44,8 @@ const DoarMateriais = () => {
   );
   const [view, setView] = useState("mapa");
   const [showFilters, setShowFilters] = useState(false);
+  const [openInvite, setOpenInvite] = useState(false);
+  const [selectedInvite, setSelectedInvite] = useState(null);
 
   const {
     filters,
@@ -235,10 +238,14 @@ const DoarMateriais = () => {
                     origin={origem}
                   />
                   {selected && (
-                    <SelectedCard
-                      collector={selected}
-                      onClose={() => selectCollector(null)}
-                    />
+                   <SelectedCard
+                  collector={selected}
+                  onClose={() => selectCollector(null)}
+                  onOpenInvite={(collector) => {
+                    setSelectedInvite(collector);
+                    setOpenInvite(true);
+                  }}
+/>
                   )}
                 </div>
               </div>
@@ -271,6 +278,16 @@ const DoarMateriais = () => {
           )}
         </section>
       </main>
+
+      <ConfirmarConvite
+        open={openInvite}
+        collector={selectedInvite}
+        onClose={() => setOpenInvite(false)}
+        onConfirm={() => {
+          alert("Convite enviado!");
+          setOpenInvite(false);
+        }}
+      />
 
       <Rodape />
     </>

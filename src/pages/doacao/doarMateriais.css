@@ -412,3 +412,21 @@
     padding: 14px;
   }
 }
+
+/* Selected Card Responsive styles */
+@media (max-width: 620px) {
+  .selected-card-container {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 14px !important;
+  }
+  
+  .selected-card-content {
+    padding-right: 28px !important; /* Avoid overlap with absolute close button */
+  }
+
+  .selected-card-button {
+    width: 100% !important;
+    margin-right: 0 !important;
+  }
+}

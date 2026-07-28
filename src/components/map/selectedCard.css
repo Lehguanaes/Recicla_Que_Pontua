@@ -1,7 +1,5 @@
-/* ---------------- Card ---------------- */
-
-.selected-card{
-    position:absolute;
+.selected-card-container {
+  position:absolute;
 
     left:16px;
     right:16px;
@@ -22,163 +20,136 @@
     box-shadow:0 8px 24px rgba(0,0,0,.25);
 }
 
-/* ---------------- Avatar ---------------- */
-
-.selected-avatar{
-    flex-shrink:0;
-
-    display:flex;
-    justify-content:center;
-    align-items:center;
-
-    width:56px;
-    height:56px;
-
-    border-radius:50%;
-    overflow:hidden;
-
-    background:rgba(255,255,255,.25);
-
-    font-size:26px;
+.selected-card-content {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }
 
-.selected-avatar-img{
-    width:100%;
-    height:100%;
+.selected-avatar {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: var(--color-rgba-255-255-255-0p25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
-    object-fit:cover;
+  font-size: 26px;
+  flex-shrink: 0;
 }
 
-/* ---------------- Conteúdo ---------------- */
-
-.selected-content{
-    flex:1;
+.selected-info {
+  flex: 1;
 }
 
-.selected-name{
-    margin:0 0 4px;
-
-    font-size:18px;
-    font-weight:700;
+.selected-name {
+  font-size: 17px;
+  font-weight: 700;
+  margin-bottom: 2px;
 }
 
-.selected-subtitle{
-    display:flex;
-    align-items:center;
-    gap:12px;
-
-    margin-bottom:8px;
-
-    font-size:13px;
-    opacity:.9;
+.selected-subtitle {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  opacity: 0.9;
+  margin-bottom: 4px;
 }
 
-.selected-star{
-    margin-right:4px;
-    color:var(--color-keyword-gold);
+.selected-star {
+  color: gold;
 }
 
-.selected-info{
-    margin-bottom:4px;
-
-    font-size:13px;
-    opacity:.9;
+.selected-detail {
+  font-size: 13px;
+  opacity: 0.85;
 }
 
-/* ---------------- Materiais ---------------- */
-
-.selected-materials{
-    display:flex;
-    flex-wrap:wrap;
-    gap:6px;
-
-    margin-top:10px;
+.selected-card-button {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--color-white);
+  color: var(--color-secondary);
+  border: none;
+  border-radius: 20px;
+  padding: 10px 20px;
+  margin-right: 50px;
+  font-size: 14px;
+  font-weight: 600;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.18);
+  cursor: pointer;
+  transition: all 0.25s ease;
 }
 
-.selected-material{
-    padding:4px 10px;
-
-    border-radius:999px;
-
-    background:rgba(255,255,255,.18);
-
-    font-size:11px;
-    font-weight:600;
+.selected-card-button-icon {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: var(--color-secondary);
+  color: var(--color-white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
 }
 
-/* ---------------- Botões ---------------- */
-
-.selected-actions{
-    display:flex;
-    gap:10px;
-
-    margin-top:16px;
+.selected-close {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  width: 26px;
+  height: 26px;
+  border: none;
+  border-radius: 50%;
+  background: var(--color-rgba-255-255-255-0p3);
+  color: var(--color-white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
 }
 
-.selected-btn-primary,
-.selected-btn-secondary{
-    flex:1;
 
-    padding:10px 14px;
 
-    border-radius:10px;
-
-    cursor:pointer;
-
-    font-size:14px;
-    font-weight:600;
-
-    transition:.2s;
+.selected-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-right: 50px;
 }
 
-.selected-btn-primary{
-    border:none;
+.selected-btn-secondary {
+  background: transparent;
+  color: var(--color-white);
 
-    background:#fff;
-    color:var(--secondary-dark);
+  border: 1px solid rgba(255,255,255,.5);
+  border-radius: 20px;
+
+  padding: 8px 16px;
+
+  font-size: 14px;
+  cursor: pointer;
+  transition: .2s;
 }
 
-.selected-btn-primary:hover{
-    background:#f5f5f5;
+.selected-btn-secondary:hover {
+  background: rgba(255,255,255,.15);
 }
 
-.selected-btn-secondary{
-    background:transparent;
-    color:#fff;
+.selected-card-button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
 
-    border:1px solid rgba(255,255,255,.35);
-}
+  padding: 8px 16px;
 
-.selected-btn-secondary:hover{
-    background:rgba(255,255,255,.12);
-}
+  border-radius: 20px;
 
-/* ---------------- Fechar ---------------- */
-
-.selected-close{
-    position:absolute;
-
-    top:12px;
-    right:12px;
-
-    display:flex;
-    justify-content:center;
-    align-items:center;
-
-    width:28px;
-    height:28px;
-
-    border:none;
-    border-radius:50%;
-
-    cursor:pointer;
-
-    background:rgba(255,255,255,.25);
-    color:#fff;
-
-    font-weight:700;
-}
-
-.selected-close:hover{
-    background:rgba(255,255,255,.35);
+  font-size: 14px;
 }

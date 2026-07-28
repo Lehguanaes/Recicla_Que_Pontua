@@ -1,92 +1,70 @@
 import "./selectedCard.css";
-
-import { FaStar } from "react-icons/fa";
+import React from "react";
+import { FaStar, FaUserPlus } from "react-icons/fa";
+import Button from "../common/Button";
 
 export default function SelectedCard({
   collector,
   onClose,
-  onRequestContact,
   onViewProfile,
+  onOpenInvite,
 }) {
   if (!collector) return null;
-console.log(collector);
+
   return (
-    <div className="selected-card">
+    <div className="selected-card-container">
+      <div className="selected-card-content">
+        {/* Avatar */}
+        <div className="selected-avatar">
+          {collector.tipo === "centro" ? "🏭" : "👤"}
+        </div>
 
-      {/* Avatar */}
-      <div className="selected-avatar">
-        {collector.fotoPerfil ? (
-          <img
-            src={collector.fotoPerfil}
-            alt={collector.nome}
-            className="selected-avatar-img"
-          />
-        ) : (
-          collector.tipo === "centro"
-            ? "🏭"
-            : "👤"
-        )}
+        {/* Informações */}
+        <div className="selected-info">
+          <div className="selected-name">
+            {collector.nome}
+          </div>
 
-      </div>
-
-      {/* Informações */}
-      <div className="selected-content">
-        <h3 className="selected-name">
-          {collector.nome}
-        </h3>
-        <div className="selected-subtitle">
-          {collector.subtipo}
-          <span>
+          <div className="selected-subtitle">
+            {collector.subtipo}
             <FaStar className="selected-star" />
             {collector.rating?.toFixed(1)}
-          </span>
-        </div>
-
-        {collector.veiculo && (
-          <div className="selected-info">
-            🚗 {collector.veiculo}
           </div>
-        )}
 
-        <div className="selected-info">
-          📍 {collector.distancia_km?.toFixed(1)} km
-        </div>
-        {collector.tipo === "centro" && (
-        <div className="selected-address">
-           {collector.endereco}
-        </div>
-      )}
+          {collector.veiculo && (
+            <div className="selected-detail">
+              🚗 {collector.veiculo}
+            </div>
+          )}
 
-        {collector.materiais?.length > 0 && (
-          <div className="selected-materials">
-            {collector.materiais.slice(0, 4).map(material => (
-              <span
-                key={material}
-                className="selected-material">
-                {material}
-              </span>
-            ))}
+          <div className="selected-detail">
+            📍 {collector.distancia_km?.toFixed(1)} Km
           </div>
-        )}
-
-        <div className="selected-actions">
-          <button
-            className="selected-btn-primary"
-            onClick={() => onRequestContact?.(collector)}>
-            Solicitar contato
-          </button>
-
-          <button
-            className="selected-btn-secondary"
-            onClick={() => onViewProfile?.(collector)}>
-            Ver perfil
-          </button>
         </div>
       </div>
+     <div className="selected-actions">
+      <button
+        className="selected-btn-secondary"
+        onClick={() => onViewProfile?.(collector)}
+      >
+        Ver perfil
+      </button>
 
+      <Button
+        onClick={() => onOpenInvite(collector)}
+        className="selected-card-button"
+      >
+        <span className="selected-card-button-icon">
+          <FaUserPlus size={13} />
+        </span>
+
+        <span>Enviar Convite</span>
+      </Button>
+    </div>
       <button
         className="selected-close"
-        onClick={onClose}>
+        onClick={onClose}
+      >
         ✕
       </button>
     </div>
