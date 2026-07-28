@@ -301,6 +301,50 @@
 .navbar-pet-menu{
     display:none;
 }
+/* ======================================================
+foto perfil
+====================================================== */
+.navbar-user-btn{
+    width:42px;
+    height:42px;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    border:none;
+    border-radius:50%;
+
+    padding:0;
+
+    background:transparent;
+
+    cursor:pointer;
+
+    overflow:hidden;
+}
+
+.navbar-user-avatar{
+    width:100%;
+    height:100%;
+
+    object-fit:cover;
+
+    border-radius:50%;
+
+    border:2px solid var(--color-brand-green);
+
+    transition:.25s;
+}
+
+.navbar-user-avatar:hover{
+    transform:scale(1.06);
+}
+
+.navbar-user-btn svg{
+    font-size:36px;
+    color:var(--color-brand-green);
+}
 
 /* ======================================================
    TABLET

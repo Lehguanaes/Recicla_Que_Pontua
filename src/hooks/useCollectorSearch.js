@@ -269,7 +269,7 @@ export default function useCollectorSearch(uidParam, filtrosIniciais = {}) {
           // Usado pelo card/mapa pra indicar "localização aproximada".
           localizacaoAproximada: ehCatadorAutonomo && temCoordenadas,
           materiais: coletor.materiaisAceitos || [],
-          foto: coletor.fotoPerfil || null,
+          fotoPerfil: coletor.fotoPerfil || null,
           telefone: coletor.telefone || null,
           disponivel: Boolean(
             (coletor.materiaisAceitos || []).length > 0 &&

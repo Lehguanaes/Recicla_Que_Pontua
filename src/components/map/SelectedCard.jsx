@@ -2,7 +2,10 @@ import React from "react";
 import { FaStar, FaUserPlus } from "react-icons/fa";
 
 import Button from "../common/Button";
+
 import "./selectedCard.css";
+
+import { LOCAL_TYPES } from "../../constants";
 
 export default function SelectedCard({
   collector,
@@ -12,25 +15,54 @@ export default function SelectedCard({
 }) {
   if (!collector) return null;
 
+  const isCenter = collector.tipo === LOCAL_TYPES.CENTER;
+  const typeColor = isCenter ? "var(--color-info)" : "var(--color-primary)";
+  const fotoPerfil = collector.fotoPerfil || collector.foto;
+
   return (
     <div className="selected-card-container">
       <div className="selected-card-content">
-        <div className="selected-avatar">
-          {collector.tipo === "centro" ? "🏭" : "👤"}
+
+        <div
+          className={`collector-avatar ${fotoPerfil ? "has-photo" : ""}`}
+          style={{
+            "--collector-avatar-color": `${typeColor}22`,
+          }}
+        >
+          {fotoPerfil ? (
+            <img
+              src={fotoPerfil}
+              alt={collector.nome}
+              className="collector-avatar-img"
+            />
+          ) : (
+            <span className="collector-avatar-icon">
+              {isCenter ? "🏭" : "👤"}
+            </span>
+          )}
         </div>
 
         <div className="selected-info">
-          <div className="selected-name">{collector.nome}</div>
+          <h3 className="selected-name">
+            {collector.nome}
+          </h3>
 
           <div className="selected-subtitle">
-            {collector.subtipo}
-            <FaStar className="selected-star" />
-            {collector.rating?.toFixed(1)}
+            <span>{collector.subtipo}</span>
+
+            {collector.rating && (
+              <>
+                <FaStar className="selected-star" />
+                <span>{collector.rating.toFixed(1)}</span>
+              </>
+            )}
           </div>
 
-          <div className="selected-distance">
-            📍 {collector.distancia_km?.toFixed(1)} km de distância
-          </div>
+          {collector.distancia_km != null && (
+            <div className="selected-distance">
+              📍 {collector.distancia_km.toFixed(1)} km de distância
+            </div>
+          )}
         </div>
       </div>
 
@@ -42,10 +74,9 @@ export default function SelectedCard({
           Ver perfil
         </button>
 
-        <Button 
-        onClick={() => onOpenInvite?.(collector)}>
+        <Button onClick={() => onOpenInvite?.(collector)}>
           <FaUserPlus />
-          Enviar convite
+          <span>Enviar convite</span>
         </Button>
       </div>
 

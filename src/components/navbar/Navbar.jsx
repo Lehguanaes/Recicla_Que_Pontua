@@ -100,15 +100,22 @@ export default function Navbar() {
           {user && (
           <div className="navbar-user">
             <button
-              className="navbar-user-btn"
-              onClick={() => setUserMenuOpen(!userMenuOpen)}
-              aria-label={userMenuOpen ? "Fechar menu do perfil" : "Abrir menu do perfil"}
-            >
-             <FaUserCircle />
-            </button>
+            className="navbar-user-btn"
+            onClick={() => setUserMenuOpen(!userMenuOpen)}
+            aria-label={userMenuOpen ? "Fechar menu do perfil" : "Abrir menu do perfil"}
+          >
+            {user?.fotoPerfil ? (
+              <img
+                src={user.fotoPerfil}
+                alt={user.nome || "Foto de perfil"}
+                className="navbar-user-avatar"
+              />
+            ) : (
+              <FaUserCircle />
+            )}
+          </button>
 
             <div className={`navbar-user-menu ${userMenuOpen ? "show" : ""}`}>
-
               <NavLink
                 to="/perfil"
                 className={getLinkClass}
