@@ -17,6 +17,9 @@ export default function SearchBar({
 }) {
   const [mostrarSugestao, setMostrarSugestao] = useState(false);
 
+  const podeSugerirEndereco = (campoVazio) =>
+    Boolean(enderecoUsuario && campoVazio);
+
   const handleKeyDown = (event) => {
     if (event.key === "Enter") {
       onSearch?.();
@@ -24,8 +27,13 @@ export default function SearchBar({
   };
 
   const handleChange = (event) => {
-    onChange(event.target.value);
-    setMostrarSugestao(Boolean(enderecoUsuario && !event.target.value));
+    const novoValor = event.target.value;
+    onChange(novoValor);
+    setMostrarSugestao(podeSugerirEndereco(!novoValor));
+  };
+
+  const handleFocus = () => {
+    setMostrarSugestao(podeSugerirEndereco(!value));
   };
 
   const handleAddressSuggestion = () => {
@@ -42,9 +50,7 @@ export default function SearchBar({
             className="search-bar-input"
             value={value}
             onChange={handleChange}
-            onFocus={() =>
-              setMostrarSugestao(Boolean(enderecoUsuario && !value))
-            }
+            onFocus={handleFocus}
             onKeyDown={handleKeyDown}
             placeholder={placeholder}
             aria-label="Buscar endereço"
@@ -76,8 +82,8 @@ export default function SearchBar({
           onClick={onSearch}
           disabled={loading}
           loading={loading}
-          background={COLORS.primary}
-          color={COLORS.white}
+          className="search-bar-submit"
+          style={{ background: COLORS.verdeEscuro, border: COLORS.verdeEscuro, color: COLORS.white }}
         >
           Buscar
         </Button>

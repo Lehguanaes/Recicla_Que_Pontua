@@ -13,7 +13,7 @@
     padding:18px;
 
     background:var(--secondary);
-    color:#fff;
+    color:#000000;
 
     border-radius:18px;
 
@@ -126,30 +126,24 @@
 
 .selected-btn-secondary {
   background: transparent;
-  color: var(--color-white);
-
-  border: 1px solid rgba(255,255,255,.5);
-  border-radius: 20px;
-
-  padding: 8px 16px;
-
+  color: var(--color-brand-green-deep);
+  border: 1px solid var(--color-brand-green-deep);
+  border-radius: 11px;
+  padding: 10px 20px;
   font-size: 14px;
   cursor: pointer;
   transition: .2s;
 }
 
 .selected-btn-secondary:hover {
-  background: rgba(255,255,255,.15);
+  background: rgb(255, 255, 255);
 }
 
 .selected-card-button {
   display: flex;
   align-items: center;
   gap: 8px;
-
   padding: 8px 16px;
-
   border-radius: 20px;
-
   font-size: 14px;
 }

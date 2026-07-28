@@ -36,14 +36,14 @@ export default function SelectedCard({
 
       <div className="selected-actions">
         <button
-          type="button"
           className="selected-btn-secondary"
           onClick={() => onViewProfile?.(collector)}
         >
           Ver perfil
         </button>
 
-        <Button onClick={() => onOpenInvite?.(collector)}>
+        <Button 
+        onClick={() => onOpenInvite?.(collector)}>
           <FaUserPlus />
           Enviar convite
         </Button>
