@@ -1,7 +1,7 @@
 import "./collectorCard.css";
 
 import { FaStar } from "react-icons/fa";
-import { COLORS, LOCAL_TYPES } from "../../constants";
+import { COLORS, LOCAL_TYPES, MATERIAL_TYPES } from "../../constants";
 
 function Badge({ children, color = COLORS.orange }) {
   return (
@@ -18,11 +18,7 @@ function Badge({ children, color = COLORS.orange }) {
   );
 }
 
-export default function CollectorCard({
-  collector,
-  onClick,
-  compact = false,
-}) {
+export default function CollectorCard({ collector, onClick, compact = false }) {
   if (!collector) return null;
 
   const isCenter = collector.tipo === LOCAL_TYPES.CENTER;
@@ -34,65 +30,45 @@ export default function CollectorCard({
       onClick={() => onClick?.(collector)}
     >
       <div
-      className="collector-avatar"
-      style={{
-        background: collector.fotoPerfil
-          ? "transparent"
-          : `${typeColor}22`,
-      }}
-    >
-      {collector.fotoPerfil ? (
-        <img
-          src={collector.fotoPerfil}
-          alt={collector.nome}
-          className="collector-avatar-img"
-        />
-      ) : (
-        isCenter ? "🏭" : "👤"
-      )}
-    </div>
+        className="collector-avatar"
+        style={{
+          background: collector.fotoPerfil ? "transparent" : `${typeColor}22`,
+        }}
+      >
+        {collector.fotoPerfil ? (
+          <img
+            src={collector.fotoPerfil}
+            alt={collector.nome}
+            className="collector-avatar-img"
+          />
+        ) : isCenter ? (
+          "🏭"
+        ) : (
+          "👤"
+        )}
+      </div>
 
       <div className="collector-content">
-
         <div className="collector-header">
-          <span className="collector-name">
-            {collector.nome}
-          </span>
-
-          <Badge color={typeColor}>
-            {collector.subtipo}
-          </Badge>
+          <span className="collector-name">{collector.nome}</span>
+          <Badge color={typeColor}>{collector.subtipo}</Badge>
         </div>
 
         <div className="collector-info">
-
           <span>
             <FaStar className="collector-star" />
             {collector.rating?.toFixed(1)}
           </span>
-
-          <span>
-            📍 {collector.distancia_km?.toFixed(1)} km
-          </span>
-
-          {collector.veiculo && (
-            <span>
-              🚗 {collector.veiculo}
-            </span>
-          )}
-
+          <span>📍 {collector.distancia_km?.toFixed(1)} km</span>
+          {collector.veiculo && <span>🚗 {collector.veiculo}</span>}
         </div>
 
         {!compact && collector.materiais?.length > 0 && (
-
           <div className="collector-materials">
-
-            {collector.materiais.slice(0, 4).map(material => (
-              <Badge
-                key={material}
-                color={COLORS.secondary}
-              >
-                {material}
+            {collector.materiais.slice(0, 4).map((material) => (
+              <Badge key={material} color={COLORS.secondary}>
+                {MATERIAL_TYPES.find((item) => item.value === material)?.label ||
+                  material}
               </Badge>
             ))}
 
@@ -101,11 +77,8 @@ export default function CollectorCard({
                 +{collector.materiais.length - 4}
               </Badge>
             )}
-
           </div>
-
         )}
-
       </div>
     </div>
   );

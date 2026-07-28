@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import Modal from "../../components/modal/Modal";
+import Alert from "../../components/alert/Alert";
 import { maskCEP } from "../../utils/Formatters";
 import { validarCampos } from "../../utils/AuthValidation";
 
@@ -23,6 +24,7 @@ export default function ModalEditarEndereco({
   const [errors, setErrors] = useState({});
   const [salvando, setSalvando] = useState(false);
   const [buscandoCep, setBuscandoCep] = useState(false);
+  const [confirmOpen, setConfirmOpen] = useState(false);
 
   // Preenche o formulário com os dados já existentes sempre que o modal é aberto.
   // No Firestore só o CEP é salvo separado; o restante fica dentro de "endereco".
@@ -40,6 +42,7 @@ export default function ModalEditarEndereco({
         estado: endereco.estado || dadosAtuais?.estado || "",
       });
       setErrors({});
+      setConfirmOpen(false);
     }
   }, [isOpen, dadosAtuais]);
 
@@ -82,14 +85,17 @@ export default function ModalEditarEndereco({
     }
   }
 
-  async function handleSubmit(e) {
+  function handleSubmit(e) {
     e.preventDefault();
 
     const novosErros = validarCampos(camposEndereco, formData);
     setErrors(novosErros);
 
     if (Object.keys(novosErros).length > 0) return;
+    setConfirmOpen(true);
+  }
 
+  async function handleConfirmSave() {
     setSalvando(true);
 
     // Só o CEP é salvo como campo separado; rua, número, complemento,
@@ -109,6 +115,7 @@ export default function ModalEditarEndereco({
     try {
       await onSalvar(payload);
       onSalvo(payload);
+      setConfirmOpen(false);
       onClose();
     } catch (err) {
       console.error("Erro ao salvar endereço:", err);
@@ -253,6 +260,18 @@ export default function ModalEditarEndereco({
           </button>
         </div>
       </form>
+
+      <Alert
+        isOpen={confirmOpen}
+        title="Confirmar endereço?"
+        message={`${formData.rua}, ${formData.numero} — ${formData.cidade}/${formData.estado}.`}
+        variant="info"
+        confirmText="Salvar endereço"
+        cancelText="Revisar"
+        onConfirm={handleConfirmSave}
+        onCancel={() => setConfirmOpen(false)}
+        loading={salvando}
+      />
     </Modal>
   );
 }

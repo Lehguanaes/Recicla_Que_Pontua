@@ -2,7 +2,7 @@
   position: fixed;
   inset: 0;
   z-index: 1200;
-  background: var(--color-rgba-33-33-33-0p34);
+  background: var(--color-overlay-neutral);
   display: flex;
   justify-content: flex-end;
 }
@@ -10,16 +10,16 @@
 .filter-panel {
   width: min(380px, 100%);
   height: 100%;
-  background: var(--surface);
-  box-shadow: -18px 0 45px var(--color-rgba-33-33-33-0p18);
+  background: var(--color-surface-card);
+  box-shadow: -18px 0 45px var(--shadow-color-neutral);
   display: flex;
   flex-direction: column;
 }
 
 .filter-header {
   padding: 22px;
-  background: var(--verde-escuro);
-  color: var(--white);
+  background: var(--color-brand-green-deep);
+  color: var(--color-white);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -28,7 +28,7 @@
 
 .filter-header span {
   display: block;
-  color: var(--verde-suave);
+  color: var(--color-brand-green-soft);
   font-size: 0.86rem;
   font-weight: 700;
   margin-bottom: 4px;
@@ -43,8 +43,8 @@
   height: 38px;
   border: 0;
   border-radius: 50%;
-  background: var(--color-rgba-255-255-255-0p16);
-  color: var(--white);
+  background: rgb(var(--rgb-white) / 0.16);
+  color: var(--color-white);
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -66,7 +66,7 @@
 .filter-label,
 .filter-field span {
   display: block;
-  color: var(--text-secondary);
+  color: var(--color-text-muted);
   font-size: 0.86rem;
   font-weight: 700;
   margin-bottom: 8px;
@@ -80,22 +80,22 @@
 
 .filter-segmented button {
   min-height: 42px;
-  border: 1.5px solid var(--border);
+  border: 1.5px solid var(--color-border);
   border-radius: 8px;
-  background: var(--white);
-  color: var(--text-primary);
+  background: var(--color-white);
+  color: var(--color-text-default);
   font-weight: 700;
   cursor: pointer;
 }
 
 .filter-segmented button.active {
-  border-color: var(--secondary);
-  background: var(--secondary);
-  color: var(--white);
+  border-color: var(--color-brand-green);
+  background: var(--color-brand-green);
+  color: var(--color-white);
 }
 
 .filter-section p {
-  color: var(--text-secondary);
+  color: var(--color-text-muted);
   font-size: 0.82rem;
   line-height: 1.45;
   margin-top: 8px;
@@ -104,23 +104,23 @@
 .filter-field select {
   width: 100%;
   height: 46px;
-  border: 1.5px solid var(--border);
+  border: 1.5px solid var(--color-border);
   border-radius: 8px;
-  background: var(--white);
-  color: var(--text-primary);
+  background: var(--color-white);
+  color: var(--color-text-default);
   padding: 0 12px;
   font-size: 0.95rem;
   outline: none;
 }
 
 .filter-field select:focus {
-  border-color: var(--secondary);
-  box-shadow: 0 0 0 3px var(--color-rgba-76-175-80-0p16);
+  border-color: var(--color-brand-green);
+  box-shadow: 0 0 0 3px rgb(var(--rgb-brand-green) / 0.16);
 }
 
 .filter-footer {
   padding: 18px 22px;
-  border-top: 1px solid var(--divider);
+  border-top: 1px solid var(--color-divider);
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 10px;

@@ -92,8 +92,8 @@
 }
 
 .search-input:focus{
-    border-color:var(--secondary);
-    box-shadow:0 0 0 4px var(--color-rgba-76-175-80-p15);
+    border-color:var(--color-brand-green);
+    box-shadow:0 0 0 4px rgb(var(--rgb-brand-green) / 0.15);
 }
 
 /* Tablet */

@@ -86,7 +86,7 @@ const DoarMateriais = () => {
   const renderRegisteredMaterialTags = () =>
     registeredMaterials.length > 0 && (
       <div className="donation-material-tags" aria-label="Materiais cadastrados">
-        <span>Materiais Cadastrados</span>
+        <span>Materiais cadastrados</span>
         <div>
           {registeredMaterials.map((material) => (
             <strong key={material.value}>
@@ -121,7 +121,7 @@ const DoarMateriais = () => {
           <strong>Nenhum resultado encontrado.</strong>
 
           <span>
-            Tente ajustar os filtros ou ampliar o raio de distância.
+            Ajuste os filtros ou amplie o raio de distância.
           </span>
 
         </div>
@@ -149,12 +149,12 @@ const DoarMateriais = () => {
         <section className="donation-hero">
           <div className="donation-hero-text">
             <span className="donation-kicker">
-              <FaRecycle /> Reciclagem de Materiais
+              <FaRecycle /> Reciclagem de materiais
             </span>
             <h2>Encontre catadores e centros de coleta perto de você!</h2>
             <p>
               {registeredMaterials.length > 0
-                ? "Sua busca já esta filtrada pelos materiais cadastrados! Agora escolha quem pode receber ou coletar."
+                ? "Sua busca já está filtrada pelos materiais cadastrados. Agora, escolha quem pode recebê-los ou coletá-los."
                 : "Busque por nome, material, distância e intenção para combinar sua doação com quem pode receber ou coletar."}
             </p>
           </div>
@@ -221,10 +221,15 @@ const DoarMateriais = () => {
                 <div className="donation-map-header">
                   <div>
                     <span>Mapa de coleta</span>
-                    <strong>{results.length} locais encontrados</strong>
+                    <strong>
+                      {results.length} {results.length === 1 ? "local encontrado" : "locais encontrados"}
+                    </strong>
                     {semLocalizacaoCount > 0 && (
                       <small className="donation-map-aviso">
-                        {semLocalizacaoCount} sem localização no mapa
+                        {semLocalizacaoCount}{" "}
+                        {semLocalizacaoCount === 1
+                          ? "local sem localização no mapa"
+                          : "locais sem localização no mapa"}
                       </small>
                     )}
                   </div>

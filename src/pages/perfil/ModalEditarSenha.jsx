@@ -7,6 +7,7 @@ import {
 } from "firebase/auth";
 
 import Modal from "../../components/modal/Modal";
+import Alert from "../../components/alert/Alert";
 import { auth } from "../../services/Firebase";
 
 export default function ModalEditarSenha({ isOpen, onClose }) {
@@ -17,6 +18,7 @@ export default function ModalEditarSenha({ isOpen, onClose }) {
   const [errors, setErrors] = useState({});
   const [salvando, setSalvando] = useState(false);
   const [sucesso, setSucesso] = useState(false);
+  const [confirmOpen, setConfirmOpen] = useState(false);
 
   useEffect(() => {
     if (isOpen) {
@@ -25,6 +27,7 @@ export default function ModalEditarSenha({ isOpen, onClose }) {
       setConfirmarSenha("");
       setErrors({});
       setSucesso(false);
+      setConfirmOpen(false);
     }
   }, [isOpen]);
 
@@ -52,7 +55,7 @@ export default function ModalEditarSenha({ isOpen, onClose }) {
     return novosErros;
   }
 
-  async function handleSubmit(e) {
+  function handleSubmit(e) {
     e.preventDefault();
 
     const novosErros = validar();
@@ -63,6 +66,17 @@ export default function ModalEditarSenha({ isOpen, onClose }) {
     const usuario = auth.currentUser;
 
     if (!usuario) {
+      setErrors({ geral: "Sessão expirada. Faça login novamente." });
+      return;
+    }
+
+    setConfirmOpen(true);
+  }
+
+  async function handleConfirmSave() {
+    const usuario = auth.currentUser;
+    if (!usuario) {
+      setConfirmOpen(false);
       setErrors({ geral: "Sessão expirada. Faça login novamente." });
       return;
     }
@@ -78,6 +92,7 @@ export default function ModalEditarSenha({ isOpen, onClose }) {
       await reauthenticateWithCredential(usuario, credencial);
       await updatePassword(usuario, novaSenha);
 
+      setConfirmOpen(false);
       setSucesso(true);
       setSenhaAtual("");
       setNovaSenha("");
@@ -222,6 +237,18 @@ export default function ModalEditarSenha({ isOpen, onClose }) {
           </div>
         </form>
       )}
+
+      <Alert
+        isOpen={confirmOpen}
+        title="Confirmar alteração de senha?"
+        message="Sua senha atual deixará de funcionar assim que a alteração for concluída."
+        variant="warning"
+        confirmText="Alterar senha"
+        cancelText="Revisar"
+        onConfirm={handleConfirmSave}
+        onCancel={() => setConfirmOpen(false)}
+        loading={salvando}
+      />
     </Modal>
   );
 }

@@ -22,7 +22,7 @@ export default function PasswordFields({
       <div className="input-group">
         <input
           type={showPassword ? "text" : "password"}
-          placeholder="Senha (mínimo 6 caracteres)"
+          placeholder="Senha (mínimo de 6 caracteres)"
           value={password}
           className={errors.senha ? "error" : ""}
           onChange={(e) => {
@@ -62,7 +62,7 @@ export default function PasswordFields({
               className="strength-label"
               style={{
                 color:
-                  ["var(--color-hex-e53935)", "var(--color-hex-f57c00)", "var(--color-hex-43a047)"][strength - 1] || "var(--color-hex-aaa)",
+                  ["var(--color-danger)", "var(--color-brand-orange-hover)", "var(--color-brand-green-medium)"][strength - 1] || "var(--color-text-placeholder)",
               }}
             >
               {strength > 0

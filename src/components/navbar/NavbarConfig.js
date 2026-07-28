@@ -15,7 +15,7 @@ export const navbarPorPerfil = {
     },
     {
       to: "/como-reciclar",
-      label: "Como Reciclar",
+      label: "Como reciclar",
       icon: FaRecycle,
     },
     {

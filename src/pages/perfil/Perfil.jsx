@@ -120,7 +120,7 @@ export default function Perfil() {
       <main className="perfil-page">
         <div className="perfil-container">
           <p className="perfil-boas-vindas">
-            Olá, {dados?.nome || user?.email}! Seja bem-vindo(a).
+            Olá, {dados?.nome || user?.email}! Boas-vindas ao seu perfil.
           </p>
 
           {!enderecoCompleto && !alertaFechado && (
@@ -164,7 +164,7 @@ export default function Perfil() {
                 <p>
                   Informe os materiais que você recebe e se possui veículo
                   para realizar coletas. Essas informações ajudam os
-                  usuários a encontrarem o coletor mais adequado e aumentam
+                  usuários a encontrar o parceiro mais adequado e aumentam
                   suas chances de receber novas solicitações.
                 </p>
               </div>
@@ -286,7 +286,11 @@ export default function Perfil() {
                   <span className="perfil-info-label">Informações de coleta</span>
                   <span className="perfil-info-valor">
                     {materiaisCadastrados
-                      ? `${dados.materiaisAceitos.length} material(is) aceito(s)`
+                      ? `${dados.materiaisAceitos.length} ${
+                          dados.materiaisAceitos.length === 1
+                            ? "material aceito"
+                            : "materiais aceitos"
+                        }`
                       : "Nenhum material informado"}
                     {" · "}
                     {veiculoInformado

@@ -1,0 +1,124 @@
+/* Sistema tipográfico global baseado na linguagem visual da Home. */
+:root {
+  /* Família */
+  --font-family-base: "Poppins", sans-serif;
+
+  /* Escala responsiva */
+  --font-size-page-title: clamp(2rem, 3vw, 3.4rem);
+  --font-size-section-title: clamp(2rem, 3vw, 3.4rem);
+  --font-size-card-title: clamp(1.2rem, 1.6vw, 1.55rem);
+  --font-size-subtitle: clamp(1.05rem, 1.4vw, 1.2rem);
+  --font-size-body: 1rem;
+  --font-size-body-small: 0.9rem;
+  --font-size-caption: 0.82rem;
+  --font-size-label: 0.85rem;
+
+  /* Pesos */
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  --font-weight-title: 700;
+  --font-weight-extrabold: 800;
+  --font-weight-black: 900;
+
+  /* Ritmo e largura de leitura */
+  --line-height-page-title: 0.98;
+  --line-height-title: 1.05;
+  --line-height-heading: 1.18;
+  --line-height-body: 1.6;
+  --line-height-compact: 1.45;
+  --content-width-title: 760px;
+  --content-width-text: 700px;
+
+  /* Papéis visuais */
+  --font-color-title: var(--color-text-strong);
+  --font-color-heading: var(--color-text-heading);
+  --font-color-body: var(--color-text-primary);
+  --font-color-muted: var(--color-text-secondary);
+  --font-color-accent: var(--color-brand-green-dark);
+}
+
+body {
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-body);
+  line-height: var(--line-height-body);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: var(--font-color-heading);
+  font-family: inherit;
+  font-weight: var(--font-weight-title);
+  text-wrap: balance;
+}
+
+p,
+li {
+  text-wrap: pretty;
+}
+
+.type-page-title {
+  max-width: var(--content-width-title);
+  color: var(--font-color-title);
+  font-size: var(--font-size-page-title);
+  font-weight: var(--font-weight-title);
+  line-height: var(--line-height-page-title);
+}
+
+.type-section-title {
+  max-width: var(--content-width-title);
+  color: var(--font-color-title);
+  font-size: var(--font-size-section-title);
+  font-weight: var(--font-weight-title);
+  line-height: var(--line-height-title);
+}
+
+.type-card-title {
+  color: var(--font-color-heading);
+  font-size: var(--font-size-card-title);
+  font-weight: var(--font-weight-title);
+  line-height: var(--line-height-heading);
+}
+
+.type-subtitle {
+  max-width: var(--content-width-text);
+  color: var(--font-color-muted);
+  font-size: var(--font-size-subtitle);
+  line-height: var(--line-height-body);
+}
+
+.type-body {
+  color: var(--font-color-body);
+  font-size: var(--font-size-body);
+  line-height: var(--line-height-body);
+}
+
+.type-eyebrow {
+  color: var(--font-color-accent);
+  font-size: var(--font-size-label);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-compact);
+  text-transform: uppercase;
+}
+
+@media (max-width: 768px) {
+  :root {
+    --font-size-page-title: clamp(1.85rem, 8vw, 2.5rem);
+    --font-size-section-title: clamp(1.6rem, 6vw, 2.2rem);
+    --font-size-card-title: clamp(1.15rem, 5vw, 1.4rem);
+    --font-size-subtitle: 1.05rem;
+  }
+}
+
+@media (max-width: 420px) {
+  :root {
+    --font-size-page-title: clamp(1.75rem, 9vw, 2.15rem);
+    --font-size-section-title: clamp(1.5rem, 8vw, 1.9rem);
+    --font-size-subtitle: 1rem;
+  }
+}

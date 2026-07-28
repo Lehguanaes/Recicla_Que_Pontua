@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
+import Alert from "../alert/Alert";
 import "./navbar.css";
 import Logo from "../../assets/logo.png";
 import PetMenu from "../../assets/PetMenu.png";
@@ -20,6 +21,8 @@ import { navbarPorPerfil } from "./NavbarConfig";
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
+  const [logoutAlertOpen, setLogoutAlertOpen] = useState(false);
+  const [loggingOut, setLoggingOut] = useState(false);
   const navigate = useNavigate();
   const { user, logout } = useAuth();
   const closeMenu = () => setMenuOpen(false);
@@ -31,9 +34,15 @@ export default function Navbar() {
   const menu = navbarPorPerfil[perfil] || navbarPorPerfil.visitante;
 
   async function handleLogout() {
-    await logout();
-    closeMenu();
-    navigate("/");
+    setLoggingOut(true);
+    try {
+      await logout();
+      setLogoutAlertOpen(false);
+      closeMenu();
+      navigate("/");
+    } finally {
+      setLoggingOut(false);
+    }
   }
 
   return (
@@ -106,7 +115,7 @@ export default function Navbar() {
             }}
           >
             <FaUser className="navbar-icon" />
-            <span>Meu Perfil</span>
+            <span>Meu perfil</span>
           </NavLink>
 
           <NavLink
@@ -135,7 +144,10 @@ export default function Navbar() {
 
           <button
             className="navbar-link navbar-logout-btn"
-            onClick={handleLogout}
+            onClick={() => {
+              setUserMenuOpen(false);
+              setLogoutAlertOpen(true);
+            }}
           >
             <FaSignOutAlt className="navbar-icon" />
             <span>Sair</span>
@@ -152,6 +164,18 @@ export default function Navbar() {
         />
       </nav>
      </div>
+
+      <Alert
+        isOpen={logoutAlertOpen}
+        title="Deseja sair da sua conta?"
+        message="Você precisará entrar novamente para acessar seu perfil e acompanhar seus pontos."
+        variant="warning"
+        confirmText="Sair"
+        cancelText="Continuar conectado"
+        onConfirm={handleLogout}
+        onCancel={() => setLogoutAlertOpen(false)}
+        loading={loggingOut}
+      />
     </header>
   );
 }

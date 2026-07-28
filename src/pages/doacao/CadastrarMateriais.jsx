@@ -4,7 +4,6 @@ import {
   FaArrowRight,
   FaBatteryHalf,
   FaBoxOpen,
-  FaCheckCircle,
   FaFileAlt,
   FaLaptop,
   FaLeaf,
@@ -18,6 +17,7 @@ import {
 import { MATERIAL_TYPES } from "../../constants";
 import Navbar from "../../components/navbar/Navbar";
 import Rodape from "../../components/rodape/Rodape";
+import Alert from "../../components/alert/Alert";
 import "./cadastrarMateriais.css";
 
 const MATERIAL_ESTIMATES = {
@@ -162,13 +162,13 @@ const CadastrarMateriais = () => {
       <main className="materials-page">
         <section className="materials-hero">
           <span className="materials-kicker">
-            <FaRecycle /> Reciclagem de Materiais
+            <FaRecycle /> Reciclagem de materiais
           </span>
           <h1>Cadastre os seus materiais disponíveis!</h1>
           <p>
             Informe as quantidades antes de procurar catadores e centros de
             coleta. A calculadora estima o impacto ambiental e prepara sua
-            solicitacao.
+            solicitação.
           </p>
         </section>
 
@@ -226,9 +226,9 @@ const CadastrarMateriais = () => {
 
         <section className="impact-section" aria-label="Resultados estimados">
           <div className="impact-heading">
-            <h2><FaLeaf color="var(--secondary)" />  Resultados estimados</h2>
+            <h2><FaLeaf color="var(--color-brand-green)" />  Resultados estimados</h2>
             <p>
-            O quanto você pode impactar com a reciclagem dos seus materiais?
+            Qual impacto você pode gerar ao reciclar seus materiais?
           </p>
           </div>
 
@@ -241,7 +241,7 @@ const CadastrarMateriais = () => {
             <article className="impact-card">
               <FaTint />
               <strong>{formatNumber(totals.water, 0)} L</strong>
-              <span>Agua economizada</span>
+              <span>Água economizada</span>
             </article>
             <article className="impact-card">
               <FaBatteryHalf />
@@ -267,56 +267,24 @@ const CadastrarMateriais = () => {
           </button>
         </div>
 
-        {showConfirm && (
-          <div
-            className="materials-confirm-overlay"
-            role="presentation"
-            onClick={() => setShowConfirm(false)}
-          >
-            <section
-              className="materials-confirm"
-              role="dialog"
-              aria-modal="true"
-              aria-labelledby="materials-confirm-title"
-              onClick={(event) => event.stopPropagation()}
-            >
-              <div className="materials-confirm-icon">
-                <FaCheckCircle />
-              </div>
-
-              <h2 id="materials-confirm-title">Confirmar materiais?</h2>
-              <p>
-                Vamos usar esses itens para filtrar catadores e centros de
-                coleta que aceitam seus materiais.
-              </p>
-
-              <div className="materials-confirm-tags">
-                {selectedMaterials.map((material) => (
-                  <span key={material.value}>
-                    {material.quantity} {material.estimate.unit} de {material.label}
-                  </span>
-                ))}
-              </div>
-
-              <div className="materials-confirm-actions">
-                <button
-                  type="button"
-                  className="materials-confirm-cancel"
-                  onClick={() => setShowConfirm(false)}
-                >
-                  Revisar
-                </button>
-                <button
-                  type="button"
-                  className="materials-confirm-submit"
-                  onClick={handleRegister}
-                >
-                  Confirmar <FaArrowRight />
-                </button>
-              </div>
-            </section>
+        <Alert
+          isOpen={showConfirm}
+          title="Confirmar materiais?"
+          message="Vamos usar esses itens para filtrar coletores e centros de reciclagem que aceitam seus materiais."
+          variant="success"
+          confirmText="Confirmar"
+          cancelText="Revisar"
+          onConfirm={handleRegister}
+          onCancel={() => setShowConfirm(false)}
+        >
+          <div className="materials-confirm-tags">
+            {selectedMaterials.map((material) => (
+              <span key={material.value}>
+                {material.quantity} {material.estimate.unit} de {material.label}
+              </span>
+            ))}
           </div>
-        )}
+        </Alert>
       </main>
 
       <Rodape />

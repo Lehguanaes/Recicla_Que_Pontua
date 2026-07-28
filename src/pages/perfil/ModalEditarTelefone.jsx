@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import Modal from "../../components/modal/Modal";
+import Alert from "../../components/alert/Alert";
 import { maskTelefone } from "../../utils/Formatters";
 import { validarCampos } from "../../utils/AuthValidation";
 
@@ -15,11 +16,13 @@ export default function ModalEditarTelefone({
   const [telefone, setTelefone] = useState("");
   const [errors, setErrors] = useState({});
   const [salvando, setSalvando] = useState(false);
+  const [confirmOpen, setConfirmOpen] = useState(false);
 
   useEffect(() => {
     if (isOpen) {
       setTelefone(telefoneAtual || "");
       setErrors({});
+      setConfirmOpen(false);
     }
   }, [isOpen, telefoneAtual]);
 
@@ -30,19 +33,23 @@ export default function ModalEditarTelefone({
     setErrors((prev) => ({ ...prev, telefone: undefined }));
   }
 
-  async function handleSubmit(e) {
+  function handleSubmit(e) {
     e.preventDefault();
 
     const novosErros = validarCampos(camposTelefone, { telefone });
     setErrors(novosErros);
 
     if (Object.keys(novosErros).length > 0) return;
+    setConfirmOpen(true);
+  }
 
+  async function handleConfirmSave() {
     setSalvando(true);
 
     try {
       await onSalvar({ telefone });
       onSalvo({ telefone });
+      setConfirmOpen(false);
       onClose();
     } catch (err) {
       console.error("Erro ao salvar telefone:", err);
@@ -98,6 +105,18 @@ export default function ModalEditarTelefone({
           </button>
         </div>
       </form>
+
+      <Alert
+        isOpen={confirmOpen}
+        title="Confirmar novo telefone?"
+        message={`O telefone do perfil será atualizado para ${telefone}.`}
+        variant="info"
+        confirmText="Salvar telefone"
+        cancelText="Revisar"
+        onConfirm={handleConfirmSave}
+        onCancel={() => setConfirmOpen(false)}
+        loading={salvando}
+      />
     </Modal>
   );
 }

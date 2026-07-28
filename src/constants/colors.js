@@ -4,60 +4,60 @@
 
 export const COLORS = {
   //Verde
-  verdeEscuro: "var(--color-hex-2e7d32)",
-  verdeMedio: "var(--color-hex-43a047)",
-  verdeSuave: "var(--color-hex-c8e6c9)",
-  verdeFundo: "var(--color-hex-f1f8e9)",
+  verdeEscuro: "var(--color-brand-green-deep)",
+  verdeMedio: "var(--color-brand-green-medium)",
+  verdeSuave: "var(--color-brand-green-soft)",
+  verdeFundo: "var(--color-surface-green)",
   
   //Marrom
-  marrom: "var(--color-hex-6d4c41)",
-  marromClaro: "var(--color-hex-8d6e63)",
-  bege: "var(--color-hex-d7ccc8)",
+  marrom: "var(--color-brown)",
+  marromClaro: "var(--color-brown-light)",
+  bege: "var(--color-beige)",
 
   // Primária
-  primary: 'var(--color-hex-6b1fa2)',        // roxo principal (header, botões primários)
-  primaryLight: 'var(--color-hex-8b3fc4)',   // roxo claro (hover)
-  primaryDark: 'var(--color-hex-4a1570)',    // roxo escuro (pressed)
+  primary: 'var(--color-purple)',        // roxo principal (header, botões primários)
+  primaryLight: 'var(--color-purple-light)',   // roxo claro (hover)
+  primaryDark: 'var(--color-purple-dark)',    // roxo escuro (pressed)
 
   // Secundária
-  secondary: 'var(--color-hex-4caf50)',      // verde (botões de ação, badges ativos)
-  secondaryLight: 'var(--color-hex-81c784)',
-  secondaryDark: 'var(--color-hex-388e3c)',
+  secondary: 'var(--color-success)',      // verde (botões de ação, badges ativos)
+  secondaryLight: 'var(--color-brand-green-light)',
+  secondaryDark: 'var(--color-brand-green-dark)',
 
   // Detalhes
-  orange: 'var(--color-hex-f59e0b)',
+  orange: 'var(--color-brand-orange)',
 
 
   // Neutros
-  white: 'var(--color-hex-ffffff)',
-  background: 'var(--color-hex-f5f5f5)',
-  surface: 'var(--color-hex-ffffff)',
-  border: 'var(--color-hex-e0e0e0)',
-  divider: 'var(--color-hex-eeeeee)',
+  white: 'var(--color-surface-card)',
+  background: 'var(--color-surface-page)',
+  surface: 'var(--color-surface-card)',
+  border: 'var(--color-border)',
+  divider: 'var(--color-divider)',
 
   // Texto
-  textPrimary: 'var(--color-hex-212121)',
-  textSecondary: 'var(--color-hex-757575)',
-  textDisabled: 'var(--color-hex-bdbdbd)',
-  textOnPrimary: 'var(--color-hex-ffffff)',
+  textPrimary: 'var(--color-text-default)',
+  textSecondary: 'var(--color-text-muted)',
+  textDisabled: 'var(--color-text-disabled)',
+  textOnPrimary: 'var(--color-surface-card)',
 
   // Status
-  success: 'var(--color-hex-4caf50)',
-  warning: 'var(--color-hex-ffc107)',
-  error: 'var(--color-hex-f44336)',
-  info: 'var(--color-hex-2196f3)',
+  success: 'var(--color-success)',
+  warning: 'var(--color-warning)',
+  error: 'var(--color-danger)',
+  info: 'var(--color-info)',
 
   // Mapa / Marcadores
-  markerCollector: 'var(--color-hex-6b1fa2)',  // catador autônomo
-  markerCenter: 'var(--color-hex-2196f3)',     // centro de coleta
-  markerSelected: 'var(--color-hex-ff5722)',
+  markerCollector: 'var(--color-purple)',  // catador autônomo
+  markerCenter: 'var(--color-info)',     // centro de coleta
+  markerSelected: 'var(--color-marker-selected)',
 
   // Rating
-  ratingColor: 'var(--color-hex-e91e63)',
+  ratingColor: 'var(--color-rating)',
 
   // Outros
-  overlayDark: 'var(--color-rgba-0-0-0-0p5)',
-  cardShadow: 'var(--color-rgba-0-0-0-0p12)',
+  overlayDark: 'rgb(var(--rgb-black) / 0.5)',
+  cardShadow: 'rgb(var(--rgb-black) / 0.12)',
 };
 
 export const GRADIENTS = {

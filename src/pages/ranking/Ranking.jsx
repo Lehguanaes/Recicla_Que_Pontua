@@ -12,7 +12,7 @@ import {
   FaMinus,
   FaPaw,
 } from "react-icons/fa";
-import { FaArrowRight, FaCircleQuestion } from "react-icons/fa6";
+import { FaCircleQuestion } from "react-icons/fa6";
 import {useAuth} from '../../contexts/AuthContext';
 import {
   USUARIOS_MOCK,
@@ -22,18 +22,18 @@ import {
 import Mascote from "../../assets/PetCampeao.png";
 import Mascote2 from "../../assets/PetComecar.png"
 const LABEL_TIPO = {
-  pessoa: "Pessoa Recicladora",
-  instituicao: "Instituição Recicladora",
+  pessoa: "Pessoa recicladora",
+  instituicao: "Instituição recicladora",
   coletor: "Coletor",
 };
 
 const MEDALHA = ["🥇", "🥈", "🥉"];
 
 function falaDoMascote(posicao) {
-  if (!posicao) return "Comece a reciclar pra entrar no ranking!";
-  if (posicao === 1) return "Uau, você é o Top 1! Continue assim!";
-  if (posicao <= 3) return "Você tá no pódio! Falta pouco pro topo!";
-  if (posicao <= 10) return "Tá quase no Top 5, vai que dá!";
+  if (!posicao) return "Comece a reciclar para entrar no ranking!";
+  if (posicao === 1) return "Uau, você está em 1º lugar! Continue assim!";
+  if (posicao <= 3) return "Você está no pódio! Falta pouco para chegar ao topo!";
+  if (posicao <= 10) return "Está quase entre os cinco primeiros. Continue assim!";
   return "Recicle mais um pouco e suba de posição!";
 }
 
@@ -46,22 +46,22 @@ const FAQ_ITEMS = [
   {
     pergunta: "Como faço para subir no ranking?",
     resposta:
-      "Cadastre materiais com frequência, entregue no local e prazo combinados, e mantenha boas avaliações nas suas trocas. Pontos consistentes ao longo do tempo pesam mais do que um único envio grande.",
+      "Cadastre materiais com frequência, entregue-os no local e no prazo combinados e mantenha boas avaliações nas suas trocas. A constância ao longo do tempo conta mais do que um único envio grande.",
   },
   {
     pergunta: "Se eu receber uma avaliação ruim, eu desço muito no ranking?",
     resposta:
-      "Uma avaliação ruim isolada tem impacto pequeno. O que realmente derruba a posição é um padrão repetido de avaliações baixas, então uma experiência única abaixo do esperado não vai te tirar do topo.",
+      "Uma avaliação ruim isolada tem pouco impacto. O que realmente reduz sua posição é um padrão de avaliações baixas; portanto, uma única experiência abaixo do esperado não o retirará do topo.",
   },
   {
     pergunta: "Com que frequência o ranking é atualizado?",
     resposta:
-      "O ranking é recalculado automaticamente sempre que você ganha pontos, ou seja, ele reflete quase em tempo real suas reciclagens e trocas mais recentes.",
+      "O ranking é recalculado automaticamente sempre que você ganha pontos. Assim, ele reflete quase em tempo real suas reciclagens e trocas mais recentes.",
   },
   {
-    pergunta: "O ranking reseta em algum momento?",
+    pergunta: "O ranking é zerado em algum momento?",
     resposta:
-      "Por enquanto o ranking é acumulativo, sem reset por mês ou ano. Se isso mudar (por exemplo, um ranking mensal com recompensas próprias), você verá o aviso aqui mesmo.",
+      "Por enquanto, o ranking é acumulativo e não é zerado mensal ou anualmente. Se isso mudar — por exemplo, com um ranking mensal e recompensas próprias —, você verá o aviso aqui mesmo.",
   },
 ];
 
@@ -109,7 +109,7 @@ export default function Ranking() {
             <SectionHeader
               eyebrow="Ranking"
               icon={<FaTrophy />}
-              title="Quem está liderando a reciclagem"
+              title="Quem está liderando a reciclagem?"
               text="Acompanhe os destaques da comunidade e veja como sua reciclagem se compara com a de outros participantes."
             />
             </div>
@@ -134,7 +134,7 @@ export default function Ranking() {
               icone={<FaTrophy size={20} />}
               label="Líder"
               valorPrincipal={stats.lider?.nome}
-              valorSecundario={`${stats.lider?.pontos.toLocaleString("pt-BR")} pts`}
+              valorSecundario={`${stats.lider?.pontos.toLocaleString("pt-BR")} pontos`}
               destaque
             />
             <CardDestaque
@@ -181,7 +181,7 @@ export default function Ranking() {
                 </p>
               </div>
               <Link to="/cadastro" className="usuario-ranking-cta-btn">
-                Criar conta <FaArrowRight />
+                Criar conta
               </Link>
             </div>
           )}
@@ -248,7 +248,7 @@ export default function Ranking() {
             eyebrow="Dúvidas"
             icon={<FaCircleQuestion />}
             title="Perguntas frequentes sobre o ranking"
-            text="Tudo que você precisa saber para entender pontos, posições e o funcionamento do ranking."
+            text="Tudo o que você precisa saber para entender os pontos, as posições e o funcionamento do ranking."
           />
 
           <div className="faq-lista">

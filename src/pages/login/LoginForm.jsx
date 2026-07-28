@@ -11,7 +11,7 @@ export default function LoginForm({
   return (
     <div className="auth-panel">
       <h1>
-        Que bom ver <span className="destaque-titulo">você</span> de novo!
+        Seja <span className="destaque-titulo">muito</span> bem-vindo!
       </h1>
       <p className="subtitle">
         Entre na sua conta para registrar seus materiais,
@@ -58,7 +58,7 @@ export default function LoginForm({
       </button>
 
       <p className="register">
-        Ainda não possui conta?{" "}
+        Ainda não tem uma conta?{" "}
         <button type="button" className="link-btn" onClick={onCadastrar}>
           Cadastre-se
         </button>

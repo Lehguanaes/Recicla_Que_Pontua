@@ -10,7 +10,7 @@ export default function TermosUso() {
           <h1>Termos de Uso e Política de Privacidade</h1>
 
           <p>
-            Última atualização: <strong>Junho de 2026</strong>
+            Última atualização: <strong>junho de 2026</strong>
           </p>
         </header>
 
@@ -96,7 +96,7 @@ export default function TermosUso() {
             <li>CPF;</li>
             <li>CNPJ;</li>
             <li>Senha;</li>
-            <li>Endereço completo;</li>
+            <li>Endereço completo.</li>
           </ul>
 
           <p>
@@ -171,7 +171,7 @@ export default function TermosUso() {
           <h2>9. Sistema de avaliações e denúncias</h2>
 
           <p>
-            Após uma interação, usuários poderão realizar avaliações e denúncias
+            Após uma interação, os usuários poderão realizar avaliações e denúncias
             sobre comportamentos inadequados.
           </p>
 

@@ -8,13 +8,13 @@ export const MATERIAL_TYPES = [
   { value: 'vidro', label: 'Vidro' },
   { value: 'metal', label: 'Metal' },
   { value: 'eletronico', label: 'Eletrônico' },
-  { value: 'oleo', label: 'Óleo de Cozinha' },
+  { value: 'oleo', label: 'Óleo de cozinha' },
 ];
 
 export const SORT_OPTIONS = [
   { value: '', label: 'Relevância' },
-  { value: 'maior_preco', label: 'Maior Preço' },
-  { value: 'menor_distancia', label: 'Menor Distância' },
+  { value: 'maior_preco', label: 'Maior preço' },
+  { value: 'menor_distancia', label: 'Menor distância' },
 ];
 
 // ============================================================

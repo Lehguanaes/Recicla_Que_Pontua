@@ -3,7 +3,7 @@ import { COLORS } from '../../constants';
 
 const variants = {
   primary: {
-    background: 'var(--color-keyword-transparent)',
+    background: 'var(--color-transparent)',
     color: COLORS.orange,
     border: `1.5px solid ${COLORS.orange}`,
   },
@@ -13,12 +13,12 @@ const variants = {
     border: 'none',
   },
   outline: {
-    background: 'var(--color-keyword-transparent)',
+    background: 'var(--color-transparent)',
     color: COLORS.orange,
     border: `1.5px solid ${COLORS.orange}`,
   },
   ghost: {
-    background: 'var(--color-keyword-transparent)',
+    background: 'var(--color-transparent)',
     color: COLORS.primary,
     border: 'none',
   },

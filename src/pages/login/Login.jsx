@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import ReciclaMais from "../../assets/ReciclaQuePontua.png";
+import PetLogin from "../../assets/PetLogin.png";
 import Navbar from "../../components/navbar/Navbar";
 import Rodape from "../../components/rodape/Rodape";
 import LoginForm from "../login/LoginForm";
@@ -87,36 +87,32 @@ export default function Login() {
 
       <div className="auth-page">
         <div className="login-slider">
-          <div
-            className={`login-slider-track ${
-              panel !== "login" ? "slide-right" : ""
-            }`}
-          >
-            {/* LOGIN */}
-            <LoginForm
-              identifier={identifier}
-              setIdentifier={setIdentifier}
-              password={password}
-              setPassword={setPassword}
-              showPassword={showPassword}
-              setShowPassword={setShowPassword}
-              onLogin={handleLogin}
-              erroLogin={erroLogin}
-              onCadastrar={handleCadastrar}
-            />
-
-            {/* CADASTRO */}
-            <CadastroPanel
-              perfilSelecionado={perfilSelecionado}
-              onVoltarPerfil={handleVoltarPerfil}
-              onVoltarLogin={handleVoltarLogin}
-            />
+          <div className="login-slider-track">
+            {panel === "login" ? (
+              <LoginForm
+                identifier={identifier}
+                setIdentifier={setIdentifier}
+                password={password}
+                setPassword={setPassword}
+                showPassword={showPassword}
+                setShowPassword={setShowPassword}
+                onLogin={handleLogin}
+                erroLogin={erroLogin}
+                onCadastrar={handleCadastrar}
+              />
+            ) : (
+              <CadastroPanel
+                perfilSelecionado={perfilSelecionado}
+                onVoltarPerfil={handleVoltarPerfil}
+                onVoltarLogin={handleVoltarLogin}
+              />
+            )}
           </div>
         </div>
 
         {/* Imagem lateral */}
         <div className="imgLateral">
-          <img src={ReciclaMais} alt="Incentivo Reciclagem" />
+          <img src={PetLogin} alt="Incentivo Reciclagem" />
         </div>
       </div>
 

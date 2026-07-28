@@ -74,7 +74,7 @@ const FilterPanel = ({ filters, onUpdateFilter, onReset, onClose }) => {
               ))}
             </div>
             {filters.modo === SEARCH_MODES.SELL && (
-              <p>Modo vender exibe apenas centros de coleta.</p>
+              <p>O modo “Vender” exibe apenas centros de coleta.</p>
             )}
           </div>
 
