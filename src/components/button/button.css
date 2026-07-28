@@ -8,8 +8,8 @@
     border:none;
     border-radius:12px;
 
-    background:var(--secondary);
-    color:var(--white);
+    background:var(--color-brand-green);
+    color:var(--color-white);
 
     font-size:15px;
     font-weight:600;
@@ -22,7 +22,7 @@
 }
 
 .button:hover{
-    background:var(--secondary-dark);
+    background:var(--color-brand-green-dark);
 }
 
 .button:active{
@@ -30,6 +30,6 @@
 }
 
 .button:disabled{
-    background:var(--color-hex-a5d6a7);
+    background:var(--color-control-disabled);
     cursor:not-allowed;
 }

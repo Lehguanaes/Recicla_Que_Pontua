@@ -1,57 +1,232 @@
-.search-bar{
+/* ======================================================
+   SEARCH BAR
+====================================================== */
+
+.search-bar-wrapper{
+    display:flex;
+    flex-direction:column;
+    gap:6px;
+    width:100%;
+}
+
+.search-bar-row{
     display:flex;
     align-items:center;
     gap:12px;
     width:100%;
 }
 
-.search-input{
+/* ======================================================
+   INPUT
+====================================================== */
+
+.search-bar-input-wrapper{
+    position:relative;
     flex:1;
-
     min-width:0;
+}
 
-    padding:12px 16px;
-
+.search-bar-input{
+    width:100%;
+    min-width:0;
+    box-sizing:border-box;
+    padding:12px 40px 12px 16px;
     border-radius:12px;
-
-    border:1.5px solid;
-
+    border:1.5px solid var(--border, #ddd);
     outline:none;
-
     font-size:15px;
-
     transition:.3s;
 }
 
-.search-input:focus{
-    border-color:var(--secondary);
-    box-shadow:0 0 0 4px var(--color-rgba-76-175-80-p15);
+.search-bar-input:focus{
+    border-color:var(--color-brand-green);
+    box-shadow:0 0 0 4px rgb(var(--rgb-brand-green) / 0.15);
 }
 
-/* Tablet */
+/* ======================================================
+   BOTÃO DE LIMPAR (x)
+====================================================== */
+
+.search-bar-clear{
+    position:absolute;
+    top:50%;
+    right:8px;
+    transform:translateY(-50%);
+
+    flex-shrink:0;
+    width:28px;
+    height:28px;
+    padding:0;
+
+    border-radius:50%;
+    border:1.5px solid var(--border, #ddd);
+    background:var(--color-keyword-white, #fff);
+    color:var(--text-primary, #333);
+
+    font-size:16px;
+    line-height:1;
+    cursor:pointer;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+/* ======================================================
+   SUGESTÃO DE ENDEREÇO
+====================================================== */
+
+.search-bar-suggestion{
+    position:absolute;
+    top:calc(100% + 8px);
+    left:0;
+    width:100%;
+    box-sizing:border-box;
+    background:#fff;
+    border:1px solid #ddd;
+    border-radius:12px;
+    box-shadow:0 8px 24px rgba(0,0,0,.12);
+    padding:14px 16px;
+    text-align:left;
+    font-size:.9rem;
+    color:#333;
+    cursor:pointer;
+    z-index:100;
+}
+
+.search-bar-suggestion:hover{
+    background:#f5f5f5;
+}
+/* ======================================================
+   SEARCH SUGGESTIONS
+====================================================== */
+
+.search-suggestions{
+    position:absolute;
+
+    top:calc(100% + 8px);
+    left:0;
+    right:0;
+
+    background:var(--color-surface-card);
+
+    border:1px solid var(--color-border);
+    border-radius:14px;
+
+    overflow:hidden;
+
+    box-shadow:0 14px 35px rgb(var(--rgb-black) / .12);
+
+    z-index:100;
+}
+
+.search-suggestion{
+    width:100%;
+
+    display:flex;
+    align-items:flex-start;
+    gap:14px;
+
+    padding:14px 16px;
+
+    background:none;
+    border:none;
+
+    text-align:left;
+
+    cursor:pointer;
+
+    transition:.2s;
+}
+
+.search-suggestion:hover{
+    background:var(--color-surface-page);
+}
+
+.search-suggestion svg{
+    margin-top:2px;
+
+    color:var(--color-brand-green);
+
+    font-size:18px;
+
+    flex-shrink:0;
+}
+
+.search-suggestion strong{
+    display:block;
+
+    margin-bottom:2px;
+
+    color:var(--color-text-default);
+
+    font-size:.92rem;
+}
+
+.search-suggestion span{
+    display:block;
+
+    color:var(--color-text-light);
+
+    font-size:.82rem;
+
+    line-height:1.4;
+}
+
+.search-suggestion-title{
+    padding:10px 16px;
+
+    background:var(--color-surface-page);
+
+    color:var(--color-text-light);
+
+    font-size:.75rem;
+    font-weight:700;
+
+    text-transform:uppercase;
+
+    letter-spacing:.04em;
+}
+/* ======================================================
+   AVISO
+====================================================== */
+
+.search-bar-notice{
+    margin:0;
+    padding-left:4px;
+    font-size:13px;
+    color:var(--color-keyword-crimson, #c0392b);
+}
+
+.search-bar-notice.active{
+    color:var(--color-brand-green);
+}
+
+/* ======================================================
+   TABLET
+====================================================== */
 
 @media(max-width:768px){
 
-    .search-bar{
+    .search-bar-row{
         gap:10px;
     }
 
 }
 
-/* Celular */
+/* ======================================================
+   CELULAR
+====================================================== */
 
 @media(max-width:600px){
 
-    .search-bar{
-
+    .search-bar-row{
         flex-direction:column;
-
         align-items:stretch;
     }
 
-    .search-button{
-
-        width:100%;
+    .search-bar-submit{
+        width:100% !important;
     }
 
 }

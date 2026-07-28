@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import Modal from "../../components/modal/Modal";
+import Alert from "../../components/alert/Alert";
 
 export const materiaisDisponiveis = [
   { value: "papel", label: "Papel" },
@@ -34,6 +35,7 @@ export default function ModalConfigurarColeta({
   const [tipoVeiculo, setTipoVeiculo] = useState("");
   const [erro, setErro] = useState("");
   const [salvando, setSalvando] = useState(false);
+  const [confirmOpen, setConfirmOpen] = useState(false);
 
   useEffect(() => {
     if (isOpen) {
@@ -45,6 +47,7 @@ export default function ModalConfigurarColeta({
       );
       setTipoVeiculo(dadosAtuais?.tipoVeiculo || "");
       setErro("");
+      setConfirmOpen(false);
     }
   }, [isOpen, dadosAtuais]);
 
@@ -65,7 +68,7 @@ export default function ModalConfigurarColeta({
     setErro("");
   }
 
-  async function handleSubmit(e) {
+  function handleSubmit(e) {
     e.preventDefault();
 
     if (materiais.length === 0) {
@@ -83,8 +86,11 @@ export default function ModalConfigurarColeta({
       return;
     }
 
-    setSalvando(true);
+    setConfirmOpen(true);
+  }
 
+  async function handleConfirmSave() {
+    setSalvando(true);
     const payload = {
       materiaisAceitos: materiais,
       possuiVeiculo,
@@ -94,6 +100,7 @@ export default function ModalConfigurarColeta({
     try {
       await onSalvar(payload);
       onSalvo(payload);
+      setConfirmOpen(false);
       onClose();
     } catch (err) {
       console.error("Erro ao salvar informações de coleta:", err);
@@ -191,6 +198,18 @@ export default function ModalConfigurarColeta({
           </button>
         </div>
       </form>
+
+      <Alert
+        isOpen={confirmOpen}
+        title="Confirmar configurações de coleta?"
+        message={`Você informou ${materiais.length} material(is) aceito(s) e ${possuiVeiculo ? "possui veículo para coleta" : "não possui veículo para coleta"}.`}
+        variant="info"
+        confirmText="Salvar configurações"
+        cancelText="Revisar"
+        onConfirm={handleConfirmSave}
+        onCancel={() => setConfirmOpen(false)}
+        loading={salvando}
+      />
     </Modal>
   );
 }

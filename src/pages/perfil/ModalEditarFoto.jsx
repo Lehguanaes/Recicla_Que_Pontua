@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { FaUserCircle } from "react-icons/fa";
 import Modal from "../../components/modal/Modal";
+import Alert from "../../components/alert/Alert";
 
 const TAMANHO_MAXIMO_MB = 2;
 
@@ -14,11 +15,15 @@ export default function ModalEditarFoto({
   const [preview, setPreview] = useState(null);
   const [erro, setErro] = useState("");
   const [salvando, setSalvando] = useState(false);
+  const [removeAlertOpen, setRemoveAlertOpen] = useState(false);
+  const [saveAlertOpen, setSaveAlertOpen] = useState(false);
 
   useEffect(() => {
     if (isOpen) {
       setPreview(fotoAtual || null);
       setErro("");
+      setRemoveAlertOpen(false);
+      setSaveAlertOpen(false);
     }
   }, [isOpen, fotoAtual]);
 
@@ -34,7 +39,7 @@ export default function ModalEditarFoto({
     }
 
     if (arquivo.size > TAMANHO_MAXIMO_MB * 1024 * 1024) {
-      setErro(`A imagem deve ter no máximo ${TAMANHO_MAXIMO_MB}MB.`);
+      setErro(`A imagem deve ter no máximo ${TAMANHO_MAXIMO_MB} MB.`);
       return;
     }
 
@@ -53,6 +58,7 @@ export default function ModalEditarFoto({
     try {
       await onSalvar({ fotoPerfil: preview || null });
       onSalvo({ fotoPerfil: preview || null });
+      setSaveAlertOpen(false);
       onClose();
     } catch (err) {
       console.error("Erro ao salvar foto de perfil:", err);
@@ -64,6 +70,7 @@ export default function ModalEditarFoto({
 
   function handleRemover() {
     setPreview(null);
+    setRemoveAlertOpen(false);
   }
 
   return (
@@ -96,7 +103,7 @@ export default function ModalEditarFoto({
           <button
             type="button"
             className="perfil-link-remover"
-            onClick={handleRemover}
+            onClick={() => setRemoveAlertOpen(true)}
           >
             Remover foto
           </button>
@@ -116,12 +123,35 @@ export default function ModalEditarFoto({
         <button
           type="button"
           className="perfil-botao-primario"
-          onClick={handleSalvar}
+          onClick={() => setSaveAlertOpen(true)}
           disabled={salvando}
         >
           {salvando ? "Salvando..." : "Salvar foto"}
         </button>
       </div>
+
+      <Alert
+        isOpen={removeAlertOpen}
+        title="Remover foto de perfil?"
+        message="A foto será removida da pré-visualização. Para concluir a alteração, salve o formulário."
+        variant="danger"
+        confirmText="Remover foto"
+        cancelText="Manter foto"
+        onConfirm={handleRemover}
+        onCancel={() => setRemoveAlertOpen(false)}
+      />
+
+      <Alert
+        isOpen={saveAlertOpen}
+        title="Confirmar alteração da foto?"
+        message={preview ? "A imagem exibida será usada como sua nova foto de perfil." : "Seu perfil ficará sem uma foto personalizada."}
+        variant="info"
+        confirmText="Salvar foto"
+        cancelText="Revisar"
+        onConfirm={handleSalvar}
+        onCancel={() => setSaveAlertOpen(false)}
+        loading={salvando}
+      />
     </Modal>
   );
 }

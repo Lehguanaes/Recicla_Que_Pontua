@@ -17,7 +17,7 @@ export const perfis = [
   {
     id: "coletor-autonomo",
     image: Catador,
-    label: "Caletor Autônomo",
+    label: "Coletor Autônomo",
     description: 
     "Profissional que coleta, separa e comercializa materiais recicláveis, contribuindo para a economia circular e a preservação ambiental.",
   },
@@ -32,7 +32,7 @@ export const perfis = [
     image: CentroColeta,
     label: "Centro de Reciclagem",
     description: 
-    "Eco pontos, cooperativas, sucateiros e empresas que recebem, armazenam, compram ou encaminham materiais para reciclagem."
+    "Ecopontos, cooperativas, sucateiros e empresas que recebem, armazenam, compram ou encaminham materiais para reciclagem."
 ,
   },
 ];
@@ -40,8 +40,8 @@ export const perfis = [
 export default function SelecionarUser({ selected, onSelect }) {
   return (
     <div className="select-user">
-      <h3 className="titulo">Primeiro, quem é você?</h3>
-      <p className="descrition">Selecione o perfil que melhor descreve você para personalizar seu cadastro.</p>
+      <h3 className="titulo">Escolha seu perfil</h3>
+      <p className="description">Selecione o perfil que melhor descreve você para personalizar seu cadastro.</p>
           
 
       <div className="select-user-grid">

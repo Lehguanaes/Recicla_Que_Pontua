@@ -1,16 +1,16 @@
 .termos-page {
   min-height: 100vh;
-  background: var(--color-hex-f5f7fa);
+  background: var(--color-surface-page);
   padding: 50px 20px;
 }
 
 .termos-card {
   max-width: 900px;
   margin: 0 auto;
-  background: var(--color-hex-fff);
+  background: var(--color-surface-card);
   border-radius: 18px;
   padding: 50px;
-  box-shadow: 0 10px 35px var(--color-rgba-0-0-0-p08);
+  box-shadow: 0 10px 35px rgb(var(--rgb-black) / 0.08);
 }
 
 .termos-header {
@@ -19,18 +19,22 @@
 }
 
 .termos-header h1 {
-  font-size: 2rem;
-  color: var(--verde-escuro);
+  color: var(--font-color-title);
+  font-size: var(--font-size-page-title);
+  font-weight: var(--font-weight-title);
+  line-height: var(--line-height-page-title);
   margin-bottom: 10px;
 }
 
 .termos-header p {
-  color: var(--color-hex-666);
+  color: var(--font-color-muted);
+  font-size: var(--font-size-subtitle);
+  line-height: var(--line-height-body);
 }
 
 .termos-alert {
-  background: var(--color-hex-eef8ee);
-  border-left: 5px solid var(--secondary);
+  background: var(--color-surface-green);
+  border-left: 5px solid var(--color-brand-green);
   padding: 18px;
   border-radius: 10px;
   margin-bottom: 40px;
@@ -42,14 +46,16 @@
 }
 
 .termos-card h2 {
-  color: var(--verde-escuro);
+  color: var(--font-color-heading);
   margin-bottom: 12px;
-  font-size: 1.25rem;
+  font-size: var(--font-size-card-title);
+  font-weight: var(--font-weight-title);
+  line-height: var(--line-height-heading);
 }
 
 .termos-card p {
   line-height: 1.8;
-  color: var(--color-hex-444);
+  color: var(--color-text-primary);
   margin-bottom: 12px;
 }
 
@@ -61,16 +67,16 @@
 .termos-card li {
   margin-bottom: 8px;
   line-height: 1.7;
-  color: var(--color-hex-444);
+  color: var(--color-text-primary);
 }
 
 .termos-footer {
   margin-top: 50px;
   padding: 20px;
-  background: var(--color-hex-f1f8e9);
+  background: var(--color-surface-green);
   border-radius: 12px;
   text-align: center;
-  color: var(--verde-escuro);
+  color: var(--color-brand-green-deep);
   font-size: 1rem;
 }
 
@@ -79,7 +85,4 @@
     padding: 30px 22px;
   }
 
-  .termos-header h1 {
-    font-size: 1.7rem;
-  }
 }

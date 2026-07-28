@@ -3,112 +3,71 @@ import { FaStar, FaUserPlus, FaComments } from "react-icons/fa";
 import { COLORS } from "../../constants";
 import Button from "../common/Button";
 
-// Card de destaque exibido sobre o mapa quando um local é selecionado
-const SelectedCard = ({
+import "./selectedCard.css";
+
+import { LOCAL_TYPES } from "../../constants";
+
+export default function SelectedCard({
   collector,
   onClose,
+  onViewProfile,
   onOpenInvite,
   invitation,
   userProfile,
-}) => {
+}) {
   if (!collector) return null;
 
+  const isCenter = collector.tipo === LOCAL_TYPES.CENTER;
+  const typeColor = isCenter ? "var(--color-info)" : "var(--color-primary)";
+  const fotoPerfil = collector.fotoPerfil || collector.foto;
+
   return (
-    <div
-      className="selected-card-container"
-      style={{
-      position: "absolute",
-      bottom: "60px",
-      left: "50%",
-      transform: "translateX(-50%)",
-
-      width: "80%",
-      maxWidth: "850px",
-
-      background: COLORS.secondary,
-      borderRadius: "16px",
-      padding: "16px",
-      boxShadow: "0 8px 24px var(--color-rgba-0-0-0-0p25)",
-      zIndex: 500,
-      display: "flex",
-      gap: "12px",
-      alignItems: "center",
-      color: COLORS.white,
-    }}
-    >
-      <div
-        className="selected-card-content"
-        style={{
-          display: "flex",
-          gap: "12px",
-          alignItems: "center",
-          flex: 1,
-        }}
-      >
-        {/* Avatar */}
+    <div className="selected-card-container">
+      <div className="selected-card-content">
         <div
+          className={`collector-avatar ${fotoPerfil ? "has-photo" : ""}`}
           style={{
-            width: 52,
-            height: 52,
-            borderRadius: "50%",
-            background: "var(--color-rgba-255-255-255-0p25)",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            fontSize: "26px",
-            flexShrink: 0,
+            "--collector-avatar-color": `${typeColor}22`,
           }}
         >
-          {collector.tipo === "centro" ? "🏭" : "👤"}
+          {fotoPerfil ? (
+            <img
+              src={fotoPerfil}
+              alt={collector.nome}
+              className="collector-avatar-img"
+            />
+          ) : (
+            <span className="collector-avatar-icon">
+              {isCenter ? "🏭" : "👤"}
+            </span>
+          )}
         </div>
 
-        {/* Informações */}
-        <div style={{ flex: 1 }}>
-          <div
-            style={{
-              fontWeight: 700,
-              fontSize: "17px",
-              marginBottom: "2px",
-            }}
-          >
+        <div className="selected-info">
+          <h3 className="selected-name">
             {collector.nome}
+          </h3>
+
+          <div className="selected-subtitle">
+            <span>{collector.subtipo}</span>
+
+            {collector.rating && (
+              <>
+                <FaStar className="selected-star" />
+                <span>{collector.rating.toFixed(1)}</span>
+              </>
+            )}
           </div>
 
-          <div
-            style={{
-              fontSize: "13px",
-              opacity: 0.9,
-              marginBottom: "4px",
-            }}
-          >
-            {collector.subtipo}{" "}
-            <FaStar style={{ color: "gold", marginLeft: 4 }} />{" "}
-            {collector.rating?.toFixed(1)}
-          </div>
-
-          {collector.veiculo && (
-            <div
-              style={{
-                fontSize: "13px",
-                opacity: 0.85,
-              }}
-            >
-              🚗 {collector.veiculo}
+          {collector.distancia_km != null && (
+            <div className="selected-distance">
+              📍 {collector.distancia_km.toFixed(1)} km de distância
             </div>
           )}
-
-          <div
-            style={{
-              fontSize: "13px",
-              opacity: 0.85,
-            }}
-          >
-            📍 {collector.distancia_km?.toFixed(1)} Km
-          </div>
         </div>
       </div>
 
-      {/* Botão */}
+      {/* Botão de convites e chat com as regras de negócio */}
       {userProfile !== "coletor-autonomo" && userProfile !== "centro-coleta" && (
         (() => {
           const status = invitation?.status;
@@ -173,31 +132,14 @@ const SelectedCard = ({
         })()
       )}
 
-      {/* Botão fechar */}
       <button
+        type="button"
+        className="selected-close"
         onClick={onClose}
-        style={{
-          position: "absolute",
-          top: "10px",
-          right: "12px",
-          background: "var(--color-rgba-255-255-255-0p3)",
-          border: "none",
-          color: COLORS.white,
-          width: "26px",
-          height: "26px",
-          borderRadius: "50%",
-          fontSize: "14px",
-          cursor: "pointer",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          fontWeight: 700,
-        }}
+        aria-label="Fechar detalhes do local"
       >
         ✕
       </button>
     </div>
   );
-};
-
-export default SelectedCard;
+}

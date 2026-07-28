@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
+import Alert from "../alert/Alert";
 import "./navbar.css";
 import Logo from "../../assets/logo.png";
 import PetMenu from "../../assets/PetMenu.png";
@@ -20,6 +21,8 @@ import { navbarPorPerfil } from "./NavbarConfig";
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
+  const [logoutAlertOpen, setLogoutAlertOpen] = useState(false);
+  const [loggingOut, setLoggingOut] = useState(false);
   const navigate = useNavigate();
   const { user, logout } = useAuth();
   const closeMenu = () => setMenuOpen(false);
@@ -31,9 +34,15 @@ export default function Navbar() {
   const menu = navbarPorPerfil[perfil] || navbarPorPerfil.visitante;
 
   async function handleLogout() {
-    await logout();
-    closeMenu();
-    navigate("/");
+    setLoggingOut(true);
+    try {
+      await logout();
+      setLogoutAlertOpen(false);
+      closeMenu();
+      navigate("/");
+    } finally {
+      setLoggingOut(false);
+    }
   }
 
   return (
@@ -59,99 +68,125 @@ export default function Navbar() {
 
       <nav className={`navbar-menu ${menuOpen ? "open" : ""}`}>
 
-        {menu.map((item) => {
-          const Icon = item.icon;
+        <div className="navbar-links">
+          {menu.map((item) => {
+            const Icon = item.icon;
 
-          return (
+            return (
+              <NavLink
+                key={item.to}
+                to={item.to}
+                className={getLinkClass}
+                onClick={closeMenu}
+              >
+                <Icon className="navbar-icon" />
+                <span>{item.label}</span>
+              </NavLink>
+            );
+          })}
+        </div>
+
+        <div className="navbar-actions">
+          {!user && (
             <NavLink
-              key={item.to}
-              to={item.to}
-              className={getLinkClass}
+              to="/login"
+              className="navbar-button"
               onClick={closeMenu}
             >
-              <Icon className="navbar-icon" />
-              <span>{item.label}</span>
+              Entrar
             </NavLink>
-          );
-        })}
+          )}
 
-        {!user && (
-          <NavLink
-            to="/login"
-            className="navbar-button"
-            onClick={closeMenu}
+          {user && (
+          <div className="navbar-user">
+            <button
+            className="navbar-user-btn"
+            onClick={() => setUserMenuOpen(!userMenuOpen)}
+            aria-label={userMenuOpen ? "Fechar menu do perfil" : "Abrir menu do perfil"}
           >
-            Entrar
-          </NavLink>
-        )}
-
-      {user && (
-      <div className="navbar-user">
-        <button
-          className="navbar-user-btn"
-          onClick={() => setUserMenuOpen(!userMenuOpen)}
-          aria-label={userMenuOpen ? "Fechar menu do perfil" : "Abrir menu do perfil"}
-        >
-         <FaUserCircle />
-        </button>
-
-        <div className={`navbar-user-menu ${userMenuOpen ? "show" : ""}`}>
-
-          <NavLink
-            to="/perfil"
-            className={getLinkClass}
-            onClick={() => {
-              setUserMenuOpen(false);
-              closeMenu();
-            }}
-          >
-            <FaUser className="navbar-icon" />
-            <span>Meu Perfil</span>
-          </NavLink>
-
-          <NavLink
-            to="/configuracoes"
-            className={getLinkClass}
-            onClick={() => {
-              setUserMenuOpen(false);
-              closeMenu();
-            }}
-          >
-            <FaCog className="navbar-icon" />
-            <span>Configurações</span>
-          </NavLink>
-
-          <NavLink
-            to="/notificacoes"
-            className={getLinkClass}
-            onClick={() => {
-              setUserMenuOpen(false);
-              closeMenu();
-            }}
-          >
-            <FaBell className="navbar-icon" />
-            <span>Notificações</span>
-          </NavLink>
-
-          <button
-            className="navbar-link navbar-logout-btn"
-            onClick={handleLogout}
-          >
-            <FaSignOutAlt className="navbar-icon" />
-            <span>Sair</span>
+            {user?.fotoPerfil ? (
+              <img
+                src={user.fotoPerfil}
+                alt={user.nome || "Foto de perfil"}
+                className="navbar-user-avatar"
+              />
+            ) : (
+              <FaUserCircle />
+            )}
           </button>
 
+            <div className={`navbar-user-menu ${userMenuOpen ? "show" : ""}`}>
+              <NavLink
+                to="/perfil"
+                className={getLinkClass}
+                onClick={() => {
+                  setUserMenuOpen(false);
+                  closeMenu();
+                }}
+              >
+                <FaUser className="navbar-icon" />
+                <span>Meu perfil</span>
+              </NavLink>
+
+              <NavLink
+                to="/configuracoes"
+                className={getLinkClass}
+                onClick={() => {
+                  setUserMenuOpen(false);
+                  closeMenu();
+                }}
+              >
+                <FaCog className="navbar-icon" />
+                <span>Configurações</span>
+              </NavLink>
+
+              <NavLink
+                to="/notificacoes"
+                className={getLinkClass}
+                onClick={() => {
+                  setUserMenuOpen(false);
+                  closeMenu();
+                }}
+              >
+                <FaBell className="navbar-icon" />
+                <span>Notificações</span>
+              </NavLink>
+
+              <button
+                className="navbar-link navbar-logout-btn"
+                onClick={() => {
+                  setUserMenuOpen(false);
+                  setLogoutAlertOpen(true);
+                }}
+              >
+                <FaSignOutAlt className="navbar-icon" />
+                <span>Sair</span>
+              </button>
+
+            </div>
+          </div>
+        )}
         </div>
-      </div>
-    )}
 
         <img
           src={PetMenu}
           alt="Mascote Recicla que Pontua"
-          className="navbar-pet-menu"
+          className="navbar-pet-menu pet-floating"
         />
       </nav>
      </div>
+
+      <Alert
+        isOpen={logoutAlertOpen}
+        title="Deseja sair da sua conta?"
+        message="Você precisará entrar novamente para acessar seu perfil e acompanhar seus pontos."
+        variant="warning"
+        confirmText="Sair"
+        cancelText="Continuar conectado"
+        onConfirm={handleLogout}
+        onCancel={() => setLogoutAlertOpen(false)}
+        loading={loggingOut}
+      />
     </header>
   );
 }

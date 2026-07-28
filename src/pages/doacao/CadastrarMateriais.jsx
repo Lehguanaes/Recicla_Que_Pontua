@@ -1,10 +1,8 @@
-import React, { useMemo, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect, useMemo, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import {
-  FaArrowRight,
   FaBatteryHalf,
   FaBoxOpen,
-  FaCheckCircle,
   FaFileAlt,
   FaLaptop,
   FaLeaf,
@@ -18,11 +16,15 @@ import {
 import { MATERIAL_TYPES } from "../../constants";
 import Navbar from "../../components/navbar/Navbar";
 import Rodape from "../../components/rodape/Rodape";
+import Alert from "../../components/alert/Alert";
+import PetRecicla from "../../assets/PetRecicla.png";
+import PetDuvidas from "../../assets/PetDuvidas.png";
 import "./cadastrarMateriais.css";
 
 const MATERIAL_ESTIMATES = {
   papel: {
     unit: "kg",
+    description: "Folhas, jornais e embalagens de papel secas.",
     step: 1,
     initial: 0,
     weightPerUnit: 1,
@@ -33,6 +35,7 @@ const MATERIAL_ESTIMATES = {
   },
   papelao: {
     unit: "kg",
+    description: "Caixas e embalagens limpas, secas e desmontadas.",
     step: 1,
     initial: 0,
     weightPerUnit: 1,
@@ -43,6 +46,7 @@ const MATERIAL_ESTIMATES = {
   },
   plastico: {
     unit: "un",
+    description: "Garrafas, potes, tampas e outras embalagens.",
     step: 1,
     initial: 0,
     weightPerUnit: 0.04,
@@ -53,6 +57,7 @@ const MATERIAL_ESTIMATES = {
   },
   vidro: {
     unit: "kg",
+    description: "Garrafas, potes e frascos devidamente protegidos.",
     step: 1,
     initial: 0,
     weightPerUnit: 1,
@@ -63,6 +68,7 @@ const MATERIAL_ESTIMATES = {
   },
   metal: {
     unit: "un",
+    description: "Latas, ferragens e pequenas peças de sucata.",
     step: 1,
     initial: 0,
     weightPerUnit: 0.015,
@@ -73,6 +79,7 @@ const MATERIAL_ESTIMATES = {
   },
   eletronico: {
     unit: "un",
+    description: "Cabos, aparelhos e componentes eletrônicos sem uso.",
     step: 1,
     initial: 0,
     weightPerUnit: 0.8,
@@ -83,6 +90,7 @@ const MATERIAL_ESTIMATES = {
   },
   oleo: {
     unit: "L",
+    description: "Óleo de cozinha guardado em uma garrafa bem fechada.",
     step: 1,
     initial: 0,
     weightPerUnit: 0.92,
@@ -111,6 +119,10 @@ const CadastrarMateriais = () => {
       return acc;
     }, {})
   );
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "auto" });
+  }, []);
 
   const selectedMaterials = useMemo(
     () =>
@@ -161,162 +173,189 @@ const CadastrarMateriais = () => {
 
       <main className="materials-page">
         <section className="materials-hero">
-          <span className="materials-kicker">
-            <FaRecycle /> Reciclagem de Materiais
-          </span>
-          <h1>Cadastre os seus materiais disponíveis!</h1>
-          <p>
-            Informe as quantidades antes de procurar catadores e centros de
-            coleta. A calculadora estima o impacto ambiental e prepara sua
-            solicitacao.
-          </p>
-        </section>
+          <div className="materials-hero-inner">
+            <div className="materials-hero-layout">
+              <div className="materials-hero-copy">
+                <span className="materials-kicker">
+                  <FaRecycle /> Reciclagem de materiais
+                </span>
 
-        <section className="materials-grid" aria-label="Materiais para cadastro">
-          {materialOptions.map((material) => {
-            const estimate = MATERIAL_ESTIMATES[material.value];
-            const Icon = estimate.icon;
-            const quantity = quantities[material.value] || 0;
+                <h1>Cadastre seus materiais recicláveis</h1>
+                <p>
+                  Informe o que você separou usando os controles de quantidade.
+                  Você pode cadastrar diferentes categorias para estimar seu
+                  impacto e encontrar parceiros compatíveis com todos os
+                  materiais.
+                </p>
+              </div>
 
-            return (
-              <article
-                className={`material-card ${quantity > 0 ? "active" : ""}`}
-                key={material.value}
-              >
-                <div className="material-icon">
-                  <Icon />
-                </div>
-                <strong>{material.label}</strong>
-                <span>{estimate.unit === "un" ? "Unidades" : estimate.unit}</span>
+              <div className="materials-hero-visual" aria-hidden="true">
+                <img className="pet-floating" src={PetRecicla} alt="" />
+              </div>
+            </div>
 
-                <div className="material-stepper">
-                  <button
-                    type="button"
-                    aria-label={`Diminuir ${material.label}`}
-                    onClick={() =>
-                      updateQuantity(material.value, quantity - estimate.step)
-                    }
-                  >
-                    <FaMinus />
-                  </button>
-                  <input
-                    type="number"
-                    min="0"
-                    step={estimate.step}
-                    value={quantity}
-                    aria-label={`Quantidade de ${material.label}`}
-                    onChange={(event) =>
-                      updateQuantity(material.value, event.target.value)
-                    }
-                  />
-                  <button
-                    type="button"
-                    aria-label={`Aumentar ${material.label}`}
-                    onClick={() =>
-                      updateQuantity(material.value, quantity + estimate.step)
-                    }
-                  >
-                    <FaPlus />
-                  </button>
-                </div>
-              </article>
-            );
-          })}
-        </section>
-
-        <section className="impact-section" aria-label="Resultados estimados">
-          <div className="impact-heading">
-            <h2><FaLeaf color="var(--secondary)" />  Resultados estimados</h2>
-            <p>
-            O quanto você pode impactar com a reciclagem dos seus materiais?
-          </p>
-          </div>
-
-          <div className="impact-grid">
-            <article className="impact-card">
-              <FaBoxOpen />
-              <strong>{formatNumber(totals.weight)} kg</strong>
-              <span>Peso total</span>
-            </article>
-            <article className="impact-card">
-              <FaTint />
-              <strong>{formatNumber(totals.water, 0)} L</strong>
-              <span>Agua economizada</span>
-            </article>
-            <article className="impact-card">
-              <FaBatteryHalf />
-              <strong>{formatNumber(totals.energy)} kWh</strong>
-              <span>Energia poupada</span>
-            </article>
-            <article className="impact-card">
-              <FaLeaf />
-              <strong>{formatNumber(totals.points, 0)}</strong>
-              <span>Pontos previstos</span>
-            </article>
-          </div>
-        </section>
-
-        <div className="materials-actions">
-          <button
-            type="button"
-            className="materials-submit"
-            onClick={() => setShowConfirm(true)}
-            disabled={selectedMaterials.length === 0}
-          >
-            Cadastrar materiais <FaArrowRight />
-          </button>
-        </div>
-
-        {showConfirm && (
-          <div
-            className="materials-confirm-overlay"
-            role="presentation"
-            onClick={() => setShowConfirm(false)}
-          >
-            <section
-              className="materials-confirm"
-              role="dialog"
-              aria-modal="true"
-              aria-labelledby="materials-confirm-title"
-              onClick={(event) => event.stopPropagation()}
+            <div
+              className="materials-grid"
+              aria-label="Materiais para cadastro"
             >
-              <div className="materials-confirm-icon">
-                <FaCheckCircle />
-              </div>
+              {materialOptions.map((material) => {
+                const estimate = MATERIAL_ESTIMATES[material.value];
+                const Icon = estimate.icon;
+                const quantity = quantities[material.value] || 0;
 
-              <h2 id="materials-confirm-title">Confirmar materiais?</h2>
-              <p>
-                Vamos usar esses itens para filtrar catadores e centros de
-                coleta que aceitam seus materiais.
-              </p>
+                return (
+                  <article
+                    className={`material-card ${quantity > 0 ? "active" : ""}`}
+                    key={material.value}
+                  >
+                    <div className="material-card-heading">
+                      <div className="material-icon">
+                        <Icon />
+                      </div>
+                      <div>
+                        <strong>{material.label}</strong>
+                        <span>
+                          {estimate.unit === "un" ? "Unidades" : estimate.unit}
+                        </span>
+                      </div>
+                    </div>
 
-              <div className="materials-confirm-tags">
-                {selectedMaterials.map((material) => (
-                  <span key={material.value}>
-                    {material.quantity} {material.estimate.unit} de {material.label}
-                  </span>
-                ))}
-              </div>
+                    <p>{estimate.description}</p>
 
-              <div className="materials-confirm-actions">
-                <button
-                  type="button"
-                  className="materials-confirm-cancel"
-                  onClick={() => setShowConfirm(false)}
-                >
-                  Revisar
-                </button>
-                <button
-                  type="button"
-                  className="materials-confirm-submit"
-                  onClick={handleRegister}
-                >
-                  Confirmar <FaArrowRight />
-                </button>
-              </div>
-            </section>
+                    <div className="material-stepper">
+                      <button
+                        type="button"
+                        aria-label={`Diminuir ${material.label}`}
+                        onClick={() =>
+                          updateQuantity(
+                            material.value,
+                            quantity - estimate.step
+                          )
+                        }
+                      >
+                        <FaMinus />
+                      </button>
+                      <input
+                        type="number"
+                        min="0"
+                        step={estimate.step}
+                        value={quantity}
+                        aria-label={`Quantidade de ${material.label}`}
+                        onChange={(event) =>
+                          updateQuantity(material.value, event.target.value)
+                        }
+                      />
+                      <button
+                        type="button"
+                        aria-label={`Aumentar ${material.label}`}
+                        onClick={() =>
+                          updateQuantity(
+                            material.value,
+                            quantity + estimate.step
+                          )
+                        }
+                      >
+                        <FaPlus />
+                      </button>
+                    </div>
+                  </article>
+                );
+              })}
+            </div>
           </div>
-        )}
+        </section>
+
+        <section
+          className="impact-section"
+          aria-labelledby="impact-section-title"
+        >
+          <div className="impact-inner">
+            <div className="impact-heading">
+              <span className="materials-section-tag">
+                <FaLeaf /> Impacto previsto
+              </span>
+              <h2 id="impact-section-title">Veja o impacto da sua seleção</h2>
+              <p>
+                Esta é uma prévia calculada a partir dos tipos e das quantidades
+                informadas. Ela ajuda a visualizar o peso aproximado, os
+                recursos que podem ser poupados e os pontos que a entrega pode
+                gerar. Os valores finais são confirmados após a reciclagem.
+              </p>
+            </div>
+
+            <div className="impact-grid">
+              <article className="impact-card">
+                <FaBoxOpen />
+                <strong>{formatNumber(totals.weight)} kg</strong>
+                <span>Peso total</span>
+              </article>
+              <article className="impact-card">
+                <FaTint />
+                <strong>{formatNumber(totals.water, 0)} L</strong>
+                <span>Água economizada</span>
+              </article>
+              <article className="impact-card">
+                <FaBatteryHalf />
+                <strong>{formatNumber(totals.energy)} kWh</strong>
+                <span>Energia poupada</span>
+              </article>
+              <article className="impact-card">
+                <FaLeaf />
+                <strong>{formatNumber(totals.points, 0)}</strong>
+                <span>Pontos previstos</span>
+              </article>
+            </div>
+
+            <div className="materials-actions">
+              <button
+                type="button"
+                className="materials-submit"
+                onClick={() => setShowConfirm(true)}
+                disabled={selectedMaterials.length === 0}
+              >
+                Continuar
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <section className="materials-help-section">
+          <img
+            className="pet-floating"
+            src={PetDuvidas}
+            alt="Mascote ajudando com dúvidas sobre reciclagem"
+          />
+          <div>
+            <h2>Dúvidas? Aprenda com o conteúdo de Como reciclar</h2>
+            <p>
+              Veja como separar, limpar e armazenar cada material antes da
+              entrega, além de orientações para itens que exigem cuidados
+              especiais.
+            </p>
+          </div>
+          <Link to="/como-reciclar">
+            Aprender como reciclar
+          </Link>
+        </section>
+
+        <Alert
+          isOpen={showConfirm}
+          title="Confirmar materiais?"
+          message="Vamos usar esses itens para filtrar coletores e centros de reciclagem que aceitam seus materiais."
+          variant="success"
+          confirmText="Confirmar"
+          cancelText="Revisar"
+          onConfirm={handleRegister}
+          onCancel={() => setShowConfirm(false)}
+        >
+          <div className="materials-confirm-tags">
+            {selectedMaterials.map((material) => (
+              <span key={material.value}>
+                {material.quantity} {material.estimate.unit} de {material.label}
+              </span>
+            ))}
+          </div>
+        </Alert>
       </main>
 
       <Rodape />

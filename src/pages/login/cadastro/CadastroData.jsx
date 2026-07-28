@@ -34,6 +34,7 @@ const opcoesEstados = estadosBrasileiros.map((uf) => ({
 }));
 
 export const tiposInstituicao = [
+  "Pequena Empresa",
   "Escola / Instituição de ensino",
   "Associação Comunitária",
   "Instituto Social",
@@ -41,6 +42,7 @@ export const tiposInstituicao = [
   "Centro Comunitário",
   "Órgão Público (Secretarias de Educação ou Meio Ambiente)",
   "ONG / Organização Não Governamental",
+  "Outros",
 ];
 
 const opcoesTiposInstituicao = tiposInstituicao.map((tipo) => ({
@@ -201,6 +203,7 @@ export const camposPorPerfil = {
           type: "text",
           placeholder: "CNPJ",
           required: true,
+          size: "small",
         },
         {
           name: "tipoInstituicao",
@@ -208,13 +211,14 @@ export const camposPorPerfil = {
           type: "select",
           placeholder: "Selecione o tipo de instituição",
           required: true,
+          size: "small",
           options: opcoesTiposInstituicao,
         },
         {
           name: "representante",
-          label: "Representante da Instituição",
+          label: "Representante da instituição",
           type: "text",
-          placeholder: "Nome do Representante",
+          placeholder: "Nome do representante",
           required: true,
         },
       ],

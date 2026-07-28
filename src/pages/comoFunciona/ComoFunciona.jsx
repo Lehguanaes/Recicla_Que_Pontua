@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import {
   FaImage,
@@ -11,7 +11,6 @@ import {
 } from "react-icons/fa";
 import {
   FaArrowRight,
-  FaCircleQuestion,
   FaHandHoldingHeart,
   FaLeaf,
   FaRecycle,
@@ -36,9 +35,9 @@ import {
 import "./comoFunciona.css";
 
 const tips = [
-  "Amasse garrafas e caixas para economizar espaco.",
+  "Amasse garrafas e caixas para economizar espaço.",
   "Separe vidro quebrado em embalagem resistente e sinalizada.",
-  "Guarde oleo usado em garrafa bem fechada.",
+  "Guarde óleo usado em uma garrafa bem fechada.",
   "Evite misturar papel limpo com restos de comida ou gordura.",
 ];
 
@@ -46,7 +45,7 @@ const mistakes = [
   {
     icon: FaXmark,
     title: "Guardanapos usados",
-    text: "Papel sujo de gordura ou comida normalmente nao entra na reciclagem comum.",
+    text: "Papel sujo de gordura ou comida normalmente não entra na reciclagem comum.",
   },
   {
     icon: FaXmark,
@@ -55,20 +54,20 @@ const mistakes = [
   },
   {
     icon: FaXmark,
-    title: "Ceramica e espelho",
-    text: "Eles nao seguem o mesmo processo de garrafas e potes de vidro reciclavel.",
+    title: "Cerâmica e espelho",
+    text: "Eles não seguem o mesmo processo de garrafas e potes de vidro reciclável.",
   },
 ];
 
 const videos = [
   {
-    title: "Coisas do dia a dia que nao podem ser recicladas",
-    text: "Um guia rapido para evitar erros comuns na separacao dos materiais.",
+    title: "Coisas do dia a dia que não podem ser recicladas",
+    text: "Um guia rápido para evitar erros comuns na separação dos materiais.",
     src: "https://www.youtube.com/embed/Ds6kLzGo1ps",
-    duration: "educacao ambiental",
+    duration: "educação ambiental",
   },
   {
-    title: "Como lavar reciclaveis",
+    title: "Como lavar recicláveis",
     text: "Aprenda quando lavar, quanto lavar e como deixar embalagens prontas para coleta.",
     src: "https://www.youtube.com/embed/mQ95inY8dAc",
     duration: "preparo dos materiais",
@@ -78,13 +77,13 @@ const videos = [
 const impactCards = [
   {
     icon: FaLeaf,
-    title: "Menos contaminacao",
+    title: "Menos contaminação",
     text: "Materiais limpos aumentam a chance de reaproveitamento.",
   },
   {
     icon: FaTruckFast,
     title: "Coleta mais certeira",
-    text: "Coletores e centros recebem informacoes melhores antes da entrega.",
+    text: "Coletores e centros recebem informações melhores antes da entrega.",
   },
   {
     icon: FaHandHoldingHeart,
@@ -94,32 +93,9 @@ const impactCards = [
 ];
 
 const featuredArticle = {
-  title: "De onde vem o que voce recicla: uma visita aos centros parceiros",
+  title: "De onde vem o que você recicla: uma visita aos centros parceiros",
   text: "Acompanhamos uma tarde na cooperativa Vida Verde para entender o que acontece com o material depois que ele sai da sua casa.",
 };
-
-const faqItems = [
-  {
-    question: "Quando preciso lavar uma embalagem?",
-    answer:
-      "Lave quando houver resto de alimento, oleo ou bebida. Nao precisa gastar muita agua: retirar o excesso ja ajuda bastante.",
-  },
-  {
-    question: "O que fazer quando tenho duvida se um item recicla?",
-    answer:
-      "Confira o material principal, procure simbolos na embalagem e, se ainda houver duvida, cadastre ou consulte um parceiro antes de misturar com reciclaveis limpos.",
-  },
-  {
-    question: "Como separar materiais pequenos ou mistos?",
-    answer:
-      "Itens muito pequenos, adesivos, embalagens laminadas e objetos com varios materiais juntos podem atrapalhar a triagem. Separe em uma sacola propria e confirme o destino ideal.",
-  },
-  {
-    question: "Como deixar a entrega mais facil para coletores e centros?",
-    answer:
-      "Agrupe por tipo, informe quantidade aproximada, avise se ha vidro quebrado e mantenha o material seco. Isso reduz retrabalho e melhora a chance de aproveitamento.",
-  },
-];
 
 function SectionHeader({ eyebrow, title, text, icon }) {
   return (
@@ -171,7 +147,7 @@ function GuideCard({ titulo, nivel, aulas, duracao, icone }) {
       </div>
       <h3>{titulo}</h3>
       <p>
-        {aulas} aulas - {duracao}
+        {aulas} aulas • {duracao}
       </p>
       <div className="comunidade-guide-progress">
         <span />
@@ -203,31 +179,8 @@ function VideoCard({ title, text, src, duration }) {
   );
 }
 
-function FaqItem({ question, answer }) {
-  const [open, setOpen] = useState(false);
-
-  return (
-    <div className={`comunidade-faq-item${open ? " is-open" : ""}`}>
-      <button
-        type="button"
-        className="comunidade-faq-summary"
-        onClick={() => setOpen((prev) => !prev)}
-        aria-expanded={open}
-      >
-        <span>{question}</span>
-        <FaCircleQuestion className="comunidade-faq-icon" />
-      </button>
-      <div className="comunidade-faq-panel">
-        <div className="comunidade-faq-panel-inner">
-          <p>{answer}</p>
-        </div>
-      </div>
-    </div>
-  );
-}
-
 function PostComposer({
-  user = { name: "Voce", initials: "VC" },
+  user = { name: "Você", initials: "VC" },
   onSubmit = () => {},
 }) {
   const [mode, setMode] = useState("text");
@@ -275,12 +228,12 @@ function PostComposer({
         {mode === "text" ? (
           <input
             type="text"
-            placeholder="O que voce quer compartilhar?"
+            placeholder="O que você quer compartilhar?"
             value={text}
             onChange={(event) => setText(event.target.value)}
           />
         ) : (
-          <p>Envie um video para a comunidade.</p>
+          <p>Envie um vídeo para a comunidade.</p>
         )}
       </div>
 
@@ -342,8 +295,8 @@ function PostComposer({
           ) : (
             <>
               <FaUpload className="upload-icon" />
-              <p>Arraste um video ou clique para selecionar.</p>
-              <small>MP4 ou MOV - ate 500MB</small>
+              <p>Arraste um vídeo ou clique para selecioná-lo.</p>
+              <small>MP4 ou MOV — até 500 MB</small>
             </>
           )}
         </div>
@@ -372,6 +325,10 @@ function PostComposer({
 export default function ComoFunciona() {
   const { user } = useAuth();
 
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "auto" });
+  }, []);
+
   return (
     <>
       <Navbar />
@@ -389,16 +346,20 @@ export default function ComoFunciona() {
               <SectionHeader
                 eyebrow="Como reciclar"
                 icon={<FaRecycle />}
-                title="Aprenda, prepare seus materiais e recicle com mais seguranca"
-                text="Nesta pagina voce encontra dicas, relatos, videos, guias e respostas praticas para usar melhor o Recicla que Pontua no dia a dia."
+                title="Aprenda, prepare seus materiais e recicle com mais segurança"
+                text="Nesta página, você encontra dicas, relatos, vídeos, guias e respostas práticas para usar melhor o Recicla que Pontua no dia a dia."
               />
-              <img src={PetDicas} alt="Mascote do Recicla que Pontua dando boas-vindas" />
+              <img
+                className="pet-floating"
+                src={PetDicas}
+                alt="Mascote do Recicla que Pontua dando boas-vindas"
+              />
             </div>
 
             <div className="comunidade-learning-layout">
               <aside className="comunidade-sidebar">
-                <span className="comunidade-sidebar-label">Experiencias reais</span>
-                <p>Historias enviadas por participantes do Recicla que Pontua.</p>
+                <span className="comunidade-sidebar-label">Experiências reais</span>
+                <p>Histórias enviadas por participantes do Recicla que Pontua.</p>
 
                 <div className="comunidade-article-list">
                   {artigosComunidade.map((artigo) => (
@@ -437,7 +398,7 @@ export default function ComoFunciona() {
             <div className="comunidade-original-content-grid">
               <section>
                 <div className="comunidade-mini-head">
-                  <h3>Videos e aulas rapidas</h3>
+                  <h3>Vídeos e aulas rápidas</h3>
                   <span>Acervo educativo</span>
                 </div>
                 <div className="comunidade-mini-video-grid">
@@ -462,7 +423,7 @@ export default function ComoFunciona() {
               <section className="comunidade-extras-section">
                 <div className="comunidade-mini-head">
                   <h3>Recursos extras</h3>
-                  <span>Apoio rapido</span>
+                  <span>Apoio rápido</span>
                 </div>
                 <div className="comunidade-extra-grid">
                   {extras.map((extra) => (
@@ -483,14 +444,18 @@ export default function ComoFunciona() {
                 eyebrow="Antes de entregar"
                 icon={<FaRegCircleCheck />}
                 title="Pequenos cuidados que aumentam o valor do material"
-                text="Separacao correta reduz rejeito, evita mau cheiro e ajuda centros e coletores a trabalharem com mais agilidade."
+                text="A separação correta reduz rejeitos, evita mau cheiro e ajuda centros e coletores a trabalharem com mais agilidade."
               />
-              <img src={PetMateriais} alt="Mascote separando materiais reciclaveis" />
+              <img
+                className="pet-floating"
+                src={PetMateriais}
+                alt="Mascote separando materiais recicláveis"
+              />
             </div>
 
             <div className="comunidade-prep-grid">
               <article className="comunidade-checklist-card">
-                <h3>Checklist rapido</h3>
+                <h3>Checklist rápido</h3>
                 <div className="comunidade-checklist">
                   {tips.map((tip) => (
                     <label key={tip}>
@@ -523,10 +488,10 @@ export default function ComoFunciona() {
 
           <section id="videos-reciclagem" className="comunidade-videos-section">
             <SectionHeader
-              eyebrow="Videos"
+              eyebrow="Vídeos"
               icon={<FaVideo />}
               title="Aprenda vendo exemplos reais"
-              text="Conteudos curtos para entender o que pode ser reciclado, como limpar embalagens e como evitar os erros mais comuns."
+              text="Conteúdos curtos para entender o que pode ser reciclado, como limpar embalagens e como evitar os erros mais comuns."
             />
 
             <div className="comunidade-video-grid">
@@ -539,11 +504,11 @@ export default function ComoFunciona() {
           <section className="comunidade-impact-section">
             <div className="comunidade-impact-text">
               <span>
-                <FaRecycle /> Por que isso importa
+                <FaRecycle /> Por que isso importa?
               </span>
               <h2>Reciclar melhor melhora o resultado de todo mundo</h2>
               <p>
-                Quando o material chega limpo, separado e com informacoes
+                Quando o material chega limpo, separado e com informações
                 claras, a plataforma consegue conectar melhor pessoas
                 recicladoras, coletores e centros de reciclagem.
               </p>
@@ -560,34 +525,21 @@ export default function ComoFunciona() {
             </div>
           </section>
 
-          <section className="comunidade-faq-section">
-            <div>
-              <SectionHeader
-                eyebrow="Na pratica"
-                icon={<FaCircleQuestion />}
-                title="Dicas para decidir o destino certo"
-                text="Use estas regras simples antes de cadastrar seus materiais na plataforma."
-              />
-
-              <div className="comunidade-faq-list">
-                {faqItems.map((item) => (
-                  <FaqItem key={item.question} {...item} />
-                ))}
-              </div>
-            </div>
-          </section>
-
           <section className="comunidade-final-cta">
             <div className="comunidade-final-copy">
-              <h2>Agora e so preparar os materiais e escolher o destino.</h2>
+              <h2>Agora é só preparar os materiais e escolher o destino.</h2>
               <p>
                 Use o que aprendeu aqui para deixar tudo limpo, separado e
                 pronto para pontuar no Recicla que Pontua.
               </p>
             </div>
             <div className="comunidade-final-visual">
-              <img src={LogoRetrato} alt="Mascote incentivando a preparar entrega" />
-              <Link to="/doacao/cadastrar-materiais">
+              <img
+                className="pet-floating"
+                src={LogoRetrato}
+                alt="Mascote incentivando a preparar entrega"
+              />
+              <Link to={user ? "/doacao/cadastrar-materiais" : "/login"}>
                 Preparar entrega <FaArrowRight />
               </Link>
             </div>

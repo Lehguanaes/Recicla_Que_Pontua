@@ -4,11 +4,11 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../../contexts/AuthContext";
 import { db } from "../../../services/Firebase";
 import { doc, setDoc, serverTimestamp } from "firebase/firestore";
-import { FaArrowLeft } from "react-icons/fa";
-import { camposPorPerfil } from "./CadastroData";
+import { FaArrowLeft, FaUserEdit } from "react-icons/fa";
+import Alert from "../../../components/alert/Alert";
+import { camposPorPerfil, perfilInfo } from "./CadastroData";
 import { validarCadastro } from "../../../utils/AuthValidation";
 import { validarCampos } from "../../../utils/AuthValidation";
-import EditPerfil from '../../../assets/editPerfil.png';
 import CadastroFields from "./CadastroFields";
 import PasswordFields from "./PasswordFields";
 
@@ -28,10 +28,15 @@ export default function CadastroPanel({
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [confirmCadastroOpen, setConfirmCadastroOpen] = useState(false);
+  const [cadastrando, setCadastrando] = useState(false);
 
   const secoes = camposPorPerfil[perfilSelecionado] || [];
-  const campos = secoes.flatMap((secao) => secao.campos); 
-  //const perfil = perfilInfo[perfilSelecionado];
+  const secoesEtapaUm = secoes.slice(0, 1);
+  const secoesEtapaDois = secoes.slice(1);
+  const camposEtapaUm = secoesEtapaUm.flatMap((secao) => secao.campos);
+  const camposEtapaDois = secoesEtapaDois.flatMap((secao) => secao.campos);
+  const perfil = perfilInfo[perfilSelecionado];
   const { cadastrar } = useAuth();
   const [aceitouTermos, setAceitouTermos] = useState(false);
 
@@ -39,7 +44,7 @@ export default function CadastroPanel({
   //FUNÇÕES
   function validarPrimeiraEtapa() {
     const novosErros = validarCampos(
-      campos,
+      camposEtapaUm,
       formData
     );
 
@@ -51,24 +56,36 @@ export default function CadastroPanel({
 
   }
 
-  async function handleSubmit(e) {
-  e.preventDefault();
+  function validarSegundaEtapa() {
+    const novosErros = validarCampos(
+      camposEtapaDois,
+      formData
+    );
 
-  // Valida apenas os campos da segunda etapa
-  const novosErros = validarCadastro(
-    password,
-    confirmPassword
-  );
+    setErrors(novosErros);
 
-  // Verifica aceite dos termos
-  if (!aceitouTermos) {
-    novosErros.termos = "Você deve aceitar os Termos de Uso.";
+    if (Object.keys(novosErros).length === 0) {
+      setStep(3);
+    }
   }
 
-  setErrors(novosErros);
+  function handleSubmit(e) {
+    e.preventDefault();
 
-  if (Object.keys(novosErros).length > 0) return;
+    const novosErros = validarCadastro(password, confirmPassword);
 
+    if (!aceitouTermos) {
+      novosErros.termos = "Você deve aceitar os Termos de Uso.";
+    }
+
+    setErrors(novosErros);
+
+    if (Object.keys(novosErros).length > 0) return;
+    setConfirmCadastroOpen(true);
+  }
+
+  async function handleConfirmCadastro() {
+  setCadastrando(true);
   try {
     // Cria usuário no Firebase Authentication
     const usuario = await cadastrar(
@@ -102,9 +119,11 @@ export default function CadastroPanel({
       criadoEm: serverTimestamp(),
     });
 
+    setConfirmCadastroOpen(false);
     navigate("/perfil");
 
   } catch (error) {
+    setConfirmCadastroOpen(false);
 
     switch (error.code) {
 
@@ -142,28 +161,41 @@ export default function CadastroPanel({
           geral: "Não foi possível criar sua conta.",
         }));
     }
+  } finally {
+    setCadastrando(false);
   }
 }
 
   return (
     <div className="auth-panel">
       <h1>
-        Criar <span>conta</span>
+        Criar <span className="destaque-titulo">conta</span>
       </h1>
 
-      <p className="subtitle">
-        Cada atitude sustentável faz a diferença. Cadastre-se e transforme sua reciclagem em impacto positivo para você, para a comunidade e para o planeta.
-      </p>
+      {step === 1 && (
+        <p className="subtitle">
+          Cadastre-se e transforme sua reciclagem em impacto positivo para você, para a comunidade e para o planeta.
+        </p>
+      )}
 
       <button
+        type="button"
         className="perfil-badge"
-        onClick={step === 1 ? onVoltarPerfil : () => setStep(1)}
+        onClick={step === 1 ? onVoltarPerfil : () => setStep((etapaAtual) => etapaAtual - 1)}
+        aria-label={step === 1 ? "Trocar Perfil" : "Voltar para a etapa anterior"}
+        title={step === 1 ? "Trocar Perfil" : "Voltar"}
       >
         {step === 1 ? (
-          <img src={EditPerfil} alt="Troque de perfil" />
+          <>
+            <FaUserEdit size={17} aria-hidden="true" />
+            <span>Trocar Perfil</span>
+          </>
 
         ) : (
-          <FaArrowLeft size={18} aria-label="Voltar para revisar seus dados" />
+          <>
+            <FaArrowLeft size={17} aria-hidden="true" />
+            <span>Voltar</span>
+          </>
         )}
       </button>
 
@@ -175,7 +207,7 @@ export default function CadastroPanel({
         {step === 1 && (
           <>
             <CadastroFields
-              secoes={secoes}
+              secoes={secoesEtapaUm}
               formData={formData}
               errors={errors}
               setFormData={setFormData}
@@ -192,6 +224,28 @@ export default function CadastroPanel({
 
         {step === 2 && (
           <>
+            <CadastroFields
+              secoes={secoesEtapaDois}
+              formData={formData}
+              errors={errors}
+              setFormData={setFormData}
+              setErrors={setErrors}
+            />
+
+            <div className="cadastro-actions">
+              <button type="button" className="next-button" onClick={validarSegundaEtapa}>
+                Continuar
+              </button>
+            </div>
+          </>
+        )}
+
+        {step === 3 && (
+          <>
+            <h3 className="secao-titulo cadastro-seguranca-titulo">
+              Segurança
+            </h3>
+
             <PasswordFields
               password={password}
               setPassword={setPassword}
@@ -230,6 +284,40 @@ export default function CadastroPanel({
               )}
             </form>
 
+      <Alert
+        isOpen={confirmCadastroOpen}
+        title="Tudo certo com seus dados?"
+        message="Confira o resumo antes de criar sua conta."
+        variant="success"
+        confirmText="Criar minha conta"
+        cancelText="Revisar dados"
+        onConfirm={handleConfirmCadastro}
+        onCancel={() => setConfirmCadastroOpen(false)}
+        loading={cadastrando}
+      >
+        <div className="cadastro-confirm-summary">
+          <div className="cadastro-confirm-heading">Resumo do cadastro</div>
+          <dl>
+            <div>
+              <dt>Perfil</dt>
+              <dd>{perfil?.label || "Não informado"}</dd>
+            </div>
+            <div>
+              <dt>Nome</dt>
+              <dd>{formData.nome || "Não informado"}</dd>
+            </div>
+            <div>
+              <dt>E-mail</dt>
+              <dd>{formData.email || "Não informado"}</dd>
+            </div>
+            <div>
+              <dt>Localização</dt>
+              <dd>{[formData.cidade, formData.estado].filter(Boolean).join(" - ") || "Não informada"}</dd>
+            </div>
+          </dl>
+        </div>
+      </Alert>
+
       <p className="register">
         Já tem uma conta?{" "}
         <button
@@ -244,4 +332,4 @@ export default function CadastroPanel({
   );
 }
 
-//Adicionar a verificção de telefone, adcionar options de tipos de intituição, cidade/estado tbm.
+// TODO: adicionar a verificação de telefone e opções de tipos de instituição.

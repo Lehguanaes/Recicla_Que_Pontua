@@ -1,8 +1,5 @@
 export * from './colors';
 
-// ============================================================
-// TIPOS DE MATERIAL
-// ============================================================
 export const MATERIAL_TYPES = [
   { value: '', label: 'Todos os materiais' },
   { value: 'papel', label: 'Papel' },
@@ -11,28 +8,22 @@ export const MATERIAL_TYPES = [
   { value: 'vidro', label: 'Vidro' },
   { value: 'metal', label: 'Metal' },
   { value: 'eletronico', label: 'Eletrônico' },
-  { value: 'oleo', label: 'Óleo de Cozinha' },
+  { value: 'oleo', label: 'Óleo de cozinha' },
 ];
 
-// ============================================================
-// OPÇÕES DE ORDENAÇÃO
-// ============================================================
 export const SORT_OPTIONS = [
   { value: '', label: 'Relevância' },
-  { value: 'maior_preco', label: 'Maior Preço' },
-  { value: 'menor_distancia', label: 'Menor Distância' },
+  { value: 'maior_preco', label: 'Maior preço' },
+  { value: 'menor_distancia', label: 'Menor distância' },
 ];
 
 // ============================================================
 // RAIOS DE DISTÂNCIA (km)
 // ============================================================
 export const DISTANCE_OPTIONS = [
-  { value: 1, label: '1 km' },
-  { value: 2, label: '2 km' },
-  { value: 5, label: '5 km' },
-  { value: 10, label: '10 km' },
-  { value: 20, label: '20 km' },
-  { value: 50, label: '50 km' },
+  { value: 1, label: '10 km' },
+  { value: 2, label: '20 km' },
+  { value: 5, label: '50 km' },
 ];
 
 // ============================================================

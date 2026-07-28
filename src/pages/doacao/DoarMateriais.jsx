@@ -86,9 +86,16 @@ const DoarMateriais = () => {
     selected,
     loading,
     error,
+    origem,
+    enderecoCompleto,
+    localTemporario,
+    buscandoLocal,
+    avisoLocal,
     updateFilter,
     resetFilters,
     search,
+    buscarPorLocalizacaoAtual,
+    limparLocalTemporario,
     selectCollector,
   } = useCollectorSearch(null, initialFilters);
 
@@ -116,7 +123,7 @@ const DoarMateriais = () => {
   const renderRegisteredMaterialTags = () =>
     registeredMaterials.length > 0 && (
       <div className="donation-material-tags" aria-label="Materiais cadastrados">
-        <span>Materiais Cadastrados</span>
+        <span>Materiais cadastrados</span>
         <div>
           {registeredMaterials.map((material) => (
             <strong key={material.value}>
@@ -144,14 +151,14 @@ const DoarMateriais = () => {
             <img
               src={PetLimparFiltro}
               alt=""
-              className="donation-empty-image"
+              className="donation-empty-image pet-floating"
             />
           </button>
 
           <strong>Nenhum resultado encontrado.</strong>
 
           <span>
-            Tente ajustar os filtros ou ampliar o raio de distância.
+            Ajuste os filtros ou amplie o raio de distância.
           </span>
 
         </div>
@@ -210,23 +217,34 @@ const DoarMateriais = () => {
         <section className="donation-hero">
           <div className="donation-hero-text">
             <span className="donation-kicker">
-              <FaRecycle /> Reciclagem de Materiais
+              <FaRecycle /> Reciclagem de materiais
             </span>
             <h2>Encontre catadores e centros de coleta perto de você!</h2>
             <p>
               {registeredMaterials.length > 0
-                ? "Sua busca já esta filtrada pelos materiais cadastrados! Agora escolha quem pode receber ou coletar."
+                ? "Sua busca já está filtrada pelos materiais cadastrados. Agora, escolha quem pode recebê-los ou coletá-los."
                 : "Busque por nome, material, distância e intenção para combinar sua doação com quem pode receber ou coletar."}
             </p>
           </div>
 
           <div className="donation-search-panel">
             <SearchBar
-              value={filters.nome}
-              onChange={(value) => updateFilter("nome", value)}
+              value={filters.endereco_busca}
+              onChange={(valor) => updateFilter("endereco_busca", valor)}
               onSearch={search}
-              placeholder="Buscar catador, centro ou cooperativa"
+              enderecoUsuario={enderecoCompleto}
+              onUseCurrentLocation={buscarPorLocalizacaoAtual}
+              onClear={limparLocalTemporario}
+              loading={buscandoLocal}
+              aviso={avisoLocal}
+              localAtivo={Boolean(localTemporario)}
+              placeholder="Seu local (rua, bairro ou cidade)"
             />
+            {localTemporario?.enderecoFormatado && (
+              <small className="donation-local-ativo">
+                Buscando perto de: {localTemporario.enderecoFormatado}
+              </small>
+            )}
 
             <div className="donation-toolbar">
               <div className="donation-tabs" aria-label="Alternar visualização">
@@ -272,10 +290,15 @@ const DoarMateriais = () => {
                 <div className="donation-map-header">
                   <div>
                     <span>Mapa de coleta</span>
-                    <strong>{results.length} locais encontrados</strong>
+                    <strong>
+                      {results.length} {results.length === 1 ? "local encontrado" : "locais encontrados"}
+                    </strong>
                     {semLocalizacaoCount > 0 && (
                       <small className="donation-map-aviso">
-                        {semLocalizacaoCount} sem localização no mapa
+                        {semLocalizacaoCount}{" "}
+                        {semLocalizacaoCount === 1
+                          ? "local sem localização no mapa"
+                          : "locais sem localização no mapa"}
                       </small>
                     )}
                   </div>
@@ -286,6 +309,7 @@ const DoarMateriais = () => {
                     collectors={mapCollectors}
                     selected={selectedForMap}
                     onSelectCollector={selectCollector}
+                    origin={origem}
                   />
                   {selected && (
                     <SelectedCard

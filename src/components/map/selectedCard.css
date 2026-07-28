@@ -1,0 +1,142 @@
+.selected-card-container {
+  position:absolute;
+
+    left:16px;
+    right:16px;
+    bottom:60px;
+    z-index:500;
+    display:flex;
+    gap:14px;
+    padding:18px;
+    background:var(--secondary);
+    color:#000000;
+    border-radius:18px;
+    box-shadow:0 8px 24px rgba(0,0,0,.25);
+}
+
+.selected-card-content {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.selected-avatar {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: var(--color-rgba-255-255-255-0p25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 26px;
+  flex-shrink: 0;
+}
+
+.selected-info {
+  flex: 1;
+}
+
+.selected-name {
+  font-size: 17px;
+  font-weight: 700;
+  margin-bottom: 2px;
+}
+
+.selected-subtitle {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  opacity: 0.9;
+  margin-bottom: 4px;
+}
+
+.selected-star {
+  color: gold;
+}
+
+.selected-detail {
+  font-size: 13px;
+  opacity: 0.85;
+}
+
+.selected-card-button {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--color-white);
+  color: var(--color-secondary);
+  border: none;
+  border-radius: 20px;
+  padding: 10px 20px;
+  margin-right: 50px;
+  font-size: 14px;
+  font-weight: 600;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.18);
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.selected-card-button-icon {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: var(--color-secondary);
+  color: var(--color-white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.selected-close {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  width: 26px;
+  height: 26px;
+  border: none;
+  border-radius: 50%;
+  background: var(--color-rgba-255-255-255-0p3);
+  color: black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+
+
+.selected-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-right: 50px;
+}
+
+.selected-btn-secondary {
+  background: transparent;
+  color: var(--color-brand-green-deep);
+  border: 1px solid var(--color-brand-green-deep);
+  border-radius: 11px;
+  padding: 10px 20px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: .2s;
+}
+
+.selected-btn-secondary:hover {
+  background: rgb(255, 255, 255);
+}
+
+.selected-card-button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 14px;
+}

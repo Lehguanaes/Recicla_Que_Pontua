@@ -28,6 +28,7 @@ import Coletor from "../../assets/catador.png";
 import CentroColeta from "../../assets/centrocoleta.png";
 import PetDuvidas from "../../assets/PetDuvidas.png";
 import PetComecar from "../../assets/PetComecar.png";
+import { useAuth } from "../../contexts/AuthContext";
 import "./home.css";
 
 const websiteFeatures = [
@@ -128,13 +129,13 @@ const partnerChoices = [
 const audienceReasons = [
   {
     icon: FaHouseChimney,
-    title: "Pessoa Recicladora",
+    title: "Pessoa recicladora",
     text: "Para quem quer reciclar em casa, encontrar um destino confiável e ganhar pontos por cada entrega confirmada.",
     highlight: "Recicle e pontue",
   },
   {
     icon: FaBuilding,
-    title: "Unidade que Recicla",
+    title: "Unidade que recicla",
     text: "Gestão mais simples para empresas, condomínios, escolas, lojas e pequenos negócios que acumulam materiais e precisam organizar o descarte.",
     highlight: "Iniciativas verdes",
   },
@@ -142,11 +143,11 @@ const audienceReasons = [
     icon: FaTruckFast,
     title: "Coletor",
     text: "Para quem coleta materiais e quer receber solicitações mais claras, com tipos, volume e localização já informados.",
-    highlight: "Praticidade e Coletas certeiras",
+    highlight: "Praticidade e coletas certeiras",
   },
   {
     icon: FaRecycle,
-    title: "Centro de Reciclagem",
+    title: "Centro de reciclagem",
     text: "Para unidades compradoras divulgarem materiais aceitos, preços, horários e atraírem entregas mais qualificadas.",
     highlight: "Mais materiais chegando",
   },
@@ -172,6 +173,21 @@ const faqs = [
     question: "O site aceita vários materiais no mesmo cadastro?",
     answer:
       "Sim. Você pode registrar diferentes materiais e buscar parceiros que aceitam todos, evitando deslocamentos para vários lugares.",
+  },
+  {
+    question: "Como preparar as embalagens antes de cadastrá-las?",
+    answer:
+      "Retire restos de alimentos, óleo ou bebida, enxágue apenas quando necessário e mantenha os materiais secos. Não é preciso gastar muita água: remover o excesso já ajuda na coleta e na triagem.",
+  },
+  {
+    question: "O que fazer quando tenho dúvida se um item é reciclável?",
+    answer:
+      "Confira o material principal e procure o símbolo de reciclagem na embalagem. Se a dúvida continuar, consulte um parceiro antes de misturar o item com recicláveis limpos.",
+  },
+  {
+    question: "Como separar materiais pequenos, mistos ou quebrados?",
+    answer:
+      "Embale e sinalize vidros quebrados. Itens pequenos, adesivos, embalagens laminadas e objetos compostos por vários materiais devem ficar separados até que você confirme o destino adequado.",
   },
 ];
 
@@ -278,6 +294,8 @@ function FaqItem({ question, answer }) {
 }
 
 export default function Home() {
+  const { user } = useAuth();
+
   return (
     <>
       <Navbar />
@@ -297,7 +315,10 @@ export default function Home() {
             </p>
 
             <div className="home-hero-actions">
-              <Link className="home-primary-button" to="/doacao/cadastrar-materiais">
+              <Link
+                className="home-primary-button"
+                to={user ? "/doacao/cadastrar-materiais" : "/login"}
+              >
                 Cadastrar materiais <FaArrowRight />
               </Link>
               <Link className="home-secondary-button" to="/como-reciclar">
@@ -308,13 +329,13 @@ export default function Home() {
           </div>
 
           <div className="home-hero-visual" aria-label="Ilustração da plataforma">
-            <img src={LogoRetrato} alt="Recicla que Pontua" />
+            <img className="pet-floating" src={LogoRetrato} alt="Recicla que Pontua" />
           </div>
         </section>
 
         <section className="home-explanation">
           <SectionHeader
-            eyebrow="O que é o site"
+            eyebrow="O que é o site?"
             icon={<FaRecycle />}
             title="Um intermediador entre quem separa e quem recicla"
             text="A plataforma organiza materiais, preferências e parceiros para que o descarte deixe de ser confuso e vire uma escolha simples."
@@ -329,7 +350,7 @@ export default function Home() {
 
         <section className="home-audience-section">
           <SectionHeader
-            eyebrow="Por que usar"
+            eyebrow="Por que usar?"
             icon={<FaPeopleCarryBox />}
             title="Quem se beneficia com a plataforma?"
             text="Cada perfil entra na plataforma com uma necessidade diferente, mas todos ganham com uma reciclagem mais organizada, rastreável e recompensada."
@@ -362,11 +383,11 @@ export default function Home() {
               <FaMedal />
               Gamificação
             </span>
-            <h2>Reciclar também vira conquista</h2>
+            <h2>Reciclar também vira conquista!</h2>
             <p>
               Pontos, medalhas, ranking regional e estatísticas de impacto
               ambiental ajudam pessoas recicladoras, coletores e unidades a
-              acompanharem sua evolução.
+              acompanhar sua evolução.
             </p>
             <Link to="/ranking">
               Conhecer ranking <FaArrowRight />
@@ -376,7 +397,7 @@ export default function Home() {
             <div>
               <FaLeaf />
               <strong>Impacto ambiental</strong>
-              <span>Estimativas de plástico, água e energia economizada.</span>
+              <span>Estimativas de plástico reciclado e de água e energia economizadas.</span>
             </div>
             <div>
               <FaMedal />
@@ -396,7 +417,7 @@ export default function Home() {
           <SectionHeader
             eyebrow="Passo a passo"
             icon={<FaAward />}
-            title="Como sair do material parado para os pontos"
+            title="Como transformar materiais parados em pontos?"
             text="O caminho é curto: separar, cadastrar, escolher o melhor destino e confirmar a entrega para pontuar."
           />
 
@@ -412,10 +433,14 @@ export default function Home() {
             <SectionHeader
               eyebrow="Aprenda a separar"
               icon={<FaLeaf />}
-              title="Materiais recicláveis que podem ganhar novo destino"
+              title="Materiais recicláveis que podem ganhar novo destino!"
               text="Separar corretamente aumenta as chances de venda, evita contaminação e ajuda centros e coletores a trabalharem melhor."
             />
-            <img src={PetRecicla} alt="Pet separando materiais recicláveis" />
+            <img
+              className="pet-floating"
+              src={PetRecicla}
+              alt="Pet separando materiais recicláveis"
+            />
           </div>
 
           <div className="home-material-grid">
@@ -443,7 +468,7 @@ export default function Home() {
             </div>
 
             <img
-              className="home-faq-pet"
+              className="home-faq-pet pet-floating"
               src={PetDuvidas}
               alt="Mascote tirando dúvidas sobre reciclagem"
             />
@@ -451,7 +476,11 @@ export default function Home() {
         </section>
 
         <section className="home-final-cta">
-          <img src={PetComecar} alt="Mascote incentivando a começar a reciclar" />
+          <img
+            className="pet-floating"
+            src={PetComecar}
+            alt="Mascote incentivando a começar a reciclar"
+          />
           <div>
             <h2>Pronto para dar destino certo aos seus recicláveis?</h2>
             <p>
@@ -459,7 +488,7 @@ export default function Home() {
               impacto que você já pode gerar hoje.
             </p>
           </div>
-          <Link to="/doacao/cadastrar-materiais">
+          <Link to={user ? "/doacao/cadastrar-materiais" : "/login"}>
             Começar agora <FaArrowRight />
           </Link>
         </section>

@@ -5,7 +5,7 @@
 .select-user {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 14px;
 }
 
 /* ==========================
@@ -13,15 +13,23 @@
 ========================== */
 
 .titulo {
-  color: var(--secondary);
-  font-size: 1.8rem;
-  font-weight: 700;
+  margin: 0;
+  padding-inline: 44px;
+  color: var(--color-brand-green-dark);
+  font-size: clamp(1.65rem, 2.6vw, 2.15rem);
+  font-weight: var(--font-weight-title);
+  line-height: var(--line-height-title);
+  text-align: center;
 }
 
 .description {
-  color: var(--color-hex-777);
+  max-width: 720px;
+  margin: 0 0 12px;
+  align-self: center;
+  color: var(--color-text-muted);
   line-height: 1.5;
-  font-size: 0.95rem;
+  font-size: 1rem;
+  text-align: center;
 }
 
 /* ==========================
@@ -30,16 +38,20 @@
 
 .select-user-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 20px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
 }
 .select-user-grid img{
-  width: 160px;
+  width: 100%;
 }
 
 /* Tablet e celular */
 
 @media (max-width: 768px) {
+  .titulo {
+    padding-inline: 34px;
+  }
+
   .select-user-grid {
     grid-template-columns: 1fr;
   }

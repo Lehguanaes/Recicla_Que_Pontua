@@ -3,7 +3,7 @@ import { COLORS } from '../../constants';
 
 const variants = {
   primary: {
-    background: 'var(--color-keyword-transparent)',
+    background: 'var(--color-transparent)',
     color: COLORS.orange,
     border: `1.5px solid ${COLORS.orange}`,
   },
@@ -13,12 +13,12 @@ const variants = {
     border: 'none',
   },
   outline: {
-    background: 'var(--color-keyword-transparent)',
+    background: 'var(--color-transparent)',
     color: COLORS.orange,
     border: `1.5px solid ${COLORS.orange}`,
   },
   ghost: {
-    background: 'var(--color-keyword-transparent)',
+    background: 'var(--color-transparent)',
     color: COLORS.primary,
     border: 'none',
   },
@@ -34,6 +34,7 @@ const sizes = {
  * Botão reutilizável
  * @param {'primary'|'secondary'|'outline'|'ghost'} variant
  * @param {'sm'|'md'|'lg'} size
+ * @param {boolean} loading - desabilita o botão e troca o texto por "Carregando..."
  */
 const Button = ({
   children,
@@ -41,23 +42,27 @@ const Button = ({
   size = 'md',
   fullWidth = false,
   disabled = false,
+  loading = false,
   onClick,
   style = {},
   ...props
 }) => {
   const v = variants[variant] || variants.primary;
   const s = sizes[size] || sizes.md;
+  const isDisabled = disabled || loading;
 
   return (
     <button
+      type="button"
       onClick={onClick}
-      disabled={disabled}
+      disabled={isDisabled}
+      aria-busy={loading}
       style={{
         ...v,
         ...s,
         width: fullWidth ? '100%' : 'auto',
-        cursor: disabled ? 'not-allowed' : 'pointer',
-        opacity: disabled ? 0.5 : 1,
+        cursor: isDisabled ? 'not-allowed' : 'pointer',
+        opacity: isDisabled ? 0.5 : 1,
         fontWeight: 600,
         display: 'inline-flex',
         alignItems: 'center',
@@ -68,7 +73,7 @@ const Button = ({
       }}
       {...props}
     >
-      {children}
+      {loading ? 'Carregando...' : children}
     </button>
   );
 };

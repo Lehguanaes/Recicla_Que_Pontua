@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import  { maskCPF, maskCNPJ, maskTelefone } from '../../../utils/Formatters';
 
 const mascaras = {
@@ -6,6 +6,69 @@ const mascaras = {
   cnpj: maskCNPJ,
   telefone: maskTelefone,
 };
+
+function CustomSelect({
+  value,
+  placeholder,
+  options,
+  disabled,
+  error,
+  onChange,
+}) {
+  const [open, setOpen] = useState(false);
+  const containerRef = useRef(null);
+  const selectedOption = options.find((option) => option.value === value);
+
+  useEffect(() => {
+    function handleOutsideClick(event) {
+      if (!containerRef.current?.contains(event.target)) {
+        setOpen(false);
+      }
+    }
+
+    document.addEventListener('mousedown', handleOutsideClick);
+    return () => document.removeEventListener('mousedown', handleOutsideClick);
+  }, []);
+
+  return (
+    <div
+      ref={containerRef}
+      className={`custom-select${open ? ' is-open' : ''}${error ? ' error' : ''}${disabled ? ' is-disabled' : ''}`}
+    >
+      <button
+        type="button"
+        className={`custom-select-trigger${selectedOption ? '' : ' is-placeholder'}`}
+        disabled={disabled}
+        aria-haspopup="listbox"
+        aria-expanded={open}
+        onClick={() => setOpen((current) => !current)}
+      >
+        <span>{selectedOption?.label || placeholder}</span>
+        <span className="custom-select-chevron" aria-hidden="true" />
+      </button>
+
+      {open && (
+        <div className="custom-select-menu" role="listbox">
+          {options.map((option) => (
+            <button
+              type="button"
+              role="option"
+              aria-selected={option.value === value}
+              className={`custom-select-option${option.value === value ? ' selected' : ''}`}
+              key={option.value}
+              onClick={() => {
+                onChange(option.value);
+                setOpen(false);
+              }}
+            >
+              {option.label}
+            </button>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
 
 export default function CadastroFields({
   secoes,
@@ -92,25 +155,18 @@ export default function CadastroFields({
       : campo.options || [];
 
     let textoPlaceholder = campo.placeholder;
-    if (bloqueado) textoPlaceholder = 'Selecione o estado primeiro';
+    if (bloqueado) textoPlaceholder = 'Selecione o estado';
     else if (carregando) textoPlaceholder = 'Carregando cidades...';
 
     return (
-      <select
+      <CustomSelect
         value={formData[campo.name] || ''}
-        className={errors[campo.name] ? 'error' : ''}
+        placeholder={textoPlaceholder}
+        options={opcoes}
         disabled={bloqueado || carregando}
-        onChange={(e) => handleChange(campo, e.target.value)}
-      >
-        <option value="" disabled>
-          {textoPlaceholder}
-        </option>
-        {opcoes.map((opcao) => (
-          <option key={opcao.value} value={opcao.value}>
-            {opcao.label}
-          </option>
-        ))}
-      </select>
+        error={Boolean(errors[campo.name])}
+        onChange={(value) => handleChange(campo, value)}
+      />
     );
   }
 
@@ -124,7 +180,10 @@ export default function CadastroFields({
         type={campo.type}
         placeholder={campo.placeholder}
         value={formData[campo.name] || ''}
-        className={errors[campo.name] ? 'error' : ''}
+        className={[
+          errors[campo.name] ? 'error' : '',
+          campo.type === 'date' && !formData[campo.name] ? 'is-empty' : '',
+        ].filter(Boolean).join(' ')}
         inputMode={
           ['cpf', 'cnpj', 'telefone', 'cep'].includes(campo.name)
             ? 'numeric'
