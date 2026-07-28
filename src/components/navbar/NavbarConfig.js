@@ -3,6 +3,7 @@ import {
   FaComments,
   FaRecycle,
   FaTrophy,
+  FaUserPlus,
 } from "react-icons/fa";
 
 export const navbarPorPerfil = {
@@ -40,6 +41,11 @@ export const navbarPorPerfil = {
       label: "Ranking",
       icon: FaTrophy,
     },
+     {
+      to: "/convites",
+      label: "Convites",
+      icon: FaUserPlus,
+    },
     {
       to: "/chat",
       label: "Chat",
@@ -52,6 +58,11 @@ export const navbarPorPerfil = {
       to: "/ranking",
       label: "Ranking",
       icon: FaTrophy,
+    },
+    {
+      to: "/convites",
+      label: "Convites",
+      icon: FaUserPlus,
     },
     {
       to: "/chat",
@@ -77,6 +88,11 @@ export const navbarPorPerfil = {
       icon: FaTrophy,
     },
     {
+      to: "/convites",
+      label: "Convites",
+      icon: FaUserPlus,
+    },
+    {
       to: "/chat",
       label: "Chat",
       icon: FaComments,
@@ -88,6 +104,11 @@ export const navbarPorPerfil = {
       to: "/dashboard",
       label: "Principal",
       icon: FaHome,
+    },
+    {
+      to: "/convites",
+      label: "Convites",
+      icon: FaUserPlus,
     },
     {
       to: "/chat",
