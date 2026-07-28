@@ -1,5 +1,5 @@
 import React from "react";
-import { FaStar, FaUserPlus } from "react-icons/fa";
+import { FaStar, FaUserPlus, FaComments } from "react-icons/fa";
 import { COLORS } from "../../constants";
 import Button from "../common/Button";
 
@@ -8,6 +8,8 @@ const SelectedCard = ({
   collector,
   onClose,
   onOpenInvite,
+  invitation,
+  userProfile,
 }) => {
   if (!collector) return null;
 
@@ -107,51 +109,69 @@ const SelectedCard = ({
       </div>
 
       {/* Botão */}
-<Button
-  onClick={() => onOpenInvite(collector)}
-  className="selected-card-button"
-  style={{
-    display: "flex",
-    alignItems: "center",
-    gap: "10px",
+      {userProfile !== "coletor-autonomo" && userProfile !== "centro-coleta" && (
+        (() => {
+          const status = invitation?.status;
+          let btnText = "Enviar Convite";
+          let btnDisabled = false;
+          let btnIcon = <FaUserPlus size={13} />;
+          let btnClick = () => onOpenInvite(collector);
 
-    background: COLORS.white,
-    color: COLORS.secondary,
+          if (status === "pendente") {
+            btnText = "Convite enviado";
+            btnDisabled = true;
+            btnClick = undefined;
+          } else if (status === "aceito") {
+            btnText = "Chat";
+            btnDisabled = false;
+            btnIcon = <FaComments size={13} />;
+            btnClick = () => {
+              // TODO: Implementar chat futuramente
+            };
+          }
 
-    border: "none",
-    borderRadius: "20px",
-
-    padding: "10px 20px",
-    marginRight: "50px",
-
-    fontWeight: 600,
-    fontSize: "14px",
-
-    boxShadow: "0 8px 20px rgba(0,0,0,.18)",
-    cursor: "pointer",
-    transition: "all .25s ease",
-  }}
->
-  <span
-    style={{
-      width: 30,
-      height: 30,
-      borderRadius: "50%",
-      background: COLORS.secondary,
-      color: COLORS.white,
-
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
-
-      flexShrink: 0,
-    }}
-  >
-    <FaUserPlus size={13} />
-  </span>
-
-  <span>Enviar Convite</span>
-</Button>
+          return (
+            <Button
+              onClick={btnClick}
+              disabled={btnDisabled}
+              className="selected-card-button"
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "10px",
+                background: COLORS.white,
+                color: COLORS.secondary,
+                border: "none",
+                borderRadius: "20px",
+                padding: "10px 20px",
+                marginRight: "50px",
+                fontWeight: 600,
+                fontSize: "14px",
+                boxShadow: "0 8px 20px rgba(0,0,0,.18)",
+                cursor: btnDisabled ? "not-allowed" : "pointer",
+                transition: "all .25s ease",
+              }}
+            >
+              <span
+                style={{
+                  width: 30,
+                  height: 30,
+                  borderRadius: "50%",
+                  background: COLORS.secondary,
+                  color: COLORS.white,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  flexShrink: 0,
+                }}
+              >
+                {btnIcon}
+              </span>
+              <span>{btnText}</span>
+            </Button>
+          );
+        })()
+      )}
 
       {/* Botão fechar */}
       <button

@@ -10,6 +10,7 @@ import Ranking from "./pages/ranking/Ranking";
 import EncontrarParceiros from "./pages/doacao/DoarMateriais";
 import CadastrarMateriais from "./pages/doacao/CadastrarMateriais";
 import Recompensas from "./pages/recompensas/Recompensas";
+import Convite from "./pages/convites/Convite";
 
 function App() {
   return (
@@ -32,6 +33,7 @@ function App() {
         <Route path="/buscarCatadores" element={<Navigate to="/doacao/cadastrar-materiais" replace />} />
         <Route path="/buscarcatadores" element={<Navigate to="/doacao/cadastrar-materiais" replace />} />
         <Route path="/sobre" element={<Navigate to="/como-reciclar" replace />} />
+        <Route path="/convites" element={<Convite />} />
       </Routes>
     </BrowserRouter>
   );

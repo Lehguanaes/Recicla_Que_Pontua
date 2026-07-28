@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useMemo, useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import {
   FaFilter,
@@ -16,6 +16,18 @@ import SelectedCard from "../../components/map/SelectedCard";
 import ConfirmarConvite from "../convites/ConfirmarConvites";
 import Navbar from "../../components/navbar/Navbar";
 import Rodape from "../../components/rodape/Rodape";
+import { useAuth } from "../../contexts/AuthContext";
+import { db } from "../../services/Firebase";
+import {
+  collection,
+  query,
+  where,
+  onSnapshot,
+  doc,
+  setDoc,
+  updateDoc,
+  serverTimestamp,
+} from "firebase/firestore";
 import "./doarMateriais.css";
 
 // Nem todo coletor/centro tem endereço geocodificável (CEP inválido,
@@ -47,6 +59,27 @@ const DoarMateriais = () => {
   const [openInvite, setOpenInvite] = useState(false);
   const [selectedInvite, setSelectedInvite] = useState(null);
 
+  const { user } = useAuth();
+  const [sentInvitations, setSentInvitations] = useState([]);
+
+  useEffect(() => {
+    if (!user?.uid) return;
+    const q = query(
+      collection(db, "convites"),
+      where("remetenteId", "==", user.uid)
+    );
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      const list = [];
+      snapshot.forEach((docSnap) => {
+        list.push({ id: docSnap.id, ...docSnap.data() });
+      });
+      setSentInvitations(list);
+    }, (err) => {
+      console.error("Erro ao assinar convites:", err);
+    });
+    return unsubscribe;
+  }, [user?.uid]);
+
   const {
     filters,
     results,
@@ -58,6 +91,11 @@ const DoarMateriais = () => {
     search,
     selectCollector,
   } = useCollectorSearch(null, initialFilters);
+
+  const invitation = useMemo(() => {
+    if (!selected || !sentInvitations.length) return null;
+    return sentInvitations.find((inv) => inv.destinatarioId === selected.id);
+  }, [selected, sentInvitations]);
 
   const activeFilterCount = [
     filters.nome,
@@ -132,6 +170,37 @@ const DoarMateriais = () => {
       )}
     </div>
   );
+
+  const handleConfirmInvite = async () => {
+    if (!user?.uid || !selectedInvite) return;
+    const existingInv = sentInvitations.find(
+      (inv) => inv.destinatarioId === selectedInvite.id
+    );
+    try {
+      if (existingInv) {
+        const docRef = doc(db, "convites", existingInv.id);
+        await updateDoc(docRef, {
+          status: "pendente",
+          createdAt: serverTimestamp(),
+          respondedAt: null,
+        });
+      } else {
+        const newDocRef = doc(collection(db, "convites"));
+        await setDoc(newDocRef, {
+          conviteId: newDocRef.id,
+          remetenteId: user.uid,
+          destinatarioId: selectedInvite.id,
+          status: "pendente",
+          createdAt: serverTimestamp(),
+          respondedAt: null,
+        });
+      }
+    } catch (error) {
+      console.error("Erro ao enviar convite:", error);
+    } finally {
+      setOpenInvite(false);
+    }
+  };
 
   return (
     <>
@@ -219,14 +288,16 @@ const DoarMateriais = () => {
                     onSelectCollector={selectCollector}
                   />
                   {selected && (
-                   <SelectedCard
-                  collector={selected}
-                  onClose={() => selectCollector(null)}
-                  onOpenInvite={(collector) => {
-                    setSelectedInvite(collector);
-                    setOpenInvite(true);
-                  }}
-/>
+                    <SelectedCard
+                      collector={selected}
+                      onClose={() => selectCollector(null)}
+                      onOpenInvite={(collector) => {
+                        setSelectedInvite(collector);
+                        setOpenInvite(true);
+                      }}
+                      invitation={invitation}
+                      userProfile={user?.perfil}
+                    />
                   )}
                 </div>
               </div>
@@ -264,10 +335,7 @@ const DoarMateriais = () => {
         open={openInvite}
         collector={selectedInvite}
         onClose={() => setOpenInvite(false)}
-        onConfirm={() => {
-          alert("Convite enviado!");
-          setOpenInvite(false);
-        }}
+        onConfirm={handleConfirmInvite}
       />
 
       <Rodape />
