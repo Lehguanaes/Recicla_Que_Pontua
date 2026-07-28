@@ -19,6 +19,8 @@ import {
   geocodificarEndereco,
   geocodificarPorCep,
   geocodificarTexto,
+  montarEnderecoTexto,
+  reverseGeocodificar,
 } from "../utils/Geocoding";
 
 // Perfis que aparecem como resultado de busca na tela de doação
@@ -51,6 +53,10 @@ const FILTROS_INICIAIS = {
 const AVISO_SEM_LOCAL = "Insira seu local na barra de busca.";
 const AVISO_ENDERECO_NAO_ENCONTRADO =
   "Não encontramos esse endereço. Tente incluir rua, bairro e cidade.";
+const AVISO_GEOLOCALIZACAO_INDISPONIVEL =
+  "Seu navegador não permite obter a localização atual.";
+const AVISO_GEOLOCALIZACAO_NEGADA =
+  "Não foi possível acessar sua localização. Verifique a permissão do navegador.";
 
 /**
  * Busca catadores autônomos e centros de coleta cadastrados no Firestore
@@ -80,6 +86,7 @@ export default function useCollectorSearch(uidParam, filtrosIniciais = {}) {
   });
   const [collectors, setCollectors] = useState([]);
   const [userLocation, setUserLocation] = useState(null);
+  const [enderecoCompleto, setEnderecoCompleto] = useState(null);
   const [localTemporario, setLocalTemporario] = useState(null); // { lat, lng, enderecoFormatado }
   const [buscandoLocal, setBuscandoLocal] = useState(false);
   const [avisoLocal, setAvisoLocal] = useState(null);
@@ -94,25 +101,34 @@ export default function useCollectorSearch(uidParam, filtrosIniciais = {}) {
   }, [JSON.stringify(filtrosIniciais)]);
 
   const obterLocalizacaoUsuario = useCallback(async () => {
-    if (!uid) return null;
+    if (!uid) return { coords: null, enderecoTexto: null };
 
     const snapUsuario = await getDoc(doc(db, "usuarios", uid));
-    if (!snapUsuario.exists()) return null;
+    if (!snapUsuario.exists()) return { coords: null, enderecoTexto: null };
 
     const dadosUsuario = snapUsuario.data();
+    const endereco = dadosUsuario.endereco || {};
+    const cidade = endereco.cidade || dadosUsuario.cidade;
+    const estado = endereco.estado || dadosUsuario.estado;
+    const enderecoTexto = montarEnderecoTexto({
+      rua: endereco.rua,
+      bairro: endereco.bairro,
+      cidade,
+      estado,
+    });
+
     if (
       typeof dadosUsuario.latitude === "number" &&
       typeof dadosUsuario.longitude === "number"
     ) {
-      return { lat: dadosUsuario.latitude, lng: dadosUsuario.longitude };
+      return {
+        coords: { lat: dadosUsuario.latitude, lng: dadosUsuario.longitude },
+        enderecoTexto,
+      };
     }
 
-    const endereco = dadosUsuario.endereco || {};
     const cep = extrairCep(dadosUsuario);
-    const cidade = endereco.cidade || dadosUsuario.cidade;
-    const estado = endereco.estado || dadosUsuario.estado;
 
-    
     let coordenadas = cep ? await geocodificarPorCep(cep) : null;
     if (!coordenadas && Object.keys(endereco).length > 0) {
       await aguardar(300);
@@ -124,7 +140,7 @@ export default function useCollectorSearch(uidParam, filtrosIniciais = {}) {
       coordenadas = await geocodificarEndereco({ cidade, estado });
     }
 
-    if (!coordenadas) return null;
+    if (!coordenadas) return { coords: null, enderecoTexto };
 
     // Cache: evita geocodificar o mesmo usuário toda vez que ele abrir a tela
     updateDoc(doc(db, "usuarios", uid), {
@@ -134,7 +150,7 @@ export default function useCollectorSearch(uidParam, filtrosIniciais = {}) {
       console.error("Não foi possível salvar a localização em cache:", err)
     );
 
-    return coordenadas;
+    return { coords: coordenadas, enderecoTexto };
   }, [uid]);
 
   // Busca os catadores/centros no Firestore e geocodifica quem ainda não
@@ -217,7 +233,8 @@ export default function useCollectorSearch(uidParam, filtrosIniciais = {}) {
         buscarColetores(),
       ]);
 
-      setUserLocation(localizacaoUsuario);
+      setUserLocation(localizacaoUsuario.coords);
+      setEnderecoCompleto(localizacaoUsuario.enderecoTexto);
 
       const listaFormatada = listaColetores.map((coletor) => {
         const infoTipo = INFO_POR_PERFIL[coletor.perfil] || {};
@@ -319,6 +336,43 @@ export default function useCollectorSearch(uidParam, filtrosIniciais = {}) {
     setLocalTemporario(coordenadas);
   }, [filters.endereco_busca, userLocation]);
 
+  // Usa o GPS do navegador (opção "Minha localização atual" na barra de
+  // busca) em vez de um endereço digitado. Já converte as coordenadas em
+  // texto (reverse geocoding) só para exibir/preencher o campo — a origem
+  // da busca usa as coordenadas diretas, sem precisar geocodificar de volta.
+  const buscarPorLocalizacaoAtual = useCallback(() => {
+    if (!navigator.geolocation) {
+      setAvisoLocal(AVISO_GEOLOCALIZACAO_INDISPONIVEL);
+      return;
+    }
+
+    setBuscandoLocal(true);
+    setAvisoLocal(null);
+
+    navigator.geolocation.getCurrentPosition(
+      async (posicao) => {
+        const { latitude, longitude } = posicao.coords;
+        const enderecoTexto = await reverseGeocodificar(latitude, longitude);
+
+        setLocalTemporario({
+          lat: latitude,
+          lng: longitude,
+          enderecoFormatado: enderecoTexto || "Localização atual",
+        });
+        setFilters((prev) => ({
+          ...prev,
+          endereco_busca: enderecoTexto || "Localização atual",
+        }));
+        setBuscandoLocal(false);
+      },
+      () => {
+        setBuscandoLocal(false);
+        setAvisoLocal(AVISO_GEOLOCALIZACAO_NEGADA);
+      },
+      { enableHighAccuracy: true, timeout: 10000 }
+    );
+  }, []);
+
   //volta a usar o endereço cadastrado.
   const limparLocalTemporario = useCallback(() => {
     setLocalTemporario(null);
@@ -402,6 +456,7 @@ export default function useCollectorSearch(uidParam, filtrosIniciais = {}) {
     loading,
     error,
     userLocation,
+    enderecoCompleto,
     origem,
     localTemporario,
     buscandoLocal,
@@ -410,6 +465,7 @@ export default function useCollectorSearch(uidParam, filtrosIniciais = {}) {
     resetFilters,
     search,
     buscarPorLocal,
+    buscarPorLocalizacaoAtual,
     limparLocalTemporario,
     selectCollector,
   };

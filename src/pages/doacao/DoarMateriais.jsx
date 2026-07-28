@@ -54,15 +54,14 @@ const DoarMateriais = () => {
     loading,
     error,
     origem,
-    local,
-    setLocal,
-    buscar,
     enderecoCompleto,
     localTemporario,
     buscandoLocal,
     avisoLocal,
     updateFilter,
     resetFilters,
+    search,
+    buscarPorLocalizacaoAtual,
     limparLocalTemporario,
     selectCollector,
   } = useCollectorSearch(null, initialFilters);
@@ -161,10 +160,11 @@ const DoarMateriais = () => {
 
           <div className="donation-search-panel">
             <SearchBar
-                 value={local}
-      onChange={setLocal}
-      onSearch={buscar}
-      enderecoUsuario={enderecoCompleto}
+              value={filters.endereco_busca}
+              onChange={(valor) => updateFilter("endereco_busca", valor)}
+              onSearch={search}
+              enderecoUsuario={enderecoCompleto}
+              onUseCurrentLocation={buscarPorLocalizacaoAtual}
               onClear={limparLocalTemporario}
               loading={buscandoLocal}
               aviso={avisoLocal}

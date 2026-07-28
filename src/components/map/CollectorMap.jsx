@@ -11,8 +11,6 @@ const CollectorMap = ({ collectors = [], selected, onSelectCollector, origin = n
   // Inicializa o mapa
   useEffect(() => {
     if (leafletRef.current) return;
-
-    // Aguarda Leaflet estar disponível (carregado via CDN no index.html)
     const tryInit = () => {
       if (!window.L) {
         setTimeout(tryInit, 200);

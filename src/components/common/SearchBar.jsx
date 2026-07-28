@@ -1,7 +1,6 @@
 import { useState } from "react";
-
-import { COLORS } from "../../constants";
 import Button from "./Button";
+import SearchSuggestion from "./SearchSuggestion";
 import "./SearchBar.css";
 
 export default function SearchBar({
@@ -14,11 +13,9 @@ export default function SearchBar({
   aviso = null,
   localAtivo = false,
   enderecoUsuario = null,
+  onUseCurrentLocation = null,
 }) {
   const [mostrarSugestao, setMostrarSugestao] = useState(false);
-
-  const podeSugerirEndereco = (campoVazio) =>
-    Boolean(enderecoUsuario && campoVazio);
 
   const handleKeyDown = (event) => {
     if (event.key === "Enter") {
@@ -28,32 +25,50 @@ export default function SearchBar({
 
   const handleChange = (event) => {
     const novoValor = event.target.value;
+
     onChange(novoValor);
-    setMostrarSugestao(podeSugerirEndereco(!novoValor));
+
+    if (enderecoUsuario) {
+      setMostrarSugestao(novoValor.trim() === "");
+    }
   };
 
   const handleFocus = () => {
-    setMostrarSugestao(podeSugerirEndereco(!value));
+    if (enderecoUsuario && value.trim() === "") {
+      setMostrarSugestao(true);
+    }
   };
 
-  const handleAddressSuggestion = () => {
+  const handleBlur = () => {
+    setTimeout(() => setMostrarSugestao(false), 150);
+  };
+
+  const usarEnderecoCadastrado = () => {
     onChange(enderecoUsuario);
     setMostrarSugestao(false);
     onSearch?.();
   };
 
+  const usarLocalizacaoAtual = () => {
+    setMostrarSugestao(false);
+    onUseCurrentLocation?.();
+  };
+
   return (
     <div className="search-bar-wrapper">
+
       <div className="search-bar-row">
+
         <div className="search-bar-input-wrapper">
+
           <input
             className="search-bar-input"
             value={value}
+            placeholder={placeholder}
             onChange={handleChange}
             onFocus={handleFocus}
+            onBlur={handleBlur}
             onKeyDown={handleKeyDown}
-            placeholder={placeholder}
-            aria-label="Buscar endereço"
           />
 
           {value && (
@@ -61,32 +76,28 @@ export default function SearchBar({
               type="button"
               className="search-bar-clear"
               onClick={onClear}
-              aria-label="Limpar busca"
             >
               ×
             </button>
           )}
 
-          {mostrarSugestao && (
-            <button
-              type="button"
-              className="search-bar-suggestion"
-              onClick={handleAddressSuggestion}
-            >
-              Usar meu endereço: {enderecoUsuario}
-            </button>
-          )}
+          <SearchSuggestion
+            visible={mostrarSugestao}
+            enderecoUsuario={enderecoUsuario}
+            onUseCurrentLocation={usarLocalizacaoAtual}
+            onUseHomeAddress={usarEnderecoCadastrado}
+          />
+
         </div>
 
         <Button
+          className="search-bar-submit"
           onClick={onSearch}
           disabled={loading}
-          loading={loading}
-          className="search-bar-submit"
-          style={{ background: COLORS.verdeEscuro, border: COLORS.verdeEscuro, color: COLORS.white }}
         >
-          Buscar
+          {loading ? "Buscando..." : "Buscar"}
         </Button>
+
       </div>
 
       {aviso && (
@@ -94,6 +105,7 @@ export default function SearchBar({
           {aviso}
         </p>
       )}
+
     </div>
   );
 }

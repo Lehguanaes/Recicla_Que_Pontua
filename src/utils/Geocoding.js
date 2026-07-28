@@ -12,6 +12,7 @@
 // no front-end.
 
 const NOMINATIM_URL = "https://nominatim.openstreetmap.org/search";
+const NOMINATIM_REVERSE_URL = "https://nominatim.openstreetmap.org/reverse";
 
 /**
  * Busca o endereço correspondente a um CEP usando o ViaCEP.
@@ -129,6 +130,41 @@ export async function geocodificarTexto(texto) {
     console.error("Erro ao geocodificar local digitado:", err);
     return null;
   }
+}
+
+/**
+ * Converte coordenadas (lat/lng) em um endereço legível usando o reverse
+ * geocoding do Nominatim. Usado pela opção "usar minha localização atual"
+ * da busca, para mostrar/preencher um texto em vez de só lat/lng.
+ * Retorna null se não conseguir converter.
+ */
+export async function reverseGeocodificar(lat, lng) {
+  if (typeof lat !== "number" || typeof lng !== "number") return null;
+
+  const params = new URLSearchParams({
+    format: "json",
+    lat: String(lat),
+    lon: String(lng),
+  });
+
+  try {
+    const resposta = await fetch(`${NOMINATIM_REVERSE_URL}?${params.toString()}`);
+    const dados = await resposta.json();
+    return dados?.display_name || null;
+  } catch (err) {
+    console.error("Erro ao converter coordenadas em endereço:", err);
+    return null;
+  }
+}
+
+/**
+ * Junta rua/bairro/cidade/estado num texto único (ignorando os campos
+ * vazios). Usado para exibir o endereço cadastrado do usuário na sugestão
+ * da barra de busca.
+ */
+export function montarEnderecoTexto({ rua, bairro, cidade, estado } = {}) {
+  const texto = [rua, bairro, cidade, estado].filter(Boolean).join(", ");
+  return texto || null;
 }
 
 /**
