@@ -1,0 +1,107 @@
+/* ---------- Card ---------- */
+
+.collector-card{
+    display:flex;
+    align-items:flex-start;
+    gap:12px;
+
+    padding:16px;
+    border-radius:16px;
+    cursor:pointer;
+
+    background:#fff;
+    border:1px solid var(--border-color,#e5e5e5);
+    box-shadow:0 4px 16px rgba(0,0,0,.08);
+
+    transition:.15s;
+}
+
+.collector-card.compact{
+    padding:12px 14px;
+}
+
+.collector-card:hover{
+    transform:translateY(-2px);
+    box-shadow:0 8px 24px rgba(0,0,0,.08);
+}
+
+/* ---------- Avatar ---------- */
+
+.collector-avatar{
+    width:48px;
+    height:48px;
+    border-radius:50%;
+    overflow:hidden;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    flex-shrink:0;
+    font-size:22px;
+}
+
+.collector-avatar-img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+
+/* ---------- Conteúdo ---------- */
+
+.collector-content{
+    flex:1;
+    min-width:0;
+}
+
+.collector-header{
+    display:flex;
+    align-items:center;
+    flex-wrap:wrap;
+    gap:8px;
+
+    margin-bottom:4px;
+}
+
+.collector-name{
+    font-size:15px;
+    font-weight:700;
+    color:var(--text-primary,#1f3525);
+}
+
+.collector-info{
+    display:flex;
+    gap:12px;
+
+    margin-bottom:6px;
+
+    font-size:13px;
+    color:var(--text-secondary,#6b7d70);
+}
+
+.collector-star{
+    color:var(--color-keyword-gold);
+    margin-right:4px;
+}
+
+/* ---------- Materiais ---------- */
+
+.collector-materials{
+    display:flex;
+    flex-wrap:wrap;
+    gap:4px;
+}
+
+/* ---------- Badge ---------- */
+
+.collector-badge{
+    display:inline-block;
+
+    padding:2px 8px;
+
+    border:1px solid;
+    border-radius:20px;
+
+    font-size:11px;
+    font-weight:600;
+}

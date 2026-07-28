@@ -50,9 +50,17 @@ const DoarMateriais = () => {
     selected,
     loading,
     error,
+    origem,
+    local,
+    setLocal,
+    buscar,
+    enderecoCompleto,
+    localTemporario,
+    buscandoLocal,
+    avisoLocal,
     updateFilter,
     resetFilters,
-    search,
+    limparLocalTemporario,
     selectCollector,
   } = useCollectorSearch(null, initialFilters);
 
@@ -150,11 +158,21 @@ const DoarMateriais = () => {
 
           <div className="donation-search-panel">
             <SearchBar
-              value={filters.nome}
-              onChange={(value) => updateFilter("nome", value)}
-              onSearch={search}
-              placeholder="Buscar catador, centro ou cooperativa"
+                 value={local}
+      onChange={setLocal}
+      onSearch={buscar}
+      enderecoUsuario={enderecoCompleto}
+              onClear={limparLocalTemporario}
+              loading={buscandoLocal}
+              aviso={avisoLocal}
+              localAtivo={Boolean(localTemporario)}
+              placeholder="Seu local (rua, bairro ou cidade)"
             />
+            {localTemporario?.enderecoFormatado && (
+              <small className="donation-local-ativo">
+                Buscando perto de: {localTemporario.enderecoFormatado}
+              </small>
+            )}
 
             <div className="donation-toolbar">
               <div className="donation-tabs" aria-label="Alternar visualização">
@@ -214,6 +232,7 @@ const DoarMateriais = () => {
                     collectors={mapCollectors}
                     selected={selectedForMap}
                     onSelectCollector={selectCollector}
+                    origin={origem}
                   />
                   {selected && (
                     <SelectedCard

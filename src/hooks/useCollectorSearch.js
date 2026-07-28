@@ -13,9 +13,12 @@ import { db } from "../services/Firebase";
 import { useAuth } from "../contexts/AuthContext";
 import {
   aguardar,
+  aplicarDeslocamentoPrivacidade,
   calcularDistanciaKm,
+  extrairCep,
   geocodificarEndereco,
   geocodificarPorCep,
+  geocodificarTexto,
 } from "../utils/Geocoding";
 
 // Perfis que aparecem como resultado de busca na tela de doação
@@ -37,24 +40,33 @@ const LABEL_TIPO_VEICULO = {
 
 const FILTROS_INICIAIS = {
   nome: "",
+  endereco_busca: "",
   filtro_material: "",
   materiais_cadastrados: [],
-  raio_distancia: 10,
+  raio_distancia: '',
   ordenar_por: "",
   modo: "todos",
 };
+
+const AVISO_SEM_LOCAL = "Insira seu local na barra de busca.";
+const AVISO_ENDERECO_NAO_ENCONTRADO =
+  "Não encontramos esse endereço. Tente incluir rua, bairro e cidade.";
 
 /**
  * Busca catadores autônomos e centros de coleta cadastrados no Firestore
  * (coleção "usuarios"), calculando a distância real até o usuário logado a
  * partir do CEP/endereço de cada um (geocodificado via ViaCEP + Nominatim).
  *
+ * A origem da busca (de onde a distância é calculada) pode ser:
+ *  - o endereço/CEP cadastrado no perfil do usuário (padrão); ou
+ *  - um endereço temporário digitado na barra de busca ("seu local"), que
+ *    tem prioridade sobre o cadastrado enquanto estiver preenchido.
+ *
  * Mantém a mesma interface que a versão mockada (mockData.js), então os
  * componentes visuais (CollectorCard, CollectorMap, FilterPanel,
  * SelectedCard) não precisam mudar.
  *
- * @param {string|null} uidParam UID do usuário para calcular a origem da
- *   busca. Se null, usa o usuário autenticado (useAuth).
+ * @param {string|null} uidParam 
  * @param {object} filtrosIniciais Filtros iniciais (ex: materiais já
  *   cadastrados pelo usuário antes de vir para essa tela).
  */
@@ -68,21 +80,19 @@ export default function useCollectorSearch(uidParam, filtrosIniciais = {}) {
   });
   const [collectors, setCollectors] = useState([]);
   const [userLocation, setUserLocation] = useState(null);
+  const [localTemporario, setLocalTemporario] = useState(null); // { lat, lng, enderecoFormatado }
+  const [buscandoLocal, setBuscandoLocal] = useState(false);
+  const [avisoLocal, setAvisoLocal] = useState(null);
   const [selected, setSelected] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // Reaplica filtros iniciais se eles mudarem (ex: usuário cadastrou
-  // materiais novos e voltou para essa tela)
+ 
   useEffect(() => {
     setFilters((prev) => ({ ...prev, ...filtrosIniciais }));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [JSON.stringify(filtrosIniciais)]);
 
-  // Descobre a localização do usuário logado a partir do CEP já cadastrado
-  // no perfil dele. Se o perfil já tiver latitude/longitude em cache, usa
-  // direto; senão geocodifica e salva de volta para não repetir a consulta
-  // nas próximas vezes.
   const obterLocalizacaoUsuario = useCallback(async () => {
     if (!uid) return null;
 
@@ -90,7 +100,6 @@ export default function useCollectorSearch(uidParam, filtrosIniciais = {}) {
     if (!snapUsuario.exists()) return null;
 
     const dadosUsuario = snapUsuario.data();
-
     if (
       typeof dadosUsuario.latitude === "number" &&
       typeof dadosUsuario.longitude === "number"
@@ -99,12 +108,21 @@ export default function useCollectorSearch(uidParam, filtrosIniciais = {}) {
     }
 
     const endereco = dadosUsuario.endereco || {};
+    const cep = extrairCep(dadosUsuario);
     const cidade = endereco.cidade || dadosUsuario.cidade;
     const estado = endereco.estado || dadosUsuario.estado;
 
-    const coordenadas =
-      (dadosUsuario.cep ? await geocodificarPorCep(dadosUsuario.cep) : null) ||
-      (cidade || estado ? await geocodificarEndereco({ cidade, estado }) : null);
+    
+    let coordenadas = cep ? await geocodificarPorCep(cep) : null;
+    if (!coordenadas && Object.keys(endereco).length > 0) {
+      await aguardar(300);
+      coordenadas = await geocodificarEndereco({ ...endereco, cep });
+    }
+
+    if (!coordenadas && (cidade || estado)) {
+      await aguardar(300);
+      coordenadas = await geocodificarEndereco({ cidade, estado });
+    }
 
     if (!coordenadas) return null;
 
@@ -147,16 +165,24 @@ export default function useCollectorSearch(uidParam, filtrosIniciais = {}) {
       }
 
       const endereco = coletor.endereco || {};
+      const cep = extrairCep(coletor);
       const cidade = endereco.cidade || coletor.cidade;
       const estado = endereco.estado || coletor.estado;
 
-      // Tenta do mais específico pro mais genérico: endereço completo, CEP
-      // isolado e, por último, só cidade/estado — assim, mesmo com dados
-      // incompletos, dificilmente fica sem nenhuma coordenada.
-      const coordenadas =
-        (await geocodificarEndereco({ ...endereco, cep: coletor.cep })) ||
-        (coletor.cep ? await geocodificarPorCep(coletor.cep) : null) ||
-        (cidade || estado ? await geocodificarEndereco({ cidade, estado }) : null);
+      let coordenadas = cep ? await geocodificarPorCep(cep) : null;
+      let chamadaNominatimFeita = Boolean(cep);
+
+      if (!coordenadas && Object.keys(endereco).length > 0) {
+        if (chamadaNominatimFeita) await aguardar(300);
+        coordenadas = await geocodificarEndereco({ ...endereco, cep });
+        chamadaNominatimFeita = true;
+      }
+
+      if (!coordenadas && (cidade || estado)) {
+        if (chamadaNominatimFeita) await aguardar(300);
+        coordenadas = await geocodificarEndereco({ cidade, estado });
+        chamadaNominatimFeita = true;
+      }
 
       if (coordenadas) {
         updateDoc(doc(db, "usuarios", coletor.id), {
@@ -175,9 +201,7 @@ export default function useCollectorSearch(uidParam, filtrosIniciais = {}) {
         listaComCoordenadas.push(coletor);
       }
 
-      // Só pausa quando uma geocodificação de fato aconteceu (respeita o
-      // limite de ~1 req/s do Nominatim); quem já tinha cache não espera.
-      await aguardar(250);
+      if (chamadaNominatimFeita) await aguardar(300);
     }
 
     return listaComCoordenadas;
@@ -197,20 +221,19 @@ export default function useCollectorSearch(uidParam, filtrosIniciais = {}) {
 
       const listaFormatada = listaColetores.map((coletor) => {
         const infoTipo = INFO_POR_PERFIL[coletor.perfil] || {};
+        const ehCatadorAutonomo = coletor.perfil === "coletor-autonomo";
         const lat = coletor.latitude;
         const lng = coletor.longitude;
+        const temCoordenadas = typeof lat === "number" && typeof lng === "number";
 
-        const distancia_km =
-          localizacaoUsuario &&
-          typeof lat === "number" &&
-          typeof lng === "number"
-            ? calcularDistanciaKm(
-                localizacaoUsuario.lat,
-                localizacaoUsuario.lng,
-                lat,
-                lng
-              )
-            : null;
+        // Catadores autônomos (endereço residencial) são exibidos no mapa em
+        // uma posição aproximada (deslocada ~40-150m, sempre igual para o
+        // mesmo catador), para não expor o endereço exato. Centros de coleta
+        // (endereço comercial, aberto ao público) usam a coordenada real.
+        const coordenadasExibicao =
+          ehCatadorAutonomo && temCoordenadas
+            ? aplicarDeslocamentoPrivacidade(lat, lng, coletor.id)
+            : { lat, lng };
 
         return {
           id: coletor.id,
@@ -224,9 +247,10 @@ export default function useCollectorSearch(uidParam, filtrosIniciais = {}) {
           // no perfil de coletores/centros no Firestore.
           rating: null,
           preco_kg: {},
-          distancia_km,
-          lat: lat ?? null,
-          lng: lng ?? null,
+          lat: typeof coordenadasExibicao.lat === "number" ? coordenadasExibicao.lat : null,
+          lng: typeof coordenadasExibicao.lng === "number" ? coordenadasExibicao.lng : null,
+          // Usado pelo card/mapa pra indicar "localização aproximada".
+          localizacaoAproximada: ehCatadorAutonomo && temCoordenadas,
           materiais: coletor.materiaisAceitos || [],
           foto: coletor.fotoPerfil || null,
           telefone: coletor.telefone || null,
@@ -250,10 +274,66 @@ export default function useCollectorSearch(uidParam, filtrosIniciais = {}) {
     carregarDados();
   }, [carregarDados]);
 
-  // Filtragem e ordenação acontecem em memória, sobre os dados já
-  // carregados — igual ao comportamento do mockSearch original.
+  // Origem efetiva da busca: o endereço temporário digitado ("seu local")
+  // tem prioridade sobre o endereço/CEP cadastrado no perfil. A distância é
+  // recalculada aqui (não precisa geocodificar os coletores de novo) sempre
+  // que a origem mudar.
+  const origem = localTemporario || userLocation;
+
+  // Enquanto os dados carregam pela primeira vez ainda não sabemos se falta
+  // local; só mostramos o aviso depois que o carregamento inicial terminou.
+  useEffect(() => {
+    if (loading) return;
+    if (!origem && !buscandoLocal) {
+      setAvisoLocal((atual) => atual || AVISO_SEM_LOCAL);
+    } else if (origem) {
+      setAvisoLocal((atual) => (atual === AVISO_SEM_LOCAL ? null : atual));
+    }
+  }, [loading, origem, buscandoLocal]);
+
+  // Dispara a busca por um endereço digitado na barra ("seu local"). Se o
+  // campo estiver vazio, volta a usar o endereço cadastrado (ou mostra o
+  // aviso, caso o usuário também não tenha CEP cadastrado).
+  const buscarPorLocal = useCallback(async () => {
+    const texto = filters.endereco_busca?.trim();
+
+    if (!texto) {
+      setLocalTemporario(null);
+      setAvisoLocal(userLocation ? null : AVISO_SEM_LOCAL);
+      return;
+    }
+
+    setBuscandoLocal(true);
+    setAvisoLocal(null);
+
+    const coordenadas = await geocodificarTexto(texto);
+
+    setBuscandoLocal(false);
+
+    if (!coordenadas) {
+      setLocalTemporario(null);
+      setAvisoLocal(AVISO_ENDERECO_NAO_ENCONTRADO);
+      return;
+    }
+
+    setLocalTemporario(coordenadas);
+  }, [filters.endereco_busca, userLocation]);
+
+  //volta a usar o endereço cadastrado.
+  const limparLocalTemporario = useCallback(() => {
+    setLocalTemporario(null);
+    setFilters((prev) => ({ ...prev, endereco_busca: "" }));
+  }, []);
+
+  
   const results = useMemo(() => {
-    let lista = [...collectors];
+    let lista = collectors.map((c) => ({
+      ...c,
+      distancia_km:
+        origem && typeof c.lat === "number" && typeof c.lng === "number"
+          ? calcularDistanciaKm(origem.lat, origem.lng, c.lat, c.lng)
+          : null,
+    }));
 
     // Regra de negócio: modo "vender" oculta catadores autônomos
     if (filters.modo === "vender") {
@@ -295,7 +375,7 @@ export default function useCollectorSearch(uidParam, filtrosIniciais = {}) {
     // cadastrado no perfil dos coletores/centros.
 
     return lista;
-  }, [collectors, filters]);
+  }, [collectors, filters, origem]);
 
   const updateFilter = useCallback((campo, valor) => {
     setFilters((prev) => ({ ...prev, [campo]: valor }));
@@ -303,12 +383,13 @@ export default function useCollectorSearch(uidParam, filtrosIniciais = {}) {
 
   const resetFilters = useCallback(() => {
     setFilters({ ...FILTROS_INICIAIS, ...filtrosIniciais });
+    setLocalTemporario(null);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // A filtragem já é reativa (useMemo acima). Mantido por compatibilidade
-  // com o SearchBar (botão/Enter) — não dispara nova geocodificação.
-  const search = useCallback(() => {}, []);
+  const search = useCallback(() => {
+    buscarPorLocal();
+  }, [buscarPorLocal]);
 
   const selectCollector = useCallback((collector) => {
     setSelected(collector);
@@ -321,9 +402,15 @@ export default function useCollectorSearch(uidParam, filtrosIniciais = {}) {
     loading,
     error,
     userLocation,
+    origem,
+    localTemporario,
+    buscandoLocal,
+    avisoLocal,
     updateFilter,
     resetFilters,
     search,
+    buscarPorLocal,
+    limparLocalTemporario,
     selectCollector,
   };
 }

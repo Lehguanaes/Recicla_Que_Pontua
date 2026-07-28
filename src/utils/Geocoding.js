@@ -98,6 +98,51 @@ export async function geocodificarPorCep(cep) {
 }
 
 /**
+ * Geocodifica um texto livre digitado pelo usuário na busca (ex: "Avenida
+ * Paulista, São Paulo" ou "Rua X, 123, Bairro Y"). Usado pela busca por
+ * "seu local", que permite pesquisar por um endereço temporário diferente
+ * do cadastrado no perfil.
+ */
+export async function geocodificarTexto(texto) {
+  const consulta = (texto || "").trim();
+  if (!consulta) return null;
+
+  const params = new URLSearchParams({
+    format: "json",
+    q: `${consulta}, Brasil`,
+    countrycodes: "br",
+    limit: "1",
+  });
+
+  try {
+    const resposta = await fetch(`${NOMINATIM_URL}?${params.toString()}`);
+    const dados = await resposta.json();
+
+    if (!Array.isArray(dados) || dados.length === 0) return null;
+
+    return {
+      lat: parseFloat(dados[0].lat),
+      lng: parseFloat(dados[0].lon),
+      enderecoFormatado: dados[0].display_name,
+    };
+  } catch (err) {
+    console.error("Erro ao geocodificar local digitado:", err);
+    return null;
+  }
+}
+
+/**
+ * Extrai o CEP de um documento de usuário/coletor, aceitando tanto o campo
+ * no topo do documento (`cep`) quanto o campo aninhado (`endereco.cep`),
+ * já que o endereço costuma ser salvo como objeto (mesmo formato devolvido
+ * pelo ViaCEP: { rua, bairro, cidade, estado, cep }).
+ */
+export function extrairCep(dados) {
+  if (!dados) return null;
+  return dados.cep || dados.endereco?.cep || null;
+}
+
+/**
  * Distância em linha reta (km) entre duas coordenadas — fórmula de
  * Haversine. Retorna null se alguma coordenada for inválida.
  */
@@ -128,4 +173,47 @@ export function calcularDistanciaKm(lat1, lng1, lat2, lng2) {
  */
 export function aguardar(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+/**
+ * Gera um deslocamento pequeno e DETERMINÍSTICO (o mesmo catador sempre cai
+ * no mesmo ponto aproximado, em vez de "pular" de lugar a cada busca) a
+ * partir das coordenadas reais de um catador autônomo. Usado para não expor
+ * o endereço residencial exato no mapa — centros de coleta (endereço
+ * comercial, aberto ao público) não passam por essa função.
+ *
+ * @param {number} lat latitude real
+ * @param {number} lng longitude real
+ * @param {string} seed valor usado para gerar sempre o mesmo deslocamento
+ *   para o mesmo catador (normalmente o id do documento no Firestore)
+ * @param {number} raioMetros raio máximo do deslocamento (padrão: 150m)
+ */
+export function aplicarDeslocamentoPrivacidade(lat, lng, seed, raioMetros = 150) {
+  if (typeof lat !== "number" || typeof lng !== "number") return { lat, lng };
+
+  // Hash simples e determinístico a partir do seed.
+  let hash = 0;
+  const texto = String(seed || "");
+  for (let i = 0; i < texto.length; i++) {
+    hash = (hash << 5) - hash + texto.charCodeAt(i);
+    hash |= 0;
+  }
+
+  const anguloBase = (hash % 360) * (Math.PI / 180);
+  // Varia a distância entre 40% e 100% do raio máximo (usando outra parte do
+  // hash), pra não deixar todo mundo exatamente na borda do círculo.
+  const fatorDistancia = 0.4 + Math.abs(hash % 61) / 100; // 0.40–1.00
+  const distanciaMetros = raioMetros * fatorDistancia;
+
+  // Converte metros em graus (aproximação válida para deslocamentos pequenos)
+  const raioTerraMetros = 6371000;
+  const dLat = (distanciaMetros * Math.cos(anguloBase)) / raioTerraMetros;
+  const dLng =
+    (distanciaMetros * Math.sin(anguloBase)) /
+    (raioTerraMetros * Math.cos((lat * Math.PI) / 180));
+
+  return {
+    lat: lat + (dLat * 180) / Math.PI,
+    lng: lng + (dLng * 180) / Math.PI,
+  };
 }
