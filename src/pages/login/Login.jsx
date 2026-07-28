@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import PetLogin from "../../assets/PetLogin.png";
@@ -17,6 +17,10 @@ export default function Login() {
   const navigate = useNavigate();
   const { login } = useAuth();
   const [erroLogin, setErroLogin] = useState("");
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "auto" });
+  }, []);
 
   const [panel, setPanel] = useState("login");
 
@@ -112,7 +116,11 @@ export default function Login() {
 
         {/* Imagem lateral */}
         <div className="imgLateral">
-          <img src={PetLogin} alt="Incentivo Reciclagem" />
+          <img
+            className="pet-floating"
+            src={PetLogin}
+            alt="Incentivo Reciclagem"
+          />
         </div>
       </div>
 

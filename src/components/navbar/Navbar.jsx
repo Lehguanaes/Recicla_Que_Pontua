@@ -160,7 +160,7 @@ export default function Navbar() {
         <img
           src={PetMenu}
           alt="Mascote Recicla que Pontua"
-          className="navbar-pet-menu"
+          className="navbar-pet-menu pet-floating"
         />
       </nav>
      </div>

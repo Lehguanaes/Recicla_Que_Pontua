@@ -114,7 +114,7 @@ const DoarMateriais = () => {
             <img
               src={PetLimparFiltro}
               alt=""
-              className="donation-empty-image"
+              className="donation-empty-image pet-floating"
             />
           </button>
 

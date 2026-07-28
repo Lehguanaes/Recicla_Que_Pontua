@@ -436,19 +436,6 @@
         margin-right:auto;
         user-select:none;
         pointer-events:none;
-        animation: flutuar 3s ease-in-out infinite;
-    }
-
-    @keyframes flutuar {
-        0% {
-            transform: translateY(0);
-        }
-        50% {
-            transform: translateY(-12px);
-        }
-        100% {
-            transform: translateY(0);
-        }
     }
 
 }

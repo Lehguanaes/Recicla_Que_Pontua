@@ -15,13 +15,25 @@
     <!-- Leaflet JS -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
-    <style>
-      * { box-sizing: border-box; margin: 0; padding: 0; }
-      body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
-      #root { height: 100vh; }
-    </style>
   </head>
   <body>
     <div id="root"></div>
+
+    <!-- VLibras: tradução do conteúdo do site para Libras -->
+    <div vw class="enabled">
+      <div
+        vw-access-button
+        class="active"
+        role="button"
+        aria-label="Ativar tradução para Libras"
+      ></div>
+      <div vw-plugin-wrapper>
+        <div class="vw-plugin-top-wrapper"></div>
+      </div>
+    </div>
+    <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
+    <script>
+      new window.VLibras.Widget("https://vlibras.gov.br/app");
+    </script>
   </body>
 </html>

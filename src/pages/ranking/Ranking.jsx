@@ -2,7 +2,7 @@ import Navbar from "../../components/navbar/Navbar";
 import Rodape from "../../components/rodape/Rodape";
 import './ranking.css';
 import { Link } from "react-router-dom";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   FaTrophy,
   FaRecycle,
@@ -83,6 +83,10 @@ export default function Ranking() {
   const [faqAberta, setFaqAberta] = useState(null);
   const { user } = useAuth();
 
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "auto" });
+  }, []);
+
   // Em produção, troque USUARIOS_MOCK por dados vindos do Firestore (useEffect + onSnapshot / getDocs)
   const ranking = useMemo(() => calcularRanking(USUARIOS_MOCK, filtro), [filtro]);
   const stats = useMemo(() => calcularEstatisticas(USUARIOS_MOCK), []);
@@ -117,12 +121,20 @@ export default function Ranking() {
             {user && usuarioLogado && (
                <div className="ranking-mascote">  
                <div className="mascote-fala">{falaDoMascote(usuarioLogado?.posicao)}</div>
-                <img src={Mascote2} alt="Reci, o mascote, torcendo por você" />
+                <img
+                  className="pet-floating"
+                  src={Mascote2}
+                  alt="Reci, o mascote, torcendo por você"
+                />
               </div>
            )}
              {!user && (
               <div className="ranking-mascote">
-                <img src={Mascote} alt="Reci, o mascote, torcendo por você" />
+                <img
+                  className="pet-floating"
+                  src={Mascote}
+                  alt="Reci, o mascote, torcendo por você"
+                />
               </div>
             )}
           </div>

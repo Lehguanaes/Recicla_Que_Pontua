@@ -39,7 +39,7 @@ export default function Loading({ mensagem = "Carregando" }) {
           <img
             src={Mascote}
             alt="Mascote Recicla que Pontua"
-            className="mascote-img"
+            className="mascote-img pet-floating"
           />
         </div>
 

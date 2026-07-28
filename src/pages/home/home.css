@@ -5,18 +5,6 @@
   color: var(--color-text-default);
 }
 
-@keyframes home-float {
-  0% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-14px);
-  }
-  100% {
-    transform: translateY(0);
-  }
-}
-
 .home-hero {
   position: relative;
   min-height: calc(100vh - 82px);
@@ -156,7 +144,6 @@
   width: min(78%, 380px);
   height: auto;
   filter: drop-shadow(0 30px 40px var(--shadow-color-green));
-  animation: home-float 4.5s ease-in-out infinite;
 }
 
 .home-explanation,
@@ -531,7 +518,6 @@
   max-height: 270px;
   object-fit: contain;
   filter: drop-shadow(0 18px 26px rgb(var(--rgb-shadow-green) / 0.12));
-  animation: home-float 4.8s ease-in-out infinite;
 }
 
 .home-material-grid {
@@ -750,7 +736,6 @@
   max-height: 360px;
   object-fit: contain;
   filter: drop-shadow(0 22px 30px rgb(var(--rgb-shadow-green) / 0.13));
-  animation: home-float 4.2s ease-in-out infinite;
 }
 
 .home-faq-list {
@@ -861,7 +846,6 @@
   height: auto;
   object-fit: contain;
   filter: drop-shadow(0 18px 24px rgb(var(--rgb-shadow-green) / 0.1));
-  animation: home-float 4.6s ease-in-out infinite;
 }
 
 .home-final-cta > div > svg {

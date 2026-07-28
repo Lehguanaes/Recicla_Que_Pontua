@@ -28,6 +28,7 @@ import Coletor from "../../assets/catador.png";
 import CentroColeta from "../../assets/centrocoleta.png";
 import PetDuvidas from "../../assets/PetDuvidas.png";
 import PetComecar from "../../assets/PetComecar.png";
+import { useAuth } from "../../contexts/AuthContext";
 import "./home.css";
 
 const websiteFeatures = [
@@ -293,6 +294,8 @@ function FaqItem({ question, answer }) {
 }
 
 export default function Home() {
+  const { user } = useAuth();
+
   return (
     <>
       <Navbar />
@@ -312,7 +315,10 @@ export default function Home() {
             </p>
 
             <div className="home-hero-actions">
-              <Link className="home-primary-button" to="/doacao/cadastrar-materiais">
+              <Link
+                className="home-primary-button"
+                to={user ? "/doacao/cadastrar-materiais" : "/login"}
+              >
                 Cadastrar materiais <FaArrowRight />
               </Link>
               <Link className="home-secondary-button" to="/como-reciclar">
@@ -323,7 +329,7 @@ export default function Home() {
           </div>
 
           <div className="home-hero-visual" aria-label="Ilustração da plataforma">
-            <img src={LogoRetrato} alt="Recicla que Pontua" />
+            <img className="pet-floating" src={LogoRetrato} alt="Recicla que Pontua" />
           </div>
         </section>
 
@@ -430,7 +436,11 @@ export default function Home() {
               title="Materiais recicláveis que podem ganhar novo destino!"
               text="Separar corretamente aumenta as chances de venda, evita contaminação e ajuda centros e coletores a trabalharem melhor."
             />
-            <img src={PetRecicla} alt="Pet separando materiais recicláveis" />
+            <img
+              className="pet-floating"
+              src={PetRecicla}
+              alt="Pet separando materiais recicláveis"
+            />
           </div>
 
           <div className="home-material-grid">
@@ -458,7 +468,7 @@ export default function Home() {
             </div>
 
             <img
-              className="home-faq-pet"
+              className="home-faq-pet pet-floating"
               src={PetDuvidas}
               alt="Mascote tirando dúvidas sobre reciclagem"
             />
@@ -466,7 +476,11 @@ export default function Home() {
         </section>
 
         <section className="home-final-cta">
-          <img src={PetComecar} alt="Mascote incentivando a começar a reciclar" />
+          <img
+            className="pet-floating"
+            src={PetComecar}
+            alt="Mascote incentivando a começar a reciclar"
+          />
           <div>
             <h2>Pronto para dar destino certo aos seus recicláveis?</h2>
             <p>
@@ -474,7 +488,7 @@ export default function Home() {
               impacto que você já pode gerar hoje.
             </p>
           </div>
-          <Link to="/doacao/cadastrar-materiais">
+          <Link to={user ? "/doacao/cadastrar-materiais" : "/login"}>
             Começar agora <FaArrowRight />
           </Link>
         </section>

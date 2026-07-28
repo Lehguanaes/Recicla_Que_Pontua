@@ -37,8 +37,6 @@
   width: 220px;
   height: auto;
 
-  animation: mascoteFloat 2.5s ease-in-out infinite;
-
   filter: drop-shadow(0 10px 20px rgb(var(--rgb-black) / 0.15));
 
   user-select: none;
@@ -127,20 +125,6 @@
 /* ========================= */
 /* ANIMAÇÕES */
 /* ========================= */
-
-@keyframes mascoteFloat {
-  0% {
-    transform: translateY(0px);
-  }
-
-  50% {
-    transform: translateY(-12px);
-  }
-
-  100% {
-    transform: translateY(0px);
-  }
-}
 
 @keyframes sparklePulse {
   0%,

@@ -191,21 +191,6 @@
   height: auto;
   user-select: none;
   display: block;
-  animation: floating 3s ease-in-out infinite;
-}
-
-@keyframes floating {
-  0% {
-    transform: translateY(0px);
-  }
-
-  50% {
-    transform: translateY(-10px);
-  }
-
-  100% {
-    transform: translateY(0px);
-  }
 }
 
 .donation-empty-image-button:hover {

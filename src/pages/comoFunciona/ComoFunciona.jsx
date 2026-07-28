@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import {
   FaImage,
@@ -325,6 +325,10 @@ function PostComposer({
 export default function ComoFunciona() {
   const { user } = useAuth();
 
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "auto" });
+  }, []);
+
   return (
     <>
       <Navbar />
@@ -345,7 +349,11 @@ export default function ComoFunciona() {
                 title="Aprenda, prepare seus materiais e recicle com mais segurança"
                 text="Nesta página, você encontra dicas, relatos, vídeos, guias e respostas práticas para usar melhor o Recicla que Pontua no dia a dia."
               />
-              <img src={PetDicas} alt="Mascote do Recicla que Pontua dando boas-vindas" />
+              <img
+                className="pet-floating"
+                src={PetDicas}
+                alt="Mascote do Recicla que Pontua dando boas-vindas"
+              />
             </div>
 
             <div className="comunidade-learning-layout">
@@ -438,7 +446,11 @@ export default function ComoFunciona() {
                 title="Pequenos cuidados que aumentam o valor do material"
                 text="A separação correta reduz rejeitos, evita mau cheiro e ajuda centros e coletores a trabalharem com mais agilidade."
               />
-              <img src={PetMateriais} alt="Mascote separando materiais recicláveis" />
+              <img
+                className="pet-floating"
+                src={PetMateriais}
+                alt="Mascote separando materiais recicláveis"
+              />
             </div>
 
             <div className="comunidade-prep-grid">
@@ -522,8 +534,12 @@ export default function ComoFunciona() {
               </p>
             </div>
             <div className="comunidade-final-visual">
-              <img src={LogoRetrato} alt="Mascote incentivando a preparar entrega" />
-              <Link to="/doacao/cadastrar-materiais">
+              <img
+                className="pet-floating"
+                src={LogoRetrato}
+                alt="Mascote incentivando a preparar entrega"
+              />
+              <Link to={user ? "/doacao/cadastrar-materiais" : "/login"}>
                 Preparar entrega <FaArrowRight />
               </Link>
             </div>
