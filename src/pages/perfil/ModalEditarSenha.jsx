@@ -125,7 +125,7 @@ export default function ModalEditarSenha({ isOpen, onClose }) {
   }
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose}>
+    <Modal isOpen={isOpen} onClose={onClose} className="perfil-modal">
       <h2 className="perfil-modal-titulo">Alterar senha</h2>
       <p className="perfil-modal-subtitulo">
         Por segurança, informe sua senha atual antes de definir uma nova.
@@ -243,7 +243,7 @@ export default function ModalEditarSenha({ isOpen, onClose }) {
         title="Confirmar alteração de senha?"
         message="Sua senha atual deixará de funcionar assim que a alteração for concluída."
         variant="warning"
-        confirmText="Alterar senha"
+        confirmText="Alterar Senha"
         cancelText="Revisar"
         onConfirm={handleConfirmSave}
         onCancel={() => setConfirmOpen(false)}

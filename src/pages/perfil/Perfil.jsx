@@ -119,9 +119,16 @@ export default function Perfil() {
 
       <main className="perfil-page">
         <div className="perfil-container">
-          <p className="perfil-boas-vindas">
-            Olá, {dados?.nome || user?.email}! Boas-vindas ao seu perfil.
-          </p>
+          <header className="perfil-cabecalho">
+            <span className="perfil-kicker">
+              <FaUserCircle /> Meu perfil
+            </span>
+            <h1>Suas informações em um só lugar</h1>
+            <p>
+              Confira seus dados e mantenha seu perfil atualizado para aproveitar
+              melhor cada recurso da plataforma.
+            </p>
+          </header>
 
           {!enderecoCompleto && !alertaFechado && (
             <div className="perfil-alerta">
@@ -190,141 +197,148 @@ export default function Perfil() {
             </div>
           )}
 
+          <div className="perfil-layout">
           <section className="perfil-card perfil-resumo">
-            <div className="perfil-avatar-wrapper">
-              {dados?.fotoPerfil ? (
-                <img
-                  src={dados.fotoPerfil}
-                  alt="Foto de perfil"
-                  className="perfil-avatar-img"
-                />
-              ) : (
-                <FaUserCircle className="perfil-avatar-placeholder" />
-              )}
+              <div className="perfil-avatar-wrapper pet-floating">
+                {dados?.fotoPerfil ? (
+                  <img
+                    src={dados.fotoPerfil}
+                    alt="Foto de perfil"
+                    className="perfil-avatar-img"
+                  />
+                ) : (
+                  <FaUserCircle className="perfil-avatar-placeholder" />
+                )}
 
-              <button
-                type="button"
-                className="perfil-avatar-editar"
-                aria-label="Alterar foto de perfil"
-                onClick={() => setModalAberto("foto")}
-              >
-                <FaCamera />
-              </button>
-            </div>
+                <button
+                  type="button"
+                  className="perfil-avatar-editar"
+                  aria-label="Alterar foto de perfil"
+                  onClick={() => setModalAberto("foto")}
+                >
+                  <FaCamera />
+                </button>
+              </div>
 
-            <div className="perfil-resumo-texto">
-              <h2>{dados?.nome || "Usuário"}</h2>
-              <span className="perfil-badge-tipo">
-                {perfilInfo[dados?.perfil]?.label || "Usuário"}
-              </span>
-            </div>
-          </section>
+              <div className="perfil-resumo-texto">
+                <h2>{dados?.nome || "Usuário"}</h2>
+                <span className="perfil-badge-tipo">
+                  {perfilInfo[dados?.perfil]?.label || "Usuário"}
+                </span>
+                <p className="perfil-resumo-ajuda">
+                  Sua foto e seu nome ajudam outros participantes a reconhecer
+                  você nas interações da plataforma.
+                </p>
+              </div>
+            </section>
 
-          <section className="perfil-card">
+          <section className="perfil-card perfil-informacoes">
             <h3 className="perfil-card-titulo">Minhas informações</h3>
             <p className="perfil-card-subtitulo">
-              Aqui você pode conferir seus dados e editar as informações
-              mais simples, como telefone, senha e foto de perfil.
+              Confira os dados cadastrados e atualize o que precisar.
             </p>
 
-            <div className="perfil-info-linha">
-              <FaEnvelope className="perfil-info-icone" />
-              <div className="perfil-info-texto">
-                <span className="perfil-info-label">E-mail</span>
-                <span className="perfil-info-valor">
-                  {dados?.email || user?.email}
-                </span>
-              </div>
-            </div>
-
-            <div className="perfil-info-linha">
-              <FaIdCard className="perfil-info-icone" />
-              <div className="perfil-info-texto">
-                <span className="perfil-info-label">{rotuloDocumento}</span>
-                <span className="perfil-info-valor">
-                  {numeroDocumento || "Não informado"}
-                </span>
-              </div>
-            </div>
-
-            <div className="perfil-info-linha">
-              <FaPhoneAlt className="perfil-info-icone" />
-              <div className="perfil-info-texto">
-                <span className="perfil-info-label">Telefone</span>
-                <span className="perfil-info-valor">
-                  {dados?.telefone || "Não informado"}
-                </span>
-              </div>
-              <button
-                type="button"
-                className="perfil-info-editar"
-                onClick={() => setModalAberto("telefone")}
-              >
-                <FaEdit /> Editar
-              </button>
-            </div>
-
-            <div className="perfil-info-linha">
-              <FaMapMarkerAlt className="perfil-info-icone" />
-              <div className="perfil-info-texto">
-                <span className="perfil-info-label">Endereço</span>
-                <span className="perfil-info-valor">{enderecoResumo}</span>
-              </div>
-              <button
-                type="button"
-                className="perfil-info-editar"
-                onClick={() => setModalAberto("endereco")}
-              >
-                <FaEdit /> {enderecoCompleto ? "Editar" : "Adicionar"}
-              </button>
-            </div>
-
-            {ehPerfilDeColeta && (
+            <div className="perfil-info-lista">
               <div className="perfil-info-linha">
-                <FaRecycle className="perfil-info-icone" />
+                <FaEnvelope className="perfil-info-icone" />
                 <div className="perfil-info-texto">
-                  <span className="perfil-info-label">Informações de coleta</span>
+                  <span className="perfil-info-label">E-mail</span>
                   <span className="perfil-info-valor">
-                    {materiaisCadastrados
-                      ? `${dados.materiaisAceitos.length} ${
-                          dados.materiaisAceitos.length === 1
-                            ? "material aceito"
-                            : "materiais aceitos"
-                        }`
-                      : "Nenhum material informado"}
-                    {" · "}
-                    {veiculoInformado
-                      ? dados.possuiVeiculo
-                        ? `Possui veículo (${dados.tipoVeiculo || "não especificado"})`
-                        : "Não possui veículo"
-                      : "Veículo não informado"}
+                    {dados?.email || user?.email}
+                  </span>
+                </div>
+              </div>
+
+              <div className="perfil-info-linha">
+                <FaIdCard className="perfil-info-icone" />
+                <div className="perfil-info-texto">
+                  <span className="perfil-info-label">{rotuloDocumento}</span>
+                  <span className="perfil-info-valor">
+                    {numeroDocumento || "Não informado"}
+                  </span>
+                </div>
+              </div>
+
+              <div className="perfil-info-linha perfil-info-linha-full">
+                <FaMapMarkerAlt className="perfil-info-icone" />
+                <div className="perfil-info-texto">
+                  <span className="perfil-info-label">Endereço</span>
+                  <span className="perfil-info-valor">{enderecoResumo}</span>
+                </div>
+                <button
+                  type="button"
+                  className="perfil-info-editar"
+                  onClick={() => setModalAberto("endereco")}
+                >
+                  <FaEdit /> {enderecoCompleto ? "Editar" : "Adicionar"}
+                </button>
+              </div>
+
+              <div className="perfil-info-linha">
+                <FaPhoneAlt className="perfil-info-icone" />
+                <div className="perfil-info-texto">
+                  <span className="perfil-info-label">Telefone</span>
+                  <span className="perfil-info-valor">
+                    {dados?.telefone || "Não informado"}
                   </span>
                 </div>
                 <button
                   type="button"
                   className="perfil-info-editar"
-                  onClick={() => setModalAberto("coleta")}
+                  onClick={() => setModalAberto("telefone")}
                 >
-                  <FaEdit /> {materiaisCadastrados || veiculoInformado ? "Editar" : "Adicionar"}
+                  <FaEdit /> Editar
                 </button>
               </div>
-            )}
 
-            <div className="perfil-info-linha">
-              <FaLock className="perfil-info-icone" />
-              <div className="perfil-info-texto">
-                <span className="perfil-info-label">Senha</span>
-                <span className="perfil-info-valor">••••••••</span>
+              <div className="perfil-info-linha">
+                <FaLock className="perfil-info-icone" />
+                <div className="perfil-info-texto">
+                  <span className="perfil-info-label">Senha</span>
+                  <span className="perfil-info-valor">••••••••</span>
+                </div>
+                <button
+                  type="button"
+                  className="perfil-info-editar"
+                  onClick={() => setModalAberto("senha")}
+                >
+                  <FaEdit /> Alterar
+                </button>
               </div>
-              <button
-                type="button"
-                className="perfil-info-editar"
-                onClick={() => setModalAberto("senha")}
-              >
-                <FaEdit /> Alterar
-              </button>
+
+              {ehPerfilDeColeta && (
+                <div className="perfil-info-linha perfil-info-linha-full">
+                  <FaRecycle className="perfil-info-icone" />
+                  <div className="perfil-info-texto">
+                    <span className="perfil-info-label">Informações de coleta</span>
+                    <span className="perfil-info-valor">
+                      {materiaisCadastrados
+                        ? `${dados.materiaisAceitos.length} ${
+                            dados.materiaisAceitos.length === 1
+                              ? "material aceito"
+                              : "materiais aceitos"
+                          }`
+                        : "Nenhum material informado"}
+                      {" · "}
+                      {veiculoInformado
+                        ? dados.possuiVeiculo
+                          ? `Possui veículo (${dados.tipoVeiculo || "não especificado"})`
+                          : "Não possui veículo"
+                        : "Veículo não informado"}
+                    </span>
+                  </div>
+                  <button
+                    type="button"
+                    className="perfil-info-editar"
+                    onClick={() => setModalAberto("coleta")}
+                  >
+                    <FaEdit /> {materiaisCadastrados || veiculoInformado ? "Editar" : "Adicionar"}
+                  </button>
+                </div>
+              )}
             </div>
           </section>
+          </div>
         </div>
       </main>
 

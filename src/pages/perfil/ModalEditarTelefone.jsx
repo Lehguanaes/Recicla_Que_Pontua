@@ -63,8 +63,8 @@ export default function ModalEditarTelefone({
   }
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose}>
-      <h2 className="perfil-modal-titulo">Editar telefone</h2>
+    <Modal isOpen={isOpen} onClose={onClose} className="perfil-modal">
+      <h2 className="perfil-modal-titulo">Editar Telefone</h2>
       <p className="perfil-modal-subtitulo">
         Mantenha seu telefone atualizado para facilitar o contato.
       </p>

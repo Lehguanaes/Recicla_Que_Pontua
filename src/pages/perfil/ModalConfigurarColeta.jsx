@@ -111,7 +111,11 @@ export default function ModalConfigurarColeta({
   }
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose}>
+    <Modal
+      isOpen={isOpen}
+      onClose={onClose}
+      className="perfil-modal perfil-modal-amplo"
+    >
       <h2 className="perfil-modal-titulo">Configurar coleta</h2>
    
       <form className="perfil-form" onSubmit={handleSubmit} noValidate>

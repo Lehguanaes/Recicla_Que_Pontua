@@ -23,6 +23,8 @@
 ════════════════════════════════ */
 .modal-box {
   background: var(--color-surface-card);
+  border: 1px solid rgb(var(--rgb-brand-green) / 0.18);
+  border-top: 4px solid rgb(var(--rgb-brand-orange) / 0.78);
   border-radius: 20px;
   padding: 36px 32px;
   max-width: 90vw;
@@ -47,9 +49,9 @@
   position: absolute;
   top: 16px;
   right: 18px;
-  background: var(--color-surface-page);
-  border: none;
-  border-radius: 8px;
+  background: var(--color-surface-orange);
+  border: 1px solid rgb(var(--rgb-brand-orange) / 0.28);
+  border-radius: 9px;
   width: 32px;
   height: 32px;
   display: flex;
@@ -57,11 +59,13 @@
   justify-content: center;
   font-size: 16px;
   cursor: pointer;
-  color: var(--color-text-muted);
-  transition: background 0.15s, color 0.15s;
+  color: var(--color-brand-orange-dark);
+  transition: background 0.18s ease, border-color 0.18s ease, color 0.18s ease, transform 0.18s ease;
 }
 
 .modal-close:hover {
-  background: var(--color-surface-danger);
-  color: var(--color-danger-dark);
+  border-color: var(--color-brand-orange);
+  background: var(--color-brand-orange);
+  color: var(--color-white);
+  transform: translateY(-1px);
 }

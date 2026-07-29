@@ -107,7 +107,7 @@ export default function Navbar() {
             {user?.fotoPerfil ? (
               <img
                 src={user.fotoPerfil}
-                alt={user.nome || "Foto de perfil"}
+                alt={user.nome || "Foto de Perfil"}
                 className="navbar-user-avatar"
               />
             ) : (

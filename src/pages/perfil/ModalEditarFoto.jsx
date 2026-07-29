@@ -74,8 +74,8 @@ export default function ModalEditarFoto({
   }
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose}>
-      <h2 className="perfil-modal-titulo">Foto de perfil</h2>
+    <Modal isOpen={isOpen} onClose={onClose} className="perfil-modal">
+      <h2 className="perfil-modal-titulo">Foto de Perfil</h2>
       <p className="perfil-modal-subtitulo">
         Escolha uma imagem para personalizar seu perfil.
       </p>

@@ -129,8 +129,12 @@ export default function ModalEditarEndereco({
   }
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose}>
-      <h2 className="perfil-modal-titulo">Endereço completo</h2>
+    <Modal
+      isOpen={isOpen}
+      onClose={onClose}
+      className="perfil-modal perfil-modal-amplo"
+    >
+      <h2 className="perfil-modal-titulo">Endereço Completo</h2>
       <p className="perfil-modal-subtitulo">
         Essas informações são opcionais e ajudam a melhorar a filtragem de
         catadores e centros de coleta próximos a você.
@@ -156,7 +160,7 @@ export default function ModalEditarEndereco({
             {errors.cep && <span className="perfil-form-error">{errors.cep}</span>}
           </div>
 
-          <div className="perfil-input-group full">
+          <div className="perfil-input-group">
             <label htmlFor="rua">Rua / Logradouro</label>
             <input
               id="rua"
