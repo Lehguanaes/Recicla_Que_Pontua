@@ -96,13 +96,14 @@ export default function SelectedCard({
               className="selected-card-button"
               style={{
                 display: "flex",
+                height: "50px",
                 alignItems: "center",
+                justifyContent: "center",
                 gap: "10px",
                 background: COLORS.white,
                 color: COLORS.secondary,
                 border: "none",
-                borderRadius: "20px",
-                padding: "10px 20px",
+                borderRadius: "15px",
                 marginRight: "50px",
                 fontWeight: 600,
                 fontSize: "14px",

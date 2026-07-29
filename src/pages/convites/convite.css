@@ -1,4 +1,6 @@
-/* Styles for confirmation modal overlay */
+/* ================================================
+   MODAL DE CONFIRMAÇÃO DE CONVITE
+   ================================================ */
 .convite-overlay {
     position: fixed;
     inset: 0;
@@ -12,9 +14,9 @@
 .convite-modal {
     width: 92%;
     max-width: 460px;
-    background: var(--white);
+    background: var(--color-surface-card);
     border-radius: 20px;
-    border: 2px solid var(--verde-escuro);
+    border: 2px solid var(--color-brand-green-deep);
     padding: 30px;
     box-shadow: 0 18px 40px rgba(0, 0, 0, .15);
     animation: conviteFade .2s ease;
@@ -36,8 +38,8 @@
     height: 70px;
     margin: 0 auto 18px;
     border-radius: 50%;
-    background: var(--verde-suave);
-    color: var(--secondary);
+    background: var(--color-brand-green-soft);
+    color: var(--color-brand-green);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -46,7 +48,7 @@
 .convite-titulo {
     margin: 0 0 8px;
     text-align: center;
-    color: var(--verde-escuro);
+    color: var(--color-brand-green-deep);
     font-size: 1.5rem;
     font-weight: 700;
 }
@@ -54,26 +56,26 @@
 .convite-subtitulo {
     margin: 0;
     text-align: center;
-    color: var(--text-secondary);
+    color: var(--color-text-secondary);
     line-height: 1.6;
 }
 
 .convite-subtitulo strong {
-    color: var(--text-primary);
+    color: var(--color-text-default);
 }
 
 .convite-aviso {
     margin: 24px 0;
     padding: 14px;
     border-radius: 10px;
-    color: var(--verde-medio);
+    color: var(--color-brand-green-medium);
     font-size: 14px;
     text-align: center;
 }
 
 .perfil-botao-secundario {
-    color: var(--orange);
-    border: 1px solid var(--orange);
+    color: var(--color-brand-orange);
+    border: 1px solid var(--color-brand-orange);
     border-radius: 10px;
 }
 
@@ -86,10 +88,12 @@
     flex: 1;
 }
 
-/* Styles for Convites dashboard page */
+/* ================================================
+   PÁGINA DE GERENCIAMENTO DE CONVITES
+   ================================================ */
 .convites-page {
     min-height: calc(100vh - 160px);
-    background-color: var(--background);
+    background-color: var(--color-surface-page);
     padding: 40px 20px;
     display: flex;
     justify-content: center;
@@ -109,13 +113,13 @@
 
 .convites-header h1 {
     font-size: 2rem;
-    color: var(--verde-escuro);
+    color: var(--color-brand-green-deep);
     margin: 0 0 8px;
     font-weight: 700;
 }
 
 .convites-header p {
-    color: var(--text-secondary);
+    color: var(--color-text-secondary);
     margin: 0;
     font-size: 1rem;
 }
@@ -124,7 +128,7 @@
 .convites-tabs {
     display: flex;
     gap: 8px;
-    border-bottom: 2px solid var(--border);
+    border-bottom: 2px solid var(--color-border);
     padding-bottom: 2px;
 }
 
@@ -137,7 +141,7 @@
     padding: 12px 24px;
     font-size: 1rem;
     font-weight: 600;
-    color: var(--text-secondary);
+    color: var(--color-text-muted);
     cursor: pointer;
     border-bottom: 3px solid transparent;
     transition: all 0.2s ease;
@@ -145,12 +149,12 @@
 }
 
 .convites-tab-btn:hover {
-    color: var(--verde-medio);
+    color: var(--color-brand-green-medium);
 }
 
 .convites-tab-btn.active {
-    color: var(--verde-escuro);
-    border-bottom-color: var(--verde-escuro);
+    color: var(--color-brand-green-deep);
+    border-bottom-color: var(--color-brand-green-deep);
 }
 
 .tab-icon {
@@ -158,8 +162,8 @@
 }
 
 .badge-count {
-    background-color: var(--orange);
-    color: white;
+    background-color: var(--color-brand-orange);
+    color: var(--color-white);
     font-size: 0.75rem;
     font-weight: 700;
     padding: 2px 6px;
@@ -167,7 +171,7 @@
     margin-left: 4px;
 }
 
-/* List and Card styles */
+/* Lista de convites */
 .convites-list {
     display: flex;
     flex-direction: column;
@@ -175,20 +179,20 @@
 }
 
 .convite-card {
-    background-color: var(--white);
+    background-color: var(--color-surface-card);
     border-radius: 16px;
-    border: 1px solid var(--border);
+    border: 1px solid var(--color-border);
     padding: 20px;
     display: flex;
     gap: 20px;
     align-items: center;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+    box-shadow: var(--shadow-card);
     transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .convite-card:hover {
     transform: translateY(-2px);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 8px 24px rgb(var(--rgb-shadow-green) / 12%);
 }
 
 .convite-card-avatar {
@@ -200,11 +204,11 @@
     height: 64px;
     border-radius: 50%;
     object-fit: cover;
-    border: 2px solid var(--verde-suave);
+    border: 2px solid var(--color-brand-green-soft);
 }
 
 .avatar-placeholder {
-    color: var(--text-disabled);
+    color: var(--color-text-disabled);
     width: 64px;
     height: 64px;
 }
@@ -227,7 +231,7 @@
 .sender-name-wrapper h3 {
     margin: 0;
     font-size: 1.2rem;
-    color: var(--text-primary);
+    color: var(--color-text-default);
     font-weight: 700;
     white-space: nowrap;
     overflow: hidden;
@@ -235,8 +239,8 @@
 }
 
 .perfil-tag {
-    background-color: var(--verde-suave);
-    color: var(--verde-escuro);
+    background-color: var(--color-brand-green-soft);
+    color: var(--color-brand-green-deep);
     font-size: 0.75rem;
     font-weight: 600;
     padding: 3px 10px;
@@ -252,7 +256,7 @@
 .detail-item {
     margin: 0;
     font-size: 0.9rem;
-    color: var(--text-secondary);
+    color: var(--color-text-secondary);
     display: flex;
     align-items: center;
     gap: 6px;
@@ -263,7 +267,7 @@
     opacity: 0.8;
 }
 
-/* Card actions and status */
+/* Botões de ação */
 .convite-card-actions {
     display: flex;
     gap: 10px;
@@ -280,26 +284,26 @@
     font-weight: 600;
     cursor: pointer;
     transition: all 0.2s ease;
-}
-
-.accept-btn {
-    background-color: var(--verde-escuro);
-    color: white;
     border: none;
 }
 
+.accept-btn {
+    background-color: var(--color-brand-green-deep);
+    color: var(--color-white);
+}
+
 .accept-btn:hover {
-    background-color: var(--verde-medio);
+    background-color: var(--color-brand-green-medium);
 }
 
 .refuse-btn {
     background-color: transparent;
-    color: var(--error);
-    border: 1px solid var(--error);
+    color: var(--color-danger);
+    border: 1px solid var(--color-danger);
 }
 
 .refuse-btn:hover {
-    background-color: rgba(244, 67, 54, 0.05);
+    background-color: var(--color-surface-danger);
 }
 
 .convite-card-status {
@@ -317,20 +321,20 @@
 }
 
 .status-label.accepted {
-    background-color: rgba(76, 175, 80, 0.1);
-    color: var(--verde-escuro);
+    background-color: var(--color-highlight-green);
+    color: var(--color-brand-green-deep);
 }
 
 .status-label.refused {
-    background-color: rgba(244, 67, 54, 0.1);
-    color: var(--error);
+    background-color: var(--color-surface-danger);
+    color: var(--color-danger);
 }
 
-/* Empty State */
+/* Estado vazio */
 .convites-empty {
-    background-color: var(--white);
+    background-color: var(--color-surface-card);
     border-radius: 16px;
-    border: 1px solid var(--border);
+    border: 1px solid var(--color-border);
     padding: 60px 40px;
     text-align: center;
     display: flex;
@@ -343,8 +347,8 @@
     width: 80px;
     height: 80px;
     border-radius: 50%;
-    background-color: var(--border);
-    color: var(--text-secondary);
+    background-color: var(--color-border);
+    color: var(--color-text-muted);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -353,17 +357,17 @@
 .convites-empty h3 {
     margin: 0;
     font-size: 1.3rem;
-    color: var(--text-primary);
+    color: var(--color-text-default);
 }
 
 .convites-empty p {
     margin: 0;
-    color: var(--text-secondary);
+    color: var(--color-text-secondary);
     max-width: 400px;
     line-height: 1.5;
 }
 
-/* Loading State */
+/* Estado de carregamento */
 .convites-loading {
     display: flex;
     flex-direction: column;
@@ -376,8 +380,8 @@
 .convites-spinner {
     width: 40px;
     height: 40px;
-    border: 4px solid var(--border);
-    border-top: 4px solid var(--verde-escuro);
+    border: 4px solid var(--color-border);
+    border-top: 4px solid var(--color-brand-green-deep);
     border-radius: 50%;
     animation: spinner 0.8s linear infinite;
 }
@@ -387,6 +391,7 @@
     100% { transform: rotate(360deg); }
 }
 
+/* Responsivo */
 @media (max-width: 768px) {
     .convite-card {
         flex-direction: column;
