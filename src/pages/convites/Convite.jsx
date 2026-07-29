@@ -61,25 +61,23 @@ export default function Convite() {
       setReceivedInvitations(list);
 
       // Fetch user profile info for senders
-      const newSenders = { ...senders };
+      const fetchedSenders = {};
       let updated = false;
 
       for (const senderId of senderIds) {
-        if (!newSenders[senderId]) {
-          try {
-            const userSnap = await getDoc(doc(db, "usuarios", senderId));
-            if (userSnap.exists()) {
-              newSenders[senderId] = userSnap.data();
-              updated = true;
-            }
-          } catch (err) {
-            console.error("Erro ao carregar remetente:", err);
+        try {
+          const userSnap = await getDoc(doc(db, "usuarios", senderId));
+          if (userSnap.exists()) {
+            fetchedSenders[senderId] = userSnap.data();
+            updated = true;
           }
+        } catch (err) {
+          console.error("Erro ao carregar remetente:", err);
         }
       }
 
       if (updated) {
-        setSenders(newSenders);
+        setSenders((prev) => ({ ...prev, ...fetchedSenders }));
       }
       setLoading(false);
     }, (err) => {
