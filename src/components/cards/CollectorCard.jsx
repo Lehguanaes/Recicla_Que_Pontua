@@ -1,40 +1,49 @@
 import "./collectorCard.css";
 
-import { FaStar } from "react-icons/fa";
-import { COLORS, LOCAL_TYPES, MATERIAL_TYPES } from "../../constants";
+import {
+  FaCar,
+  FaIndustry,
+  FaMapMarkerAlt,
+  FaStar,
+  FaUser,
+} from "react-icons/fa";
+import { LOCAL_TYPES, MATERIAL_TYPES } from "../../constants";
 
-function Badge({ children, color = COLORS.orange }) {
-  return (
-    <span
-      className="collector-badge"
-      style={{
-        color,
-        background: `${color}22`,
-        borderColor: `${color}44`,
-      }}
-    >
-      {children}
-    </span>
-  );
+function Badge({ children, tone = "material" }) {
+  return <span className={`collector-badge is-${tone}`}>{children}</span>;
 }
 
 export default function CollectorCard({ collector, onClick, compact = false }) {
   if (!collector) return null;
 
   const isCenter = collector.tipo === LOCAL_TYPES.CENTER;
-  const typeColor = isCenter ? COLORS.info : COLORS.primary;
+  const isInteractive = typeof onClick === "function";
+
+  const handleSelect = () => onClick?.(collector);
 
   return (
     <div
-      className={`collector-card ${compact ? "compact" : ""}`}
-      onClick={() => onClick?.(collector)}
+      className={`collector-card ${compact ? "compact" : ""} ${
+        isCenter ? "is-center" : "is-collector"
+      } ${isInteractive ? "" : "is-static"}`}
+      onClick={isInteractive ? handleSelect : undefined}
+      onKeyDown={
+        isInteractive
+          ? (event) => {
+              if (event.key === "Enter" || event.key === " ") {
+                event.preventDefault();
+                handleSelect();
+              }
+            }
+          : undefined
+      }
+      role={isInteractive ? "button" : undefined}
+      tabIndex={isInteractive ? 0 : undefined}
+      aria-label={
+        isInteractive ? `Ver detalhes de ${collector.nome}` : undefined
+      }
     >
-      <div
-        className="collector-avatar"
-        style={{
-          background: collector.fotoPerfil ? "transparent" : `${typeColor}22`,
-        }}
-      >
+      <div className={`collector-avatar ${collector.fotoPerfil ? "has-photo" : ""}`}>
         {collector.fotoPerfil ? (
           <img
             src={collector.fotoPerfil}
@@ -42,40 +51,55 @@ export default function CollectorCard({ collector, onClick, compact = false }) {
             className="collector-avatar-img"
           />
         ) : isCenter ? (
-          "🏭"
+          <FaIndustry />
         ) : (
-          "👤"
+          <FaUser />
         )}
       </div>
 
       <div className="collector-content">
         <div className="collector-header">
           <span className="collector-name">{collector.nome}</span>
-          <Badge color={typeColor}>{collector.subtipo}</Badge>
+          <Badge tone={isCenter ? "center" : "collector"}>
+            {collector.subtipo ||
+              (isCenter ? "Centro de coleta" : "Coletor autônomo")}
+          </Badge>
         </div>
 
         <div className="collector-info">
+          {typeof collector.rating === "number" && (
+            <span>
+              <FaStar className="collector-star" />
+              {collector.rating.toFixed(1)}
+            </span>
+          )}
+
           <span>
-            <FaStar className="collector-star" />
-            {collector.rating?.toFixed(1)}
+            <FaMapMarkerAlt />
+            {typeof collector.distancia_km === "number"
+              ? `${collector.distancia_km.toFixed(1)} km`
+              : "Distância indisponível"}
           </span>
-          <span>📍 {collector.distancia_km?.toFixed(1)} km</span>
-          {collector.veiculo && <span>🚗 {collector.veiculo}</span>}
+
+          {collector.veiculo && (
+            <span>
+              <FaCar />
+              {collector.veiculo}
+            </span>
+          )}
         </div>
 
         {!compact && collector.materiais?.length > 0 && (
           <div className="collector-materials">
             {collector.materiais.slice(0, 4).map((material) => (
-              <Badge key={material} color={COLORS.secondary}>
+              <Badge key={material}>
                 {MATERIAL_TYPES.find((item) => item.value === material)?.label ||
                   material}
               </Badge>
             ))}
 
             {collector.materiais.length > 4 && (
-              <Badge color={COLORS.textSecondary}>
-                +{collector.materiais.length - 4}
-              </Badge>
+              <Badge tone="more">+{collector.materiais.length - 4}</Badge>
             )}
           </div>
         )}

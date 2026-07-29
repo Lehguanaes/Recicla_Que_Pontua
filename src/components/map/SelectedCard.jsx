@@ -1,16 +1,19 @@
 import React from "react";
-import { FaStar, FaUserPlus, FaComments } from "react-icons/fa";
-import { COLORS } from "../../constants";
-import Button from "../common/Button";
-
-import "./selectedCard.css";
-
+import {
+  FaComments,
+  FaIndustry,
+  FaMapMarkerAlt,
+  FaPaperPlane,
+  FaStar,
+  FaTimes,
+  FaUser,
+} from "react-icons/fa";
 import { LOCAL_TYPES } from "../../constants";
+import "./selectedCard.css";
 
 export default function SelectedCard({
   collector,
   onClose,
-  onViewProfile,
   onOpenInvite,
   invitation,
   userProfile,
@@ -18,119 +21,83 @@ export default function SelectedCard({
   if (!collector) return null;
 
   const isCenter = collector.tipo === LOCAL_TYPES.CENTER;
-  const typeColor = isCenter ? "var(--color-info)" : "var(--color-primary)";
   const fotoPerfil = collector.fotoPerfil || collector.foto;
+  const profileType =
+    collector.subtipo || (isCenter ? "Centro de coleta" : "Coletor autônomo");
+  const status = invitation?.status;
+  const isPending = status === "pendente";
+  const isAccepted = status === "aceito";
+  const buttonText = isPending
+    ? "Convite enviado"
+    : isAccepted
+      ? "Abrir conversa"
+      : "Enviar convite";
+  const ButtonIcon = isAccepted ? FaComments : FaPaperPlane;
+
+  const handleAction = () => {
+    if (isPending) return;
+    if (isAccepted) {
+      // TODO: Implementar chat futuramente.
+      return;
+    }
+    onOpenInvite(collector);
+  };
 
   return (
-    <div className="selected-card-container">
+    <div
+      className={`selected-card-container ${
+        isCenter ? "is-center" : "is-collector"
+      }`}
+    >
       <div className="selected-card-content">
-        <div
-          className={`collector-avatar ${fotoPerfil ? "has-photo" : ""}`}
-          style={{
-            "--collector-avatar-color": `${typeColor}22`,
-          }}
-        >
+        <div className={`selected-card-avatar ${fotoPerfil ? "has-photo" : ""}`}>
           {fotoPerfil ? (
             <img
               src={fotoPerfil}
               alt={collector.nome}
-              className="collector-avatar-img"
+              className="selected-card-avatar-img"
             />
           ) : (
-            <span className="collector-avatar-icon">
-              {isCenter ? "🏭" : "👤"}
+            <span className="selected-card-avatar-icon">
+              {isCenter ? <FaIndustry /> : <FaUser />}
             </span>
           )}
         </div>
 
         <div className="selected-info">
-          <h3 className="selected-name">
-            {collector.nome}
-          </h3>
-
-          <div className="selected-subtitle">
-            <span>{collector.subtipo}</span>
-
-            {collector.rating && (
-              <>
-                <FaStar className="selected-star" />
-                <span>{collector.rating.toFixed(1)}</span>
-              </>
-            )}
+          <div className="selected-card-heading">
+            <h3 className="selected-name">{collector.nome}</h3>
+            <span className="selected-type-tag">{profileType}</span>
           </div>
 
-          {collector.distancia_km != null && (
-            <div className="selected-distance">
-              📍 {collector.distancia_km.toFixed(1)} km de distância
-            </div>
-          )}
+          <div className="selected-meta">
+            {typeof collector.rating === "number" && (
+              <span>
+                <FaStar className="selected-star" />
+                {collector.rating.toFixed(1)}
+              </span>
+            )}
+
+            <span>
+              <FaMapMarkerAlt />
+              {typeof collector.distancia_km === "number"
+                ? `${collector.distancia_km.toFixed(1)} km de distância`
+                : "Distância não disponível"}
+            </span>
+          </div>
         </div>
       </div>
 
-      {/* Botão de convites e chat com as regras de negócio */}
       {userProfile !== "coletor-autonomo" && userProfile !== "centro-coleta" && (
-        (() => {
-          const status = invitation?.status;
-          let btnText = "Enviar Convite";
-          let btnDisabled = false;
-          let btnIcon = <FaUserPlus size={13} />;
-          let btnClick = () => onOpenInvite(collector);
-
-          if (status === "pendente") {
-            btnText = "Convite enviado";
-            btnDisabled = true;
-            btnClick = undefined;
-          } else if (status === "aceito") {
-            btnText = "Chat";
-            btnDisabled = false;
-            btnIcon = <FaComments size={13} />;
-            btnClick = () => {
-              // TODO: Implementar chat futuramente
-            };
-          }
-
-          return (
-            <Button
-              onClick={btnClick}
-              disabled={btnDisabled}
-              className="selected-card-button"
-              style={{
-                display: "flex",
-                height: "50px",
-                alignItems: "center",
-                justifyContent: "center",
-                gap: "10px",
-                background: COLORS.white,
-                color: COLORS.secondary,
-                border: "none",
-                borderRadius: "15px",
-                marginRight: "50px",
-                fontWeight: 600,
-                fontSize: "14px",
-                boxShadow: "0 8px 20px rgba(0,0,0,.18)",
-                cursor: btnDisabled ? "not-allowed" : "pointer",
-                transition: "all .25s ease",
-              }}
-            >
-              <span
-                style={{
-                  width: 30,
-                  height: 30,
-                  borderRadius: "50%",
-                  background: COLORS.secondary,
-                  color: COLORS.white,
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  flexShrink: 0,
-                }}
-              >
-                {btnIcon}
-              </span>
-              <span>{btnText}</span>
-            </Button>
-          );
-        })()
+        <button
+          type="button"
+          onClick={handleAction}
+          disabled={isPending}
+          className={`selected-card-button ${isAccepted ? "is-chat" : ""}`}
+        >
+          <ButtonIcon />
+          <span>{buttonText}</span>
+        </button>
       )}
 
       <button
@@ -139,7 +106,7 @@ export default function SelectedCard({
         onClick={onClose}
         aria-label="Fechar detalhes do local"
       >
-        ✕
+        <FaTimes />
       </button>
     </div>
   );

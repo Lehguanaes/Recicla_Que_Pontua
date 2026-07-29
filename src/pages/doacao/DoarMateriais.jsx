@@ -1,11 +1,14 @@
 import React, { useMemo, useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import {
+  FaBell,
   FaFilter,
   FaListUl,
   FaMapMarkedAlt,
   FaRecycle,
 } from "react-icons/fa";
+import PetAviso from "../../assets/PetAviso.png";
+import PetConvite from "../../assets/PetConvite.png";
 import PetLimparFiltro from "../../assets/PetLimparFiltro.png";
 import useCollectorSearch from "../../hooks/useCollectorSearch";
 import SearchBar from "../../components/common/SearchBar";
@@ -14,6 +17,7 @@ import CollectorMap from "../../components/map/CollectorMap";
 import CollectorCard from "../../components/cards/CollectorCard";
 import SelectedCard from "../../components/map/SelectedCard";
 import ConfirmarConvite from "../convites/ConfirmarConvites";
+import Alert from "../../components/alert/Alert";
 import Navbar from "../../components/navbar/Navbar";
 import Rodape from "../../components/rodape/Rodape";
 import { useAuth } from "../../contexts/AuthContext";
@@ -42,6 +46,7 @@ const temCoordenadasValidas = (collector) =>
 
 const DoarMateriais = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const registeredMaterials = useMemo(
     () => location.state?.registeredMaterials || [],
     [location.state]
@@ -58,9 +63,15 @@ const DoarMateriais = () => {
   const [showFilters, setShowFilters] = useState(false);
   const [openInvite, setOpenInvite] = useState(false);
   const [selectedInvite, setSelectedInvite] = useState(null);
+  const [sendingInvite, setSendingInvite] = useState(false);
+  const [inviteSuccess, setInviteSuccess] = useState(null);
 
   const { user } = useAuth();
   const [sentInvitations, setSentInvitations] = useState([]);
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+  }, []);
 
   useEffect(() => {
     if (!user?.uid) return;
@@ -87,14 +98,14 @@ const DoarMateriais = () => {
     loading,
     error,
     origem,
-    enderecoCompleto,
+    bairroUsuario,
+    cidadeUsuario,
     localTemporario,
     buscandoLocal,
     avisoLocal,
     updateFilter,
     resetFilters,
     search,
-    buscarPorLocalizacaoAtual,
     limparLocalTemporario,
     selectCollector,
   } = useCollectorSearch(null, initialFilters);
@@ -123,12 +134,24 @@ const DoarMateriais = () => {
   const renderRegisteredMaterialTags = () =>
     registeredMaterials.length > 0 && (
       <div className="donation-material-tags" aria-label="Materiais cadastrados">
-        <span>Materiais cadastrados</span>
-        <div>
+        <div className="donation-material-summary">
+          <span className="donation-material-summary-icon" aria-hidden="true">
+            <FaRecycle />
+          </span>
+          <div>
+            <strong>Materiais selecionados</strong>
+            <small>Esta seleção está filtrando os locais apresentados.</small>
+          </div>
+        </div>
+
+        <div className="donation-material-list">
           {registeredMaterials.map((material) => (
-            <strong key={material.value}>
-              {material.quantity} {material.unit} de {material.label}
-            </strong>
+            <span className="donation-material-item" key={material.value}>
+              <strong>
+                {material.quantity} {material.unit}
+              </strong>
+              <span>{material.label}</span>
+            </span>
           ))}
         </div>
       </div>
@@ -179,10 +202,12 @@ const DoarMateriais = () => {
   );
 
   const handleConfirmInvite = async () => {
-    if (!user?.uid || !selectedInvite) return;
+    if (!user?.uid || !selectedInvite || sendingInvite) return;
+    const inviteReceiver = selectedInvite;
     const existingInv = sentInvitations.find(
-      (inv) => inv.destinatarioId === selectedInvite.id
+      (inv) => inv.destinatarioId === inviteReceiver.id
     );
+    setSendingInvite(true);
     try {
       if (existingInv) {
         const docRef = doc(db, "convites", existingInv.id);
@@ -196,17 +221,32 @@ const DoarMateriais = () => {
         await setDoc(newDocRef, {
           conviteId: newDocRef.id,
           remetenteId: user.uid,
-          destinatarioId: selectedInvite.id,
+          destinatarioId: inviteReceiver.id,
           status: "pendente",
           createdAt: serverTimestamp(),
           respondedAt: null,
         });
       }
+      setOpenInvite(false);
+      setInviteSuccess(inviteReceiver);
     } catch (error) {
       console.error("Erro ao enviar convite:", error);
     } finally {
-      setOpenInvite(false);
+      setSendingInvite(false);
     }
+  };
+
+  const handleReviewMaterials = () => {
+    setOpenInvite(false);
+    navigate("/doacao/cadastrar-materiais", {
+      state: { registeredMaterials },
+    });
+  };
+
+  const handleInviteSuccessConfirm = () => {
+    setInviteSuccess(null);
+    navigate("/convites");
+    window.scrollTo({ top: 0, left: 0, behavior: "auto" });
   };
 
   return (
@@ -219,7 +259,7 @@ const DoarMateriais = () => {
             <span className="donation-kicker">
               <FaRecycle /> Reciclagem de materiais
             </span>
-            <h2>Encontre catadores e centros de coleta perto de você!</h2>
+            <h1>Encontre coletores e centros de coleta perto de você!</h1>
             <p>
               {registeredMaterials.length > 0
                 ? "Sua busca já está filtrada pelos materiais cadastrados. Agora, escolha quem pode recebê-los ou coletá-los."
@@ -227,18 +267,37 @@ const DoarMateriais = () => {
             </p>
           </div>
 
+          <div className="donation-hero-guide">
+            <div className="donation-guide-bubble">
+              <span className="donation-guide-label">
+                Próximo passo
+              </span>
+              <p>
+                Escolha com quem você quer compartilhar seus materiais e envie
+                um convite!
+              </p>
+            </div>
+            <img
+              src={PetAviso}
+              alt="Mascote apresentando uma orientação"
+              className="donation-guide-pet pet-floating"
+            />
+          </div>
+        </section>
+
+        <section className="donation-content">
           <div className="donation-search-panel">
             <SearchBar
               value={filters.endereco_busca}
               onChange={(valor) => updateFilter("endereco_busca", valor)}
               onSearch={search}
-              enderecoUsuario={enderecoCompleto}
-              onUseCurrentLocation={buscarPorLocalizacaoAtual}
+              bairroUsuario={bairroUsuario}
+              cidadeUsuario={cidadeUsuario}
               onClear={limparLocalTemporario}
               loading={buscandoLocal}
               aviso={avisoLocal}
               localAtivo={Boolean(localTemporario)}
-              placeholder="Seu local (rua, bairro ou cidade)"
+              placeholder="Bairro ou cidade"
             />
             {localTemporario?.enderecoFormatado && (
               <small className="donation-local-ativo">
@@ -275,9 +334,7 @@ const DoarMateriais = () => {
               </button>
             </div>
           </div>
-        </section>
 
-        <section className="donation-content">
           {loading && <div className="donation-loading">Buscando locais...</div>}
 
           {error && <div className="donation-error">{error}</div>}
@@ -344,6 +401,16 @@ const DoarMateriais = () => {
             </div>
           )}
 
+          <aside className="donation-invite-reminder">
+            <span className="donation-reminder-icon" aria-hidden="true">
+              <FaBell />
+            </span>
+            <p>
+              Ao <strong>enviar o convite para iniciar a troca</strong>, fique
+              atento às notificações!
+            </p>
+          </aside>
+
           {showFilters && (
             <FilterPanel
               filters={filters}
@@ -360,7 +427,41 @@ const DoarMateriais = () => {
         collector={selectedInvite}
         onClose={() => setOpenInvite(false)}
         onConfirm={handleConfirmInvite}
+        loading={sendingInvite}
+        materials={registeredMaterials}
+        onReviewMaterials={handleReviewMaterials}
       />
+
+      <Alert
+        isOpen={Boolean(inviteSuccess)}
+        title="Convite enviado!"
+        message={
+          inviteSuccess
+            ? `Seu convite para ${inviteSuccess.nome} foi enviado com sucesso.`
+            : ""
+        }
+        variant="success"
+        confirmText="Entendi"
+        showCancel={false}
+        onConfirm={handleInviteSuccessConfirm}
+        onCancel={() => setInviteSuccess(null)}
+        className="donation-invite-success-alert"
+      >
+        <div className="donation-invite-success-content">
+          <img
+            src={PetConvite}
+            alt="Mascote comemorando o envio do convite"
+            className="donation-invite-success-pet pet-floating"
+          />
+          <div>
+            <strong>Agora é só acompanhar!</strong>
+            <p>
+              Fique de olho nas notificações. Avisaremos quando o convite for
+              respondido e a conversa estiver disponível.
+            </p>
+          </div>
+        </div>
+      </Alert>
 
       <Rodape />
     </>

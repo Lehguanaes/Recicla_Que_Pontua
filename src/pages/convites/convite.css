@@ -1,91 +1,184 @@
 /* ================================================
    MODAL DE CONFIRMAÇÃO DE CONVITE
    ================================================ */
-.convite-overlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(0, 0, 0, .45);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 9999;
+.alert-box.convite-alert-box {
+    width: min(100%, 540px);
+    padding: 24px 26px;
 }
 
-.convite-modal {
-    width: 92%;
-    max-width: 460px;
-    background: var(--color-surface-card);
-    border-radius: 20px;
-    border: 2px solid var(--color-brand-green-deep);
-    padding: 30px;
-    box-shadow: 0 18px 40px rgba(0, 0, 0, .15);
-    animation: conviteFade .2s ease;
+.convite-alert-box .alert-icon {
+    width: 54px;
+    height: 54px;
+    margin-bottom: 12px;
+    font-size: 1.55rem;
 }
 
-@keyframes conviteFade {
-    from {
-        opacity: 0;
-        transform: translateY(10px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+.convite-alert-box h2 {
+    font-size: clamp(1.4rem, 3vw, 1.7rem);
 }
 
-.convite-icone {
-    width: 70px;
-    height: 70px;
-    margin: 0 auto 18px;
-    border-radius: 50%;
-    background: var(--color-brand-green-soft);
-    color: var(--color-brand-green);
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.convite-alert-box > p {
+    margin-top: 8px;
 }
 
-.convite-titulo {
-    margin: 0 0 8px;
-    text-align: center;
-    color: var(--color-brand-green-deep);
-    font-size: 1.5rem;
-    font-weight: 700;
+.convite-alert-box .alert-content {
+    margin-top: 14px;
+    text-align: left;
 }
 
-.convite-subtitulo {
-    margin: 0;
-    text-align: center;
-    color: var(--color-text-secondary);
-    line-height: 1.6;
+.convite-alert-section + .convite-alert-section {
+    margin-top: 11px;
 }
 
-.convite-subtitulo strong {
-    color: var(--color-text-default);
+.convite-alert-label {
+    display: block;
+    margin: 0 0 7px 2px;
+    color: var(--color-brand-green-dark);
+    font-size: var(--font-size-caption);
+    font-weight: var(--font-weight-bold);
+    letter-spacing: .04em;
+    text-transform: uppercase;
 }
 
-.convite-aviso {
-    margin: 24px 0;
+.convite-alert-box .collector-card {
+    border-color: var(--color-border-green);
+    background: var(--color-surface-soft);
+}
+
+.convite-material-section {
     padding: 14px;
-    border-radius: 10px;
-    color: var(--color-brand-green-medium);
-    font-size: 14px;
-    text-align: center;
+    border: 1px solid var(--color-border-green);
+    border-radius: 12px;
+    background: var(--color-surface-green);
 }
 
-.perfil-botao-secundario {
-    color: var(--color-brand-orange);
-    border: 1px solid var(--color-brand-orange);
-    border-radius: 10px;
-}
-
-.perfil-modal-acoes {
+.convite-material-heading {
     display: flex;
+    align-items: center;
+    justify-content: space-between;
     gap: 12px;
 }
 
-.perfil-modal-acoes button {
-    flex: 1;
+.convite-material-heading > div {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+}
+
+.convite-material-heading svg {
+    color: var(--color-brand-green);
+}
+
+.convite-material-heading .convite-alert-label {
+    margin: 0;
+}
+
+.convite-material-heading > strong {
+    width: 26px;
+    height: 26px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: var(--color-brand-green);
+    color: var(--color-white);
+    font-size: .76rem;
+}
+
+.convite-material-list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 7px;
+    margin: 12px 0;
+    padding: 0;
+    list-style: none;
+}
+
+.convite-material-list li {
+    min-width: 0;
+    padding: 9px 10px;
+    border: 1px solid var(--color-border-green);
+    border-radius: 9px;
+    background: var(--color-surface-card);
+}
+
+.convite-material-list strong,
+.convite-material-list span {
+    display: block;
+}
+
+.convite-material-list strong {
+    overflow: hidden;
+    color: var(--color-text-strong);
+    font-size: .84rem;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.convite-material-list span {
+    margin-top: 2px;
+    color: var(--color-text-secondary);
+    font-size: .76rem;
+}
+
+.convite-material-empty {
+    margin: 11px 0;
+    color: var(--color-text-secondary);
+    font-size: .84rem;
+    line-height: 1.45;
+}
+
+.convite-review-button {
+    width: 100%;
+    min-height: 40px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    border: 1px solid var(--color-border-green-strong);
+    border-radius: 9px;
+    background: var(--color-surface-card);
+    color: var(--color-brand-green-deep);
+    font-size: .84rem;
+    font-weight: var(--font-weight-bold);
+    transition:
+        transform .2s ease,
+        background .2s ease,
+        box-shadow .2s ease;
+}
+
+.convite-review-button:hover:not(:disabled) {
+    transform: translateY(-1px);
+    background: var(--color-surface-green-strong);
+    box-shadow: 0 8px 18px rgb(var(--rgb-shadow-green) / .1);
+}
+
+.convite-review-button:disabled {
+    cursor: wait;
+    opacity: .6;
+}
+
+.convite-alert-note {
+    margin: 10px 4px 0;
+    color: var(--color-text-secondary);
+    font-size: .82rem;
+    line-height: 1.45;
+    text-align: center;
+}
+
+.convite-alert-box .alert-actions {
+    margin-top: 18px;
+}
+
+@media (max-width: 480px) {
+    .alert-box.convite-alert-box {
+        padding-right: 16px;
+        padding-left: 16px;
+    }
+
+    .convite-material-list {
+        grid-template-columns: 1fr;
+    }
 }
 
 /* ================================================

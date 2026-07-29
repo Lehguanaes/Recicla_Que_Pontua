@@ -1,128 +1,233 @@
 .selected-card-container {
-  position:absolute;
+  --selected-accent: var(--color-brand-green);
+  --selected-soft: var(--color-surface-green-strong);
 
-    left:16px;
-    right:16px;
-    bottom:60px;
-    z-index:500;
-    display:flex;
-    gap:14px;
-    padding:18px;
-    background: var(--color-brand-green-medium);
-    color:#000000;
-    border-radius:18px;
-    box-shadow:0 8px 24px rgba(0,0,0,.25);
+  position: absolute;
+  right: 16px;
+  bottom: 56px;
+  left: 16px;
+  z-index: 500;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  min-height: 104px;
+  padding: 18px 54px 18px 20px;
+  overflow: hidden;
+  border: 1px solid rgb(var(--rgb-brand-green) / 0.22);
+  border-left: 5px solid var(--selected-accent);
+  border-radius: 18px;
+  background:
+    radial-gradient(
+      circle at 94% 8%,
+      rgb(var(--rgb-brand-orange) / 0.1),
+      var(--color-transparent) 34%
+    ),
+    var(--color-surface-card);
+  box-shadow: 0 18px 46px rgb(var(--rgb-shadow-green) / 0.24);
+  color: var(--color-text-default);
+  animation: selected-card-enter 0.24s ease both;
+}
+
+.selected-card-container.is-center {
+  --selected-accent: var(--color-brand-orange);
+  --selected-soft: var(--color-surface-orange);
+  border-color: rgb(var(--rgb-brand-orange) / 0.28);
+  border-left-color: var(--selected-accent);
 }
 
 .selected-card-content {
   flex: 1;
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 14px;
+  min-width: 0;
 }
 
-.selected-avatar {
-  width: 52px;
-  height: 52px;
-  border-radius: 50%;
-  background: var(--color-rgba-255-255-255-0p25);
+.selected-card-avatar {
+  width: 60px;
+  height: 60px;
+  flex-shrink: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 26px;
-  flex-shrink: 0;
+  overflow: hidden;
+  border: 3px solid var(--color-surface-card);
+  border-radius: 50%;
+  background: var(--selected-soft);
+  box-shadow: 0 0 0 2px var(--selected-accent);
+  color: var(--selected-accent);
+  font-size: 1.4rem;
+}
+
+.selected-card-avatar-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.selected-card-avatar-icon {
+  display: inline-flex;
 }
 
 .selected-info {
   flex: 1;
+  min-width: 0;
+}
+
+.selected-card-heading {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 7px 10px;
+  margin-bottom: 7px;
 }
 
 .selected-name {
-  font-size: 17px;
-  font-weight: 700;
-  margin-bottom: 2px;
+  margin: 0;
+  color: var(--color-text-strong);
+  font-size: 1.08rem;
+  font-weight: var(--font-weight-bold);
+  line-height: 1.2;
 }
 
-.selected-subtitle {
+.selected-type-tag {
+  padding: 4px 9px;
+  border: 1px solid color-mix(in srgb, var(--selected-accent) 32%, transparent);
+  border-radius: 999px;
+  background: var(--selected-soft);
+  color: var(--color-text-primary);
+  font-size: 0.72rem;
+  font-weight: var(--font-weight-bold);
+  line-height: 1;
+}
+
+.selected-meta {
   display: flex;
   align-items: center;
-  gap: 6px;
-  font-size: 13px;
-  opacity: 0.9;
-  margin-bottom: 4px;
+  flex-wrap: wrap;
+  gap: 6px 14px;
+  color: var(--color-text-secondary);
+  font-size: 0.82rem;
+  line-height: 1.35;
+}
+
+.selected-meta span {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.selected-meta svg {
+  color: var(--selected-accent);
 }
 
 .selected-star {
-  color: gold;
+  color: var(--color-brand-orange) !important;
 }
 
-.selected-detail {
-  font-size: 13px;
-  opacity: 0.85;
-}
-
-
-
-
-.selected-card-button-icon {
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  background: var(--color-secondary);
-  color: var(--color-white);
-  display: flex;
+.selected-card-button {
+  min-height: 46px;
+  flex-shrink: 0;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  flex-shrink: 0;
+  gap: 8px;
+  padding: 11px 18px;
+  border: 0;
+  border-radius: 11px;
+  background: var(--color-brand-green);
+  box-shadow: 0 10px 24px rgb(var(--rgb-brand-green) / 0.24);
+  color: var(--color-white);
+  font-size: 0.88rem;
+  font-weight: var(--font-weight-bold);
+  transition:
+    transform 0.2s ease,
+    background 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.selected-card-button:hover:not(:disabled) {
+  transform: translateY(-2px);
+  background: var(--color-brand-green-dark);
+  box-shadow: 0 14px 28px rgb(var(--rgb-brand-green-deep) / 0.25);
+}
+
+.selected-card-button.is-chat {
+  background: var(--color-brand-green-deep);
+}
+
+.selected-card-button:disabled {
+  cursor: default;
+  background: var(--color-control-disabled);
+  box-shadow: none;
+  color: var(--color-text-primary);
 }
 
 .selected-close {
   position: absolute;
-  top: 10px;
+  top: 12px;
   right: 12px;
-  width: 26px;
-  height: 26px;
-  border: none;
-  border-radius: 50%;
-  background: var(--color-rgba-255-255-255-0p3);
-  color: black;
-  display: flex;
+  width: 30px;
+  height: 30px;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  font-size: 14px;
-  font-weight: 700;
-  cursor: pointer;
+  border: 1px solid var(--color-border);
+  border-radius: 50%;
+  background: var(--color-surface-soft);
+  color: var(--color-text-secondary);
+  font-size: 0.8rem;
+  transition:
+    transform 0.2s ease,
+    background 0.2s ease,
+    color 0.2s ease;
 }
 
-
-
-.selected-actions {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-right: 50px;
+.selected-close:hover {
+  transform: rotate(6deg);
+  background: var(--color-surface-green-strong);
+  color: var(--color-brand-green-dark);
 }
 
-.selected-btn-secondary {
-  background: transparent;
-  color: var(--color-brand-green-deep);
-  border: 1px solid var(--color-brand-green-deep);
-  border-radius: 11px;
-  padding: 10px 20px;
-  font-size: 14px;
-  cursor: pointer;
-  transition: .2s;
+@keyframes selected-card-enter {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-.selected-btn-secondary:hover {
-  background: rgb(255, 255, 255);
+@media (max-width: 760px) {
+  .selected-card-container {
+    align-items: stretch;
+    flex-direction: column;
+    gap: 14px;
+    padding: 16px 46px 16px 16px;
+  }
+
+  .selected-card-button {
+    width: 100%;
+  }
 }
 
-.selected-card-button {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 8px 16px;
-  border-radius: 20px;
-  font-size: 14px;
+@media (max-width: 480px) {
+  .selected-card-container {
+    right: 10px;
+    bottom: 36px;
+    left: 10px;
+  }
+
+  .selected-card-avatar {
+    width: 52px;
+    height: 52px;
+  }
+
+  .selected-meta {
+    align-items: flex-start;
+    flex-direction: column;
+  }
 }

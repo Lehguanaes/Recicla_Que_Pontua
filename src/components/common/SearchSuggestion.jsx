@@ -1,70 +1,50 @@
-import {
-    FaHome,
-    FaHistory,
-    FaLocationArrow
-} from "react-icons/fa";
+import { FaCity, FaMapMarkerAlt } from "react-icons/fa";
+import "./SearchBar.css";
 
-export default function SearchSuggestions({
-    visible,
-    enderecoUsuario,
-    enderecosRecentes = [],
-    onUseCurrentLocation,
-    onUseHomeAddress,
-    onSelectRecent,
+export default function SearchSuggestion({
+  visible,
+  bairroUsuario,
+  cidadeUsuario,
+  onSelectNeighborhood,
+  onSelectCity,
 }) {
+  if (!visible || (!bairroUsuario && !cidadeUsuario)) return null;
 
-    if (!visible) return null;
+  return (
+    <div className="search-suggestions" aria-label="Locais do seu perfil">
+      <p className="search-suggestion-title">Locais do seu perfil</p>
 
-    return (
-        <div className="search-suggestions">
+      {bairroUsuario && (
+        <button
+          type="button"
+          className="search-suggestion"
+          onMouseDown={(event) => event.preventDefault()}
+          onClick={onSelectNeighborhood}
+          aria-label={`Buscar no bairro ${bairroUsuario}`}
+        >
+          <FaMapMarkerAlt aria-hidden="true" />
+          <span>
+            <strong>Bairro</strong>
+            <small>{bairroUsuario}</small>
+          </span>
+        </button>
+      )}
 
-            {/* Localização atual */}
-            <button
-                className="search-suggestion"
-                onClick={onUseCurrentLocation}
-            >
-                <FaLocationArrow />
-                <div>
-                    <strong>Minha localização atual</strong>
-                    <span>Usar GPS do dispositivo</span>
-                </div>
-            </button>
-
-            {/* Endereço cadastrado */}
-            {enderecoUsuario && (
-                <button
-                    className="search-suggestion"
-                    onClick={onUseHomeAddress}
-                >
-                    <FaHome />
-                    <div>
-                        <strong>Meu endereço cadastrado</strong>
-                        <span>{enderecoUsuario}</span>
-                    </div>
-                </button>
-            )}
-
-            {/* Recentes */}
-            {enderecosRecentes.length > 0 && (
-                <>
-                    <div className="search-suggestion-title">
-                        Recentes
-                    </div>
-
-                    {enderecosRecentes.map((endereco) => (
-                        <button
-                            key={endereco}
-                            className="search-suggestion"
-                            onClick={() => onSelectRecent(endereco)}
-                        >
-                            <FaHistory />
-
-                            <span>{endereco}</span>
-                        </button>
-                    ))}
-                </>
-            )}
-
-        </div>
-    );
+      {cidadeUsuario && (
+        <button
+          type="button"
+          className="search-suggestion"
+          onMouseDown={(event) => event.preventDefault()}
+          onClick={onSelectCity}
+          aria-label={`Buscar na cidade ${cidadeUsuario}`}
+        >
+          <FaCity aria-hidden="true" />
+          <span>
+            <strong>Cidade</strong>
+            <small>{cidadeUsuario}</small>
+          </span>
+        </button>
+      )}
+    </div>
+  );
 }

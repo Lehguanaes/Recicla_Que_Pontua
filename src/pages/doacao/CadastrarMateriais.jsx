@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
   FaBatteryHalf,
   FaBoxOpen,
@@ -109,16 +109,25 @@ const formatNumber = (value, decimals = 1) =>
 
 const CadastrarMateriais = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const [showConfirm, setShowConfirm] = useState(false);
   const materialOptions = MATERIAL_TYPES.filter(
     (material) => material.value && MATERIAL_ESTIMATES[material.value]
   );
-  const [quantities, setQuantities] = useState(() =>
-    materialOptions.reduce((acc, material) => {
-      acc[material.value] = MATERIAL_ESTIMATES[material.value]?.initial || 0;
+  const [quantities, setQuantities] = useState(() => {
+    const reviewedMaterials = location.state?.registeredMaterials || [];
+
+    return materialOptions.reduce((acc, material) => {
+      const reviewedMaterial = reviewedMaterials.find(
+        (item) => item.value === material.value
+      );
+      acc[material.value] =
+        reviewedMaterial?.quantity ||
+        MATERIAL_ESTIMATES[material.value]?.initial ||
+        0;
       return acc;
-    }, {})
-  );
+    }, {});
+  });
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "auto" });
@@ -155,7 +164,7 @@ const CadastrarMateriais = () => {
   };
 
   const handleRegister = () => {
-    navigate("/doacao/encontrar-parceiros", {
+    navigate("/doacao/encontrarParceiros", {
       state: {
         registeredMaterials: selectedMaterials.map((material) => ({
           value: material.value,

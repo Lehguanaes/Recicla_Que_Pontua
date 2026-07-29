@@ -1,96 +1,173 @@
-/* ---------- Card ---------- */
+.collector-card {
+  --collector-accent: var(--color-brand-green);
+  --collector-soft: var(--color-surface-green-strong);
 
-.collector-card{
-    display:flex;
-    align-items:flex-start;
-    gap:12px;
-    padding:16px;
-    border-radius:16px;
-    cursor:pointer;
-    background:#fff;
-    border:1px solid var(--border-color,#e5e5e5);
-    box-shadow:0 4px 16px rgba(0,0,0,.08);
-    transition:.15s;
+  position: relative;
+  flex-shrink: 0;
+  display: flex;
+  align-items: flex-start;
+  gap: 13px;
+  padding: 16px;
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+  border-radius: 14px;
+  background: var(--color-surface-card);
+  box-shadow: 0 8px 22px rgb(var(--rgb-shadow-green) / 0.07);
+  cursor: pointer;
+  outline: none;
+  transition:
+    transform 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
-.collector-card.compact{
-    padding:12px 14px;
+.collector-card::before {
+  content: "";
+  position: absolute;
+  top: 14px;
+  bottom: 14px;
+  left: 0;
+  width: 3px;
+  border-radius: 0 4px 4px 0;
+  background: var(--collector-accent);
+  opacity: 0;
+  transition: opacity 0.2s ease;
 }
 
-.collector-card:hover{
-    transform:translateY(-2px);
-    box-shadow:0 8px 24px rgba(0,0,0,.08);
+.collector-card.is-center {
+  --collector-accent: var(--color-brand-orange);
+  --collector-soft: var(--color-surface-orange);
 }
 
-/* ---------- Avatar ---------- */
-
-.collector-avatar{
-    width:48px;
-    height:48px;
-    border-radius:50%;
-    overflow:hidden;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    flex-shrink:0;
-    font-size:22px;
+.collector-card.compact {
+  min-height: 82px;
+  padding: 13px 14px;
 }
 
-.collector-avatar-img{
-    width:100%;
-    height:100%;
-    object-fit:cover;
+.collector-card:not(.is-static):hover,
+.collector-card:not(.is-static):focus-visible {
+  transform: translateY(-2px);
+  border-color: color-mix(in srgb, var(--collector-accent) 34%, transparent);
+  box-shadow: 0 14px 30px rgb(var(--rgb-shadow-green) / 0.13);
 }
 
-/* ---------- Conteúdo ---------- */
-
-.collector-content{
-    flex:1;
-    min-width:0;
+.collector-card:not(.is-static):hover::before,
+.collector-card:not(.is-static):focus-visible::before {
+  opacity: 1;
 }
 
-.collector-header{
-    display:flex;
-    align-items:center;
-    flex-wrap:wrap;
-    gap:8px;
-    margin-bottom:4px;
+.collector-card.is-static {
+  cursor: default;
+  box-shadow: none;
 }
 
-.collector-name{
-    font-size:15px;
-    font-weight:700;
-    color:var(--text-primary,#1f3525);
+.collector-avatar {
+  width: 48px;
+  height: 48px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border-radius: 50%;
+  background: var(--collector-soft);
+  color: var(--collector-accent);
+  font-size: 1.15rem;
 }
 
-.collector-info{
-    display:flex;
-    gap:12px;
-    margin-bottom:6px;
-    font-size:13px;
-    color:var(--text-secondary,#6b7d70);
+.collector-avatar.has-photo {
+  border: 2px solid var(--collector-soft);
+  background: var(--color-surface-card);
 }
 
-.collector-star{
-    color:var(--color-keyword-gold);
-    margin-right:4px;
+.collector-avatar-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
-/* ---------- Materiais ---------- */
-
-.collector-materials{
-    display:flex;
-    flex-wrap:wrap;
-    gap:4px;
+.collector-content {
+  flex: 1;
+  min-width: 0;
 }
 
-/* ---------- Badge ---------- */
+.collector-header {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px 8px;
+  margin-bottom: 7px;
+}
 
-.collector-badge{
-    display:inline-block;
-    padding:2px 8px;
-    border:1px solid;
-    border-radius:20px;
-    font-size:11px;
-    font-weight:600;
+.collector-name {
+  color: var(--color-text-strong);
+  font-size: 0.94rem;
+  font-weight: var(--font-weight-bold);
+  line-height: 1.25;
+}
+
+.collector-info {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 5px 12px;
+  margin-bottom: 7px;
+  color: var(--color-text-secondary);
+  font-size: 0.77rem;
+  line-height: 1.35;
+}
+
+.collector-info span {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.collector-info svg {
+  color: var(--collector-accent);
+}
+
+.collector-star {
+  color: var(--color-brand-orange) !important;
+}
+
+.collector-materials {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.collector-badge {
+  display: inline-flex;
+  align-items: center;
+  min-height: 23px;
+  padding: 4px 8px;
+  border: 1px solid var(--color-border-green);
+  border-radius: 999px;
+  background: var(--color-surface-green);
+  color: var(--color-brand-green-deep);
+  font-size: 0.68rem;
+  font-weight: var(--font-weight-semibold);
+  line-height: 1;
+}
+
+.collector-badge.is-center {
+  border-color: rgb(var(--rgb-brand-orange) / 0.28);
+  background: var(--color-surface-orange);
+  color: var(--color-text-orange);
+}
+
+.collector-badge.is-collector {
+  border-color: var(--color-border-green);
+  background: var(--color-surface-green-strong);
+}
+
+.collector-badge.is-more {
+  border-color: var(--color-border);
+  background: var(--color-surface-soft);
+  color: var(--color-text-secondary);
+}
+
+.collector-card.compact .collector-info {
+  margin-bottom: 0;
 }

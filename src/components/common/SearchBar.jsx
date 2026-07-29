@@ -1,5 +1,4 @@
 import { useState } from "react";
-import Button from "./Button";
 import SearchSuggestion from "./SearchSuggestion";
 import "./SearchBar.css";
 
@@ -8,12 +7,12 @@ export default function SearchBar({
   onChange,
   onSearch,
   onClear,
-  placeholder = "Seu local (rua, bairro ou cidade)",
+  placeholder = "Bairro ou cidade",
   loading = false,
   aviso = null,
   localAtivo = false,
-  enderecoUsuario = null,
-  onUseCurrentLocation = null,
+  bairroUsuario = "",
+  cidadeUsuario = "",
 }) {
   const [mostrarSugestao, setMostrarSugestao] = useState(false);
 
@@ -28,13 +27,13 @@ export default function SearchBar({
 
     onChange(novoValor);
 
-    if (enderecoUsuario) {
-      setMostrarSugestao(novoValor.trim() === "");
+    if (bairroUsuario || cidadeUsuario) {
+      setMostrarSugestao(true);
     }
   };
 
   const handleFocus = () => {
-    if (enderecoUsuario && value.trim() === "") {
+    if (bairroUsuario || cidadeUsuario) {
       setMostrarSugestao(true);
     }
   };
@@ -43,15 +42,14 @@ export default function SearchBar({
     setTimeout(() => setMostrarSugestao(false), 150);
   };
 
-  const usarEnderecoCadastrado = () => {
-    onChange(enderecoUsuario);
+  const usarBairroCadastrado = () => {
+    onChange([bairroUsuario, cidadeUsuario].filter(Boolean).join(", "));
     setMostrarSugestao(false);
-    onSearch?.();
   };
 
-  const usarLocalizacaoAtual = () => {
+  const usarCidadeCadastrada = () => {
+    onChange(cidadeUsuario);
     setMostrarSugestao(false);
-    onUseCurrentLocation?.();
   };
 
   return (
@@ -83,20 +81,22 @@ export default function SearchBar({
 
           <SearchSuggestion
             visible={mostrarSugestao}
-            enderecoUsuario={enderecoUsuario}
-            onUseCurrentLocation={usarLocalizacaoAtual}
-            onUseHomeAddress={usarEnderecoCadastrado}
+            bairroUsuario={bairroUsuario}
+            cidadeUsuario={cidadeUsuario}
+            onSelectNeighborhood={usarBairroCadastrado}
+            onSelectCity={usarCidadeCadastrada}
           />
 
         </div>
 
-        <Button
+        <button
+          type="button"
           className="search-bar-submit"
           onClick={onSearch}
           disabled={loading}
         >
           {loading ? "Buscando..." : "Buscar"}
-        </Button>
+        </button>
 
       </div>
 

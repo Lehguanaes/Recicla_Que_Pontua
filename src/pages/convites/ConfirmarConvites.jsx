@@ -1,5 +1,7 @@
 import React from "react";
-import { FaUserPlus } from "react-icons/fa";
+import { FaEdit, FaPaperPlane, FaRecycle } from "react-icons/fa";
+import Alert from "../../components/alert/Alert";
+import CollectorCard from "../../components/cards/CollectorCard";
 import "./convite.css";
 
 const ConfirmarConvite = ({
@@ -7,49 +9,77 @@ const ConfirmarConvite = ({
   collector,
   onClose,
   onConfirm,
+  loading = false,
+  materials = [],
+  onReviewMaterials,
 }) => {
   if (!open || !collector) return null;
 
+  const hasMaterials = materials.length > 0;
+
   return (
-    <div className="convite-overlay">
-      <div className="convite-modal">
+    <Alert
+      isOpen={open}
+      title="Enviar convite para iniciar a troca?"
+      message="Confira o perfil e os materiais desta solicitação antes de continuar."
+      variant="warning"
+      confirmText="Enviar convite"
+      cancelText="Cancelar"
+      onConfirm={onConfirm}
+      onCancel={onClose}
+      loading={loading}
+      className="convite-alert-box"
+      confirmIcon={<FaPaperPlane />}
+    >
+      <section className="convite-alert-section">
+        <span className="convite-alert-label">Perfil selecionado</span>
+        <CollectorCard collector={collector} compact />
+      </section>
 
-        <div className="convite-icone">
-          <FaUserPlus size={34} />
+      <section className="convite-alert-section convite-material-section">
+        <div className="convite-material-heading">
+          <div>
+            <FaRecycle aria-hidden="true" />
+            <span className="convite-alert-label">
+              Materiais para esta troca
+            </span>
+          </div>
+          {hasMaterials && <strong>{materials.length}</strong>}
         </div>
 
-        <h2 className="convite-titulo">
-          Enviar convite
-        </h2>
+        {hasMaterials ? (
+          <ul className="convite-material-list">
+            {materials.map((material) => (
+              <li key={material.value}>
+                <strong>{material.label}</strong>
+                <span>
+                  {material.quantity} {material.unit}
+                </span>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p className="convite-material-empty">
+            Nenhum material foi informado para esta solicitação.
+          </p>
+        )}
 
-        <p className="convite-subtitulo">
-          Deseja realmente solicitar uma conversa com
-          <br />
-          <strong>{collector.nome}</strong>?
-        </p>
+        <button
+          type="button"
+          className="convite-review-button"
+          onClick={onReviewMaterials}
+          disabled={loading}
+        >
+          <FaEdit aria-hidden="true" />
+          {hasMaterials ? "Revisar escolhas" : "Escolher materiais"}
+        </button>
+      </section>
 
-        <div className="convite-aviso">
-          Você poderá conversar apenas caso o convite seja aceito.
-        </div>
-
-        <div className="perfil-modal-acoes">
-          <button
-            className="perfil-botao-secundario"
-            onClick={onClose}
-          >
-            Cancelar
-          </button>
-
-          <button
-            className="perfil-botao-primario"
-            onClick={onConfirm}
-          >
-            Enviar convite
-          </button>
-        </div>
-
-      </div>
-    </div>
+      <p className="convite-alert-note">
+        A conversa será liberada depois que o perfil aceitar o convite. Os
+        detalhes da troca serão combinados pelo chat.
+      </p>
+    </Alert>
   );
 };
 

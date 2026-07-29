@@ -13,7 +13,9 @@
 
 .alert-box {
   width: min(100%, 460px);
+  max-height: calc(100vh - 32px);
   padding: 30px;
+  overflow-y: auto;
   border: 1px solid rgb(var(--rgb-brand-green) / 0.18);
   border-radius: 14px;
   background:
@@ -85,10 +87,19 @@
   padding: 12px 20px;
   border: 0;
   border-radius: 10px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
   font: inherit;
   font-weight: 700;
   cursor: pointer;
   transition: transform 0.22s ease, background 0.22s ease, box-shadow 0.22s ease;
+}
+
+.alert-button-icon {
+  display: inline-flex;
+  font-size: 0.95em;
 }
 
 .alert-button:disabled {

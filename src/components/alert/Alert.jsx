@@ -27,6 +27,8 @@ export default function Alert({
   onCancel,
   showCancel = true,
   loading = false,
+  className = "",
+  confirmIcon = null,
 }) {
   useEffect(() => {
     if (!isOpen) return undefined;
@@ -52,7 +54,7 @@ export default function Alert({
       onMouseDown={() => !loading && onCancel?.()}
     >
       <section
-        className={`alert-box alert-${variant}`}
+        className={`alert-box alert-${variant} ${className}`.trim()}
         role="alertdialog"
         aria-modal="true"
         aria-labelledby="alert-title"
@@ -86,7 +88,18 @@ export default function Alert({
             onClick={onConfirm}
             disabled={loading}
           >
-            {loading ? "Aguarde..." : confirmText}
+            {loading ? (
+              "Aguarde..."
+            ) : (
+              <>
+                {confirmIcon && (
+                  <span className="alert-button-icon" aria-hidden="true">
+                    {confirmIcon}
+                  </span>
+                )}
+                {confirmText}
+              </>
+            )}
           </button>
         </div>
       </section>

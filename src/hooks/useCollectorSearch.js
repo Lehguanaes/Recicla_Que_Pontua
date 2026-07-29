@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
   collection,
   doc,
@@ -20,7 +20,6 @@ import {
   geocodificarPorCep,
   geocodificarTexto,
   montarEnderecoTexto,
-  reverseGeocodificar,
 } from "../utils/Geocoding";
 
 // Perfis que aparecem como resultado de busca na tela de doação
@@ -50,13 +49,9 @@ const FILTROS_INICIAIS = {
   modo: "todos",
 };
 
-const AVISO_SEM_LOCAL = "Insira seu local na barra de busca.";
+const AVISO_SEM_LOCAL = "Digite um bairro ou uma cidade.";
 const AVISO_ENDERECO_NAO_ENCONTRADO =
-  "Não encontramos esse endereço. Tente incluir rua, bairro e cidade.";
-const AVISO_GEOLOCALIZACAO_INDISPONIVEL =
-  "Seu navegador não permite obter a localização atual.";
-const AVISO_GEOLOCALIZACAO_NEGADA =
-  "Não foi possível acessar sua localização. Verifique a permissão do navegador.";
+  "Não encontramos esse local. Tente informar o bairro ou a cidade.";
 
 /**
  * Busca catadores autônomos e centros de coleta cadastrados no Firestore
@@ -79,6 +74,14 @@ const AVISO_GEOLOCALIZACAO_NEGADA =
 export default function useCollectorSearch(uidParam, filtrosIniciais = {}) {
   const { user } = useAuth();
   const uid = uidParam || user?.uid || null;
+  const enderecoUsuario = user?.endereco || {};
+  const bairroUsuario = enderecoUsuario.bairro || user?.bairro || "";
+  const cidadeUsuarioNome = enderecoUsuario.cidade || user?.cidade || "";
+  const estadoUsuario = enderecoUsuario.estado || user?.estado || "";
+  const cidadeUsuario = [cidadeUsuarioNome, estadoUsuario]
+    .filter(Boolean)
+    .join(" - ");
+  const cidadePreenchidaRef = useRef(false);
 
   const [filters, setFilters] = useState({
     ...FILTROS_INICIAIS,
@@ -99,6 +102,17 @@ export default function useCollectorSearch(uidParam, filtrosIniciais = {}) {
     setFilters((prev) => ({ ...prev, ...filtrosIniciais }));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [JSON.stringify(filtrosIniciais)]);
+
+  useEffect(() => {
+    if (cidadePreenchidaRef.current || !cidadeUsuario) return;
+
+    cidadePreenchidaRef.current = true;
+    setFilters((prev) =>
+      prev.endereco_busca
+        ? prev
+        : { ...prev, endereco_busca: cidadeUsuario }
+    );
+  }, [cidadeUsuario]);
 
   const obterLocalizacaoUsuario = useCallback(async () => {
     if (!uid) return { coords: null, enderecoTexto: null };
@@ -336,43 +350,6 @@ export default function useCollectorSearch(uidParam, filtrosIniciais = {}) {
     setLocalTemporario(coordenadas);
   }, [filters.endereco_busca, userLocation]);
 
-  // Usa o GPS do navegador (opção "Minha localização atual" na barra de
-  // busca) em vez de um endereço digitado. Já converte as coordenadas em
-  // texto (reverse geocoding) só para exibir/preencher o campo — a origem
-  // da busca usa as coordenadas diretas, sem precisar geocodificar de volta.
-  const buscarPorLocalizacaoAtual = useCallback(() => {
-    if (!navigator.geolocation) {
-      setAvisoLocal(AVISO_GEOLOCALIZACAO_INDISPONIVEL);
-      return;
-    }
-
-    setBuscandoLocal(true);
-    setAvisoLocal(null);
-
-    navigator.geolocation.getCurrentPosition(
-      async (posicao) => {
-        const { latitude, longitude } = posicao.coords;
-        const enderecoTexto = await reverseGeocodificar(latitude, longitude);
-
-        setLocalTemporario({
-          lat: latitude,
-          lng: longitude,
-          enderecoFormatado: enderecoTexto || "Localização atual",
-        });
-        setFilters((prev) => ({
-          ...prev,
-          endereco_busca: enderecoTexto || "Localização atual",
-        }));
-        setBuscandoLocal(false);
-      },
-      () => {
-        setBuscandoLocal(false);
-        setAvisoLocal(AVISO_GEOLOCALIZACAO_NEGADA);
-      },
-      { enableHighAccuracy: true, timeout: 10000 }
-    );
-  }, []);
-
   //volta a usar o endereço cadastrado.
   const limparLocalTemporario = useCallback(() => {
     setLocalTemporario(null);
@@ -436,10 +413,14 @@ export default function useCollectorSearch(uidParam, filtrosIniciais = {}) {
   }, []);
 
   const resetFilters = useCallback(() => {
-    setFilters({ ...FILTROS_INICIAIS, ...filtrosIniciais });
+    setFilters({
+      ...FILTROS_INICIAIS,
+      ...filtrosIniciais,
+      endereco_busca: cidadeUsuario,
+    });
     setLocalTemporario(null);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [cidadeUsuario]);
 
   const search = useCallback(() => {
     buscarPorLocal();
@@ -457,6 +438,8 @@ export default function useCollectorSearch(uidParam, filtrosIniciais = {}) {
     error,
     userLocation,
     enderecoCompleto,
+    bairroUsuario,
+    cidadeUsuario,
     origem,
     localTemporario,
     buscandoLocal,
@@ -465,7 +448,6 @@ export default function useCollectorSearch(uidParam, filtrosIniciais = {}) {
     resetFilters,
     search,
     buscarPorLocal,
-    buscarPorLocalizacaoAtual,
     limparLocalTemporario,
     selectCollector,
   };
