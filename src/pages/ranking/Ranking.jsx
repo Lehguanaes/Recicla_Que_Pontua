@@ -20,7 +20,6 @@ import {
   FILTROS,calcularRanking,calcularEstatisticas,calcularPosicaoUsuario,
 } from "../../utils/RankingMock";
 import Mascote from "../../assets/PetCampeao.png";
-import Mascote2 from "../../assets/PetComecar.png"
 const LABEL_TIPO = {
   pessoa: "Pessoa recicladora",
   instituicao: "Instituição recicladora",
@@ -28,14 +27,6 @@ const LABEL_TIPO = {
 };
 
 const MEDALHA = ["🥇", "🥈", "🥉"];
-
-function falaDoMascote(posicao) {
-  if (!posicao) return "Comece a reciclar para entrar no ranking!";
-  if (posicao === 1) return "Uau, você está em 1º lugar! Continue assim!";
-  if (posicao <= 3) return "Você está no pódio! Falta pouco para chegar ao topo!";
-  if (posicao <= 10) return "Está quase entre os cinco primeiros. Continue assim!";
-  return "Recicle mais um pouco e suba de posição!";
-}
 
 const FAQ_ITEMS = [
   {
@@ -118,25 +109,13 @@ export default function Ranking() {
             />
             </div>
 
-            {user && usuarioLogado && (
-               <div className="ranking-mascote">  
-               <div className="mascote-fala">{falaDoMascote(usuarioLogado?.posicao)}</div>
-                <img
-                  className="pet-floating"
-                  src={Mascote2}
-                  alt="Reci, o mascote, torcendo por você"
-                />
-              </div>
-           )}
-             {!user && (
-              <div className="ranking-mascote">
-                <img
-                  className="pet-floating"
-                  src={Mascote}
-                  alt="Reci, o mascote, torcendo por você"
-                />
-              </div>
-            )}
+            <div className="ranking-mascote">
+              <img
+                className="ranking-mascote-image pet-floating"
+                src={Mascote}
+                alt="Mascote campeão do ranking"
+              />
+            </div>
           </div>
 
 
@@ -180,17 +159,22 @@ export default function Ranking() {
           )}
           {!user && (
             <div className="usuario-ranking usuario-ranking-cta">
-              <div className="usuario-ranking-posicao">
-                <p className="usuario-ranking-label">
-                  Quer aparecer no ranking?
-                </p>
-                <p className="usuario-ranking-valor">
-                  Crie sua conta e comece a acumular pontos!
-                </p>
-                <p className="usuario-ranking-texto">
-                  Cadastre seus materiais recicláveis, confirme entregas e
-                  suba de posição junto com a comunidade.
-                </p>
+              <div className="usuario-ranking-cta-conteudo">
+                <span className="usuario-ranking-cta-icone" aria-hidden="true">
+                  <FaTrophy />
+                </span>
+                <div className="usuario-ranking-posicao">
+                  <p className="usuario-ranking-label">
+                    Quer aparecer no ranking?
+                  </p>
+                  <p className="usuario-ranking-valor">
+                    Crie sua conta e comece a acumular pontos!
+                  </p>
+                  <p className="usuario-ranking-texto">
+                    Cadastre seus materiais recicláveis, confirme entregas e
+                    suba de posição junto com a comunidade.
+                  </p>
+                </div>
               </div>
               <Link to="/cadastro" className="usuario-ranking-cta-btn">
                 Criar conta
