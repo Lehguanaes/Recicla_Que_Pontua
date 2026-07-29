@@ -185,69 +185,122 @@
    PÁGINA DE GERENCIAMENTO DE CONVITES
    ================================================ */
 .convites-page {
-    min-height: calc(100vh - 160px);
-    background-color: var(--color-surface-page);
-    padding: 40px 20px;
-    display: flex;
-    justify-content: center;
+    min-height: calc(100vh - 82px);
+    background:
+        linear-gradient(
+            180deg,
+            var(--color-surface-soft) 0,
+            var(--color-surface-card) 360px,
+            var(--color-surface-soft) 100%
+        );
+    color: var(--color-text-default);
+}
+
+.convites-main-section {
+    position: relative;
+    padding: 64px 7% 80px;
+    background:
+        radial-gradient(
+            circle at 86% 10%,
+            rgb(var(--rgb-brand-orange) / .13),
+            var(--color-transparent) 28%
+        ),
+        linear-gradient(
+            135deg,
+            var(--color-surface-green) 0%,
+            var(--color-surface-card) 58%,
+            var(--color-surface-green-strong) 100%
+        );
 }
 
 .convites-container {
     width: 100%;
-    max-width: 900px;
+    margin-top: 42px;
     display: flex;
     flex-direction: column;
     gap: 24px;
 }
 
 .convites-header {
+    max-width: 760px;
     text-align: left;
 }
 
+.convites-kicker {
+    width: fit-content;
+    margin-bottom: 18px;
+    padding: 9px 14px;
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    border: 1px solid rgb(var(--rgb-brand-green) / .2);
+    border-radius: 999px;
+    background: rgb(var(--rgb-white) / .78);
+    color: var(--color-brand-green-dark);
+    font-size: var(--font-size-label);
+    font-weight: var(--font-weight-bold);
+    line-height: var(--line-height-compact);
+    text-transform: uppercase;
+}
+
 .convites-header h1 {
-    font-size: 2rem;
-    color: var(--color-brand-green-deep);
-    margin: 0 0 8px;
-    font-weight: 700;
+    max-width: var(--content-width-title);
+    margin: 0;
+    color: var(--font-color-title);
+    font-size: var(--font-size-page-title);
+    font-weight: var(--font-weight-title);
+    line-height: var(--line-height-page-title);
 }
 
 .convites-header p {
-    color: var(--color-text-secondary);
-    margin: 0;
-    font-size: 1rem;
+    max-width: var(--content-width-text);
+    margin: 18px 0 0;
+    color: var(--font-color-muted);
+    font-size: var(--font-size-subtitle);
+    line-height: var(--line-height-body);
 }
 
 /* Tabs */
 .convites-tabs {
-    display: flex;
-    gap: 8px;
-    border-bottom: 2px solid var(--color-border);
-    padding-bottom: 2px;
+    width: fit-content;
+    padding: 5px;
+    display: inline-flex;
+    gap: 5px;
+    border: 1px solid var(--color-border);
+    border-radius: 14px;
+    background: var(--color-surface-card);
+    box-shadow: 0 10px 28px rgb(var(--rgb-shadow-green) / .07);
 }
 
 .convites-tab-btn {
     display: flex;
     align-items: center;
     gap: 8px;
-    background: none;
-    border: none;
-    padding: 12px 24px;
-    font-size: 1rem;
-    font-weight: 600;
-    color: var(--color-text-muted);
-    cursor: pointer;
-    border-bottom: 3px solid transparent;
-    transition: all 0.2s ease;
+    min-height: 42px;
+    padding: 9px 18px;
+    border: 0;
+    border-radius: 10px;
+    background: var(--color-transparent);
+    color: var(--color-text-secondary);
+    font-size: .92rem;
+    font-weight: var(--font-weight-bold);
     position: relative;
+    transition:
+        color .2s ease,
+        background .2s ease,
+        box-shadow .2s ease,
+        transform .2s ease;
 }
 
 .convites-tab-btn:hover {
-    color: var(--color-brand-green-medium);
+    background: var(--color-surface-green);
+    color: var(--color-brand-green-dark);
 }
 
 .convites-tab-btn.active {
-    color: var(--color-brand-green-deep);
-    border-bottom-color: var(--color-brand-green-deep);
+    background: var(--color-brand-green);
+    box-shadow: 0 8px 18px rgb(var(--rgb-brand-green) / .2);
+    color: var(--color-white);
 }
 
 .tab-icon {
@@ -256,12 +309,16 @@
 
 .badge-count {
     background-color: var(--color-brand-orange);
-    color: var(--color-white);
+    color: var(--color-text-on-orange);
     font-size: 0.75rem;
-    font-weight: 700;
-    padding: 2px 6px;
-    border-radius: 10px;
-    margin-left: 4px;
+    font-weight: var(--font-weight-bold);
+    min-width: 22px;
+    min-height: 22px;
+    padding: 3px 6px;
+    border-radius: 999px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
 }
 
 /* Lista de convites */
@@ -273,14 +330,26 @@
 
 .convite-card {
     background-color: var(--color-surface-card);
-    border-radius: 16px;
+    border-radius: 18px;
     border: 1px solid var(--color-border);
-    padding: 20px;
+    padding: 22px;
     display: flex;
     gap: 20px;
     align-items: center;
     box-shadow: var(--shadow-card);
     transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.convite-card.pendente {
+    border-left: 4px solid var(--color-brand-orange);
+}
+
+.convite-card.aceito {
+    border-left: 4px solid var(--color-brand-green);
+}
+
+.convite-card.recusado {
+    border-left: 4px solid var(--color-border);
 }
 
 .convite-card:hover {
@@ -293,17 +362,17 @@
 }
 
 .avatar-img {
-    width: 64px;
-    height: 64px;
+    width: 68px;
+    height: 68px;
     border-radius: 50%;
     object-fit: cover;
-    border: 2px solid var(--color-brand-green-soft);
+    border: 3px solid var(--color-surface-green-strong);
 }
 
 .avatar-placeholder {
-    color: var(--color-text-disabled);
-    width: 64px;
-    height: 64px;
+    color: var(--color-brand-green-soft);
+    width: 68px;
+    height: 68px;
 }
 
 .convite-card-info {
@@ -323,21 +392,22 @@
 
 .sender-name-wrapper h3 {
     margin: 0;
-    font-size: 1.2rem;
-    color: var(--color-text-default);
-    font-weight: 700;
+    font-size: 1.12rem;
+    color: var(--color-text-strong);
+    font-weight: var(--font-weight-bold);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
 }
 
 .perfil-tag {
-    background-color: var(--color-brand-green-soft);
-    color: var(--color-brand-green-deep);
+    background-color: var(--color-surface-green);
+    color: var(--color-brand-green-dark);
     font-size: 0.75rem;
-    font-weight: 600;
-    padding: 3px 10px;
-    border-radius: 20px;
+    font-weight: var(--font-weight-semibold);
+    padding: 4px 10px;
+    border: 1px solid var(--color-border-green);
+    border-radius: 999px;
 }
 
 .sender-details {
@@ -353,6 +423,12 @@
     display: flex;
     align-items: center;
     gap: 6px;
+}
+
+.detail-item svg {
+    flex: 0 0 auto;
+    color: var(--color-brand-green);
+    font-size: .82rem;
 }
 
 .detail-item.date {
@@ -372,21 +448,23 @@
     align-items: center;
     gap: 8px;
     padding: 10px 18px;
-    border-radius: 20px;
+    border-radius: 10px;
     font-size: 0.9rem;
-    font-weight: 600;
+    font-weight: var(--font-weight-bold);
     cursor: pointer;
     transition: all 0.2s ease;
     border: none;
 }
 
 .accept-btn {
-    background-color: var(--color-brand-green-deep);
+    background-color: var(--color-brand-green);
+    box-shadow: 0 8px 18px rgb(var(--rgb-brand-green) / .18);
     color: var(--color-white);
 }
 
 .accept-btn:hover {
-    background-color: var(--color-brand-green-medium);
+    transform: translateY(-2px);
+    background-color: var(--color-brand-green-dark);
 }
 
 .refuse-btn {
@@ -396,6 +474,7 @@
 }
 
 .refuse-btn:hover {
+    transform: translateY(-2px);
     background-color: var(--color-surface-danger);
 }
 
@@ -414,8 +493,8 @@
 }
 
 .status-label.accepted {
-    background-color: var(--color-highlight-green);
-    color: var(--color-brand-green-deep);
+    background-color: var(--color-surface-green-strong);
+    color: var(--color-brand-green-dark);
 }
 
 .status-label.refused {
@@ -425,10 +504,17 @@
 
 /* Estado vazio */
 .convites-empty {
-    background-color: var(--color-surface-card);
-    border-radius: 16px;
-    border: 1px solid var(--color-border);
-    padding: 60px 40px;
+    min-height: 310px;
+    padding: 54px 32px;
+    border: 1px solid var(--color-border-green);
+    border-radius: 18px;
+    background:
+        radial-gradient(
+            circle at 50% 0,
+            rgb(var(--rgb-brand-orange) / .08),
+            var(--color-transparent) 32%
+        ),
+        var(--color-surface-card);
     text-align: center;
     display: flex;
     flex-direction: column;
@@ -437,11 +523,11 @@
 }
 
 .empty-icon-wrapper {
-    width: 80px;
-    height: 80px;
+    width: 72px;
+    height: 72px;
     border-radius: 50%;
-    background-color: var(--color-border);
-    color: var(--color-text-muted);
+    background-color: var(--color-surface-green);
+    color: var(--color-brand-green-dark);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -450,7 +536,7 @@
 .convites-empty h3 {
     margin: 0;
     font-size: 1.3rem;
-    color: var(--color-text-default);
+    color: var(--color-text-strong);
 }
 
 .convites-empty p {
@@ -466,8 +552,10 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    min-height: calc(100vh - 160px);
+    min-height: calc(100vh - 82px);
     gap: 16px;
+    background: var(--color-surface-soft);
+    color: var(--color-text-secondary);
 }
 
 .convites-spinner {
@@ -486,6 +574,25 @@
 
 /* Responsivo */
 @media (max-width: 768px) {
+    .convites-main-section {
+        padding: 40px 5% 60px;
+    }
+
+    .convites-container {
+        margin-top: 34px;
+    }
+
+    .convites-tabs {
+        width: 100%;
+    }
+
+    .convites-tab-btn {
+        flex: 1;
+        justify-content: center;
+        padding-right: 12px;
+        padding-left: 12px;
+    }
+
     .convite-card {
         flex-direction: column;
         align-items: flex-start;
@@ -500,5 +607,38 @@
     .convite-card-actions button {
         flex: 1;
         justify-content: center;
+    }
+
+    .convite-card-status {
+        align-self: flex-start;
+    }
+}
+
+@media (max-width: 480px) {
+    .convites-main-section {
+        padding: 32px 16px 52px;
+    }
+
+    .convites-container {
+        margin-top: 28px;
+    }
+
+    .convites-kicker {
+        margin-bottom: 15px;
+        padding: 7px 11px;
+        font-size: .74rem;
+    }
+
+    .convites-tab-btn {
+        font-size: .84rem;
+    }
+
+    .convite-card-actions {
+        flex-direction: column;
+    }
+
+    .convites-empty {
+        min-height: 280px;
+        padding: 42px 20px;
     }
 }

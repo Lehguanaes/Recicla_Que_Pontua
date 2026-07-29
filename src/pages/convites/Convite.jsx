@@ -11,7 +11,16 @@ import {
   updateDoc,
   serverTimestamp,
 } from "firebase/firestore";
-import { FaUserCircle, FaCheck, FaTimes, FaInbox, FaHistory } from "react-icons/fa";
+import {
+  FaUserCircle,
+  FaCheck,
+  FaTimes,
+  FaInbox,
+  FaHistory,
+  FaMapMarkerAlt,
+  FaPaperPlane,
+  FaPhoneAlt,
+} from "react-icons/fa";
 import Navbar from "../../components/navbar/Navbar";
 import Rodape from "../../components/rodape/Rodape";
 import "./convite.css";
@@ -29,6 +38,10 @@ export default function Convite() {
   const [senders, setSenders] = useState({});
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState("pendentes"); // "pendentes" | "historico"
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+  }, []);
 
   useEffect(() => {
     if (!user?.uid) {
@@ -150,15 +163,23 @@ export default function Convite() {
     <>
       <Navbar />
       <main className="convites-page">
-        <section className="convites-container">
+        <section className="convites-main-section">
           <header className="convites-header">
-            <h1>Gerenciamento de Convites</h1>
-            <p>Gerencie as solicitações de conversa recebidas de outros usuários.</p>
+            <span className="convites-kicker">
+              <FaPaperPlane />
+              Conexões para reciclar
+            </span>
+            <h1>Gerencie seus convites</h1>
+            <p>
+              Acompanhe as solicitações recebidas e escolha com quem você quer
+              iniciar uma conversa sobre a troca de materiais.
+            </p>
           </header>
 
-          {/* Tabs */}
+          <div className="convites-container">
           <div className="convites-tabs">
             <button
+              type="button"
               className={`convites-tab-btn ${activeTab === "pendentes" ? "active" : ""}`}
               onClick={() => setActiveTab("pendentes")}
             >
@@ -171,6 +192,7 @@ export default function Convite() {
               )}
             </button>
             <button
+              type="button"
               className={`convites-tab-btn ${activeTab === "historico" ? "active" : ""}`}
               onClick={() => setActiveTab("historico")}
             >
@@ -216,12 +238,14 @@ export default function Convite() {
                       <div className="sender-details">
                         {sender.cidade && sender.estado && (
                           <p className="detail-item">
-                            📍 {sender.cidade} - {sender.estado}
+                            <FaMapMarkerAlt aria-hidden="true" />
+                            {sender.cidade} - {sender.estado}
                           </p>
                         )}
                         {sender.telefone && (
                           <p className="detail-item">
-                            📞 {sender.telefone}
+                            <FaPhoneAlt aria-hidden="true" />
+                            {sender.telefone}
                           </p>
                         )}
                         <p className="detail-item date">
@@ -271,6 +295,7 @@ export default function Convite() {
                 );
               })
             )}
+          </div>
           </div>
         </section>
       </main>
