@@ -14,6 +14,7 @@ import {
 } from "react-icons/fa";
 
 import Navbar from "../../components/navbar/Navbar";
+import Rodape from "../../components/rodape/Rodape";
 import { useAuth } from "../../contexts/AuthContext";
 import { db } from "../../services/Firebase";
 import { perfilInfo } from "../login/cadastro/CadastroData";
@@ -358,6 +359,8 @@ export default function Perfil() {
         onSalvar={salvarNoFirestore}
         onSalvo={atualizarDadosLocais}
       />
+
+      <Rodape />
     </>
   );
 }

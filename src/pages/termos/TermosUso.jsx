@@ -1,10 +1,32 @@
+import { useNavigate } from "react-router-dom";
+import { FaArrowLeft } from "react-icons/fa";
+import Rodape from "../../components/rodape/Rodape";
 import "./termosUso.css";
 
 export default function TermosUso() {
+  const navigate = useNavigate();
+
+  function handleVoltar() {
+    if (window.history.length > 1) {
+      navigate(-1);
+      return;
+    }
+
+    navigate("/login");
+  }
 
   return (
-    <main className="termos-page">
-      <div className="termos-card">
+    <>
+      <main className="termos-page">
+        <div className="termos-card">
+        <button
+          type="button"
+          className="termos-back-button"
+          onClick={handleVoltar}
+        >
+          <FaArrowLeft />
+          Voltar
+        </button>
 
         <header className="termos-header">
           <h1>Termos de Uso e Política de Privacidade</h1>
@@ -215,7 +237,10 @@ export default function TermosUso() {
             leu e concorda com todas as condições acima.
           </strong>
         </div>
-      </div>
-    </main>
+        </div>
+      </main>
+
+      <Rodape />
+    </>
   );
 }

@@ -13,6 +13,35 @@
   box-shadow: 0 10px 35px rgb(var(--rgb-black) / 0.08);
 }
 
+.termos-back-button {
+  min-height: 42px;
+  margin-bottom: 24px;
+  padding: 9px 14px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid var(--color-border-green);
+  border-radius: 10px;
+  background: var(--color-surface-soft);
+  color: var(--color-brand-green-dark);
+  font: inherit;
+  font-weight: var(--font-weight-bold);
+  cursor: pointer;
+  transition: color .2s ease, border-color .2s ease, background .2s ease, transform .2s ease;
+}
+
+.termos-back-button:hover {
+  border-color: var(--color-brand-orange);
+  background: var(--color-surface-orange);
+  color: var(--color-text-orange);
+  transform: translateX(-3px);
+}
+
+.termos-back-button:focus-visible {
+  outline: 3px solid rgb(var(--rgb-brand-green) / .2);
+  outline-offset: 3px;
+}
+
 .termos-header {
   text-align: center;
   margin-bottom: 35px;
