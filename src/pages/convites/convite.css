@@ -530,6 +530,11 @@
     box-shadow: 0 9px 20px rgb(var(--rgb-brand-orange) / .2);
 }
 
+.status-label.pending-sent {
+    background-color: var(--color-surface-orange);
+    color: var(--color-text-orange);
+}
+
 /* Estado vazio */
 .convites-empty {
     min-height: 310px;

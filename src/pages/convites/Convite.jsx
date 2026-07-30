@@ -36,7 +36,7 @@ const PERFIL_LABELS = {
 
 export default function Convite() {
   const { user } = useAuth();
-  const [receivedInvitations, setReceivedInvitations] = useState([]);
+  const [invitations, setInvitations] = useState([]);
   const [senders, setSenders] = useState({});
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState("pendentes"); // "pendentes" | "historico"
@@ -51,56 +51,87 @@ export default function Convite() {
       return;
     }
 
-    const q = query(
-      collection(db, "convites"),
-      where("destinatarioId", "==", user.uid)
-    );
+    setLoading(true);
+    let receivedList = [];
+    let sentList = [];
 
-    const unsubscribe = onSnapshot(q, async (snapshot) => {
-      const list = [];
-      const senderIds = new Set();
+    const fetchUserProfile = async (uid) => {
+      try {
+        const userSnap = await getDoc(doc(db, "usuarios", uid));
+        if (userSnap.exists()) {
+          setSenders((prev) => ({ ...prev, [uid]: userSnap.data() }));
+        }
+      } catch (err) {
+        console.error("Erro ao carregar perfil:", err);
+      }
+    };
 
-      snapshot.forEach((docSnap) => {
-        const data = docSnap.data();
-        list.push({ id: docSnap.id, ...data });
-        senderIds.add(data.remetenteId);
-      });
-
+    const combineAndSet = () => {
+      const combined = [...receivedList, ...sentList];
+      // Deduplicate by ID
+      const unique = Array.from(new Map(combined.map((item) => [item.id, item])).values());
       // Sort: most recent first
-      list.sort((a, b) => {
+      unique.sort((a, b) => {
         const timeA = a.createdAt?.seconds || 0;
         const timeB = b.createdAt?.seconds || 0;
         return timeB - timeA;
       });
-
-      setReceivedInvitations(list);
-
-      // Fetch user profile info for senders
-      const fetchedSenders = {};
-      let updated = false;
-
-      for (const senderId of senderIds) {
-        try {
-          const userSnap = await getDoc(doc(db, "usuarios", senderId));
-          if (userSnap.exists()) {
-            fetchedSenders[senderId] = userSnap.data();
-            updated = true;
-          }
-        } catch (err) {
-          console.error("Erro ao carregar remetente:", err);
-        }
-      }
-
-      if (updated) {
-        setSenders((prev) => ({ ...prev, ...fetchedSenders }));
-      }
+      setInvitations(unique);
       setLoading(false);
-    }, (err) => {
-      console.error("Erro ao assinar convites recebidos:", err);
-      setLoading(false);
-    });
+    };
 
-    return unsubscribe;
+    // 1. Query for received invitations
+    const qReceived = query(
+      collection(db, "convites"),
+      where("destinatarioId", "==", user.uid)
+    );
+
+    const unsubscribeReceived = onSnapshot(
+      qReceived,
+      (snapshot) => {
+        const list = [];
+        snapshot.forEach((docSnap) => {
+          const data = docSnap.data();
+          list.push({ id: docSnap.id, ...data });
+          fetchUserProfile(data.remetenteId);
+        });
+        receivedList = list;
+        combineAndSet();
+      },
+      (err) => {
+        console.error("Erro ao assinar convites recebidos:", err);
+        setLoading(false);
+      }
+    );
+
+    // 2. Query for sent invitations
+    const qSent = query(
+      collection(db, "convites"),
+      where("remetenteId", "==", user.uid)
+    );
+
+    const unsubscribeSent = onSnapshot(
+      qSent,
+      (snapshot) => {
+        const list = [];
+        snapshot.forEach((docSnap) => {
+          const data = docSnap.data();
+          list.push({ id: docSnap.id, ...data });
+          fetchUserProfile(data.destinatarioId);
+        });
+        sentList = list;
+        combineAndSet();
+      },
+      (err) => {
+        console.error("Erro ao assinar convites enviados:", err);
+        setLoading(false);
+      }
+    );
+
+    return () => {
+      unsubscribeReceived();
+      unsubscribeSent();
+    };
   }, [user?.uid]);
 
   const handleAccept = async (invitationId) => {
@@ -130,11 +161,11 @@ export default function Convite() {
   // Filter invitations based on active tab
   const filteredInvitations = useMemo(() => {
     if (activeTab === "pendentes") {
-      return receivedInvitations.filter((inv) => inv.status === "pendente");
+      return invitations.filter((inv) => inv.status === "pendente");
     } else {
-      return receivedInvitations.filter((inv) => inv.status !== "pendente");
+      return invitations.filter((inv) => inv.status !== "pendente");
     }
-  }, [receivedInvitations, activeTab]);
+  }, [invitations, activeTab]);
 
   const formatDate = (timestamp) => {
     if (!timestamp) return "";
@@ -173,8 +204,7 @@ export default function Convite() {
             </span>
             <h1>Gerencie seus convites</h1>
             <p>
-              Acompanhe as solicitações recebidas e escolha com quem você quer
-              iniciar uma conversa sobre a troca de materiais.
+              Gerencie as solicitações de conversa enviadas e recebidas de outros usuários.
             </p>
           </header>
 
@@ -186,10 +216,10 @@ export default function Convite() {
               onClick={() => setActiveTab("pendentes")}
             >
               <FaInbox className="tab-icon" />
-              <span>Pendentes</span>
-              {receivedInvitations.filter((inv) => inv.status === "pendente").length > 0 && (
+              <span>Recentes</span>
+              {invitations.filter((inv) => inv.status === "pendente").length > 0 && (
                 <span className="badge-count">
-                  {receivedInvitations.filter((inv) => inv.status === "pendente").length}
+                  {invitations.filter((inv) => inv.status === "pendente").length}
                 </span>
               )}
             </button>
@@ -219,39 +249,41 @@ export default function Convite() {
               </div>
             ) : (
               filteredInvitations.map((inv) => {
-                const sender = senders[inv.remetenteId] || {};
-                const labelPerfil = PERFIL_LABELS[sender.perfil] || sender.perfil || "Usuário";
+                const isSentByMe = inv.remetenteId === user.uid;
+                const otherUserId = isSentByMe ? inv.destinatarioId : inv.remetenteId;
+                const otherUser = senders[otherUserId] || {};
+                const labelPerfil = PERFIL_LABELS[otherUser.perfil] || otherUser.perfil || "Usuário";
 
                 return (
                   <div key={inv.id} className={`convite-card ${inv.status}`}>
                     <div className="convite-card-avatar">
-                      {sender.fotoPerfil ? (
-                        <img src={sender.fotoPerfil} alt={sender.nome} className="avatar-img" />
+                      {otherUser.fotoPerfil ? (
+                        <img src={otherUser.fotoPerfil} alt={otherUser.nome} className="avatar-img" />
                       ) : (
                         <FaUserCircle size={56} className="avatar-placeholder" />
                       )}
                     </div>
                     <div className="convite-card-info">
                       <div className="sender-name-wrapper">
-                        <h3>{sender.nome || "Usuário sem nome"}</h3>
+                        <h3>{otherUser.nome || "Usuário sem nome"}</h3>
                         <span className="perfil-tag">{labelPerfil}</span>
                       </div>
                       
                       <div className="sender-details">
-                        {sender.cidade && sender.estado && (
+                        {otherUser.cidade && otherUser.estado && (
                           <p className="detail-item">
                             <FaMapMarkerAlt aria-hidden="true" />
-                            {sender.cidade} - {sender.estado}
+                            {otherUser.cidade} - {otherUser.estado}
                           </p>
                         )}
-                        {sender.telefone && (
+                        {otherUser.telefone && (
                           <p className="detail-item">
                             <FaPhoneAlt aria-hidden="true" />
-                            {sender.telefone}
+                            {otherUser.telefone}
                           </p>
                         )}
                         <p className="detail-item date">
-                          Enviado em: {formatDate(inv.createdAt)}
+                          {isSentByMe ? "Enviado em: " : "Recebido em: "}{formatDate(inv.createdAt)}
                         </p>
                         {inv.respondedAt && (
                           <p className="detail-item date">
@@ -262,24 +294,32 @@ export default function Convite() {
                     </div>
 
                     {inv.status === "pendente" ? (
-                      <div className="convite-card-actions">
-                        <button
-                          className="action-btn accept-btn"
-                          onClick={() => handleAccept(inv.id)}
-                          aria-label="Aceitar convite"
-                        >
-                          <FaCheck />
-                          <span>Aceitar</span>
-                        </button>
-                        <button
-                          className="action-btn refuse-btn"
-                          onClick={() => handleRefuse(inv.id)}
-                          aria-label="Recusar convite"
-                        >
-                          <FaTimes />
-                          <span>Recusar</span>
-                        </button>
-                      </div>
+                      isSentByMe ? (
+                        <div className="convite-card-status">
+                          <span className="status-label pending-sent">
+                            Pendente
+                          </span>
+                        </div>
+                      ) : (
+                        <div className="convite-card-actions">
+                          <button
+                            className="action-btn accept-btn"
+                            onClick={() => handleAccept(inv.id)}
+                            aria-label="Aceitar convite"
+                          >
+                            <FaCheck />
+                            <span>Aceitar</span>
+                          </button>
+                          <button
+                            className="action-btn refuse-btn"
+                            onClick={() => handleRefuse(inv.id)}
+                            aria-label="Recusar convite"
+                          >
+                            <FaTimes />
+                            <span>Recusar</span>
+                          </button>
+                        </div>
+                      )
                     ) : (
                       <div className="convite-card-status">
                         {inv.status === "aceito" ? (
@@ -292,12 +332,12 @@ export default function Convite() {
                               state={{
                                 conviteId: inv.id,
                                 parceiro: {
-                                  id: inv.remetenteId,
-                                  nome: sender.nome || "Parceiro da reciclagem",
+                                  id: otherUserId,
+                                  nome: otherUser.nome || "Parceiro da reciclagem",
                                   perfil: labelPerfil,
-                                  fotoPerfil: sender.fotoPerfil || "",
-                                  cidade: sender.cidade || "",
-                                  estado: sender.estado || "",
+                                  fotoPerfil: otherUser.fotoPerfil || "",
+                                  cidade: otherUser.cidade || "",
+                                  estado: otherUser.estado || "",
                                 },
                               }}
                               className="convite-evaluate-button"
