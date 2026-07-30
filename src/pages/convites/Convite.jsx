@@ -25,6 +25,7 @@ import {
 } from "react-icons/fa";
 import Navbar from "../../components/navbar/Navbar";
 import Rodape from "../../components/rodape/Rodape";
+import { createChatIfNotExists } from "../../services/chatService";
 import "./convite.css";
 
 const PERFIL_LABELS = {
@@ -136,11 +137,16 @@ export default function Convite() {
 
   const handleAccept = async (invitationId) => {
     try {
+      const invitation = invitations.find((inv) => inv.id === invitationId);
+      if (!invitation) return;
+
       const docRef = doc(db, "convites", invitationId);
       await updateDoc(docRef, {
         status: "aceito",
         respondedAt: serverTimestamp(),
       });
+
+      await createChatIfNotExists(invitation.remetenteId, invitation.destinatarioId);
     } catch (err) {
       console.error("Erro ao aceitar convite:", err);
     }
