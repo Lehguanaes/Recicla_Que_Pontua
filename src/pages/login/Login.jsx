@@ -13,14 +13,10 @@ import { useAuth } from "../../contexts/AuthContext";
 import "./login.css";
 import "../../global.css";
 
-export default function Login() {
+export default function Login({ iniciarCadastro = false }) {
   const navigate = useNavigate();
   const { login } = useAuth();
   const [erroLogin, setErroLogin] = useState("");
-
-  useEffect(() => {
-    window.scrollTo({ top: 0, behavior: "auto" });
-  }, []);
 
   const [panel, setPanel] = useState("login");
 
@@ -32,6 +28,17 @@ export default function Login() {
   const [identifier, setIdentifier] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "auto" });
+  }, []);
+
+  useEffect(() => {
+    if (iniciarCadastro) {
+      setPanel("login");
+      setModalAberto(true);
+    }
+  }, [iniciarCadastro]);
 
 
   //FUNÇÃO

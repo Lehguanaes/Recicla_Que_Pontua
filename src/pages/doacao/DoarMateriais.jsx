@@ -407,7 +407,7 @@ const DoarMateriais = () => {
             </span>
             <p>
               Ao <strong>enviar o convite para iniciar a troca</strong>, fique
-              atento às notificações!
+              atento quando uma solicitação for aceita.
             </p>
           </aside>
 

@@ -209,7 +209,7 @@ export const camposPorPerfil = {
           name: "tipoInstituicao",
           label: "Tipo de instituição",
           type: "select",
-          placeholder: "Selecione o tipo de instituição",
+          placeholder: "Tipo de instituição",
           required: true,
           size: "small",
           options: opcoesTiposInstituicao,

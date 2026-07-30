@@ -164,7 +164,7 @@ const CadastrarMateriais = () => {
   };
 
   const handleRegister = () => {
-    navigate("/doacao/encontrarParceiros", {
+    navigate("/doacao/encontrar-parceiros", {
       state: {
         registeredMaterials: selectedMaterials.map((material) => ({
           value: material.value,

@@ -1,58 +1,44 @@
 /* ======================================================
    NAVBAR
 ====================================================== */
-.navbar-user{
-    position:relative;
+.navbar-top-controls{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.navbar:not(.navbar-authenticated) .navbar-top-controls{
+    display:contents;
 }
 
 .navbar-user-btn{
     display:flex;
     align-items:center;
-    gap:8px;
-    border: none;
+    justify-content:center;
+    width:46px;
+    height:46px;
+    border:none;
     border-radius:50%;
     padding:0;
     background:var(--color-transparent);
     color:var(--color-black);
-    font-size:clamp(28px, 2.2vw, 34px);
     line-height:0;
     cursor:pointer;
+    text-decoration:none;
+    transition:transform 0.22s ease, filter 0.22s ease;
 }
 
-.navbar-user-menu{
-    display:none;
-    flex-direction:column;
-
-    position:absolute;
-    top:110%;
-    right:0;
-    width:220px;
-    padding:10px;
-
-    background:var(--color-surface-card);
-    border-radius:12px;
-    box-shadow:0 10px 30px rgb(var(--rgb-black) / 0.12);
-    overflow:hidden;
-    z-index:100;
-    box-sizing:border-box;
+.navbar-user-btn:hover{
+    transform:translateY(-2px);
+    filter:drop-shadow(0 8px 14px rgb(var(--rgb-brand-orange) / 0.22));
 }
 
-.navbar-user-menu.show{
-    display:flex;
+.navbar-user-btn:hover .navbar-user-avatar{
+    border-color:var(--color-brand-orange);
 }
 
-.navbar-user-menu .navbar-link{
-    padding:10px 12px;
-    border-radius:8px;
-    white-space:nowrap;
-}
-
-.navbar-user-menu .navbar-link::after{
-    display:none;
-}
-
-.navbar-user-menu .navbar-link:not(.active):hover{
-    background:var(--color-surface-page);
+.navbar-user-btn:hover svg{
+    color:var(--color-brand-orange);
 }
 
 .navbar-logout-btn{
@@ -60,6 +46,8 @@
     background:none;
     font-family:inherit;
     text-align:left;
+    cursor:pointer;
+    color:var(--color-text-secondary);
 }
 
 
@@ -240,6 +228,11 @@
 
     display:none;
 
+    width:46px;
+    height:46px;
+    align-items:center;
+    justify-content:center;
+
     border:none;
 
     background:none;
@@ -248,7 +241,7 @@
 
     color:var(--color-text-default);
 
-    font-size:28px;
+    font-size:31px;
 
     transition:.35s;
 
@@ -305,28 +298,21 @@
 foto perfil
 ====================================================== */
 .navbar-user-btn{
-    width:42px;
-    height:42px;
+    width:46px;
+    min-width:46px;
+    height:46px;
 
     display:flex;
     justify-content:center;
     align-items:center;
 
-    border:none;
-    border-radius:50%;
-
-    padding:0;
-
-    background:transparent;
-
     cursor:pointer;
-
-    overflow:hidden;
 }
 
 .navbar-user-avatar{
-    width:100%;
-    height:100%;
+    width:40px;
+    height:40px;
+    flex:0 0 40px;
 
     object-fit:cover;
 
@@ -342,8 +328,79 @@ foto perfil
 }
 
 .navbar-user-btn svg{
-    font-size:36px;
+    font-size:40px;
     color:var(--color-brand-green);
+    transition:color .25s ease;
+}
+
+/* ======================================================
+   USUÁRIO LOGADO: NAVEGAÇÃO SEMPRE NO HAMBÚRGUER
+====================================================== */
+@media (min-width:961px){
+    .navbar-authenticated .menu-toggle{
+        display:flex;
+    }
+
+    .navbar-authenticated .navbar-menu{
+        position:fixed;
+        top:0;
+        right:-100%;
+        width:320px;
+        max-width:82%;
+        height:100dvh;
+        max-height:100dvh;
+        overflow-y:auto;
+        overflow-x:hidden;
+        display:flex;
+        flex-direction:column;
+        align-items:flex-start;
+        justify-content:flex-start;
+        margin-left:0;
+        padding:96px 36px 28px;
+        gap:28px;
+        background:var(--color-surface-card);
+        box-shadow:-10px 0 40px rgb(var(--rgb-black) / 0.12);
+        box-sizing:border-box;
+        visibility:hidden;
+        pointer-events:none;
+        transition:right .4s ease;
+        z-index:1001;
+    }
+
+    .navbar-authenticated .navbar-menu.open{
+        right:0;
+        visibility:visible;
+        pointer-events:auto;
+    }
+
+    .navbar-authenticated .navbar-links,
+    .navbar-authenticated .navbar-actions{
+        display:contents;
+    }
+
+    .navbar-authenticated .navbar-link{
+        width:100%;
+        padding-bottom:10px;
+        font-size:18px;
+    }
+
+    .navbar-authenticated .navbar-link::after{
+        bottom:0;
+    }
+
+    .navbar-authenticated .navbar-icon{
+        width:24px;
+        font-size:20px;
+    }
+
+    .navbar-authenticated .navbar-pet-menu{
+        display:block;
+        width:200px;
+        height:auto;
+        margin:auto auto 0;
+        user-select:none;
+        pointer-events:none;
+    }
 }
 
 /* ======================================================
@@ -366,7 +423,7 @@ foto perfil
 
     .menu-toggle{
 
-        display:block;
+        display:flex;
 
     }
 
@@ -407,6 +464,8 @@ foto perfil
     z-index: 1001;
 
     box-sizing: border-box;
+    visibility:hidden;
+    pointer-events:none;
 }
 
 .navbar-links,
@@ -417,6 +476,8 @@ foto perfil
     .navbar-menu.open{
 
         right:0;
+        visibility:visible;
+        pointer-events:auto;
 
     }
 
@@ -453,40 +514,6 @@ foto perfil
         border-radius:12px;
 
         font-size:17px;
-    }
-
-    .navbar-user{
-        width:100%;
-    }
-
-    .navbar-user-btn{
-        display:none;
-    }
-
-    .navbar-user-menu{
-        display:flex !important;
-        position:static;
-        width:100%;
-        padding:0;
-        gap:28px;
-        background:none;
-        box-shadow:none;
-        border-radius:0;
-        overflow:visible;
-    }
-
-    .navbar-user-menu .navbar-link{
-        padding-bottom:10px;
-        border-radius:0;
-    }
-
-    .navbar-user-menu .navbar-link::after{
-        display:block;
-        bottom:0;
-    }
-
-    .navbar-user-menu .navbar-link:not(.active):hover{
-        background:none;
     }
 
     .navbar-pet-menu{

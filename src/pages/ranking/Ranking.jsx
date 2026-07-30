@@ -176,7 +176,7 @@ export default function Ranking() {
                   </p>
                 </div>
               </div>
-              <Link to="/cadastro" className="usuario-ranking-cta-btn">
+              <Link to="/login" className="usuario-ranking-cta-btn">
                 Criar conta
               </Link>
             </div>

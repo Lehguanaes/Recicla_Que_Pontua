@@ -10,7 +10,6 @@ import {
   FaIdCard,
   FaUserCircle,
   FaEdit,
-  FaTimes,
   FaRecycle,
 } from "react-icons/fa";
 
@@ -33,8 +32,6 @@ export default function Perfil() {
   const [dados, setDados] = useState(null);
   const [carregando, setCarregando] = useState(true);
   const [modalAberto, setModalAberto] = useState(null); // "endereco" | "telefone" | "senha" | "foto" | "coleta" | null
-  const [alertaFechado, setAlertaFechado] = useState(false);
-  const [alertaColetaFechado, setAlertaColetaFechado] = useState(false);
 
   useEffect(() => {
     async function carregarDados() {
@@ -130,7 +127,7 @@ export default function Perfil() {
             </p>
           </header>
 
-          {!enderecoCompleto && !alertaFechado && (
+          {!enderecoCompleto && (
             <div className="perfil-alerta">
               <FaMapMarkerAlt className="perfil-alerta-icone" />
 
@@ -149,20 +146,11 @@ export default function Perfil() {
                 >
                   Adicionar endereço
                 </button>
-
-                <button
-                  type="button"
-                  className="perfil-alerta-fechar"
-                  aria-label="Fechar aviso"
-                  onClick={() => setAlertaFechado(true)}
-                >
-                  <FaTimes />
-                </button>
               </div>
             </div>
           )}
 
-          {perfilColetaIncompleto && !alertaColetaFechado && (
+          {perfilColetaIncompleto && (
             <div className="perfil-alerta perfil-alerta-coleta">
               <FaRecycle className="perfil-alerta-icone" />
 
@@ -183,15 +171,6 @@ export default function Perfil() {
                   onClick={() => setModalAberto("coleta")}
                 >
                   Configurar coleta
-                </button>
-
-                <button
-                  type="button"
-                  className="perfil-alerta-fechar"
-                  aria-label="Fechar aviso"
-                  onClick={() => setAlertaColetaFechado(true)}
-                >
-                  <FaTimes />
                 </button>
               </div>
             </div>

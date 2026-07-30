@@ -9,8 +9,9 @@ import ComoFunciona from "./pages/comoFunciona/ComoFunciona";
 import Ranking from "./pages/ranking/Ranking";
 import EncontrarParceiros from "./pages/doacao/DoarMateriais";
 import CadastrarMateriais from "./pages/doacao/CadastrarMateriais";
-import Recompensas from "./pages/recompensas/Recompensas";
 import Convite from "./pages/convites/Convite";
+import Chat from "./pages/chat/Chat";
+import RecuperarSenha from "./pages/login/RecuperarSenha";
 
 function App() {
   return (
@@ -18,22 +19,17 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/cadastro" element={<Navigate to="/login" replace />} />
+        <Route path="/cadastro" element={<Login iniciarCadastro />} />
+        <Route path="/recuperar-senha" element={<RecuperarSenha />} />
         <Route path="/perfil" element={<Perfil />} />
         <Route path="/termos" element={<TermosUso />} />
         <Route path="/como-reciclar" element={<ComoFunciona />} />
-        <Route path="/comoFunciona" element={<Navigate to="/como-reciclar" replace />} />
-        <Route path="/como-funciona" element={<Navigate to="/como-reciclar" replace />} />
         <Route path="/ranking" element={<Ranking />} />
         <Route path="/doacao/cadastrar-materiais" element={<CadastrarMateriais />} />
-        <Route path="/doacao/encontrarParceiros" element={<EncontrarParceiros />} />
-        <Route path="/doacao/encontrar-parceiros" element={<Navigate to="/doacao/encontrarParceiros" replace />} />
-        <Route path="/recompensas" element={<Recompensas />} />
-        <Route path="/doacao/DoarMateriais" element={<Navigate to="/doacao/cadastrar-materiais" replace />} />
-        <Route path="/buscarCatadores" element={<Navigate to="/doacao/cadastrar-materiais" replace />} />
-        <Route path="/buscarcatadores" element={<Navigate to="/doacao/cadastrar-materiais" replace />} />
-        <Route path="/sobre" element={<Navigate to="/como-reciclar" replace />} />
+        <Route path="/doacao/encontrar-parceiros" element={<EncontrarParceiros />} />
         <Route path="/convites" element={<Convite />} />
+        <Route path="/chat" element={<Chat />} />
+        <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </BrowserRouter>
   );

@@ -10,9 +10,6 @@ export const materiaisDisponiveis = [
   { value: "vidro", label: "Vidro" },
   { value: "eletronicos", label: "Eletrônicos" },
   { value: "oleo-cozinha", label: "Óleo de cozinha" },
-  { value: "pilhas-baterias", label: "Pilhas e baterias" },
-  { value: "roupas", label: "Roupas" },
-  { value: "outros", label: "Outros" },
 ];
 
 export const tiposVeiculo = [
@@ -39,7 +36,14 @@ export default function ModalConfigurarColeta({
 
   useEffect(() => {
     if (isOpen) {
-      setMateriais(dadosAtuais?.materiaisAceitos || []);
+      const materiaisPermitidos = new Set(
+        materiaisDisponiveis.map((material) => material.value)
+      );
+      setMateriais(
+        (dadosAtuais?.materiaisAceitos || []).filter((material) =>
+          materiaisPermitidos.has(material)
+        )
+      );
       setPossuiVeiculo(
         typeof dadosAtuais?.possuiVeiculo === "boolean"
           ? dadosAtuais.possuiVeiculo

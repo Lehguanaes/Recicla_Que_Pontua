@@ -1,4 +1,5 @@
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { Link } from "react-router-dom";
 import './login.css';
 
 export default function LoginForm({
@@ -49,9 +50,9 @@ export default function LoginForm({
         </span>
       )}
 
-      <a href="/recuperar-senha" className="forgot">
+      <Link to="/recuperar-senha" className="forgot">
         Esqueceu sua senha?
-      </a>
+      </Link>
 
       <button className="login-button" onClick={onLogin}>
         Entrar
