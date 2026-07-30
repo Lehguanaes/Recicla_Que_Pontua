@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useMemo } from "react";
+import { Link } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
 import { db } from "../../services/Firebase";
 import {
@@ -20,6 +21,7 @@ import {
   FaMapMarkerAlt,
   FaPaperPlane,
   FaPhoneAlt,
+  FaStar,
 } from "react-icons/fa";
 import Navbar from "../../components/navbar/Navbar";
 import Rodape from "../../components/rodape/Rodape";
@@ -281,9 +283,29 @@ export default function Convite() {
                     ) : (
                       <div className="convite-card-status">
                         {inv.status === "aceito" ? (
-                          <span className="status-label accepted">
-                            <FaCheck /> Aceito
-                          </span>
+                          <>
+                            <span className="status-label accepted">
+                              <FaCheck /> Aceito
+                            </span>
+                            <Link
+                              to="/avaliacao"
+                              state={{
+                                conviteId: inv.id,
+                                parceiro: {
+                                  id: inv.remetenteId,
+                                  nome: sender.nome || "Parceiro da reciclagem",
+                                  perfil: labelPerfil,
+                                  fotoPerfil: sender.fotoPerfil || "",
+                                  cidade: sender.cidade || "",
+                                  estado: sender.estado || "",
+                                },
+                              }}
+                              className="convite-evaluate-button"
+                            >
+                              <FaStar />
+                              Avaliar troca
+                            </Link>
+                          </>
                         ) : (
                           <span className="status-label refused">
                             <FaTimes /> Recusado

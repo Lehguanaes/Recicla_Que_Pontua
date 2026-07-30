@@ -479,6 +479,10 @@
 }
 
 .convite-card-status {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 10px;
     flex-shrink: 0;
 }
 
@@ -500,6 +504,30 @@
 .status-label.refused {
     background-color: var(--color-surface-danger);
     color: var(--color-danger);
+}
+
+.convite-evaluate-button {
+    min-height: 40px;
+    padding: 9px 14px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    border: 1px solid var(--color-border-orange-soft);
+    border-radius: 10px;
+    background: var(--color-surface-orange);
+    color: var(--color-text-orange);
+    font-size: .88rem;
+    font-weight: var(--font-weight-bold);
+    text-decoration: none;
+    transition: transform .2s ease, background .2s ease, box-shadow .2s ease;
+}
+
+.convite-evaluate-button:hover {
+    background: var(--color-brand-orange);
+    color: var(--color-white);
+    transform: translateY(-2px);
+    box-shadow: 0 9px 20px rgb(var(--rgb-brand-orange) / .2);
 }
 
 /* Estado vazio */
@@ -611,6 +639,7 @@
 
     .convite-card-status {
         align-self: flex-start;
+        align-items: flex-start;
     }
 }
 

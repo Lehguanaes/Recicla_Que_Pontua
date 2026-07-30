@@ -12,6 +12,7 @@ import CadastrarMateriais from "./pages/doacao/CadastrarMateriais";
 import Convite from "./pages/convites/Convite";
 import Chat from "./pages/chat/Chat";
 import RecuperarSenha from "./pages/login/RecuperarSenha";
+import Avaliacao from "./pages/avaliacao/Avaliacao";
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
         <Route path="/doacao/encontrar-parceiros" element={<EncontrarParceiros />} />
         <Route path="/convites" element={<Convite />} />
         <Route path="/chat" element={<Chat />} />
+        <Route path="/avaliacao" element={<Avaliacao />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </BrowserRouter>
