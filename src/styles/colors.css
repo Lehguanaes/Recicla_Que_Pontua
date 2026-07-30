@@ -3,7 +3,6 @@
   /* Marca */
   --color-brand-green: #4caf50;
   --color-brand-green-medium: #43a047;
-  --color-brand-green-light: #81c784;
   --color-brand-green-dark: #388e3c;
   --color-brand-green-deep: #2e7d32;
   --color-brand-green-soft: #c8e6c9;
@@ -21,8 +20,6 @@
   --color-text-secondary: #607066;
   --color-text-muted: #757575;
   --color-text-placeholder: #999999;
-  --color-text-disabled: #bdbdbd;
-  --color-text-blue: #49637f;
   --color-text-orange: #955e00;
   --color-text-on-orange: #2f240b;
 
@@ -47,41 +44,26 @@
   --color-border-green-muted: #b7cdb8;
   --color-border-green-strong: rgb(46 125 50 / 50%);
   --color-border-orange-soft: rgb(255 230 173 / 50%);
-  --color-border-blue: #dce5f2;
   --color-control-disabled: #a5d6a7;
 
   /* Estados e cores de apoio */
   --color-success: var(--color-brand-green);
   --color-success-bright: #69db7c;
-  --color-warning: #ffc107;
   --color-danger: #e53935;
   --color-danger-dark: #c62828;
   --color-danger-light: #ff6b6b;
   --color-info: #2196f3;
   --color-info-dark: #1d7f9b;
-  --color-purple: #6b1fa2;
-  --color-purple-light: #8b3fc4;
-  --color-purple-dark: #4a1570;
-  --color-navy: #14213d;
-  --color-brown: #6d4c41;
-  --color-brown-light: #8d6e63;
-  --color-beige: #d7ccc8;
-  --color-rating: #e91e63;
   --color-marker-selected: #ff5722;
 
   /* Transparências e efeitos */
-  --color-highlight-green: rgb(76 175 80 / 16%);
   --color-highlight-info: rgb(29 127 155 / 12%);
   --color-glow-green-dark: rgb(36 76 44 / 40%);
   --color-overlay-neutral: rgb(33 33 33 / 34%);
-  --color-overlay-navy: rgb(20 33 61 / 36%);
   --color-surface-green-translucent: rgb(233 246 237 / 92%);
-  --color-surface-soft-translucent: rgb(244 251 239 / 96%);
   --shadow-color-neutral: rgb(33 33 33 / 18%);
   --shadow-color-green: rgb(20 61 27 / 18%);
   --shadow-color-orange: rgb(180 108 0 / 22%);
-  --shadow-color-orange-soft: rgb(132 94 18 / 10%);
-  --shadow-color-navy: rgb(20 33 61 / 24%);
 
   /* Canais usados quando a opacidade varia por componente */
   --rgb-black: 0 0 0;

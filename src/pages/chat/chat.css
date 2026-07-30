@@ -16,35 +16,17 @@
 }
 
 .chat-kicker {
-  width: fit-content;
-  display: inline-flex;
-  align-items: center;
-  gap: 9px;
-  padding: 9px 14px;
   margin-bottom: 16px;
-  border: 1px solid rgb(var(--rgb-brand-green) / 0.2);
-  border-radius: 999px;
   background: rgb(var(--rgb-white) / 0.82);
-  color: var(--color-brand-green-dark);
   font-size: 0.82rem;
-  font-weight: var(--font-weight-bold);
-  text-transform: uppercase;
 }
 
 .chat-header h1 {
   margin: 0;
-  color: var(--font-color-title);
-  font-size: var(--font-size-page-title);
-  font-weight: var(--font-weight-title);
-  line-height: var(--line-height-page-title);
 }
 
 .chat-header p {
-  max-width: var(--content-width-text);
   margin: 14px 0 0;
-  color: var(--font-color-muted);
-  font-size: var(--font-size-subtitle);
-  line-height: var(--line-height-body);
 }
 
 .chat-empty {
@@ -97,8 +79,6 @@
   align-items: center;
   justify-content: center;
   border-radius: 11px;
-  background: var(--color-brand-green);
-  color: var(--color-white);
   font-weight: var(--font-weight-bold);
   text-decoration: none;
   box-shadow: 0 12px 24px rgb(var(--rgb-shadow-green) / 0.14);
@@ -106,7 +86,6 @@
 }
 
 .chat-empty-button:hover {
-  background: var(--color-brand-green-dark);
   transform: translateY(-2px);
   box-shadow: 0 15px 28px rgb(var(--rgb-shadow-green) / 0.2);
 }

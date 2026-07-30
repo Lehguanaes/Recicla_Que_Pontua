@@ -62,7 +62,28 @@ li {
   text-wrap: pretty;
 }
 
-.type-page-title {
+/* Componentes tipográficos reutilizáveis. As páginas controlam apenas
+   espaçamento, largura e composição específicos do próprio layout. */
+.ui-eyebrow {
+  width: fit-content;
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 9px 14px;
+  border: 1px solid rgb(var(--rgb-brand-green) / 0.2);
+  border-radius: 999px;
+  background: rgb(var(--rgb-white) / 0.78);
+  color: var(--font-color-accent);
+  font-size: var(--font-size-label);
+  font-weight: var(--font-weight-bold);
+  text-transform: uppercase;
+}
+
+.ui-eyebrow svg {
+  flex: 0 0 auto;
+}
+
+.ui-page-title {
   max-width: var(--content-width-title);
   color: var(--font-color-title);
   font-size: var(--font-size-page-title);
@@ -70,40 +91,29 @@ li {
   line-height: var(--line-height-page-title);
 }
 
-.type-section-title {
-  max-width: var(--content-width-title);
-  color: var(--font-color-title);
-  font-size: var(--font-size-section-title);
-  font-weight: var(--font-weight-title);
-  line-height: var(--line-height-title);
-}
-
-.type-card-title {
-  color: var(--font-color-heading);
-  font-size: var(--font-size-card-title);
-  font-weight: var(--font-weight-title);
-  line-height: var(--line-height-heading);
-}
-
-.type-subtitle {
+.ui-page-subtitle {
   max-width: var(--content-width-text);
   color: var(--font-color-muted);
   font-size: var(--font-size-subtitle);
   line-height: var(--line-height-body);
 }
 
-.type-body {
-  color: var(--font-color-body);
-  font-size: var(--font-size-body);
-  line-height: var(--line-height-body);
+.ui-section-header {
+  max-width: var(--content-width-title);
 }
 
-.type-eyebrow {
-  color: var(--font-color-accent);
-  font-size: var(--font-size-label);
-  font-weight: var(--font-weight-bold);
-  line-height: var(--line-height-compact);
-  text-transform: uppercase;
+.ui-section-title {
+  color: var(--font-color-title);
+  font-size: var(--font-size-section-title);
+  font-weight: var(--font-weight-title);
+  line-height: var(--line-height-title);
+}
+
+.ui-section-subtitle {
+  max-width: var(--content-width-text);
+  color: var(--font-color-muted);
+  font-size: var(--font-size-subtitle);
+  line-height: var(--line-height-body);
 }
 
 @media (max-width: 768px) {

@@ -1,8 +1,10 @@
 import Navbar from "../../components/navbar/Navbar";
 import Rodape from "../../components/rodape/Rodape";
+import { SectionHeader } from "../../components/typography/Typography";
+import AccordionItem from "../../components/common/AccordionItem";
+import Button from "../../components/button/Button";
 import './ranking.css';
-import { Link } from "react-router-dom";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import {
   FaTrophy,
   FaRecycle,
@@ -20,11 +22,7 @@ import {
   FILTROS,calcularRanking,calcularEstatisticas,calcularPosicaoUsuario,
 } from "../../utils/RankingMock";
 import Mascote from "../../assets/PetCampeao.png";
-const LABEL_TIPO = {
-  pessoa: "Pessoa recicladora",
-  instituicao: "Instituição recicladora",
-  coletor: "Coletor",
-};
+import { getProfileLabel } from "../../constants/profiles";
 
 const MEDALHA = ["🥇", "🥈", "🥉"];
 
@@ -56,27 +54,10 @@ const FAQ_ITEMS = [
   },
 ];
 
-function SectionHeader({ eyebrow, title, text, icon }) {
-  return (
-    <div className="ranking-section-header">
-      <span>
-        {icon}
-        {eyebrow}
-      </span>
-      <h2>{title}</h2>
-      <p>{text}</p>
-    </div>
-  );
-}
-
 export default function Ranking() {
   const [filtro, setFiltro] = useState("geral");
   const [faqAberta, setFaqAberta] = useState(null);
   const { user } = useAuth();
-
-  useEffect(() => {
-    window.scrollTo({ top: 0, behavior: "auto" });
-  }, []);
 
   // Em produção, troque USUARIOS_MOCK por dados vindos do Firestore (useEffect + onSnapshot / getDocs)
   const ranking = useMemo(() => calcularRanking(USUARIOS_MOCK, filtro), [filtro]);
@@ -102,6 +83,8 @@ export default function Ranking() {
           <div className="ranking-hero">
             <div className="ranking-hero-texto">
             <SectionHeader
+              className="ranking-section-header"
+              titleAs="h1"
               eyebrow="Ranking"
               icon={<FaTrophy />}
               title="Quem está liderando a reciclagem?"
@@ -176,15 +159,16 @@ export default function Ranking() {
                   </p>
                 </div>
               </div>
-              <Link to="/login" className="usuario-ranking-cta-btn">
+              <Button variant="gradient" to="/login" className="usuario-ranking-cta-btn">
                 Criar conta
-              </Link>
+              </Button>
             </div>
           )}
         </section>
 
         <section className="ranking-table-section">
           <SectionHeader
+            className="ranking-section-header"
             eyebrow="Classificação"
             icon={<FaUsers />}
             title="Ranking completo de pontuação"
@@ -229,7 +213,7 @@ export default function Ranking() {
                         <span className="usuario-badge">você</span>
                       )}
                     </td>
-                    <td>{LABEL_TIPO[usuario.tipo]}</td>
+                    <td>{getProfileLabel(usuario.tipo)}</td>
                     <td className="pontos">{usuario.pontos.toLocaleString("pt-BR")} pts</td>
                   </tr>
                 ))}
@@ -241,6 +225,7 @@ export default function Ranking() {
         {/* Perguntas frequentes */}
         <section className="ranking-faq-section">
           <SectionHeader
+            className="ranking-section-header"
             eyebrow="Dúvidas"
             icon={<FaCircleQuestion />}
             title="Perguntas frequentes sobre o ranking"
@@ -249,11 +234,21 @@ export default function Ranking() {
 
           <div className="faq-lista">
             {FAQ_ITEMS.map((item, index) => (
-              <FaqItem
+              <AccordionItem
                 key={item.pergunta}
-                item={item}
-                aberta={faqAberta === index}
-                onClick={() => setFaqAberta(faqAberta === index ? null : index)}
+                question={item.pergunta}
+                answer={item.resposta}
+                open={faqAberta === index}
+                onToggle={() => setFaqAberta(faqAberta === index ? null : index)}
+                icon={<FaCircleQuestion />}
+                className="faq-item"
+                openClassName="faq-item-aberta"
+                buttonClassName="faq-pergunta"
+                iconClassName="faq-chevron"
+                panelClassName="faq-panel"
+                panelInnerClassName="faq-panel-inner"
+                answerClassName="faq-resposta"
+                wrapQuestion={false}
               />
             ))}
           </div>
@@ -264,7 +259,6 @@ export default function Ranking() {
     </>
   );
 }
-
 function CardDestaque({ icone, label, valorPrincipal, valorSecundario, destaque, className }) {
   return (
     <div className={`card-ranking ${destaque ? "card-ranking-destaque" : ""} ${className || ""}`}>
@@ -297,25 +291,5 @@ function VariacaoPosicao({ valor }) {
     <p className="neutro">
       <FaMinus size={16} /> sem mudança
     </p>
-  );
-}
-
-function FaqItem({ item, aberta, onClick }) {
-  return (
-    <div className={`faq-item ${aberta ? "faq-item-aberta" : ""}`}>
-      <button
-        className="faq-pergunta"
-        onClick={onClick}
-        aria-expanded={aberta}
-      >
-        {item.pergunta}
-        <FaCircleQuestion className="faq-chevron" />
-      </button>
-      <div className="faq-panel">
-        <div className="faq-panel-inner">
-          <p className="faq-resposta">{item.resposta}</p>
-        </div>
-      </div>
-    </div>
   );
 }

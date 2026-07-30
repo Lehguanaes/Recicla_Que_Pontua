@@ -10,6 +10,7 @@ import {
 } from "react-icons/fa";
 import { LOCAL_TYPES } from "../../constants";
 import "./selectedCard.css";
+import { PROFILE_IDS } from "../../constants/profiles";
 
 export default function SelectedCard({
   collector,
@@ -88,7 +89,8 @@ export default function SelectedCard({
         </div>
       </div>
 
-      {userProfile !== "coletor-autonomo" && userProfile !== "centro-coleta" && (
+      {userProfile !== PROFILE_IDS.COLLECTOR &&
+        userProfile !== PROFILE_IDS.CENTER && (
         <button
           type="button"
           onClick={handleAction}

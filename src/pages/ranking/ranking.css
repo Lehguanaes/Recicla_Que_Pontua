@@ -49,46 +49,17 @@
   background: var(--color-surface-card);
 }
 
-.ranking-kicker,
-.ranking-section-header span {
-  width: fit-content;
-  display: inline-flex;
-  align-items: center;
-  gap: 9px;
-  padding: 9px 14px;
-  border: 1px solid rgb(var(--rgb-brand-green) / 0.2);
-  border-radius: 999px;
-  background: rgb(var(--rgb-white) / 0.78);
-  color: var(--color-brand-green-dark);
-  font-size: 0.85rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0;
-}
-
-.ranking-section-header span svg {
-  flex: 0 0 auto;
-}
-
 .ranking-section-header {
-  max-width: 760px;
   margin-bottom: 34px;
 }
 
-.ranking-section-header h2 {
+.ranking-section-header .ui-section-title {
   margin-top: 16px;
-  color: var(--font-color-title);
-  font-size: var(--font-size-section-title);
-  font-weight: var(--font-weight-title);
-  line-height: var(--line-height-title);
   letter-spacing: 0;
 }
 
 .ranking-section-header p {
   margin-top: 14px;
-  color: var(--font-color-muted);
-  font-size: var(--font-size-subtitle);
-  line-height: var(--line-height-body);
 }
 
 .ranking-hero {
@@ -96,26 +67,6 @@
   grid-template-columns: minmax(0, 1fr) minmax(280px, 400px);
   align-items: center;
   gap: 34px;
-}
-
-.ranking-title {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  color: var(--font-color-title);
-  font-size: var(--font-size-page-title);
-  font-weight: var(--font-weight-title);
-  line-height: var(--line-height-page-title);
-  margin: 0;
-  letter-spacing: 0;
-}
-
-.ranking-subtitle {
-  max-width: 560px;
-  margin: 14px 0 0;
-  color: var(--font-color-muted);
-  font-size: var(--font-size-subtitle);
-  line-height: var(--line-height-body);
 }
 
 .ranking-mascote {
@@ -325,9 +276,7 @@
   min-height: 48px;
   padding: 13px 22px;
   border-radius: 12px;
-  background: linear-gradient(135deg, var(--color-brand-green), var(--color-brand-orange));
   box-shadow: 0 14px 28px rgb(var(--rgb-brand-orange) / 0.18);
-  color: var(--color-white);
   font-size: 0.96rem;
   font-weight: var(--font-weight-bold);
   transition: transform 0.28s ease, box-shadow 0.28s ease, background 0.28s ease;
@@ -335,7 +284,6 @@
 
 .usuario-ranking-cta-btn:hover {
   transform: translateY(-3px);
-  background: var(--color-brand-green-dark);
   box-shadow: 0 16px 30px rgb(var(--rgb-brand-green-dark) / 0.24);
 }
 

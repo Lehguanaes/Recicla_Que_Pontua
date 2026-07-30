@@ -15,9 +15,12 @@ import {
 
 import Navbar from "../../components/navbar/Navbar";
 import Rodape from "../../components/rodape/Rodape";
+import { PageHeader } from "../../components/typography/Typography";
+import ProfileNotice from "../../components/profile/ProfileNotice";
+import ProfileInfoRow from "../../components/profile/ProfileInfoRow";
 import { useAuth } from "../../contexts/AuthContext";
 import { db } from "../../services/Firebase";
-import { perfilInfo } from "../login/cadastro/CadastroData";
+import { getProfileLabel, PROFILE_IDS } from "../../constants/profiles";
 
 import ModalEditarEndereco from "./ModalEditarEndereco";
 import ModalEditarTelefone from "./ModalEditarTelefone";
@@ -76,14 +79,15 @@ export default function Perfil() {
   );
 
   const ehPessoaJuridica =
-    dados?.perfil === "instituicao-recicladora" ||
-    dados?.perfil === "centro-coleta";
+    dados?.perfil === PROFILE_IDS.INSTITUTION ||
+    dados?.perfil === PROFILE_IDS.CENTER;
 
   // Perfis para os quais informar materiais aceitos e disponibilidade de
   // veículo é essencial, pois influencia diretamente o recebimento de
   // solicitações de doação.
   const ehPerfilDeColeta =
-    dados?.perfil === "coletor-autonomo" || dados?.perfil === "centro-coleta";
+    dados?.perfil === PROFILE_IDS.COLLECTOR ||
+    dados?.perfil === PROFILE_IDS.CENTER;
 
   const materiaisCadastrados =
     Array.isArray(dados?.materiaisAceitos) && dados.materiaisAceitos.length > 0;
@@ -117,64 +121,34 @@ export default function Perfil() {
 
       <main className="perfil-page">
         <div className="perfil-container">
-          <header className="perfil-cabecalho">
-            <span className="perfil-kicker">
-              <FaUserCircle /> Meu perfil
-            </span>
-            <h1>Suas informações em um só lugar</h1>
-            <p>
-              Confira seus dados e mantenha seu perfil atualizado para aproveitar
-              melhor cada recurso da plataforma.
-            </p>
-          </header>
+          <PageHeader
+            className="perfil-cabecalho"
+            eyebrowClassName="perfil-kicker"
+            eyebrow="Meu perfil"
+            icon={<FaUserCircle />}
+            title="Suas informações em um só lugar"
+            text="Confira seus dados e mantenha seu perfil atualizado para aproveitar melhor cada recurso da plataforma."
+          />
 
           {!enderecoCompleto && (
-            <div className="perfil-alerta">
-              <FaMapMarkerAlt className="perfil-alerta-icone" />
-
-              <div className="perfil-alerta-texto">
-                <strong>Complete seu endereço</strong>
-                <p>
-                Se desejar, você pode informar seu endereço completo. Essa etapa é totalmente opcional, mas ajuda a complementar o seu perfil, aprimora a filtragem das informações no site e contribui para uma experiência mais segura para todos.
-                </p>
-              </div>
-
-              <div className="perfil-alerta-acoes">
-                <button
-                  type="button"
-                  className="perfil-alerta-botao"
-                  onClick={() => setModalAberto("endereco")}
-                >
-                  Adicionar endereço
-                </button>
-              </div>
-            </div>
+            <ProfileNotice
+              icon={<FaMapMarkerAlt className="perfil-alerta-icone" />}
+              title="Complete seu endereço"
+              text="Se desejar, você pode informar seu endereço completo. Essa etapa é totalmente opcional, mas ajuda a complementar o seu perfil, aprimora a filtragem das informações no site e contribui para uma experiência mais segura para todos."
+              actionText="Adicionar endereço"
+              onAction={() => setModalAberto("endereco")}
+            />
           )}
 
           {perfilColetaIncompleto && (
-            <div className="perfil-alerta perfil-alerta-coleta">
-              <FaRecycle className="perfil-alerta-icone" />
-
-              <div className="perfil-alerta-texto">
-                <strong>Complete seu perfil de coleta</strong>
-                <p>
-                  Informe os materiais que você recebe e se possui veículo
-                  para realizar coletas. Essas informações ajudam os
-                  usuários a encontrar o parceiro mais adequado e aumentam
-                  suas chances de receber novas solicitações.
-                </p>
-              </div>
-
-              <div className="perfil-alerta-acoes">
-                <button
-                  type="button"
-                  className="perfil-alerta-botao"
-                  onClick={() => setModalAberto("coleta")}
-                >
-                  Configurar coleta
-                </button>
-              </div>
-            </div>
+            <ProfileNotice
+              className="perfil-alerta-coleta"
+              icon={<FaRecycle className="perfil-alerta-icone" />}
+              title="Complete seu perfil de coleta"
+              text="Informe os materiais que você recebe e se possui veículo para realizar coletas. Essas informações ajudam os usuários a encontrar o parceiro mais adequado e aumentam suas chances de receber novas solicitações."
+              actionText="Configurar coleta"
+              onAction={() => setModalAberto("coleta")}
+            />
           )}
 
           <div className="perfil-layout">
@@ -203,7 +177,7 @@ export default function Perfil() {
               <div className="perfil-resumo-texto">
                 <h2>{dados?.nome || "Usuário"}</h2>
                 <span className="perfil-badge-tipo">
-                  {perfilInfo[dados?.perfil]?.label || "Usuário"}
+                  {getProfileLabel(dados?.perfil)}
                 </span>
                 <p className="perfil-resumo-ajuda">
                   Sua foto e seu nome ajudam outros participantes a reconhecer
@@ -219,79 +193,71 @@ export default function Perfil() {
             </p>
 
             <div className="perfil-info-lista">
-              <div className="perfil-info-linha">
-                <FaEnvelope className="perfil-info-icone" />
-                <div className="perfil-info-texto">
-                  <span className="perfil-info-label">E-mail</span>
-                  <span className="perfil-info-valor">
-                    {dados?.email || user?.email}
-                  </span>
-                </div>
-              </div>
+              <ProfileInfoRow
+                icon={<FaEnvelope className="perfil-info-icone" />}
+                label="E-mail"
+                value={dados?.email || user?.email}
+              />
 
-              <div className="perfil-info-linha">
-                <FaIdCard className="perfil-info-icone" />
-                <div className="perfil-info-texto">
-                  <span className="perfil-info-label">{rotuloDocumento}</span>
-                  <span className="perfil-info-valor">
-                    {numeroDocumento || "Não informado"}
-                  </span>
-                </div>
-              </div>
+              <ProfileInfoRow
+                icon={<FaIdCard className="perfil-info-icone" />}
+                label={rotuloDocumento}
+                value={numeroDocumento || "Não informado"}
+              />
 
-              <div className="perfil-info-linha perfil-info-linha-full">
-                <FaMapMarkerAlt className="perfil-info-icone" />
-                <div className="perfil-info-texto">
-                  <span className="perfil-info-label">Endereço</span>
-                  <span className="perfil-info-valor">{enderecoResumo}</span>
-                </div>
-                <button
-                  type="button"
-                  className="perfil-info-editar"
-                  onClick={() => setModalAberto("endereco")}
-                >
-                  <FaEdit /> {enderecoCompleto ? "Editar" : "Adicionar"}
-                </button>
-              </div>
+              <ProfileInfoRow
+                full
+                icon={<FaMapMarkerAlt className="perfil-info-icone" />}
+                label="Endereço"
+                value={enderecoResumo}
+                action={
+                  <button
+                    type="button"
+                    className="perfil-info-editar"
+                    onClick={() => setModalAberto("endereco")}
+                  >
+                    <FaEdit /> {enderecoCompleto ? "Editar" : "Adicionar"}
+                  </button>
+                }
+              />
 
-              <div className="perfil-info-linha">
-                <FaPhoneAlt className="perfil-info-icone" />
-                <div className="perfil-info-texto">
-                  <span className="perfil-info-label">Telefone</span>
-                  <span className="perfil-info-valor">
-                    {dados?.telefone || "Não informado"}
-                  </span>
-                </div>
-                <button
-                  type="button"
-                  className="perfil-info-editar"
-                  onClick={() => setModalAberto("telefone")}
-                >
-                  <FaEdit /> Editar
-                </button>
-              </div>
+              <ProfileInfoRow
+                icon={<FaPhoneAlt className="perfil-info-icone" />}
+                label="Telefone"
+                value={dados?.telefone || "Não informado"}
+                action={
+                  <button
+                    type="button"
+                    className="perfil-info-editar"
+                    onClick={() => setModalAberto("telefone")}
+                  >
+                    <FaEdit /> Editar
+                  </button>
+                }
+              />
 
-              <div className="perfil-info-linha">
-                <FaLock className="perfil-info-icone" />
-                <div className="perfil-info-texto">
-                  <span className="perfil-info-label">Senha</span>
-                  <span className="perfil-info-valor">••••••••</span>
-                </div>
-                <button
-                  type="button"
-                  className="perfil-info-editar"
-                  onClick={() => setModalAberto("senha")}
-                >
-                  <FaEdit /> Alterar
-                </button>
-              </div>
+              <ProfileInfoRow
+                icon={<FaLock className="perfil-info-icone" />}
+                label="Senha"
+                value="••••••••"
+                action={
+                  <button
+                    type="button"
+                    className="perfil-info-editar"
+                    onClick={() => setModalAberto("senha")}
+                  >
+                    <FaEdit /> Alterar
+                  </button>
+                }
+              />
 
               {ehPerfilDeColeta && (
-                <div className="perfil-info-linha perfil-info-linha-full">
-                  <FaRecycle className="perfil-info-icone" />
-                  <div className="perfil-info-texto">
-                    <span className="perfil-info-label">Informações de coleta</span>
-                    <span className="perfil-info-valor">
+                <ProfileInfoRow
+                  full
+                  icon={<FaRecycle className="perfil-info-icone" />}
+                  label="Informações de coleta"
+                  value={
+                    <>
                       {materiaisCadastrados
                         ? `${dados.materiaisAceitos.length} ${
                             dados.materiaisAceitos.length === 1
@@ -305,16 +271,18 @@ export default function Perfil() {
                           ? `Possui veículo (${dados.tipoVeiculo || "não especificado"})`
                           : "Não possui veículo"
                         : "Veículo não informado"}
-                    </span>
-                  </div>
-                  <button
-                    type="button"
-                    className="perfil-info-editar"
-                    onClick={() => setModalAberto("coleta")}
-                  >
-                    <FaEdit /> {materiaisCadastrados || veiculoInformado ? "Editar" : "Adicionar"}
-                  </button>
-                </div>
+                    </>
+                  }
+                  action={
+                    <button
+                      type="button"
+                      className="perfil-info-editar"
+                      onClick={() => setModalAberto("coleta")}
+                    >
+                      <FaEdit /> {materiaisCadastrados || veiculoInformado ? "Editar" : "Adicionar"}
+                    </button>
+                  }
+                />
               )}
             </div>
           </section>

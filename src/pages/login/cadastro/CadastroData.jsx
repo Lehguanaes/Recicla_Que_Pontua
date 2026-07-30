@@ -1,3 +1,5 @@
+import { PROFILE_IDS } from "../../../constants/profiles";
+
 export const estadosBrasileiros = [
   { sigla: "AC", nome: "Acre" },
   { sigla: "AL", nome: "Alagoas" },
@@ -72,7 +74,7 @@ const campoCidade = {
 
 
 export const camposPorPerfil = {
-  "pessoa-recicladora": [
+  [PROFILE_IDS.PERSON]: [
     {
       titulo: "Dados pessoais",
       campos: [
@@ -129,7 +131,7 @@ export const camposPorPerfil = {
     },
   ],
 
-  "coletor-autonomo": [
+  [PROFILE_IDS.COLLECTOR]: [
     {
       titulo: "Dados pessoais",
       campos: [
@@ -186,7 +188,7 @@ export const camposPorPerfil = {
     },
   ],
 
-  "instituicao-recicladora": [
+  [PROFILE_IDS.INSTITUTION]: [
     {
       titulo: "Dados da instituição",
       campos: [
@@ -251,7 +253,7 @@ export const camposPorPerfil = {
     },
   ],
 
-  "centro-coleta": [
+  [PROFILE_IDS.CENTER]: [
     {
       titulo: "Dados do centro",
       campos: [
@@ -298,19 +300,4 @@ export const camposPorPerfil = {
       ],
     },
   ],
-};
-
-export const perfilInfo = {
-  "pessoa-recicladora": {
-    label: "Pessoa Recicladora",
-  },
-  "coletor-autonomo": {
-    label: "Coletor Autônomo",
-  },
-  "instituicao-recicladora": {
-    label: "Instituição Recicladora",
-  },
-  "centro-coleta": {
-    label: "Centro de Reciclagem",
-  },
 };

@@ -20,6 +20,7 @@ import ConfirmarConvite from "../convites/ConfirmarConvites";
 import Alert from "../../components/alert/Alert";
 import Navbar from "../../components/navbar/Navbar";
 import Rodape from "../../components/rodape/Rodape";
+import { PageHeader } from "../../components/typography/Typography";
 import { useAuth } from "../../contexts/AuthContext";
 import { db } from "../../services/Firebase";
 import {
@@ -68,10 +69,6 @@ const DoarMateriais = () => {
 
   const { user } = useAuth();
   const [sentInvitations, setSentInvitations] = useState([]);
-
-  useEffect(() => {
-    window.scrollTo({ top: 0, left: 0, behavior: "auto" });
-  }, []);
 
   useEffect(() => {
     if (!user?.uid) return;
@@ -246,7 +243,6 @@ const DoarMateriais = () => {
   const handleInviteSuccessConfirm = () => {
     setInviteSuccess(null);
     navigate("/convites");
-    window.scrollTo({ top: 0, left: 0, behavior: "auto" });
   };
 
   return (
@@ -255,17 +251,19 @@ const DoarMateriais = () => {
 
       <main className="donation-page">
         <section className="donation-hero">
-          <div className="donation-hero-text">
-            <span className="donation-kicker">
-              <FaRecycle /> Reciclagem de materiais
-            </span>
-            <h1>Encontre coletores e centros de coleta perto de você!</h1>
-            <p>
-              {registeredMaterials.length > 0
+          <PageHeader
+            as="div"
+            className="donation-hero-text"
+            eyebrowClassName="donation-kicker"
+            eyebrow="Reciclagem de materiais"
+            icon={<FaRecycle />}
+            title="Encontre coletores e centros de coleta perto de você!"
+            text={
+              registeredMaterials.length > 0
                 ? "Sua busca já está filtrada pelos materiais cadastrados. Agora, escolha quem pode recebê-los ou coletá-los."
-                : "Busque por nome, material, distância e intenção para combinar sua doação com quem pode receber ou coletar."}
-            </p>
-          </div>
+                : "Busque por nome, material, distância e intenção para combinar sua doação com quem pode receber ou coletar."
+            }
+          />
 
           <div className="donation-hero-guide">
             <div className="donation-guide-bubble">

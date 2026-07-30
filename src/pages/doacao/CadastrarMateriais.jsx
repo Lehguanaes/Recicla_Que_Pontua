@@ -1,5 +1,5 @@
-import React, { useEffect, useMemo, useState } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import React, { useMemo, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import {
   FaBatteryHalf,
   FaBoxOpen,
@@ -17,6 +17,11 @@ import { MATERIAL_TYPES } from "../../constants";
 import Navbar from "../../components/navbar/Navbar";
 import Rodape from "../../components/rodape/Rodape";
 import Alert from "../../components/alert/Alert";
+import Button from "../../components/button/Button";
+import {
+  PageHeader,
+  SectionHeader,
+} from "../../components/typography/Typography";
 import PetRecicla from "../../assets/PetRecicla.png";
 import PetDuvidas from "../../assets/PetDuvidas.png";
 import "./cadastrarMateriais.css";
@@ -129,10 +134,6 @@ const CadastrarMateriais = () => {
     }, {});
   });
 
-  useEffect(() => {
-    window.scrollTo({ top: 0, behavior: "auto" });
-  }, []);
-
   const selectedMaterials = useMemo(
     () =>
       materialOptions
@@ -184,19 +185,15 @@ const CadastrarMateriais = () => {
         <section className="materials-hero">
           <div className="materials-hero-inner">
             <div className="materials-hero-layout">
-              <div className="materials-hero-copy">
-                <span className="materials-kicker">
-                  <FaRecycle /> Reciclagem de materiais
-                </span>
-
-                <h1>Cadastre seus materiais recicláveis</h1>
-                <p>
-                  Informe o que você separou usando os controles de quantidade.
-                  Você pode cadastrar diferentes categorias para estimar seu
-                  impacto e encontrar parceiros compatíveis com todos os
-                  materiais.
-                </p>
-              </div>
+              <PageHeader
+                as="div"
+                className="materials-hero-copy"
+                eyebrowClassName="materials-kicker"
+                eyebrow="Reciclagem de materiais"
+                icon={<FaRecycle />}
+                title="Cadastre seus materiais recicláveis"
+                text="Informe o que você separou usando os controles de quantidade. Você pode cadastrar diferentes categorias para estimar seu impacto e encontrar parceiros compatíveis com todos os materiais."
+              />
 
               <div className="materials-hero-visual" aria-hidden="true">
                 <img className="pet-floating" src={PetRecicla} alt="" />
@@ -279,18 +276,15 @@ const CadastrarMateriais = () => {
           aria-labelledby="impact-section-title"
         >
           <div className="impact-inner">
-            <div className="impact-heading">
-              <span className="materials-section-tag">
-                <FaLeaf /> Impacto previsto
-              </span>
-              <h2 id="impact-section-title">Veja o impacto da sua seleção</h2>
-              <p>
-                Esta é uma prévia calculada a partir dos tipos e das quantidades
-                informadas. Ela ajuda a visualizar o peso aproximado, os
-                recursos que podem ser poupados e os pontos que a entrega pode
-                gerar. Os valores finais são confirmados após a reciclagem.
-              </p>
-            </div>
+            <SectionHeader
+              className="impact-heading"
+              eyebrowClassName="materials-section-tag"
+              eyebrow="Impacto previsto"
+              icon={<FaLeaf />}
+              titleId="impact-section-title"
+              title="Veja o impacto da sua seleção"
+              text="Esta é uma prévia calculada a partir dos tipos e das quantidades informadas. Ela ajuda a visualizar o peso aproximado, os recursos que podem ser poupados e os pontos que a entrega pode gerar. Os valores finais são confirmados após a reciclagem."
+            />
 
             <div className="impact-grid">
               <article className="impact-card">
@@ -316,14 +310,15 @@ const CadastrarMateriais = () => {
             </div>
 
             <div className="materials-actions">
-              <button
+              <Button
+                variant="gradient"
                 type="button"
                 className="materials-submit"
                 onClick={() => setShowConfirm(true)}
                 disabled={selectedMaterials.length === 0}
               >
                 Continuar
-              </button>
+              </Button>
             </div>
           </div>
         </section>
@@ -334,17 +329,13 @@ const CadastrarMateriais = () => {
             src={PetDuvidas}
             alt="Mascote ajudando com dúvidas sobre reciclagem"
           />
-          <div>
-            <h2>Dúvidas? Aprenda com o conteúdo de Como reciclar</h2>
-            <p>
-              Veja como separar, limpar e armazenar cada material antes da
-              entrega, além de orientações para itens que exigem cuidados
-              especiais.
-            </p>
-          </div>
-          <Link to="/como-reciclar">
+          <SectionHeader
+            title="Dúvidas? Aprenda com o conteúdo de Como reciclar"
+            text="Veja como separar, limpar e armazenar cada material antes da entrega, além de orientações para itens que exigem cuidados especiais."
+          />
+          <Button variant="gradient" to="/como-reciclar">
             Aprender como reciclar
-          </Link>
+          </Button>
         </section>
 
         <Alert

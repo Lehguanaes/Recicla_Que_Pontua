@@ -57,43 +57,25 @@
   z-index: 1;
 }
 
-.materials-kicker,
 .materials-section-tag {
-  width: fit-content;
-  display: inline-flex;
-  align-items: center;
-  gap: 9px;
-  padding: 9px 14px;
-  border: 1px solid rgb(var(--rgb-brand-green) / 0.2);
-  border-radius: 999px;
   background: rgb(var(--rgb-white) / 0.82);
-  color: var(--color-brand-green-dark);
-  font-size: var(--font-size-label);
-  font-weight: var(--font-weight-bold);
   line-height: var(--line-height-compact);
-  text-transform: uppercase;
-}
-
-.materials-kicker svg,
-.materials-section-tag svg {
-  flex: 0 0 auto;
 }
 
 .materials-hero h1 {
   max-width: var(--content-width-title);
   margin-top: 20px;
-  color: var(--color-text-strong);
-  font-size: var(--font-size-page-title);
-  font-weight: var(--font-weight-title);
-  line-height: var(--line-height-page-title);
 }
 
 .materials-hero-copy > p {
   max-width: 680px;
   margin-top: 22px;
   color: var(--color-text-primary);
-  font-size: var(--font-size-subtitle);
-  line-height: var(--line-height-body);
+}
+
+.materials-kicker {
+  background: rgb(var(--rgb-white) / 0.82);
+  line-height: var(--line-height-compact);
 }
 
 .materials-hero-visual {
@@ -109,24 +91,15 @@
 }
 
 .impact-heading {
-  max-width: 760px;
   margin-bottom: 30px;
 }
 
 .impact-heading h2 {
   margin-top: 16px;
-  color: var(--color-text-strong);
-  font-size: var(--font-size-section-title);
-  font-weight: var(--font-weight-title);
-  line-height: var(--line-height-title);
 }
 
 .impact-heading p {
-  max-width: 700px;
   margin-top: 14px;
-  color: var(--color-text-secondary);
-  font-size: var(--font-size-subtitle);
-  line-height: var(--line-height-body);
 }
 
 .materials-grid {
@@ -437,12 +410,6 @@
   justify-content: center;
   gap: 10px;
   padding: 14px 22px;
-  background: linear-gradient(
-    135deg,
-    var(--color-brand-green),
-    var(--color-brand-orange)
-  );
-  color: var(--color-white);
   font-size: var(--font-size-body);
   font-weight: var(--font-weight-bold);
   cursor: pointer;
@@ -549,17 +516,12 @@
   max-width: 850px;
   margin-top: 12px;
   color: var(--color-brand-green-dark);
-  font-size: var(--font-size-section-title);
-  font-weight: var(--font-weight-title);
-  line-height: var(--line-height-title);
 }
 
 .materials-help-section p {
   max-width: 760px;
   margin: 14px auto 0;
   color: var(--color-text-secondary);
-  font-size: var(--font-size-subtitle);
-  line-height: var(--line-height-body);
 }
 
 .materials-help-section > a {
@@ -571,12 +533,6 @@
   margin-top: 6px;
   padding: 14px 22px;
   border-radius: 12px;
-  background: linear-gradient(
-    135deg,
-    var(--color-brand-green),
-    var(--color-brand-orange)
-  );
-  color: var(--color-white);
   font-weight: var(--font-weight-bold);
   box-shadow: 0 18px 34px rgb(var(--rgb-brand-green-dark) / 0.22);
   transition:
@@ -586,7 +542,6 @@
 }
 
 .materials-help-section > a:hover {
-  background: var(--color-brand-green-dark);
   box-shadow: 0 22px 40px rgb(var(--rgb-brand-green-dark) / 0.3);
   transform: translateY(-3px);
 }

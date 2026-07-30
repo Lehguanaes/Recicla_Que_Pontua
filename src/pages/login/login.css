@@ -248,9 +248,7 @@
     padding:14px 22px;
     border: none;
     border-radius: 12px;
-    background:linear-gradient(135deg, var(--color-brand-green), var(--color-brand-orange));
     box-shadow:0 18px 34px rgb(var(--rgb-brand-orange) / 0.22);
-    color:var(--color-white);
     font-size:1rem;
     font-weight:800;
     cursor: pointer;
@@ -258,7 +256,6 @@
 }
 
 .login-button:hover{
-    background: var(--color-brand-green-dark);
     transform:translateY(-2px);
     box-shadow:0 20px 38px rgb(var(--rgb-brand-green-dark) / 0.25);
 }

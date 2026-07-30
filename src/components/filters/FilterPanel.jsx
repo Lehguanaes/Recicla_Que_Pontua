@@ -5,21 +5,8 @@ import {
   SEARCH_MODES,
   SORT_OPTIONS,
 } from "../../constants";
-import Button from "../common/Button";
+import SelectField from "../form/SelectField";
 import "./filterPanel.css";
-
-const SelectField = ({ label, value, onChange, options }) => (
-  <label className="filter-field">
-    <span>{label}</span>
-    <select value={value} onChange={(event) => onChange(event.target.value)}>
-      {options.map((option) => (
-        <option key={option.value} value={option.value}>
-          {option.label}
-        </option>
-      ))}
-    </select>
-  </label>
-);
 
 const FilterPanel = ({ filters, onUpdateFilter, onReset, onClose }) => {
   const sortOptions =
@@ -79,6 +66,8 @@ const FilterPanel = ({ filters, onUpdateFilter, onReset, onClose }) => {
           </div>
 
           <SelectField
+            native
+            className="filter-field"
             label="Raio de distância"
             value={filters.raio_distancia}
             onChange={(value) => onUpdateFilter("raio_distancia", Number(value))}
@@ -86,6 +75,8 @@ const FilterPanel = ({ filters, onUpdateFilter, onReset, onClose }) => {
           />
 
           <SelectField
+            native
+            className="filter-field"
             label="Ordenar por"
             value={sortValue}
             onChange={(value) => onUpdateFilter("ordenar_por", value)}
@@ -94,12 +85,20 @@ const FilterPanel = ({ filters, onUpdateFilter, onReset, onClose }) => {
         </div>
 
         <footer className="filter-footer">
-          <Button variant="outline" onClick={onReset} fullWidth>
+          <button
+            type="button"
+            className="filter-footer-button"
+            onClick={onReset}
+          >
             Limpar
-          </Button>
-          <Button onClick={onClose} fullWidth>
+          </button>
+          <button
+            type="button"
+            className="filter-footer-button"
+            onClick={onClose}
+          >
             Aplicar
-          </Button>
+          </button>
         </footer>
       </aside>
     </div>

@@ -6,6 +6,9 @@ import { FaArrowLeft, FaEnvelope } from "react-icons/fa";
 import Navbar from "../../components/navbar/Navbar";
 import Rodape from "../../components/rodape/Rodape";
 import Alert from "../../components/alert/Alert";
+import { PageHeader } from "../../components/typography/Typography";
+import Button from "../../components/button/Button";
+import Input from "../../components/form/Input";
 import { auth } from "../../services/Firebase";
 import PetLogin from "../../assets/PetLogin.png";
 
@@ -57,25 +60,27 @@ export default function RecuperarSenha() {
         <div className="login-slider">
           <div className="login-slider-track">
             <form className="auth-panel recovery-panel" onSubmit={handleSubmit}>
-              <span className="recovery-kicker">
-                <FaEnvelope /> Recuperação de acesso
-              </span>
-
-              <h1>
-                Recupere sua <span className="destaque-titulo">senha</span>
-              </h1>
-
-              <p className="subtitle">
-                Digite o e-mail cadastrado para receber as instruções de
-                redefinição da sua senha.
-              </p>
+              <PageHeader
+                as="div"
+                eyebrowClassName="recovery-kicker"
+                eyebrow="Recuperação de acesso"
+                icon={<FaEnvelope />}
+                title={
+                  <>
+                    Recupere sua{" "}
+                    <span className="destaque-titulo">senha</span>
+                  </>
+                }
+                text="Digite o e-mail cadastrado para receber as instruções de redefinição da sua senha."
+                textClassName="subtitle"
+              />
 
               <label className="recovery-label" htmlFor="recovery-email">
                 E-mail
               </label>
               <div className="input-group recovery-input">
                 <FaEnvelope aria-hidden="true" />
-                <input
+                <Input
                   id="recovery-email"
                   type="email"
                   value={email}
@@ -90,9 +95,14 @@ export default function RecuperarSenha() {
 
               {erro && <span className="login-error">{erro}</span>}
 
-              <button className="login-button" type="submit" disabled={enviando}>
+              <Button
+                variant="gradient"
+                className="login-button"
+                type="submit"
+                disabled={enviando}
+              >
                 {enviando ? "Enviando..." : "Enviar link de recuperação"}
-              </button>
+              </Button>
 
               <Link to="/login" className="recovery-back">
                 <FaArrowLeft /> Voltar para o login

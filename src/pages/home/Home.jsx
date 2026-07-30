@@ -1,7 +1,9 @@
-import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import Navbar from "../../components/navbar/Navbar";
 import Rodape from "../../components/rodape/Rodape";
+import { PageHeader, SectionHeader } from "../../components/typography/Typography";
+import AccordionItem from "../../components/common/AccordionItem";
+import Button from "../../components/button/Button";
 import {
   FaArrowRight,
   FaAward,
@@ -191,19 +193,6 @@ const faqs = [
   },
 ];
 
-function SectionHeader({ eyebrow, title, text, icon }) {
-  return (
-    <div className="home-section-header">
-      <span>
-        {icon}
-        {eyebrow}
-      </span>
-      <h2>{title}</h2>
-      <p>{text}</p>
-    </div>
-  );
-}
-
 function FeatureCard({ icon: Icon, title, text }) {
   return (
     <article className="home-feature-card">
@@ -270,29 +259,6 @@ function AudienceCard({ icon: Icon, title, text, highlight }) {
   );
 }
 
-function FaqItem({ question, answer }) {
-  const [open, setOpen] = useState(false);
-
-  return (
-    <div className={`home-faq-item${open ? " is-open" : ""}`}>
-      <button
-        type="button"
-        className="home-faq-summary"
-        onClick={() => setOpen((prev) => !prev)}
-        aria-expanded={open}
-      >
-        <span>{question}</span>
-        <FaCircleQuestion className="home-faq-icon" />
-      </button>
-      <div className="home-faq-panel">
-        <div className="home-faq-panel-inner">
-          <p>{answer}</p>
-        </div>
-      </div>
-    </div>
-  );
-}
-
 export default function Home() {
   const { user } = useAuth();
 
@@ -302,31 +268,28 @@ export default function Home() {
 
       <main className="home-page">
         <section className="home-hero">
-          <div className="home-hero-content">
-            <span className="home-kicker">
-              <FaSeedling /> Reciclagem inteligente e recompensada
-            </span>
-            <h1>Recicle melhor, encontre parceiros e transforme descarte em pontos.</h1>
-            <p>
-              O Recicla que Pontua conecta quem tem materiais recicláveis em
-              casa, condomínios e pequenos comércios com coletores e centros de
-              reciclagem. Cada entrega confirmada ajuda você a subir no ranking,
-              liberar medalhas e acompanhar o impacto ambiental gerado.
-            </p>
-
+          <PageHeader
+            as="div"
+            className="home-hero-content"
+            eyebrowClassName="home-kicker"
+            eyebrow="Reciclagem inteligente e recompensada"
+            icon={<FaSeedling />}
+            title="Recicle melhor, encontre parceiros e transforme descarte em pontos."
+            text="O Recicla que Pontua conecta quem tem materiais recicláveis em casa, condomínios e pequenos comércios com coletores e centros de reciclagem. Cada entrega confirmada ajuda você a subir no ranking, liberar medalhas e acompanhar o impacto ambiental gerado."
+          >
             <div className="home-hero-actions">
-              <Link
+              <Button
+                variant="green"
                 className="home-primary-button"
                 to={user ? "/doacao/cadastrar-materiais" : "/login"}
               >
                 Cadastrar materiais <FaArrowRight />
-              </Link>
+              </Button>
               <Link className="home-secondary-button" to="/como-reciclar">
                 Ver como reciclar
               </Link>
             </div>
-
-          </div>
+          </PageHeader>
 
           <div className="home-hero-visual" aria-label="Ilustração da plataforma">
             <img className="pet-floating" src={LogoRetrato} alt="Recicla que Pontua" />
@@ -335,6 +298,7 @@ export default function Home() {
 
         <section className="home-explanation">
           <SectionHeader
+            className="home-section-header"
             eyebrow="O que é o site?"
             icon={<FaRecycle />}
             title="Um intermediador entre quem separa e quem recicla"
@@ -350,6 +314,7 @@ export default function Home() {
 
         <section className="home-audience-section">
           <SectionHeader
+            className="home-section-header"
             eyebrow="Por que usar?"
             icon={<FaPeopleCarryBox />}
             title="Quem se beneficia com a plataforma?"
@@ -364,6 +329,7 @@ export default function Home() {
         </section>
                 <section className="home-partners-section">
           <SectionHeader
+            className="home-section-header"
             eyebrow="Escolha consciente"
             icon={<FaScaleBalanced />}
             title="Lucrar ou doar: o destino muda conforme seu objetivo"
@@ -378,21 +344,17 @@ export default function Home() {
         </section>
 
         <section className="home-gamification">
-          <div className="home-gamification-text">
-            <span>
-              <FaMedal />
-              Gamificação
-            </span>
-            <h2>Reciclar também vira conquista!</h2>
-            <p>
-              Pontos, medalhas, ranking regional e estatísticas de impacto
-              ambiental ajudam pessoas recicladoras, coletores e unidades a
-              acompanhar sua evolução.
-            </p>
+          <SectionHeader
+            className="home-gamification-text"
+            eyebrow="Gamificação"
+            icon={<FaMedal />}
+            title="Reciclar também vira conquista!"
+            text="Pontos, medalhas, ranking regional e estatísticas de impacto ambiental ajudam pessoas recicladoras, coletores e unidades a acompanhar sua evolução."
+          >
             <Link to="/ranking">
               Conhecer ranking <FaArrowRight />
             </Link>
-          </div>
+          </SectionHeader>
           <div className="home-gamification-panel">
             <div>
               <FaLeaf />
@@ -415,6 +377,7 @@ export default function Home() {
 
         <section className="home-flow-section">
           <SectionHeader
+            className="home-section-header"
             eyebrow="Passo a passo"
             icon={<FaAward />}
             title="Como transformar materiais parados em pontos?"
@@ -431,6 +394,7 @@ export default function Home() {
         <section className="home-materials-section">
           <div className="home-materials-intro">
             <SectionHeader
+              className="home-section-header"
               eyebrow="Aprenda a separar"
               icon={<FaLeaf />}
               title="Materiais recicláveis que podem ganhar novo destino!"
@@ -454,6 +418,7 @@ export default function Home() {
           <div className="home-faq-layout">
             <div>
               <SectionHeader
+                className="home-section-header"
                 eyebrow="Perguntas frequentes"
                 icon={<FaCircleQuestion />}
                 title="Dúvidas comuns antes de começar"
@@ -462,7 +427,18 @@ export default function Home() {
 
               <div className="home-faq-list">
                 {faqs.map((faq) => (
-                  <FaqItem key={faq.question} {...faq} />
+                  <AccordionItem
+                    key={faq.question}
+                    question={faq.question}
+                    answer={faq.answer}
+                    icon={<FaCircleQuestion />}
+                    className="home-faq-item"
+                    openClassName="is-open"
+                    buttonClassName="home-faq-summary"
+                    iconClassName="home-faq-icon"
+                    panelClassName="home-faq-panel"
+                    panelInnerClassName="home-faq-panel-inner"
+                  />
                 ))}
               </div>
             </div>
@@ -481,16 +457,16 @@ export default function Home() {
             src={PetComecar}
             alt="Mascote incentivando a começar a reciclar"
           />
-          <div>
-            <h2>Pronto para dar destino certo aos seus recicláveis?</h2>
-            <p>
-              Cadastre os materiais, compare parceiros e comece a pontuar pelo
-              impacto que você já pode gerar hoje.
-            </p>
-          </div>
-          <Link to={user ? "/doacao/cadastrar-materiais" : "/login"}>
+          <SectionHeader
+            title="Pronto para dar destino certo aos seus recicláveis?"
+            text="Cadastre os materiais, compare parceiros e comece a pontuar pelo impacto que você já pode gerar hoje."
+          />
+          <Button
+            variant="green"
+            to={user ? "/doacao/cadastrar-materiais" : "/login"}
+          >
             Começar agora <FaArrowRight />
-          </Link>
+          </Button>
         </section>
       </main>
 

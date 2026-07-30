@@ -13,6 +13,8 @@ import {
 import Navbar from "../../components/navbar/Navbar";
 import Rodape from "../../components/rodape/Rodape";
 import Alert from "../../components/alert/Alert";
+import Button from "../../components/button/Button";
+import { PageHeader } from "../../components/typography/Typography";
 import { useAuth } from "../../contexts/AuthContext";
 import { db } from "../../services/Firebase";
 import PetAvaliacao from "../../assets/PetAvaliacao.png";
@@ -131,16 +133,14 @@ export default function Avaliacao() {
 
       <main className="evaluation-page">
         <div className="evaluation-hero">
-          <header className="evaluation-header">
-            <span className="evaluation-kicker">
-              <FaStar /> Avaliação da troca
-            </span>
-            <h1>Como foi sua experiência?</h1>
-            <p>
-              Sua avaliação ajuda a fortalecer a confiança da comunidade e
-              torna as próximas trocas mais seguras para todos.
-            </p>
-          </header>
+          <PageHeader
+            className="evaluation-header"
+            eyebrowClassName="evaluation-kicker"
+            eyebrow="Avaliação da troca"
+            icon={<FaStar />}
+            title="Como foi sua experiência?"
+            text="Sua avaliação ajuda a fortalecer a confiança da comunidade e torna as próximas trocas mais seguras para todos."
+          />
 
           <div className="evaluation-hero-visual" aria-hidden="true">
             <img
@@ -312,9 +312,9 @@ export default function Avaliacao() {
               >
                 Voltar
               </button>
-              <button type="submit" className="evaluation-primary-button">
+              <Button variant="gradient" type="submit" className="evaluation-primary-button">
                 Enviar avaliação
-              </button>
+              </Button>
             </div>
           </form>
         </div>

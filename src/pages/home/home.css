@@ -42,45 +42,16 @@
   z-index: 1;
 }
 
-.home-kicker,
-.home-section-header span,
-.home-gamification-text > span {
-  width: fit-content;
-  display: inline-flex;
-  align-items: center;
-  gap: 9px;
-  padding: 9px 14px;
-  border: 1px solid rgb(var(--rgb-brand-green) / 0.2);
-  border-radius: 999px;
-  background: rgb(var(--rgb-white) / 0.78);
-  color: var(--color-brand-green-dark);
-  font-size: 0.85rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0;
-}
-
-.home-section-header span svg,
-.home-gamification-text > span svg {
-  flex: 0 0 auto;
-}
-
 .home-hero h1 {
   max-width: 760px;
   margin-top: 20px;
-  font-size: var(--font-size-page-title);
-  font-weight: var(--font-weight-title);
-  line-height: var(--line-height-page-title);
   letter-spacing: 0;
-  color: var(--color-text-strong);
 }
 
 .home-hero-content > p {
   max-width: 700px;
   margin-top: 24px;
   color: var(--color-text-primary);
-  font-size: var(--font-size-subtitle);
-  line-height: var(--line-height-body);
 }
 
 .home-hero-actions {
@@ -90,10 +61,8 @@
   margin-top: 32px;
 }
 
-.home-primary-button,
 .home-secondary-button,
-.home-gamification-text a,
-.home-final-cta a {
+.home-gamification-text a {
   min-height: 50px;
   display: inline-flex;
   align-items: center;
@@ -105,11 +74,14 @@
 }
 
 .home-primary-button,
-.home-final-cta a {
+.home-final-cta .ui-button {
+  min-height: 50px;
+  gap: 10px;
   padding: 14px 22px;
-  background: var(--color-brand-green);
-  color: var(--color-white);
+  border-radius: 12px;
+  font-weight: 800;
   box-shadow: 0 18px 34px rgb(var(--rgb-brand-green-dark) / 0.22);
+  transition: transform 0.28s ease, box-shadow 0.28s ease, background 0.28s ease;
 }
 
 .home-secondary-button {
@@ -122,13 +94,12 @@
 .home-primary-button:hover,
 .home-secondary-button:hover,
 .home-gamification-text a:hover,
-.home-final-cta a:hover {
+.home-final-cta .ui-button:hover {
   transform: translateY(-3px);
 }
 
 .home-primary-button:hover,
-.home-final-cta a:hover {
-  background: var(--color-brand-green-dark);
+.home-final-cta .ui-button:hover {
   box-shadow: 0 22px 40px rgb(var(--rgb-brand-green-dark) / 0.3);
 }
 
@@ -161,28 +132,27 @@
 }
 
 .home-section-header {
-  max-width: 760px;
   margin-bottom: 34px;
 }
 
-.home-section-header h2,
-.home-gamification h2,
-.home-final-cta h2 {
+.home-section-header h2 {
   margin-top: 16px;
-  color: var(--color-text-strong);
-  font-size: var(--font-size-section-title);
-  font-weight: var(--font-weight-title);
-  line-height: var(--line-height-title);
   letter-spacing: 0;
 }
 
-.home-section-header p,
+.home-gamification h2,
+.home-final-cta h2 {
+  margin-top: 16px;
+  letter-spacing: 0;
+}
+
+.home-section-header p {
+  margin-top: 14px;
+}
+
 .home-gamification p,
 .home-final-cta p {
   margin-top: 14px;
-  color: var(--color-text-secondary);
-  font-size: var(--font-size-subtitle);
-  line-height: var(--line-height-body);
 }
 
 .home-feature-grid,
@@ -931,14 +901,6 @@
 
   .home-hero-visual img {
     width: min(58%, 260px);
-  }
-
-  .home-section-header h2 {
-    font-size: var(--font-size-section-title);
-  }
-
-  .home-section-header p {
-    font-size: 1.05rem;
   }
 
   .home-feature-grid,

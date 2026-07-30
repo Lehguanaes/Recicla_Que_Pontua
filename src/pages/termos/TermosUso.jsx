@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { FaArrowLeft } from "react-icons/fa";
 import Rodape from "../../components/rodape/Rodape";
+import { PageHeader } from "../../components/typography/Typography";
 import "./termosUso.css";
 
 export default function TermosUso() {
@@ -28,13 +29,15 @@ export default function TermosUso() {
           Voltar
         </button>
 
-        <header className="termos-header">
-          <h1>Termos de Uso e Política de Privacidade</h1>
-
-          <p>
-            Última atualização: <strong>junho de 2026</strong>
-          </p>
-        </header>
+        <PageHeader
+          className="termos-header"
+          title="Termos de Uso e Política de Privacidade"
+          text={
+            <>
+              Última atualização: <strong>junho de 2026</strong>
+            </>
+          }
+        />
 
         <div className="termos-alert">
           Ao criar uma conta no <strong>Recicla que Pontua</strong>, você

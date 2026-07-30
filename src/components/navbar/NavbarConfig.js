@@ -6,6 +6,7 @@ import {
   FaRecycle,
   FaTrophy,
 } from "react-icons/fa";
+import { PROFILE_IDS } from "../../constants/profiles";
 
 const menuReciclador = [
   { to: "/", label: "Início", icon: FaHome },
@@ -35,9 +36,9 @@ export const navbarPorPerfil = {
     },
   ],
 
-  "pessoa-recicladora": menuReciclador,
+  [PROFILE_IDS.PERSON]: menuReciclador,
 
-  "coletor-autonomo": [
+  [PROFILE_IDS.COLLECTOR]: [
     {
       to: "/",
       label: "Início",
@@ -60,9 +61,9 @@ export const navbarPorPerfil = {
     },
   ],
 
-  "instituicao-recicladora": menuReciclador,
+  [PROFILE_IDS.INSTITUTION]: menuReciclador,
 
-  "centro-coleta": [
+  [PROFILE_IDS.CENTER]: [
     {
       to: "/",
       label: "Início",

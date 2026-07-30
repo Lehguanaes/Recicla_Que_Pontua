@@ -1,74 +1,14 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import  { maskCPF, maskCNPJ, maskTelefone } from '../../../utils/Formatters';
+import SelectField from '../../../components/form/SelectField';
+import FormField from '../../../components/form/FormField';
+import Input from '../../../components/form/Input';
 
 const mascaras = {
   cpf: maskCPF,
   cnpj: maskCNPJ,
   telefone: maskTelefone,
 };
-
-function CustomSelect({
-  value,
-  placeholder,
-  options,
-  disabled,
-  error,
-  onChange,
-}) {
-  const [open, setOpen] = useState(false);
-  const containerRef = useRef(null);
-  const selectedOption = options.find((option) => option.value === value);
-
-  useEffect(() => {
-    function handleOutsideClick(event) {
-      if (!containerRef.current?.contains(event.target)) {
-        setOpen(false);
-      }
-    }
-
-    document.addEventListener('mousedown', handleOutsideClick);
-    return () => document.removeEventListener('mousedown', handleOutsideClick);
-  }, []);
-
-  return (
-    <div
-      ref={containerRef}
-      className={`custom-select${open ? ' is-open' : ''}${error ? ' error' : ''}${disabled ? ' is-disabled' : ''}`}
-    >
-      <button
-        type="button"
-        className={`custom-select-trigger${selectedOption ? '' : ' is-placeholder'}`}
-        disabled={disabled}
-        aria-haspopup="listbox"
-        aria-expanded={open}
-        onClick={() => setOpen((current) => !current)}
-      >
-        <span>{selectedOption?.label || placeholder}</span>
-        <span className="custom-select-chevron" aria-hidden="true" />
-      </button>
-
-      {open && (
-        <div className="custom-select-menu" role="listbox">
-          {options.map((option) => (
-            <button
-              type="button"
-              role="option"
-              aria-selected={option.value === value}
-              className={`custom-select-option${option.value === value ? ' selected' : ''}`}
-              key={option.value}
-              onClick={() => {
-                onChange(option.value);
-                setOpen(false);
-              }}
-            >
-              {option.label}
-            </button>
-          ))}
-        </div>
-      )}
-    </div>
-  );
-}
 
 export default function CadastroFields({
   secoes,
@@ -159,7 +99,7 @@ export default function CadastroFields({
     else if (carregando) textoPlaceholder = 'Carregando cidades...';
 
     return (
-      <CustomSelect
+      <SelectField
         value={formData[campo.name] || ''}
         placeholder={textoPlaceholder}
         options={opcoes}
@@ -176,14 +116,12 @@ export default function CadastroFields({
     }
 
     return (
-      <input
+      <Input
         type={campo.type}
         placeholder={campo.placeholder}
         value={formData[campo.name] || ''}
-        className={[
-          errors[campo.name] ? 'error' : '',
-          campo.type === 'date' && !formData[campo.name] ? 'is-empty' : '',
-        ].filter(Boolean).join(' ')}
+        invalid={Boolean(errors[campo.name])}
+        className={campo.type === 'date' && !formData[campo.name] ? 'is-empty' : ''}
         inputMode={
           ['cpf', 'cnpj', 'telefone', 'cep'].includes(campo.name)
             ? 'numeric'
@@ -202,18 +140,14 @@ export default function CadastroFields({
 
           <div className="secao-grid">
             {secao.campos.map((campo) => (
-              <div
+              <FormField
                 key={campo.name}
                 className={`input-group ${campo.size === "small" ? "small" : "full"}`}
+                error={errors[campo.name]}
+                errorClassName="form-error"
               >
                 {renderCampo(campo)}
-
-                {errors[campo.name] && (
-                  <span className="form-error">
-                    {errors[campo.name]}
-                  </span>
-                )}
-              </div>
+              </FormField>
             ))}
           </div>
         </div>

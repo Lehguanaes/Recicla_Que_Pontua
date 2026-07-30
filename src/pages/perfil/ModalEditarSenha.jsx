@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { FaEye, FaEyeSlash } from "react-icons/fa";
 import {
   EmailAuthProvider,
   reauthenticateWithCredential,
@@ -7,6 +6,11 @@ import {
 } from "firebase/auth";
 
 import Modal from "../../components/modal/Modal";
+import ModalHeader from "../../components/modal/ModalHeader";
+import PasswordInput from "../../components/form/PasswordInput";
+import FormField from "../../components/form/FormField";
+import InputField from "../../components/form/InputField";
+import FormActions from "../../components/form/FormActions";
 import Alert from "../../components/alert/Alert";
 import { auth } from "../../services/Firebase";
 
@@ -126,115 +130,96 @@ export default function ModalEditarSenha({ isOpen, onClose }) {
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} className="perfil-modal">
-      <h2 className="perfil-modal-titulo">Alterar senha</h2>
-      <p className="perfil-modal-subtitulo">
-        Por segurança, informe sua senha atual antes de definir uma nova.
-      </p>
+      <ModalHeader
+        title="Alterar senha"
+        subtitle="Por segurança, informe sua senha atual antes de definir uma nova."
+        titleClassName="perfil-modal-titulo"
+        subtitleClassName="perfil-modal-subtitulo"
+      />
 
       {sucesso ? (
         <div className="perfil-sucesso">
           <p>Sua senha foi alterada com sucesso!</p>
-          <div className="perfil-modal-acoes">
-            <button
-              type="button"
-              className="perfil-botao-primario"
-              onClick={onClose}
-            >
-              Fechar
-            </button>
-          </div>
+          <FormActions
+            className="perfil-modal-acoes"
+            confirmClassName="perfil-botao-primario"
+            confirmText="Fechar"
+            confirmType="button"
+            onConfirm={onClose}
+          />
         </div>
       ) : (
         <form className="perfil-form" onSubmit={handleSubmit} noValidate>
-          <div className="perfil-input-group full">
-            <label htmlFor="senhaAtual">Senha atual</label>
-            <div className="perfil-input-senha">
-              <input
-                id="senhaAtual"
-                type={mostrarSenha ? "text" : "password"}
-                placeholder="Senha atual"
-                value={senhaAtual}
-                className={errors.senhaAtual ? "error" : ""}
-                onChange={(e) => {
+          <FormField
+            id="senhaAtual"
+            label="Senha atual"
+            className="perfil-input-group full"
+            error={errors.senhaAtual}
+            errorClassName="perfil-form-error"
+          >
+            <PasswordInput
+              visible={mostrarSenha}
+              onToggle={() => setMostrarSenha((prev) => !prev)}
+              containerClassName="perfil-input-senha"
+              buttonClassName="perfil-mostrar-senha"
+              inputProps={{
+                id: "senhaAtual",
+                placeholder: "Senha atual",
+                value: senhaAtual,
+                invalid: Boolean(errors.senhaAtual),
+                onChange: (e) => {
                   setSenhaAtual(e.target.value);
                   setErrors((prev) => ({ ...prev, senhaAtual: undefined }));
-                }}
-              />
-              <button
-                type="button"
-                className="perfil-mostrar-senha"
-                onClick={() => setMostrarSenha((prev) => !prev)}
-                aria-label={mostrarSenha ? "Ocultar senha" : "Mostrar senha"}
-              >
-                {mostrarSenha ? <FaEyeSlash /> : <FaEye />}
-              </button>
-            </div>
-            {errors.senhaAtual && (
-              <span className="perfil-form-error">{errors.senhaAtual}</span>
-            )}
-          </div>
-
-          <div className="perfil-input-group full">
-            <label htmlFor="novaSenha">Nova senha</label>
-            <input
-              id="novaSenha"
-              type={mostrarSenha ? "text" : "password"}
-              placeholder="Mínimo de 6 caracteres"
-              value={novaSenha}
-              className={errors.novaSenha ? "error" : ""}
-              onChange={(e) => {
-                setNovaSenha(e.target.value);
-                setErrors((prev) => ({ ...prev, novaSenha: undefined }));
+                },
               }}
             />
-            {errors.novaSenha && (
-              <span className="perfil-form-error">{errors.novaSenha}</span>
-            )}
-          </div>
+          </FormField>
 
-          <div className="perfil-input-group full">
-            <label htmlFor="confirmarSenha">Confirmar nova senha</label>
-            <input
-              id="confirmarSenha"
-              type={mostrarSenha ? "text" : "password"}
-              placeholder="Repita a nova senha"
-              value={confirmarSenha}
-              className={errors.confirmarSenha ? "error" : ""}
-              onChange={(e) => {
-                setConfirmarSenha(e.target.value);
-                setErrors((prev) => ({
-                  ...prev,
-                  confirmarSenha: undefined,
-                }));
-              }}
-            />
-            {errors.confirmarSenha && (
-              <span className="perfil-form-error">
-                {errors.confirmarSenha}
-              </span>
-            )}
-          </div>
+          <InputField
+            id="novaSenha"
+            label="Nova senha"
+            fieldClassName="perfil-input-group full"
+            error={errors.novaSenha}
+            errorClassName="perfil-form-error"
+            type={mostrarSenha ? "text" : "password"}
+            placeholder="Mínimo de 6 caracteres"
+            value={novaSenha}
+            onChange={(e) => {
+              setNovaSenha(e.target.value);
+              setErrors((prev) => ({ ...prev, novaSenha: undefined }));
+            }}
+          />
+
+          <InputField
+            id="confirmarSenha"
+            label="Confirmar nova senha"
+            fieldClassName="perfil-input-group full"
+            error={errors.confirmarSenha}
+            errorClassName="perfil-form-error"
+            type={mostrarSenha ? "text" : "password"}
+            placeholder="Repita a nova senha"
+            value={confirmarSenha}
+            onChange={(e) => {
+              setConfirmarSenha(e.target.value);
+              setErrors((prev) => ({
+                ...prev,
+                confirmarSenha: undefined,
+              }));
+            }}
+          />
 
           {errors.geral && (
             <p className="perfil-form-error">{errors.geral}</p>
           )}
 
-          <div className="perfil-modal-acoes">
-            <button
-              type="button"
-              className="perfil-botao-secundario"
-              onClick={onClose}
-            >
-              Cancelar
-            </button>
-            <button
-              type="submit"
-              className="perfil-botao-primario"
-              disabled={salvando}
-            >
-              {salvando ? "Salvando..." : "Alterar senha"}
-            </button>
-          </div>
+          <FormActions
+            className="perfil-modal-acoes"
+            cancelClassName="perfil-botao-secundario"
+            confirmClassName="perfil-botao-primario"
+            confirmText="Alterar senha"
+            loading={salvando}
+            onCancel={onClose}
+          />
         </form>
       )}
 

@@ -6,6 +6,7 @@ import {
   FaInfoCircle,
   FaQuestionCircle,
 } from "react-icons/fa";
+import Button from "../button/Button";
 import "./alert.css";
 
 const icons = {
@@ -82,25 +83,22 @@ export default function Alert({
             </button>
           )}
 
-          <button
+          <Button
+            variant="gradient"
             type="button"
             className="alert-button alert-confirm"
             onClick={onConfirm}
             disabled={loading}
+            loading={loading}
+            loadingText="Aguarde..."
           >
-            {loading ? (
-              "Aguarde..."
-            ) : (
-              <>
-                {confirmIcon && (
-                  <span className="alert-button-icon" aria-hidden="true">
-                    {confirmIcon}
-                  </span>
-                )}
-                {confirmText}
-              </>
+            {confirmIcon && (
+              <span className="alert-button-icon" aria-hidden="true">
+                {confirmIcon}
+              </span>
             )}
-          </button>
+            {confirmText}
+          </Button>
         </div>
       </section>
     </div>,
