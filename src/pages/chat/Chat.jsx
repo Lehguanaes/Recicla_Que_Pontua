@@ -18,6 +18,9 @@ import {
 } from "react-icons/fa";
 import Navbar from "../../components/navbar/Navbar";
 import Rodape from "../../components/rodape/Rodape";
+import { PageHeader } from "../../components/typography/Typography";
+import EmptyState from "../../components/common/EmptyState";
+import Button from "../../components/button/Button";
 import "./chat.css";
 
 const PERFIL_LABELS = {
@@ -168,21 +171,42 @@ export default function Chat() {
       <Navbar />
 
       <main className="chat-page">
-        <div className={`chat-layout-container panel-${mobileActivePanel}`}>
-          
-          {/* Chat List Panel */}
-          <section className="chat-list-panel">
-            <header className="chat-panel-header">
-              <h2><FaComments /> Mensagens</h2>
-            </header>
+        {chats.length === 0 ? (
+          <div className="chat-container">
+            <PageHeader
+              className="chat-header"
+              eyebrowClassName="chat-kicker"
+              eyebrow="Conversas"
+              icon={<FaComments />}
+              title="Converse com seus parceiros de reciclagem"
+              text="Depois que um convite for aceito, a conversa ficará disponível aqui para vocês combinarem os detalhes da entrega."
+            />
 
-            <div className="chat-list-scroll">
-              {chats.length === 0 ? (
-                <div className="chat-list-empty-msg">
-                  <p>Nenhuma conversa ativa no momento.</p>
-                </div>
-              ) : (
-                chats.map((chat) => {
+            <EmptyState
+              as="section"
+              className="chat-empty"
+              title="Nenhuma conversa por aqui"
+              titleId="chat-empty-title"
+              text="Acompanhe seus convites e, quando uma solicitação for aceita, volte para iniciar a conversa."
+              icon={<FaPaperPlane />}
+              iconClassName="chat-empty-icon"
+            >
+              <Button variant="green" to="/convites" className="chat-empty-button">
+                Ver meus convites
+              </Button>
+            </EmptyState>
+          </div>
+        ) : (
+          <div className={`chat-layout-container panel-${mobileActivePanel}`}>
+            
+            {/* Chat List Panel */}
+            <section className="chat-list-panel">
+              <header className="chat-panel-header">
+                <h2><FaComments /> Mensagens</h2>
+              </header>
+
+              <div className="chat-list-scroll">
+                {chats.map((chat) => {
                   const otherUid = chat.participantes.find((id) => id !== user.uid);
                   const otherUser = profiles[otherUid] || {};
                   const isSelected = selectedChat?.id === chat.id;
@@ -221,102 +245,102 @@ export default function Chat() {
                       </div>
                     </button>
                   );
-                })
-              )}
-            </div>
-          </section>
+                })}
+              </div>
+            </section>
 
-          {/* Conversation Panel */}
-          <section className="chat-conversation-panel">
-            {selectedChat ? (
-              <>
-                {/* Conversation Header */}
-                <header className="conversation-header">
-                  <button className="chat-back-btn" onClick={handleBackToList}>
-                    <FaChevronLeft />
-                  </button>
+            {/* Conversation Panel */}
+            <section className="chat-conversation-panel">
+              {selectedChat ? (
+                <>
+                  {/* Conversation Header */}
+                  <header className="conversation-header">
+                    <button className="chat-back-btn" onClick={handleBackToList}>
+                      <FaChevronLeft />
+                    </button>
 
-                  {(() => {
-                    const otherUid = selectedChat.participantes.find((id) => id !== user.uid);
-                    const otherUser = profiles[otherUid] || {};
-                    const labelPerfil = PERFIL_LABELS[otherUser.perfil] || otherUser.perfil || "Parceiro";
+                    {(() => {
+                      const otherUid = selectedChat.participantes.find((id) => id !== user.uid);
+                      const otherUser = profiles[otherUid] || {};
+                      const labelPerfil = PERFIL_LABELS[otherUser.perfil] || otherUser.perfil || "Parceiro";
 
-                    return (
-                      <>
-                        <div className="conversation-header-avatar">
-                          {otherUser.fotoPerfil || otherUser.foto ? (
-                            <img
-                              src={otherUser.fotoPerfil || otherUser.foto}
-                              alt={otherUser.nome}
-                              className="chat-avatar-img"
-                            />
-                          ) : (
-                            <FaUserCircle size={40} className="chat-avatar-placeholder" />
-                          )}
-                        </div>
-
-                        <div className="conversation-header-info">
-                          <h3>{otherUser.nome || "Parceiro"}</h3>
-                          <span className="perfil-badge">{labelPerfil}</span>
-                        </div>
-                      </>
-                    );
-                  })()}
-                </header>
-
-                {/* Conversation Messages */}
-                <div className="conversation-messages-area">
-                  {messages.map((msg) => {
-                    const isMine = msg.remetenteId === user.uid;
-
-                    return (
-                      <div
-                        key={msg.id}
-                        className={`message-bubble-wrapper ${isMine ? "outgoing" : "incoming"}`}
-                      >
-                        <div className="message-bubble">
-                          <p className="message-text">{msg.texto}</p>
-                          <div className="message-meta">
-                            <span className="message-time">
-                              {formatMessageTime(msg.createdAt)}
-                            </span>
-                            {isMine && (
-                              <span className={`message-status ${msg.visualizada ? "read" : "sent"}`}>
-                                {msg.visualizada ? <FaCheckDouble /> : <FaCheck />}
-                              </span>
+                      return (
+                        <>
+                          <div className="conversation-header-avatar">
+                            {otherUser.fotoPerfil || otherUser.foto ? (
+                              <img
+                                src={otherUser.fotoPerfil || otherUser.foto}
+                                alt={otherUser.nome}
+                                className="chat-avatar-img"
+                              />
+                            ) : (
+                              <FaUserCircle size={40} className="chat-avatar-placeholder" />
                             )}
                           </div>
+
+                          <div className="conversation-header-info">
+                            <h3>{otherUser.nome || "Parceiro"}</h3>
+                            <span className="perfil-badge">{labelPerfil}</span>
+                          </div>
+                        </>
+                      );
+                    })()}
+                  </header>
+
+                  {/* Conversation Messages */}
+                  <div className="conversation-messages-area">
+                    {messages.map((msg) => {
+                      const isMine = msg.remetenteId === user.uid;
+
+                      return (
+                        <div
+                          key={msg.id}
+                          className={`message-bubble-wrapper ${isMine ? "outgoing" : "incoming"}`}
+                        >
+                          <div className="message-bubble">
+                            <p className="message-text">{msg.texto}</p>
+                            <div className="message-meta">
+                              <span className="message-time">
+                                {formatMessageTime(msg.createdAt)}
+                              </span>
+                              {isMine && (
+                                <span className={`message-status ${msg.visualizada ? "read" : "sent"}`}>
+                                  {msg.visualizada ? <FaCheckDouble /> : <FaCheck />}
+                                </span>
+                              )}
+                            </div>
+                          </div>
                         </div>
-                      </div>
-                    );
-                  })}
-                  <div ref={messagesEndRef} />
+                      );
+                    })}
+                    <div ref={messagesEndRef} />
+                  </div>
+
+                  {/* Conversation Input Form */}
+                  <form className="conversation-input-form" onSubmit={handleSendMessage}>
+                    <input
+                      type="text"
+                      placeholder="Digite uma mensagem..."
+                      value={messageText}
+                      onChange={(e) => setMessageText(e.target.value)}
+                      aria-label="Mensagem"
+                    />
+                    <button type="submit" disabled={!messageText.trim()}>
+                      <FaPaperPlane />
+                    </button>
+                  </form>
+                </>
+              ) : (
+                <div className="chat-empty-panel">
+                  <span className="chat-empty-panel-icon"><FaComments /></span>
+                  <h3>Selecione uma conversa</h3>
+                  <p>Escolha um parceiro ao lado para enviar e receber mensagens sobre a reciclagem.</p>
                 </div>
+              )}
+            </section>
 
-                {/* Conversation Input Form */}
-                <form className="conversation-input-form" onSubmit={handleSendMessage}>
-                  <input
-                    type="text"
-                    placeholder="Digite uma mensagem..."
-                    value={messageText}
-                    onChange={(e) => setMessageText(e.target.value)}
-                    aria-label="Mensagem"
-                  />
-                  <button type="submit" disabled={!messageText.trim()}>
-                    <FaPaperPlane />
-                  </button>
-                </form>
-              </>
-            ) : (
-              <div className="chat-empty-panel">
-                <span className="chat-empty-panel-icon"><FaComments /></span>
-                <h3>Selecione uma conversa</h3>
-                <p>Escolha um parceiro ao lado para enviar e receber mensagens sobre a reciclagem.</p>
-              </div>
-            )}
-          </section>
-
-        </div>
+          </div>
+        )}
       </main>
 
       <Rodape />

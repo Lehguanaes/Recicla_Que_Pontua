@@ -7,7 +7,7 @@ import {
   FaStar,
   FaUser,
 } from "react-icons/fa";
-import { LOCAL_TYPES, MATERIAL_TYPES } from "../../constants";
+import { getMaterialLabel, LOCAL_TYPES } from "../../constants";
 
 function Badge({ children, tone = "material" }) {
   return <span className={`collector-badge is-${tone}`}>{children}</span>;
@@ -93,8 +93,7 @@ export default function CollectorCard({ collector, onClick, compact = false }) {
           <div className="collector-materials">
             {collector.materiais.slice(0, 4).map((material) => (
               <Badge key={material}>
-                {MATERIAL_TYPES.find((item) => item.value === material)?.label ||
-                  material}
+                {getMaterialLabel(material)}
               </Badge>
             ))}
 

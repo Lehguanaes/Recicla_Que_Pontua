@@ -1,7 +1,6 @@
 export * from './colors';
 
-export const MATERIAL_TYPES = [
-  { value: '', label: 'Todos os materiais' },
+export const RECYCLABLE_MATERIALS = [
   { value: 'papel', label: 'Papel' },
   { value: 'papelao', label: 'Papelão' },
   { value: 'plastico', label: 'Plástico' },
@@ -10,6 +9,27 @@ export const MATERIAL_TYPES = [
   { value: 'eletronico', label: 'Eletrônico' },
   { value: 'oleo', label: 'Óleo de cozinha' },
 ];
+
+export const MATERIAL_TYPES = [
+  { value: '', label: 'Todos os materiais' },
+  ...RECYCLABLE_MATERIALS,
+];
+
+const MATERIAL_ALIASES = {
+  eletronicos: 'eletronico',
+  'oleo-cozinha': 'oleo',
+};
+
+export function normalizeMaterialId(materialId) {
+  return MATERIAL_ALIASES[materialId] || materialId;
+}
+
+export function getMaterialLabel(materialId, fallback = materialId) {
+  const normalizedId = normalizeMaterialId(materialId);
+  return RECYCLABLE_MATERIALS.find(
+    (material) => material.value === normalizedId
+  )?.label || fallback;
+}
 
 export const SORT_OPTIONS = [
   { value: '', label: 'Relevância' },
@@ -51,12 +71,4 @@ export const MAP_CONFIG = {
   defaultZoom: 14,
   tileUrl: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
   attribution: '© OpenStreetMap contributors',
-};
-
-// ============================================================
-// ENDPOINTS DA API (altere a BASE_URL conforme seu backend)
-// ============================================================
-export const API_CONFIG = {
-  BASE_URL: process.env.REACT_APP_API_URL || 'https://api.reciclaquepontua.org/v1',
-  TIMEOUT: 10000,
 };

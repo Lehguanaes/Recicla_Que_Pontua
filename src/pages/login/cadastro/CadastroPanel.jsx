@@ -6,13 +6,16 @@ import { db } from "../../../services/Firebase";
 import { doc, setDoc, serverTimestamp } from "firebase/firestore";
 import { FaArrowLeft, FaUserEdit } from "react-icons/fa";
 import Alert from "../../../components/alert/Alert";
-import { camposPorPerfil, perfilInfo } from "./CadastroData";
+import { camposPorPerfil } from "./CadastroData";
+import { PROFILE_TYPES } from "../../../constants/profiles";
 import { validarCadastro } from "../../../utils/AuthValidation";
 import { validarCampos } from "../../../utils/AuthValidation";
 import CadastroFields from "./CadastroFields";
 import PasswordFields from "./PasswordFields";
+import Button from "../../../components/button/Button";
 
 import './cadastro.css';
+import { PageHeader } from "../../../components/typography/Typography";
 
 export default function CadastroPanel({
   perfilSelecionado,
@@ -36,7 +39,7 @@ export default function CadastroPanel({
   const secoesEtapaDois = secoes.slice(1);
   const camposEtapaUm = secoesEtapaUm.flatMap((secao) => secao.campos);
   const camposEtapaDois = secoesEtapaDois.flatMap((secao) => secao.campos);
-  const perfil = perfilInfo[perfilSelecionado];
+  const perfil = PROFILE_TYPES[perfilSelecionado];
   const { cadastrar } = useAuth();
   const [aceitouTermos, setAceitouTermos] = useState(false);
 
@@ -168,15 +171,20 @@ export default function CadastroPanel({
 
   return (
     <div className="auth-panel">
-      <h1>
-        Criar <span className="destaque-titulo">conta</span>
-      </h1>
-
-      {step === 1 && (
-        <p className="subtitle">
-          Cadastre-se e transforme sua reciclagem em impacto positivo para você, para a comunidade e para o planeta.
-        </p>
-      )}
+      <PageHeader
+        as="div"
+        title={
+          <>
+            Criar <span className="destaque-titulo">conta</span>
+          </>
+        }
+        text={
+          step === 1
+            ? "Cadastre-se e transforme sua reciclagem em impacto positivo para você, para a comunidade e para o planeta."
+            : null
+        }
+        textClassName="subtitle"
+      />
 
       <button
         type="button"
@@ -215,9 +223,9 @@ export default function CadastroPanel({
             />
 
             <div className="cadastro-actions">
-              <button type="button" className="next-button" onClick={validarPrimeiraEtapa}>
+              <Button variant="gradient" type="button" className="next-button" onClick={validarPrimeiraEtapa}>
                 Continuar
-              </button>
+              </Button>
             </div>
           </>
         )}
@@ -233,9 +241,9 @@ export default function CadastroPanel({
             />
 
             <div className="cadastro-actions">
-              <button type="button" className="next-button" onClick={validarSegundaEtapa}>
+              <Button variant="gradient" type="button" className="next-button" onClick={validarSegundaEtapa}>
                 Continuar
-              </button>
+              </Button>
             </div>
           </>
         )}
@@ -274,11 +282,11 @@ export default function CadastroPanel({
                 </div>
 
                   <div className="cadastro-actions">
-                    <button type="submit" 
+                    <Button variant="gradient" type="submit"
                     className="register-button" 
                     disabled={!aceitouTermos}>
                       Criar conta
-                    </button>
+                    </Button>
                   </div>
                 </>
               )}

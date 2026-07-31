@@ -222,42 +222,20 @@
 }
 
 .convites-header {
-    max-width: 760px;
     text-align: left;
 }
 
 .convites-kicker {
-    width: fit-content;
     margin-bottom: 18px;
-    padding: 9px 14px;
-    display: inline-flex;
-    align-items: center;
-    gap: 9px;
-    border: 1px solid rgb(var(--rgb-brand-green) / .2);
-    border-radius: 999px;
-    background: rgb(var(--rgb-white) / .78);
-    color: var(--color-brand-green-dark);
-    font-size: var(--font-size-label);
-    font-weight: var(--font-weight-bold);
     line-height: var(--line-height-compact);
-    text-transform: uppercase;
 }
 
 .convites-header h1 {
-    max-width: var(--content-width-title);
     margin: 0;
-    color: var(--font-color-title);
-    font-size: var(--font-size-page-title);
-    font-weight: var(--font-weight-title);
-    line-height: var(--line-height-page-title);
 }
 
 .convites-header p {
-    max-width: var(--content-width-text);
     margin: 18px 0 0;
-    color: var(--font-color-muted);
-    font-size: var(--font-size-subtitle);
-    line-height: var(--line-height-body);
 }
 
 /* Tabs */

@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { COLORS, MAP_CONFIG, LOCAL_TYPES } from '../../constants';
+import { LOCAL_TYPES, MAP_COLORS, MAP_CONFIG } from '../../constants';
 
 // Mapa com marcadores de catadores/centros
 const CollectorMap = ({ collectors = [], selected, onSelectCollector, origin = null }) => {
@@ -63,7 +63,7 @@ const CollectorMap = ({ collectors = [], selected, onSelectCollector, origin = n
 
       const isCenter = collector.tipo === LOCAL_TYPES.CENTER;
       const isAproximado = Boolean(collector.localizacaoAproximada);
-      const color = isCenter ? COLORS.info : COLORS.orange;
+      const color = isCenter ? MAP_COLORS.center : MAP_COLORS.collector;
       const isSelected = selected?.id === collector.id;
 
       const icon = L.divIcon({
@@ -72,7 +72,7 @@ const CollectorMap = ({ collectors = [], selected, onSelectCollector, origin = n
           <div style="
             width: ${isSelected ? 44 : 36}px;
             height: ${isSelected ? 44 : 36}px;
-            background: ${isSelected ? COLORS.markerSelected : color};
+            background: ${isSelected ? MAP_COLORS.selected : color};
             border-radius: 50% 50% 50% 0;
             transform: rotate(-45deg);
             border: 3px solid var(--color-surface-card);
@@ -96,10 +96,10 @@ const CollectorMap = ({ collectors = [], selected, onSelectCollector, origin = n
       if (isAproximado) {
         const circulo = L.circle([collector.lat, collector.lng], {
           radius: 150,
-          color: COLORS.orange,
+          color: MAP_COLORS.collector,
           weight: 1.5,
           dashArray: '4 4',
-          fillColor: COLORS.orange,
+          fillColor: MAP_COLORS.collector,
           fillOpacity: 0.08,
         }).addTo(map);
         markersRef.current.push(circulo);
@@ -124,7 +124,7 @@ const CollectorMap = ({ collectors = [], selected, onSelectCollector, origin = n
         html: `
           <div style="
             width: 18px; height: 18px; border-radius: 50%;
-            background: ${COLORS.info};
+            background: ${MAP_COLORS.origin};
             border: 3px solid var(--color-keyword-white);
             box-shadow: 0 0 0 4px var(--color-rgba-33-150-243-0p25), 0 2px 6px var(--color-rgba-0-0-0-0p3);
           "></div>

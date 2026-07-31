@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
 import Modal from "../../../components/modal/Modal";
 import Alert from "../../../components/alert/Alert";
-import SelecionarUser, { perfis } from "../../../components/cadastro/selecionarUser/SelecionarUser";
+import Button from "../../../components/button/Button";
+import SelecionarUser from "../../../components/cadastro/selecionarUser/SelecionarUser";
+import { PROFILE_TYPES } from "../../../constants/profiles";
 import "./modalPerfil.css";
 
 export default function ModalPerfil({ 
@@ -12,7 +14,7 @@ export default function ModalPerfil({
   onClose, 
   }) {
   const [confirmOpen, setConfirmOpen] = useState(false);
-  const perfil = perfis.find((item) => item.id === perfilSelecionado);
+  const perfil = PROFILE_TYPES[perfilSelecionado];
 
   useEffect(() => {
     if (!isOpen) setConfirmOpen(false);
@@ -36,13 +38,14 @@ export default function ModalPerfil({
       />
 
       <div className="modal-perfil-actions">
-        <button
+        <Button
+          variant="gradient"
           className="btn-confirm"
           disabled={!perfilSelecionado}
           onClick={() => setConfirmOpen(true)}
         >
           Continuar 
-        </button>
+        </Button>
       </div>
 
       <Alert

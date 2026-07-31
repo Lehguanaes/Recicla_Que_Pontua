@@ -1,35 +1,35 @@
-.button{
-    display:inline-flex;
-    align-items:center;
-    justify-content:center;
-
-    padding:14px 28px;
-
-    border:none;
-    border-radius:12px;
-
-    background:var(--color-brand-green);
-    color:var(--color-white);
-
-    font-size:15px;
-    font-weight:600;
-    font-family:inherit;
-
-    cursor:pointer;
-    transition:.2s;
-
-    text-decoration:none;
+.ui-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  font: inherit;
+  cursor: pointer;
+  text-decoration: none;
 }
 
-.button:hover{
-    background:var(--color-brand-green-dark);
+.ui-button--green {
+  background: var(--color-brand-green);
+  color: var(--color-white);
 }
 
-.button:active{
-    transform:scale(.98);
+.ui-button--green:hover:not(:disabled) {
+  background: var(--color-brand-green-dark);
 }
 
-.button:disabled{
-    background:var(--color-control-disabled);
-    cursor:not-allowed;
+.ui-button--gradient {
+  background: linear-gradient(
+    135deg,
+    var(--color-brand-green),
+    var(--color-brand-orange)
+  );
+  color: var(--color-white);
+}
+
+.ui-button--gradient:hover:not(:disabled) {
+  background: var(--color-brand-green-dark);
+}
+
+.ui-button:disabled {
+  cursor: not-allowed;
 }

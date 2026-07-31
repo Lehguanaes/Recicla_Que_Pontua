@@ -30,10 +30,6 @@ export default function Login({ iniciarCadastro = false }) {
   const [showPassword, setShowPassword] = useState(false);
 
   useEffect(() => {
-    window.scrollTo({ top: 0, behavior: "auto" });
-  }, []);
-
-  useEffect(() => {
     if (iniciarCadastro) {
       setPanel("login");
       setModalAberto(true);

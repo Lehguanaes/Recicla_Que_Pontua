@@ -122,9 +122,7 @@
 }
 
 .alert-confirm {
-  background: linear-gradient(135deg, var(--color-brand-green), var(--color-brand-orange));
   box-shadow: 0 14px 28px rgb(var(--rgb-brand-orange) / 0.2);
-  color: var(--color-white);
 }
 
 .alert-danger .alert-confirm {
@@ -134,7 +132,6 @@
 
 .alert-confirm:hover:not(:disabled) {
   transform: translateY(-2px);
-  background: var(--color-brand-green-dark);
   box-shadow: 0 17px 32px rgb(var(--rgb-shadow-green) / 0.2);
 }
 

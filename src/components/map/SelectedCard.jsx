@@ -1,9 +1,10 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import { FaStar, FaUserPlus, FaComments } from "react-icons/fa";
-import { COLORS } from "../../constants";
-import Button from "../common/Button";
+import Button from "../button/Button";
 
 import "./selectedCard.css";
+import { PROFILE_IDS } from "../../constants/profiles";
 
 import { LOCAL_TYPES } from "../../constants";
 
@@ -15,6 +16,7 @@ export default function SelectedCard({
   invitation,
   userProfile,
 }) {
+  const navigate = useNavigate();
   if (!collector) return null;
 
   const isCenter = collector.tipo === LOCAL_TYPES.CENTER;
@@ -90,7 +92,7 @@ export default function SelectedCard({
             btnDisabled = false;
             btnIcon = <FaComments size={13} />;
             btnClick = () => {
-              // TODO: Implementar chat futuramente
+              navigate("/chat");
             };
           }
 
@@ -105,8 +107,8 @@ export default function SelectedCard({
                 alignItems: "center",
                 justifyContent: "center",
                 gap: "10px",
-                background: COLORS.white,
-                color: COLORS.secondary,
+                background: "#ffffff",
+                color: "var(--color-brand-green-deep)",
                 border: "none",
                 borderRadius: "15px",
                 marginRight: "50px",
@@ -122,8 +124,8 @@ export default function SelectedCard({
                   width: 30,
                   height: 30,
                   borderRadius: "50%",
-                  background: COLORS.secondary,
-                  color: COLORS.white,
+                  background: "var(--color-brand-green-deep)",
+                  color: "#ffffff",
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",

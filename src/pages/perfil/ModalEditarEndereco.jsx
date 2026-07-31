@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 import Modal from "../../components/modal/Modal";
+import ModalHeader from "../../components/modal/ModalHeader";
 import Alert from "../../components/alert/Alert";
+import InputField from "../../components/form/InputField";
+import FormActions from "../../components/form/FormActions";
 import { maskCEP } from "../../utils/Formatters";
 import { validarCampos } from "../../utils/AuthValidation";
 
@@ -128,141 +131,94 @@ export default function ModalEditarEndereco({
     }
   }
 
+  const camposFormulario = [
+    {
+      name: "cep",
+      label: "CEP",
+      fieldClassName: "perfil-input-group small",
+      inputMode: "numeric",
+      placeholder: "00000-000",
+      hint: buscandoCep ? "Buscando endereço..." : "",
+      hintClassName: "perfil-form-hint",
+      onBlur: handleCepBlur,
+    },
+    {
+      name: "rua",
+      label: "Rua / Logradouro",
+      fieldClassName: "perfil-input-group",
+      placeholder: "Rua / Avenida",
+    },
+    {
+      name: "numero",
+      label: "Número",
+      fieldClassName: "perfil-input-group small",
+      placeholder: "Número",
+    },
+    {
+      name: "complemento",
+      label: "Complemento",
+      fieldClassName: "perfil-input-group small",
+      placeholder: "Apto, bloco... (opcional)",
+    },
+    {
+      name: "bairro",
+      label: "Bairro",
+      fieldClassName: "perfil-input-group full",
+      placeholder: "Bairro",
+    },
+    {
+      name: "cidade",
+      label: "Cidade",
+      fieldClassName: "perfil-input-group small",
+      placeholder: "Cidade",
+    },
+    {
+      name: "estado",
+      label: "Estado",
+      fieldClassName: "perfil-input-group small",
+      placeholder: "Estado",
+    },
+  ];
+
   return (
     <Modal
       isOpen={isOpen}
       onClose={onClose}
       className="perfil-modal perfil-modal-amplo"
     >
-      <h2 className="perfil-modal-titulo">Endereço Completo</h2>
-      <p className="perfil-modal-subtitulo">
-        Essas informações são opcionais e ajudam a melhorar a filtragem de
-        catadores e centros de coleta próximos a você.
-      </p>
+      <ModalHeader
+        title="Endereço Completo"
+        subtitle="Essas informações são opcionais e ajudam a melhorar a filtragem de catadores e centros de coleta próximos a você."
+        titleClassName="perfil-modal-titulo"
+        subtitleClassName="perfil-modal-subtitulo"
+      />
 
       <form className="perfil-form" onSubmit={handleSubmit} noValidate>
         <div className="perfil-form-grid">
-          <div className="perfil-input-group small">
-            <label htmlFor="cep">CEP</label>
-            <input
-              id="cep"
+          {camposFormulario.map(({ name, ...campo }) => (
+            <InputField
+              key={name}
+              id={name}
               type="text"
-              inputMode="numeric"
-              placeholder="00000-000"
-              value={formData.cep || ""}
-              className={errors.cep ? "error" : ""}
-              onChange={(e) => handleChange("cep", e.target.value)}
-              onBlur={handleCepBlur}
+              error={errors[name]}
+              errorClassName="perfil-form-error"
+              value={formData[name] || ""}
+              onChange={(event) => handleChange(name, event.target.value)}
+              {...campo}
             />
-            {buscandoCep && (
-              <span className="perfil-form-hint">Buscando endereço...</span>
-            )}
-            {errors.cep && <span className="perfil-form-error">{errors.cep}</span>}
-          </div>
-
-          <div className="perfil-input-group">
-            <label htmlFor="rua">Rua / Logradouro</label>
-            <input
-              id="rua"
-              type="text"
-              placeholder="Rua / Avenida"
-              value={formData.rua || ""}
-              className={errors.rua ? "error" : ""}
-              onChange={(e) => handleChange("rua", e.target.value)}
-            />
-            {errors.rua && <span className="perfil-form-error">{errors.rua}</span>}
-          </div>
-
-          <div className="perfil-input-group small">
-            <label htmlFor="numero">Número</label>
-            <input
-              id="numero"
-              type="text"
-              placeholder="Número"
-              value={formData.numero || ""}
-              className={errors.numero ? "error" : ""}
-              onChange={(e) => handleChange("numero", e.target.value)}
-            />
-            {errors.numero && (
-              <span className="perfil-form-error">{errors.numero}</span>
-            )}
-          </div>
-
-          <div className="perfil-input-group small">
-            <label htmlFor="complemento">Complemento</label>
-            <input
-              id="complemento"
-              type="text"
-              placeholder="Apto, bloco... (opcional)"
-              value={formData.complemento || ""}
-              onChange={(e) => handleChange("complemento", e.target.value)}
-            />
-          </div>
-
-          <div className="perfil-input-group full">
-            <label htmlFor="bairro">Bairro</label>
-            <input
-              id="bairro"
-              type="text"
-              placeholder="Bairro"
-              value={formData.bairro || ""}
-              className={errors.bairro ? "error" : ""}
-              onChange={(e) => handleChange("bairro", e.target.value)}
-            />
-            {errors.bairro && (
-              <span className="perfil-form-error">{errors.bairro}</span>
-            )}
-          </div>
-
-          <div className="perfil-input-group small">
-            <label htmlFor="cidade">Cidade</label>
-            <input
-              id="cidade"
-              type="text"
-              placeholder="Cidade"
-              value={formData.cidade || ""}
-              className={errors.cidade ? "error" : ""}
-              onChange={(e) => handleChange("cidade", e.target.value)}
-            />
-            {errors.cidade && (
-              <span className="perfil-form-error">{errors.cidade}</span>
-            )}
-          </div>
-
-          <div className="perfil-input-group small">
-            <label htmlFor="estado">Estado</label>
-            <input
-              id="estado"
-              type="text"
-              placeholder="Estado"
-              value={formData.estado || ""}
-              className={errors.estado ? "error" : ""}
-              onChange={(e) => handleChange("estado", e.target.value)}
-            />
-            {errors.estado && (
-              <span className="perfil-form-error">{errors.estado}</span>
-            )}
-          </div>
+          ))}
         </div>
 
         {errors.geral && <p className="perfil-form-error">{errors.geral}</p>}
 
-        <div className="perfil-modal-acoes">
-          <button
-            type="button"
-            className="perfil-botao-secundario"
-            onClick={onClose}
-          >
-            Cancelar
-          </button>
-          <button
-            type="submit"
-            className="perfil-botao-primario"
-            disabled={salvando}
-          >
-            {salvando ? "Salvando..." : "Salvar endereço"}
-          </button>
-        </div>
+        <FormActions
+          className="perfil-modal-acoes"
+          cancelClassName="perfil-botao-secundario"
+          confirmClassName="perfil-botao-primario"
+          confirmText="Salvar endereço"
+          loading={salvando}
+          onCancel={onClose}
+        />
       </form>
 
       <Alert

@@ -1,16 +1,14 @@
 import { useEffect, useState } from "react";
 import Modal from "../../components/modal/Modal";
+import ModalHeader from "../../components/modal/ModalHeader";
 import Alert from "../../components/alert/Alert";
-
-export const materiaisDisponiveis = [
-  { value: "papel", label: "Papel" },
-  { value: "papelao", label: "Papelão" },
-  { value: "plastico", label: "Plástico" },
-  { value: "metal", label: "Metal" },
-  { value: "vidro", label: "Vidro" },
-  { value: "eletronicos", label: "Eletrônicos" },
-  { value: "oleo-cozinha", label: "Óleo de cozinha" },
-];
+import FormField from "../../components/form/FormField";
+import FormActions from "../../components/form/FormActions";
+import SelectField from "../../components/form/SelectField";
+import {
+  normalizeMaterialId,
+  RECYCLABLE_MATERIALS,
+} from "../../constants";
 
 export const tiposVeiculo = [
   { value: "bicicleta", label: "Bicicleta" },
@@ -37,12 +35,12 @@ export default function ModalConfigurarColeta({
   useEffect(() => {
     if (isOpen) {
       const materiaisPermitidos = new Set(
-        materiaisDisponiveis.map((material) => material.value)
+        RECYCLABLE_MATERIALS.map((material) => material.value)
       );
       setMateriais(
-        (dadosAtuais?.materiaisAceitos || []).filter((material) =>
-          materiaisPermitidos.has(material)
-        )
+        (dadosAtuais?.materiaisAceitos || [])
+          .map(normalizeMaterialId)
+          .filter((material) => materiaisPermitidos.has(material))
       );
       setPossuiVeiculo(
         typeof dadosAtuais?.possuiVeiculo === "boolean"
@@ -120,13 +118,18 @@ export default function ModalConfigurarColeta({
       onClose={onClose}
       className="perfil-modal perfil-modal-amplo"
     >
-      <h2 className="perfil-modal-titulo">Configurar coleta</h2>
+      <ModalHeader
+        title="Configurar coleta"
+        titleClassName="perfil-modal-titulo"
+      />
    
       <form className="perfil-form" onSubmit={handleSubmit} noValidate>
-        <div className="perfil-input-group full">
-          <label>Materiais que você recebe</label>
+        <FormField
+          label="Materiais que você recebe"
+          className="perfil-input-group full"
+        >
           <div className="perfil-checkbox-grid">
-            {materiaisDisponiveis.map((material) => (
+            {RECYCLABLE_MATERIALS.map((material) => (
               <label
                 key={material.value}
                 className="perfil-checkbox-item"
@@ -140,10 +143,12 @@ export default function ModalConfigurarColeta({
               </label>
             ))}
           </div>
-        </div>
+        </FormField>
 
-        <div className="perfil-input-group full">
-          <label>Possui veículo?</label>
+        <FormField
+          label="Possui veículo?"
+          className="perfil-input-group full"
+        >
           <div className="perfil-radio-group">
             <label className="perfil-radio-item">
               <input
@@ -164,47 +169,40 @@ export default function ModalConfigurarColeta({
               Não
             </label>
           </div>
-        </div>
+        </FormField>
 
         {possuiVeiculo && (
-          <div className="perfil-input-group full">
-            <label htmlFor="tipoVeiculo">Tipo de veículo</label>
-            <select
+          <FormField
+            id="tipoVeiculo"
+            label="Tipo de veículo"
+            className="perfil-input-group full"
+          >
+            <SelectField
+              native
               id="tipoVeiculo"
               value={tipoVeiculo}
-              onChange={(e) => {
-                setTipoVeiculo(e.target.value);
+              options={[
+                { value: "", label: "Selecione..." },
+                ...tiposVeiculo,
+              ]}
+              onChange={(value) => {
+                setTipoVeiculo(value);
                 setErro("");
               }}
-            >
-              <option value="">Selecione...</option>
-              {tiposVeiculo.map((tipo) => (
-                <option key={tipo.value} value={tipo.value}>
-                  {tipo.label}
-                </option>
-              ))}
-            </select>
-          </div>
+            />
+          </FormField>
         )}
 
         {erro && <p className="perfil-form-error">{erro}</p>}
 
-        <div className="perfil-modal-acoes">
-          <button
-            type="button"
-            className="perfil-botao-secundario"
-            onClick={onClose}
-          >
-            Cancelar
-          </button>
-          <button
-            type="submit"
-            className="perfil-botao-primario"
-            disabled={salvando}
-          >
-            {salvando ? "Salvando..." : "Salvar informações"}
-          </button>
-        </div>
+        <FormActions
+          className="perfil-modal-acoes"
+          cancelClassName="perfil-botao-secundario"
+          confirmClassName="perfil-botao-primario"
+          confirmText="Salvar informações"
+          loading={salvando}
+          onCancel={onClose}
+        />
       </form>
 
       <Alert

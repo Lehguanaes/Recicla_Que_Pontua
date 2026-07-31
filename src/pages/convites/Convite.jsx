@@ -26,14 +26,10 @@ import {
 import Navbar from "../../components/navbar/Navbar";
 import Rodape from "../../components/rodape/Rodape";
 import { createChatIfNotExists } from "../../services/chatService";
+import { PageHeader } from "../../components/typography/Typography";
+import EmptyState from "../../components/common/EmptyState";
+import { getProfileLabel } from "../../constants/profiles";
 import "./convite.css";
-
-const PERFIL_LABELS = {
-  "pessoa-recicladora": "Pessoa Recicladora",
-  "instituicao-recicladora": "Instituição Recicladora",
-  "coletor-autonomo": "Catador Autônomo",
-  "centro-coleta": "Centro de Coleta",
-};
 
 export default function Convite() {
   const { user } = useAuth();
@@ -41,10 +37,6 @@ export default function Convite() {
   const [senders, setSenders] = useState({});
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState("pendentes"); // "pendentes" | "historico"
-
-  useEffect(() => {
-    window.scrollTo({ top: 0, left: 0, behavior: "auto" });
-  }, []);
 
   useEffect(() => {
     if (!user?.uid) {
@@ -203,16 +195,14 @@ export default function Convite() {
       <Navbar />
       <main className="convites-page">
         <section className="convites-main-section">
-          <header className="convites-header">
-            <span className="convites-kicker">
-              <FaPaperPlane />
-              Conexões para reciclar
-            </span>
-            <h1>Gerencie seus convites</h1>
-            <p>
-              Gerencie as solicitações de conversa enviadas e recebidas de outros usuários.
-            </p>
-          </header>
+          <PageHeader
+            className="convites-header"
+            eyebrowClassName="convites-kicker"
+            eyebrow="Conexões para reciclar"
+            icon={<FaPaperPlane />}
+            title="Gerencie seus convites"
+            text="Acompanhe as solicitações enviadas e recebidas e escolha com quem você quer conversar sobre a troca de materiais."
+          />
 
           <div className="convites-container">
           <div className="convites-tabs">
@@ -242,23 +232,29 @@ export default function Convite() {
           {/* Invitation list */}
           <div className="convites-list">
             {filteredInvitations.length === 0 ? (
-              <div className="convites-empty">
-                <div className="empty-icon-wrapper">
-                  {activeTab === "pendentes" ? <FaInbox size={40} /> : <FaHistory size={40} />}
-                </div>
-                <h3>Nenhum convite encontrado</h3>
-                <p>
-                  {activeTab === "pendentes"
+              <EmptyState
+                className="convites-empty"
+                titleAs="h3"
+                title="Nenhum convite encontrado"
+                text={
+                  activeTab === "pendentes"
                     ? "Você não possui nenhuma solicitação de conversa pendente no momento."
-                    : "Seu histórico de convites aceitos ou recusados está vazio."}
-                </p>
-              </div>
+                    : "Seu histórico de convites aceitos ou recusados está vazio."
+                }
+                icon={
+                  activeTab === "pendentes"
+                    ? <FaInbox size={40} />
+                    : <FaHistory size={40} />
+                }
+                iconAs="div"
+                iconClassName="empty-icon-wrapper"
+              />
             ) : (
               filteredInvitations.map((inv) => {
                 const isSentByMe = inv.remetenteId === user.uid;
                 const otherUserId = isSentByMe ? inv.destinatarioId : inv.remetenteId;
                 const otherUser = senders[otherUserId] || {};
-                const labelPerfil = PERFIL_LABELS[otherUser.perfil] || otherUser.perfil || "Usuário";
+                const labelPerfil = getProfileLabel(otherUser.perfil);
 
                 return (
                   <div key={inv.id} className={`convite-card ${inv.status}`}>

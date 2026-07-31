@@ -48,17 +48,7 @@
 }
 
 .termos-header h1 {
-  color: var(--font-color-title);
-  font-size: var(--font-size-page-title);
-  font-weight: var(--font-weight-title);
-  line-height: var(--line-height-page-title);
   margin-bottom: 10px;
-}
-
-.termos-header p {
-  color: var(--font-color-muted);
-  font-size: var(--font-size-subtitle);
-  line-height: var(--line-height-body);
 }
 
 .termos-alert {

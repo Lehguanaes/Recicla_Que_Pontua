@@ -1,5 +1,8 @@
-import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import { PageHeader } from "../../components/typography/Typography";
+import PasswordInput from "../../components/form/PasswordInput";
+import Input from "../../components/form/Input";
+import Button from "../../components/button/Button";
 import './login.css';
 
 export default function LoginForm({
@@ -11,16 +14,19 @@ export default function LoginForm({
 }) {
   return (
     <div className="auth-panel">
-      <h1>
-        Seja <span className="destaque-titulo">muito</span> bem-vindo!
-      </h1>
-      <p className="subtitle">
-        Entre na sua conta para registrar seus materiais,
-        acompanhar o ranking e transformar atitudes em pontos.
-      </p>
+      <PageHeader
+        as="div"
+        title={
+          <>
+            Seja <span className="destaque-titulo">muito</span> bem-vindo!
+          </>
+        }
+        text="Entre na sua conta para registrar seus materiais, acompanhar o ranking e transformar atitudes em pontos."
+        textClassName="subtitle"
+      />
 
       <div className="input-group">
-        <input
+        <Input
           type="text"
           placeholder="E-mail"
           value={identifier}
@@ -28,21 +34,17 @@ export default function LoginForm({
         />
       </div>
 
-      <div className="input-group">
-        <input
-          type={showPassword ? "text" : "password"}
-          placeholder="Senha"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        <button
-                 type="button"
-                 className="show-password"
-                 onClick={() => setShowPassword((prev) => !prev)}
-               >
-                 {showPassword ? <FaEyeSlash /> : <FaEye />}
-               </button>
-      </div>
+      <PasswordInput
+        visible={showPassword}
+        onToggle={() => setShowPassword((prev) => !prev)}
+        containerClassName="input-group"
+        buttonClassName="show-password"
+        inputProps={{
+          placeholder: "Senha",
+          value: password,
+          onChange: (e) => setPassword(e.target.value),
+        }}
+      />
 
       {erroLogin && (
         <span className="login-error">
@@ -54,9 +56,13 @@ export default function LoginForm({
         Esqueceu sua senha?
       </Link>
 
-      <button className="login-button" onClick={onLogin}>
+      <Button
+        variant="gradient"
+        className="login-button"
+        onClick={onLogin}
+      >
         Entrar
-      </button>
+      </Button>
 
       <p className="register">
         Ainda não tem uma conta?{" "}

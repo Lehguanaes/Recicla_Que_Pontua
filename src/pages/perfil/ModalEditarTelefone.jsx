@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 import Modal from "../../components/modal/Modal";
+import ModalHeader from "../../components/modal/ModalHeader";
 import Alert from "../../components/alert/Alert";
+import InputField from "../../components/form/InputField";
+import FormActions from "../../components/form/FormActions";
 import { maskTelefone } from "../../utils/Formatters";
 import { validarCampos } from "../../utils/AuthValidation";
 
@@ -64,46 +67,37 @@ export default function ModalEditarTelefone({
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} className="perfil-modal">
-      <h2 className="perfil-modal-titulo">Editar Telefone</h2>
-      <p className="perfil-modal-subtitulo">
-        Mantenha seu telefone atualizado para facilitar o contato.
-      </p>
+      <ModalHeader
+        title="Editar Telefone"
+        subtitle="Mantenha seu telefone atualizado para facilitar o contato."
+        titleClassName="perfil-modal-titulo"
+        subtitleClassName="perfil-modal-subtitulo"
+      />
 
       <form className="perfil-form" onSubmit={handleSubmit} noValidate>
-        <div className="perfil-input-group full">
-          <label htmlFor="telefone">Telefone</label>
-          <input
-            id="telefone"
-            type="tel"
-            inputMode="numeric"
-            placeholder="(00) 00000-0000"
-            value={telefone}
-            className={errors.telefone ? "error" : ""}
-            onChange={(e) => handleChange(e.target.value)}
-          />
-          {errors.telefone && (
-            <span className="perfil-form-error">{errors.telefone}</span>
-          )}
-        </div>
+        <InputField
+          id="telefone"
+          label="Telefone"
+          fieldClassName="perfil-input-group full"
+          error={errors.telefone}
+          errorClassName="perfil-form-error"
+          type="tel"
+          inputMode="numeric"
+          placeholder="(00) 00000-0000"
+          value={telefone}
+          onChange={(e) => handleChange(e.target.value)}
+        />
 
         {errors.geral && <p className="perfil-form-error">{errors.geral}</p>}
 
-        <div className="perfil-modal-acoes">
-          <button
-            type="button"
-            className="perfil-botao-secundario"
-            onClick={onClose}
-          >
-            Cancelar
-          </button>
-          <button
-            type="submit"
-            className="perfil-botao-primario"
-            disabled={salvando}
-          >
-            {salvando ? "Salvando..." : "Salvar telefone"}
-          </button>
-        </div>
+        <FormActions
+          className="perfil-modal-acoes"
+          cancelClassName="perfil-botao-secundario"
+          confirmClassName="perfil-botao-primario"
+          confirmText="Salvar telefone"
+          loading={salvando}
+          onCancel={onClose}
+        />
       </form>
 
       <Alert

@@ -126,6 +126,23 @@
   gap: 10px;
 }
 
+.filter-footer-button {
+  width: 100%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 10px 20px;
+  border: 1.5px solid var(--color-brand-orange);
+  border-radius: 10px;
+  background: var(--color-transparent);
+  color: var(--color-brand-orange);
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.2s, transform 0.1s;
+}
+
 @media (max-width: 520px) {
   .filter-overlay {
     align-items: flex-end;

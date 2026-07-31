@@ -1,0 +1,102 @@
+.custom-select {
+  position: relative;
+  width: 100%;
+}
+
+.custom-select-trigger {
+  width: 100%;
+  min-height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 16px;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  background: var(--color-surface-card);
+  box-shadow: 0 6px 18px rgb(var(--rgb-shadow-green) / 0.035);
+  color: var(--color-text-strong);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.custom-select-trigger.is-placeholder {
+  color: var(--color-text-placeholder);
+}
+
+.custom-select-trigger:focus,
+.custom-select.is-open .custom-select-trigger {
+  outline: none;
+  border-color: var(--color-brand-green);
+  box-shadow: 0 0 0 3px rgb(var(--rgb-brand-green) / 0.1);
+}
+
+.custom-select.error .custom-select-trigger {
+  border-color: var(--color-danger-light);
+}
+
+.custom-select.is-disabled .custom-select-trigger {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.custom-select-chevron {
+  width: 8px;
+  height: 8px;
+  flex: 0 0 auto;
+  border-right: 2px solid var(--color-brand-green-dark);
+  border-bottom: 2px solid var(--color-brand-green-dark);
+  transform: rotate(45deg) translateY(-2px);
+  transition: transform 0.2s ease;
+}
+
+.custom-select.is-open .custom-select-chevron {
+  transform: rotate(225deg) translate(-2px, -2px);
+}
+
+.custom-select-menu {
+  position: absolute;
+  z-index: 30;
+  top: calc(100% + 6px);
+  left: 0;
+  right: 0;
+  max-height: 230px;
+  padding: 6px;
+  overflow-y: auto;
+  border: 1px solid rgb(var(--rgb-brand-green) / 0.28);
+  border-radius: 8px;
+  background: var(--color-surface-card);
+  box-shadow: 0 18px 38px rgb(var(--rgb-shadow-green) / 0.16);
+}
+
+.custom-select-option {
+  width: 100%;
+  padding: 10px 12px;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--color-text-strong);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.custom-select-option:hover,
+.custom-select-option:focus,
+.custom-select-option.selected {
+  outline: none;
+  background: var(--color-surface-green-strong);
+  color: var(--color-brand-green-dark);
+}
+
+.custom-select-option.selected {
+  font-weight: 700;
+}
+
+@media (max-width: 560px) {
+  .custom-select-menu {
+    max-height: 200px;
+  }
+}

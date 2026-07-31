@@ -1,21 +1,38 @@
+import { Link } from "react-router-dom";
 import "./button.css";
 
 export default function Button({
   children,
-  onClick,
-  type = "button",
+  variant = "green",
+  to,
   href,
-  disabled = false,
+  type = "button",
   className = "",
+  disabled = false,
+  loading = false,
+  loadingText = "Carregando...",
+  ...props
 }) {
+  const classes = [
+    "ui-button",
+    `ui-button--${variant}`,
+    className,
+  ].filter(Boolean).join(" ");
+  const content = loading ? loadingText : children;
+  const isDisabled = disabled || loading;
+
+  if (to) {
+    return (
+      <Link className={classes} to={to} {...props}>
+        {content}
+      </Link>
+    );
+  }
 
   if (href) {
     return (
-      <a
-        href={href}
-        className={`button ${className}`}
-      >
-        {children}
+      <a className={classes} href={href} {...props}>
+        {content}
       </a>
     );
   }
@@ -23,12 +40,12 @@ export default function Button({
   return (
     <button
       type={type}
-      className={`button ${className}`}
-      onClick={onClick}
-      disabled={disabled}
+      className={classes}
+      disabled={isDisabled}
+      aria-busy={loading}
+      {...props}
     >
-      {children}
+      {content}
     </button>
   );
 }
-

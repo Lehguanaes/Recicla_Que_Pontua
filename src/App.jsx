@@ -13,10 +13,12 @@ import Convite from "./pages/convites/Convite";
 import Chat from "./pages/chat/Chat";
 import RecuperarSenha from "./pages/login/RecuperarSenha";
 import Avaliacao from "./pages/avaliacao/Avaliacao";
+import ScrollToTop from "./components/routing/ScrollToTop";
 
 function App() {
   return (
     <BrowserRouter>
+      <ScrollToTop />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />

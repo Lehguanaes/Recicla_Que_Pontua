@@ -8,6 +8,8 @@ import {
   updateDoc,
   where,
 } from "firebase/firestore";
+import { normalizeMaterialId } from "../constants";
+import { PROFILE_IDS } from "../constants/profiles";
 
 import { db } from "../services/Firebase";
 import { useAuth } from "../contexts/AuthContext";
@@ -23,11 +25,11 @@ import {
 } from "../utils/Geocoding";
 
 // Perfis que aparecem como resultado de busca na tela de doação
-const PERFIS_COLETA = ["coletor-autonomo", "centro-coleta"];
+const PERFIS_COLETA = [PROFILE_IDS.COLLECTOR, PROFILE_IDS.CENTER];
 
 const INFO_POR_PERFIL = {
-  "coletor-autonomo": { tipo: "catador", subtipo: "Autônomo" },
-  "centro-coleta": { tipo: "centro", subtipo: "Centro de Coleta" },
+  [PROFILE_IDS.COLLECTOR]: { tipo: "catador", subtipo: "Autônomo" },
+  [PROFILE_IDS.CENTER]: { tipo: "centro", subtipo: "Centro de Coleta" },
 };
 
 // Rótulos para o tipo de veículo salvo no perfil (ver ModalConfigurarColeta)
@@ -252,7 +254,7 @@ export default function useCollectorSearch(uidParam, filtrosIniciais = {}) {
 
       const listaFormatada = listaColetores.map((coletor) => {
         const infoTipo = INFO_POR_PERFIL[coletor.perfil] || {};
-        const ehCatadorAutonomo = coletor.perfil === "coletor-autonomo";
+        const ehCatadorAutonomo = coletor.perfil === PROFILE_IDS.COLLECTOR;
         const lat = coletor.latitude;
         const lng = coletor.longitude;
         const temCoordenadas = typeof lat === "number" && typeof lng === "number";
@@ -282,7 +284,7 @@ export default function useCollectorSearch(uidParam, filtrosIniciais = {}) {
           lng: typeof coordenadasExibicao.lng === "number" ? coordenadasExibicao.lng : null,
           // Usado pelo card/mapa pra indicar "localização aproximada".
           localizacaoAproximada: ehCatadorAutonomo && temCoordenadas,
-          materiais: coletor.materiaisAceitos || [],
+          materiais: (coletor.materiaisAceitos || []).map(normalizeMaterialId),
           fotoPerfil: coletor.fotoPerfil || null,
           telefone: coletor.telefone || null,
           disponivel: Boolean(

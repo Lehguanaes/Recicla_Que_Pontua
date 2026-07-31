@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
 import { FaUserCircle } from "react-icons/fa";
 import Modal from "../../components/modal/Modal";
+import ModalHeader from "../../components/modal/ModalHeader";
 import Alert from "../../components/alert/Alert";
+import FormActions from "../../components/form/FormActions";
 
 const TAMANHO_MAXIMO_MB = 2;
 
@@ -75,10 +77,12 @@ export default function ModalEditarFoto({
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} className="perfil-modal">
-      <h2 className="perfil-modal-titulo">Foto de Perfil</h2>
-      <p className="perfil-modal-subtitulo">
-        Escolha uma imagem para personalizar seu perfil.
-      </p>
+      <ModalHeader
+        title="Foto de Perfil"
+        subtitle="Escolha uma imagem para personalizar seu perfil."
+        titleClassName="perfil-modal-titulo"
+        subtitleClassName="perfil-modal-subtitulo"
+      />
 
       <div className="perfil-foto-preview-wrapper">
         {preview ? (
@@ -112,23 +116,16 @@ export default function ModalEditarFoto({
 
       {erro && <p className="perfil-form-error">{erro}</p>}
 
-      <div className="perfil-modal-acoes">
-        <button
-          type="button"
-          className="perfil-botao-secundario"
-          onClick={onClose}
-        >
-          Cancelar
-        </button>
-        <button
-          type="button"
-          className="perfil-botao-primario"
-          onClick={() => setSaveAlertOpen(true)}
-          disabled={salvando}
-        >
-          {salvando ? "Salvando..." : "Salvar foto"}
-        </button>
-      </div>
+      <FormActions
+        className="perfil-modal-acoes"
+        cancelClassName="perfil-botao-secundario"
+        confirmClassName="perfil-botao-primario"
+        confirmText="Salvar foto"
+        confirmType="button"
+        loading={salvando}
+        onCancel={onClose}
+        onConfirm={() => setSaveAlertOpen(true)}
+      />
 
       <Alert
         isOpen={removeAlertOpen}

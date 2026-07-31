@@ -3,19 +3,10 @@
 }
 
 .recovery-kicker {
-  width: fit-content;
-  display: inline-flex;
-  align-items: center;
   gap: 8px;
   margin-bottom: 16px;
   padding: 8px 13px;
-  border: 1px solid rgb(var(--rgb-brand-green) / 0.2);
-  border-radius: 999px;
   background: var(--color-surface-green);
-  color: var(--color-brand-green-dark);
-  font-size: var(--font-size-label);
-  font-weight: var(--font-weight-bold);
-  text-transform: uppercase;
 }
 
 .recovery-label {

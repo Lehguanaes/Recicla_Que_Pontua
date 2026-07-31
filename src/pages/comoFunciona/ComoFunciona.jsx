@@ -1,5 +1,4 @@
-import { useEffect, useRef, useState } from "react";
-import { Link } from "react-router-dom";
+import { useRef, useState } from "react";
 import {
   FaImage,
   FaLink,
@@ -21,6 +20,8 @@ import {
 } from "react-icons/fa6";
 import Navbar from "../../components/navbar/Navbar";
 import Rodape from "../../components/rodape/Rodape";
+import { SectionHeader } from "../../components/typography/Typography";
+import Button from "../../components/button/Button";
 import LogoRetrato from "../../assets/LogoRetrato.png";
 import { useAuth } from "../../contexts/AuthContext";
 import PetDicas from "../../assets/PetDicas.png";
@@ -96,19 +97,6 @@ const featuredArticle = {
   title: "De onde vem o que você recicla: uma visita aos centros parceiros",
   text: "Acompanhamos uma tarde na cooperativa Vida Verde para entender o que acontece com o material depois que ele sai da sua casa.",
 };
-
-function SectionHeader({ eyebrow, title, text, icon }) {
-  return (
-    <div className="comunidade-section-header">
-      <span>
-        {icon}
-        {eyebrow}
-      </span>
-      <h2>{title}</h2>
-      <p>{text}</p>
-    </div>
-  );
-}
 
 function CommunityArticleCard({ titulo, autor, tag, icone, cor }) {
   return (
@@ -325,10 +313,6 @@ function PostComposer({
 export default function ComoFunciona() {
   const { user } = useAuth();
 
-  useEffect(() => {
-    window.scrollTo({ top: 0, behavior: "auto" });
-  }, []);
-
   return (
     <>
       <Navbar />
@@ -344,6 +328,8 @@ export default function ComoFunciona() {
           <section className="comunidade-learning-section comunidade-learning-main-section">
             <div className="comunidade-main-intro">
               <SectionHeader
+                className="comunidade-section-header"
+                titleAs="h1"
                 eyebrow="Como reciclar"
                 icon={<FaRecycle />}
                 title="Aprenda, prepare seus materiais e recicle com mais segurança"
@@ -441,6 +427,7 @@ export default function ComoFunciona() {
           <section className="comunidade-prep-section">
             <div className="comunidade-prep-intro">
               <SectionHeader
+                className="comunidade-section-header"
                 eyebrow="Antes de entregar"
                 icon={<FaRegCircleCheck />}
                 title="Pequenos cuidados que aumentam o valor do material"
@@ -488,6 +475,7 @@ export default function ComoFunciona() {
 
           <section id="videos-reciclagem" className="comunidade-videos-section">
             <SectionHeader
+              className="comunidade-section-header"
               eyebrow="Vídeos"
               icon={<FaVideo />}
               title="Aprenda vendo exemplos reais"
@@ -502,17 +490,13 @@ export default function ComoFunciona() {
           </section>
 
           <section className="comunidade-impact-section">
-            <div className="comunidade-impact-text">
-              <span>
-                <FaRecycle /> Por que isso importa?
-              </span>
-              <h2>Reciclar melhor melhora o resultado de todo mundo</h2>
-              <p>
-                Quando o material chega limpo, separado e com informações
-                claras, a plataforma consegue conectar melhor pessoas
-                recicladoras, coletores e centros de reciclagem.
-              </p>
-            </div>
+            <SectionHeader
+              className="comunidade-impact-text"
+              eyebrow="Por que isso importa?"
+              icon={<FaRecycle />}
+              title="Reciclar melhor melhora o resultado de todo mundo"
+              text="Quando o material chega limpo, separado e com informações claras, a plataforma consegue conectar melhor pessoas recicladoras, coletores e centros de reciclagem."
+            />
 
             <div className="comunidade-impact-grid">
               {impactCards.map(({ icon: Icon, title, text }) => (
@@ -526,22 +510,23 @@ export default function ComoFunciona() {
           </section>
 
           <section className="comunidade-final-cta">
-            <div className="comunidade-final-copy">
-              <h2>Agora é só preparar os materiais e escolher o destino.</h2>
-              <p>
-                Use o que aprendeu aqui para deixar tudo limpo, separado e
-                pronto para pontuar no Recicla que Pontua.
-              </p>
-            </div>
+            <SectionHeader
+              className="comunidade-final-copy"
+              title="Agora é só preparar os materiais e escolher o destino."
+              text="Use o que aprendeu aqui para deixar tudo limpo, separado e pronto para pontuar no Recicla que Pontua."
+            />
             <div className="comunidade-final-visual">
               <img
                 className="pet-floating"
                 src={LogoRetrato}
                 alt="Mascote incentivando a preparar entrega"
               />
-              <Link to={user ? "/doacao/cadastrar-materiais" : "/login"}>
+              <Button
+                variant="gradient"
+                to={user ? "/doacao/cadastrar-materiais" : "/login"}
+              >
                 Preparar entrega <FaArrowRight />
-              </Link>
+              </Button>
             </div>
           </section>
         </section>

@@ -5,37 +5,14 @@ import Catador from "../../../assets/catador.png";
 import CentroColeta from "../../../assets/centrocoleta.png";
 import Instituicao from "../../../assets/instituicao.png";
 import PessoaRec from "../../../assets/pessoa-recicladora.png";
+import { PROFILE_OPTIONS, PROFILE_IDS } from "../../../constants/profiles";
 
-export const perfis = [
-  {
-    id: "pessoa-recicladora",
-    image: PessoaRec,
-    label: "Pessoa Recicladora",
-    description: 
-    "Moradores, condomínios e estabelecimentos que separam e destinam corretamente seus resíduos recicláveis.",
-  },
-  {
-    id: "coletor-autonomo",
-    image: Catador,
-    label: "Coletor Autônomo",
-    description: 
-    "Profissional que coleta, separa e comercializa materiais recicláveis, contribuindo para a economia circular e a preservação ambiental.",
-  },
-  {
-    id: "instituicao-recicladora",
-    image: Instituicao,
-    label: "Instituição Recicladora",
-    description: "Escolas, universidades e instituições que promovem educação ambiental e ações de reciclagem junto à comunidade.",
-  },
-  {
-    id: "centro-coleta",
-    image: CentroColeta,
-    label: "Centro de Reciclagem",
-    description: 
-    "Ecopontos, cooperativas, sucateiros e empresas que recebem, armazenam, compram ou encaminham materiais para reciclagem."
-,
-  },
-];
+const PROFILE_IMAGES = {
+  [PROFILE_IDS.PERSON]: PessoaRec,
+  [PROFILE_IDS.COLLECTOR]: Catador,
+  [PROFILE_IDS.INSTITUTION]: Instituicao,
+  [PROFILE_IDS.CENTER]: CentroColeta,
+};
 
 export default function SelecionarUser({ selected, onSelect }) {
   return (
@@ -45,10 +22,10 @@ export default function SelecionarUser({ selected, onSelect }) {
           
 
       <div className="select-user-grid">
-        {perfis.map((perfil) => (
+        {PROFILE_OPTIONS.map((perfil) => (
           <ProfileCard
             key={perfil.id}
-            image={perfil.image}
+            image={PROFILE_IMAGES[perfil.id]}
             name={perfil.label} 
             description={perfil.description}
             selected={selected === perfil.id}
