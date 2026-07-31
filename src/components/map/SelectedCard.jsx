@@ -4,7 +4,6 @@ import { FaStar, FaUserPlus, FaComments } from "react-icons/fa";
 import Button from "../button/Button";
 
 import "./selectedCard.css";
-import { PROFILE_IDS } from "../../constants/profiles";
 
 import { LOCAL_TYPES } from "../../constants";
 
