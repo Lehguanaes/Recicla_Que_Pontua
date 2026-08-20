@@ -1,3 +1,5 @@
+import "./emptyState.css";
+
 export default function EmptyState({
   as: Element = "div",
   className = "",
@@ -12,11 +14,16 @@ export default function EmptyState({
 }) {
   return (
     <Element
-      className={className}
+      className={["ui-empty-state", className].filter(Boolean).join(" ")}
       aria-labelledby={titleId || undefined}
     >
       {icon && (
-        <IconWrapper className={iconClassName} aria-hidden="true">
+        <IconWrapper
+          className={["ui-empty-state-icon", iconClassName]
+            .filter(Boolean)
+            .join(" ")}
+          aria-hidden="true"
+        >
           {icon}
         </IconWrapper>
       )}

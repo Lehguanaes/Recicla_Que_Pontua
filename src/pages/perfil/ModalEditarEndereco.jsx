@@ -188,7 +188,7 @@ export default function ModalEditarEndereco({
     >
       <ModalHeader
         title="Endereço Completo"
-        subtitle="Essas informações são opcionais e ajudam a melhorar a filtragem de catadores e centros de coleta próximos a você."
+        subtitle="Essas informações são opcionais e ajudam a melhorar a filtragem de coletores e centros de coleta próximos a você."
         titleClassName="perfil-modal-titulo"
         subtitleClassName="perfil-modal-subtitulo"
       />

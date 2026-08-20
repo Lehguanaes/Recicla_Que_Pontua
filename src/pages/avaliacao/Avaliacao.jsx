@@ -144,7 +144,7 @@ export default function Avaliacao() {
 
           <div className="evaluation-hero-visual" aria-hidden="true">
             <img
-              className="pet-floating"
+              className="section-title-image pet-floating"
               src={PetAvaliacao}
               alt=""
             />

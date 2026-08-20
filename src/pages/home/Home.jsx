@@ -26,7 +26,7 @@ import {
 import { FaBoxOpen, FaFileAlt, FaOilCan } from "react-icons/fa";
 import LogoRetrato from "../../assets/LogoRetrato.png";
 import PetRecicla from "../../assets/PetRecicla.png";
-import Coletor from "../../assets/catador.png";
+import Coletor from "../../assets/coletor.png";
 import CentroColeta from "../../assets/centrocoleta.png";
 import PetDuvidas from "../../assets/PetDuvidas.png";
 import PetComecar from "../../assets/PetComecar.png";
@@ -401,7 +401,7 @@ export default function Home() {
               text="Separar corretamente aumenta as chances de venda, evita contaminação e ajuda centros e coletores a trabalharem melhor."
             />
             <img
-              className="pet-floating"
+              className="section-title-image pet-floating"
               src={PetRecicla}
               alt="Pet separando materiais recicláveis"
             />

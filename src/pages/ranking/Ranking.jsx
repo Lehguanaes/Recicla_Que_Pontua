@@ -94,7 +94,7 @@ export default function Ranking() {
 
             <div className="ranking-mascote">
               <img
-                className="ranking-mascote-image pet-floating"
+                className="ranking-mascote-image section-title-image pet-floating"
                 src={Mascote}
                 alt="Mascote campeão do ranking"
               />

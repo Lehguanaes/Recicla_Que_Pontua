@@ -1,7 +1,7 @@
 import "./selecionarUser.css";
 import ProfileCard from "../profileCard/ProfileCard";
 
-import Catador from "../../../assets/catador.png";
+import Coletor from "../../../assets/coletor.png";
 import CentroColeta from "../../../assets/centrocoleta.png";
 import Instituicao from "../../../assets/instituicao.png";
 import PessoaRec from "../../../assets/pessoa-recicladora.png";
@@ -9,7 +9,7 @@ import { PROFILE_OPTIONS, PROFILE_IDS } from "../../../constants/profiles";
 
 const PROFILE_IMAGES = {
   [PROFILE_IDS.PERSON]: PessoaRec,
-  [PROFILE_IDS.COLLECTOR]: Catador,
+  [PROFILE_IDS.COLLECTOR]: Coletor,
   [PROFILE_IDS.INSTITUTION]: Instituicao,
   [PROFILE_IDS.CENTER]: CentroColeta,
 };

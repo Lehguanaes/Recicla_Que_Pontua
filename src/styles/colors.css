@@ -55,6 +55,7 @@
   --color-info: #2196f3;
   --color-info-dark: #1d7f9b;
   --color-marker-selected: #ff5722;
+  --color-message-read: #8ce9ff;
 
   /* Transparências e efeitos */
   --color-highlight-info: rgb(29 127 155 / 12%);

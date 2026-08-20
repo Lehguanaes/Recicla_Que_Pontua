@@ -50,7 +50,7 @@ export const DISTANCE_OPTIONS = [
 // MODOS DE BUSCA (IBL 03 — Regra de Negócio)
 // ============================================================
 export const SEARCH_MODES = {
-  ALL: 'todos',      // exibe catadores e centros
+  ALL: 'todos',      // exibe coletores e centros
   SELL: 'vender',    // exibe APENAS centros de coleta
   DONATE: 'doar',    // exibe todos
 };
@@ -59,7 +59,7 @@ export const SEARCH_MODES = {
 // TIPOS DE LOCAL
 // ============================================================
 export const LOCAL_TYPES = {
-  COLLECTOR: 'catador',
+  COLLECTOR: 'coletor',
   CENTER: 'centro',
 };
 

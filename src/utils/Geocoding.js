@@ -212,16 +212,16 @@ export function aguardar(ms) {
 }
 
 /**
- * Gera um deslocamento pequeno e DETERMINÍSTICO (o mesmo catador sempre cai
+ * Gera um deslocamento pequeno e DETERMINÍSTICO (o mesmo coletor sempre cai
  * no mesmo ponto aproximado, em vez de "pular" de lugar a cada busca) a
- * partir das coordenadas reais de um catador autônomo. Usado para não expor
+ * partir das coordenadas reais de um coletor autônomo. Usado para não expor
  * o endereço residencial exato no mapa — centros de coleta (endereço
  * comercial, aberto ao público) não passam por essa função.
  *
  * @param {number} lat latitude real
  * @param {number} lng longitude real
  * @param {string} seed valor usado para gerar sempre o mesmo deslocamento
- *   para o mesmo catador (normalmente o id do documento no Firestore)
+ *   para o mesmo coletor (normalmente o id do documento no Firestore)
  * @param {number} raioMetros raio máximo do deslocamento (padrão: 150m)
  */
 export function aplicarDeslocamentoPrivacidade(lat, lng, seed, raioMetros = 150) {

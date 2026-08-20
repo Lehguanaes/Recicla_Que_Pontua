@@ -106,7 +106,7 @@ Entre eles:
 * Facilitar a localização de centros de reciclagem;
 * Incentivar hábitos sustentáveis;
 * Reduzir o descarte incorreto de resíduos;
-* Aproximar cidadãos, catadores e empresas recicladoras;
+* Aproximar cidadãos, coletores e empresas recicladoras;
 * Promover a educação ambiental;
 * Fortalecer a economia circular.
 

@@ -21,14 +21,8 @@ import Rodape from "../../components/rodape/Rodape";
 import { PageHeader } from "../../components/typography/Typography";
 import EmptyState from "../../components/common/EmptyState";
 import Button from "../../components/button/Button";
+import { getProfileLabel } from "../../constants/profiles";
 import "./chat.css";
-
-const PERFIL_LABELS = {
-  "pessoa-recicladora": "Reciclador",
-  "instituicao-recicladora": "Instituição",
-  "coletor-autonomo": "Catador",
-  "centro-coleta": "Centro de Coleta",
-};
 
 export default function Chat() {
   const { user } = useAuth();
@@ -171,17 +165,17 @@ export default function Chat() {
       <Navbar />
 
       <main className="chat-page">
-        {chats.length === 0 ? (
-          <div className="chat-container">
-            <PageHeader
-              className="chat-header"
-              eyebrowClassName="chat-kicker"
-              eyebrow="Conversas"
-              icon={<FaComments />}
-              title="Converse com seus parceiros de reciclagem"
-              text="Depois que um convite for aceito, a conversa ficará disponível aqui para vocês combinarem os detalhes da entrega."
-            />
+        <div className="chat-container">
+          <PageHeader
+            className="chat-header"
+            eyebrowClassName="chat-kicker"
+            eyebrow="Conversas"
+            icon={<FaComments />}
+            title="Converse com seus parceiros de reciclagem"
+            text="Depois que um convite for aceito, a conversa ficará disponível aqui para vocês combinarem os detalhes da entrega."
+          />
 
+          {chats.length === 0 ? (
             <EmptyState
               as="section"
               className="chat-empty"
@@ -195,9 +189,8 @@ export default function Chat() {
                 Ver meus convites
               </Button>
             </EmptyState>
-          </div>
-        ) : (
-          <div className={`chat-layout-container panel-${mobileActivePanel}`}>
+          ) : (
+            <div className={`chat-layout-container panel-${mobileActivePanel}`}>
             
             {/* Chat List Panel */}
             <section className="chat-list-panel">
@@ -262,7 +255,7 @@ export default function Chat() {
                     {(() => {
                       const otherUid = selectedChat.participantes.find((id) => id !== user.uid);
                       const otherUser = profiles[otherUid] || {};
-                      const labelPerfil = PERFIL_LABELS[otherUser.perfil] || otherUser.perfil || "Parceiro";
+                      const labelPerfil = getProfileLabel(otherUser.perfil, "Parceiro");
 
                       return (
                         <>
@@ -339,8 +332,9 @@ export default function Chat() {
               )}
             </section>
 
-          </div>
-        )}
+            </div>
+          )}
+        </div>
       </main>
 
       <Rodape />

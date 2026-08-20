@@ -10,7 +10,7 @@
 
 .evaluation-hero {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(220px, 320px);
+  grid-template-columns: minmax(0, 1fr) minmax(240px, 350px);
   align-items: center;
   gap: clamp(28px, 5vw, 70px);
   margin-bottom: 38px;
@@ -27,10 +27,7 @@
 }
 
 .evaluation-hero-visual img {
-  width: min(100%, 280px);
-  height: auto;
   display: block;
-  object-fit: contain;
 }
 
 .evaluation-kicker {
@@ -466,11 +463,12 @@
 
 @media (max-width: 900px) {
   .evaluation-hero {
-    grid-template-columns: minmax(0, 1fr) minmax(170px, 220px);
+    grid-template-columns: 1fr;
+    gap: 26px;
   }
 
-  .evaluation-hero-visual img {
-    width: min(100%, 210px);
+  .evaluation-hero-visual {
+    justify-content: center;
   }
 
   .evaluation-partner-card {
@@ -501,10 +499,6 @@
   .evaluation-hero-visual {
     justify-content: center;
     margin-top: -10px;
-  }
-
-  .evaluation-hero-visual img {
-    width: 180px;
   }
 
   .evaluation-partner-card,

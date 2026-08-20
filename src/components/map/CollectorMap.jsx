@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { LOCAL_TYPES, MAP_COLORS, MAP_CONFIG } from '../../constants';
 
-// Mapa com marcadores de catadores/centros
+// Mapa com marcadores de coletores/centros
 const CollectorMap = ({ collectors = [], selected, onSelectCollector, origin = null }) => {
   const mapRef = useRef(null);
   const leafletRef = useRef(null);
@@ -89,7 +89,7 @@ const CollectorMap = ({ collectors = [], selected, onSelectCollector, origin = n
         iconAnchor: [isSelected ? 22 : 18, isSelected ? 44 : 36],
       });
 
-      // Catadores autônomos usam localização aproximada (privacidade); um
+      // Coletores autônomos usam localização aproximada (privacidade); um
       // círculo tracejado ao redor do marcador deixa isso claro pra quem
       // está olhando o mapa (público-alvo inclui pessoas mais velhas, então
       // preferimos um sinal visual explícito a uma legenda escondida).

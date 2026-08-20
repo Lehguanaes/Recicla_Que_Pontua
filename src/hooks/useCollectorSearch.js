@@ -28,7 +28,7 @@ import {
 const PERFIS_COLETA = [PROFILE_IDS.COLLECTOR, PROFILE_IDS.CENTER];
 
 const INFO_POR_PERFIL = {
-  [PROFILE_IDS.COLLECTOR]: { tipo: "catador", subtipo: "Autônomo" },
+  [PROFILE_IDS.COLLECTOR]: { tipo: "coletor", subtipo: "Autônomo" },
   [PROFILE_IDS.CENTER]: { tipo: "centro", subtipo: "Centro de Coleta" },
 };
 
@@ -56,7 +56,7 @@ const AVISO_ENDERECO_NAO_ENCONTRADO =
   "Não encontramos esse local. Tente informar o bairro ou a cidade.";
 
 /**
- * Busca catadores autônomos e centros de coleta cadastrados no Firestore
+ * Busca coletores autônomos e centros de coleta cadastrados no Firestore
  * (coleção "usuarios"), calculando a distância real até o usuário logado a
  * partir do CEP/endereço de cada um (geocodificado via ViaCEP + Nominatim).
  *
@@ -169,7 +169,7 @@ export default function useCollectorSearch(uidParam, filtrosIniciais = {}) {
     return { coords: coordenadas, enderecoTexto };
   }, [uid]);
 
-  // Busca os catadores/centros no Firestore e geocodifica quem ainda não
+  // Busca os coletores/centros no Firestore e geocodifica quem ainda não
   // tem coordenadas salvas (uma requisição por vez, para respeitar o limite
   // do Nominatim).
   const buscarColetores = useCallback(async () => {
@@ -254,24 +254,24 @@ export default function useCollectorSearch(uidParam, filtrosIniciais = {}) {
 
       const listaFormatada = listaColetores.map((coletor) => {
         const infoTipo = INFO_POR_PERFIL[coletor.perfil] || {};
-        const ehCatadorAutonomo = coletor.perfil === PROFILE_IDS.COLLECTOR;
+        const ehColetorAutonomo = coletor.perfil === PROFILE_IDS.COLLECTOR;
         const lat = coletor.latitude;
         const lng = coletor.longitude;
         const temCoordenadas = typeof lat === "number" && typeof lng === "number";
 
-        // Catadores autônomos (endereço residencial) são exibidos no mapa em
+        // Coletores autônomos (endereço residencial) são exibidos no mapa em
         // uma posição aproximada (deslocada ~40-150m, sempre igual para o
-        // mesmo catador), para não expor o endereço exato. Centros de coleta
+        // mesmo coletor), para não expor o endereço exato. Centros de coleta
         // (endereço comercial, aberto ao público) usam a coordenada real.
         const coordenadasExibicao =
-          ehCatadorAutonomo && temCoordenadas
+          ehColetorAutonomo && temCoordenadas
             ? aplicarDeslocamentoPrivacidade(lat, lng, coletor.id)
             : { lat, lng };
 
         return {
           id: coletor.id,
           nome: coletor.nome || "Sem nome",
-          tipo: infoTipo.tipo || "catador",
+          tipo: infoTipo.tipo || "coletor",
           subtipo: infoTipo.subtipo || "",
           veiculo: coletor.possuiVeiculo
             ? LABEL_TIPO_VEICULO[coletor.tipoVeiculo] || "Possui veículo"
@@ -283,7 +283,7 @@ export default function useCollectorSearch(uidParam, filtrosIniciais = {}) {
           lat: typeof coordenadasExibicao.lat === "number" ? coordenadasExibicao.lat : null,
           lng: typeof coordenadasExibicao.lng === "number" ? coordenadasExibicao.lng : null,
           // Usado pelo card/mapa pra indicar "localização aproximada".
-          localizacaoAproximada: ehCatadorAutonomo && temCoordenadas,
+          localizacaoAproximada: ehColetorAutonomo && temCoordenadas,
           materiais: (coletor.materiaisAceitos || []).map(normalizeMaterialId),
           fotoPerfil: coletor.fotoPerfil || null,
           telefone: coletor.telefone || null,
@@ -296,7 +296,7 @@ export default function useCollectorSearch(uidParam, filtrosIniciais = {}) {
 
       setCollectors(listaFormatada);
     } catch (err) {
-      console.error("Erro ao buscar catadores e centros de coleta:", err);
+      console.error("Erro ao buscar coletores e centros de coleta:", err);
       setError("Não foi possível carregar os locais de coleta agora.");
     } finally {
       setLoading(false);
@@ -368,7 +368,7 @@ export default function useCollectorSearch(uidParam, filtrosIniciais = {}) {
           : null,
     }));
 
-    // Regra de negócio: modo "vender" oculta catadores autônomos
+    // Regra de negócio: modo "vender" oculta coletores autônomos
     if (filters.modo === "vender") {
       lista = lista.filter((c) => c.tipo === "centro");
     }

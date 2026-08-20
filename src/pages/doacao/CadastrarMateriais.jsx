@@ -196,7 +196,7 @@ const CadastrarMateriais = () => {
               />
 
               <div className="materials-hero-visual" aria-hidden="true">
-                <img className="pet-floating" src={PetRecicla} alt="" />
+                <img className="section-title-image pet-floating" src={PetRecicla} alt="" />
               </div>
             </div>
 
