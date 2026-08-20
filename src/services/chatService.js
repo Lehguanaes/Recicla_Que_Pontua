@@ -55,6 +55,8 @@ export async function createChatIfNotExists(uid1, uid2) {
       createdAt: serverTimestamp(),
       lastMessage: "",
       lastMessageAt: null,
+      lastSenderId: null,
+      lastReadBy: {},
     };
     await setDoc(newChatRef, chatData);
     return newChatRef.id;
@@ -141,6 +143,7 @@ export async function sendMessage(chatId, senderId, text) {
     await updateDoc(chatRef, {
       lastMessage: text,
       lastMessageAt: serverTimestamp(),
+      lastSenderId: senderId,
     });
   } catch (err) {
     console.error("Erro ao enviar mensagem:", err);
@@ -160,14 +163,17 @@ export async function markMessagesAsRead(chatId, currentUserId) {
     );
     
     const querySnapshot = await getDocs(q);
-    if (querySnapshot.empty) return;
+    if (!querySnapshot.empty) {
+      const batch = writeBatch(db);
+      querySnapshot.forEach((docSnap) => {
+        batch.update(docSnap.ref, { visualizada: true });
+      });
+      await batch.commit();
+    }
 
-    const batch = writeBatch(db);
-    querySnapshot.forEach((docSnap) => {
-      batch.update(docSnap.ref, { visualizada: true });
+    await updateDoc(doc(db, "chats", chatId), {
+      [`lastReadBy.${currentUserId}`]: serverTimestamp(),
     });
-
-    await batch.commit();
   } catch (err) {
     console.error("Erro ao marcar mensagens como lidas:", err);
   }

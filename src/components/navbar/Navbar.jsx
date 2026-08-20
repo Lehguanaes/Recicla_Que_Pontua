@@ -3,6 +3,7 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
 import Alert from "../alert/Alert";
 import IconButton from "../button/IconButton";
+import NotificationBell from "../notifications/NotificationBell";
 import "./navbar.css";
 import Logo from "../../assets/logo.png";
 import PetMenu from "../../assets/PetMenu.png";
@@ -51,23 +52,26 @@ export default function Navbar() {
 
       <div className="navbar-top-controls">
         {user && (
-          <NavLink
-            to="/perfil"
-            className="navbar-user-btn"
-            onClick={closeMenu}
-            aria-label="Acessar meu perfil"
-            title="Meu perfil"
-          >
-            {user?.fotoPerfil ? (
-              <img
-                src={user.fotoPerfil}
-                alt={user.nome || "Foto de perfil"}
-                className="navbar-user-avatar"
-              />
-            ) : (
-              <FaUserCircle />
-            )}
-          </NavLink>
+          <>
+            <NotificationBell userId={user.uid} onOpen={closeMenu} />
+            <NavLink
+              to="/perfil"
+              className="navbar-user-btn"
+              onClick={closeMenu}
+              aria-label="Acessar meu perfil"
+              title="Meu perfil"
+            >
+              {user?.fotoPerfil ? (
+                <img
+                  src={user.fotoPerfil}
+                  alt={user.nome || "Foto de perfil"}
+                  className="navbar-user-avatar"
+                />
+              ) : (
+                <FaUserCircle />
+              )}
+            </NavLink>
+          </>
         )}
 
       <IconButton
