@@ -6,6 +6,8 @@ import {
   SORT_OPTIONS,
 } from "../../constants";
 import SelectField from "../form/SelectField";
+import Button from "../button/Button";
+import IconButton from "../button/IconButton";
 import "./filterPanel.css";
 
 const FilterPanel = ({ filters, onUpdateFilter, onReset, onClose }) => {
@@ -36,9 +38,9 @@ const FilterPanel = ({ filters, onUpdateFilter, onReset, onClose }) => {
             <span>Busca de locais</span>
             <strong>Filtros</strong>
           </div>
-          <button type="button" aria-label="Fechar filtros" onClick={onClose}>
+          <IconButton label="Fechar filtros" onClick={onClose}>
             <FaTimes />
-          </button>
+          </IconButton>
         </header>
 
         <div className="filter-body">
@@ -85,20 +87,22 @@ const FilterPanel = ({ filters, onUpdateFilter, onReset, onClose }) => {
         </div>
 
         <footer className="filter-footer">
-          <button
+          <Button
+            variant="neutral"
             type="button"
             className="filter-footer-button"
             onClick={onReset}
           >
             Limpar
-          </button>
-          <button
+          </Button>
+          <Button
+            variant="neutral"
             type="button"
             className="filter-footer-button"
             onClick={onClose}
           >
             Aplicar
-          </button>
+          </Button>
         </footer>
       </aside>
     </div>

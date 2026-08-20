@@ -1,6 +1,12 @@
 @import "./styles/colors.css";
 @import "./styles/typography.css";
 
+:root {
+  --layout-page-gutter: 7%;
+  --layout-content-max: 1180px;
+  --layout-navbar-height: 82px;
+}
+
 *,
 *::before,
 *::after {

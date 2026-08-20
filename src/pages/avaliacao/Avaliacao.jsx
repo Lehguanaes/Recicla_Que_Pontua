@@ -10,10 +10,10 @@ import {
   FaUserCircle,
 } from "react-icons/fa";
 
-import Navbar from "../../components/navbar/Navbar";
-import Rodape from "../../components/rodape/Rodape";
+import PageLayout from "../../components/layout/PageLayout";
 import Alert from "../../components/alert/Alert";
 import Button from "../../components/button/Button";
+import FormMessage from "../../components/form/FormMessage";
 import { PageHeader } from "../../components/typography/Typography";
 import { useAuth } from "../../contexts/AuthContext";
 import { db } from "../../services/Firebase";
@@ -129,7 +129,7 @@ export default function Avaliacao() {
 
   return (
     <>
-      <Navbar />
+      <PageLayout>
 
       <main className="evaluation-page">
         <div className="evaluation-hero">
@@ -302,16 +302,17 @@ export default function Avaliacao() {
               </span>
             </section>
 
-            {erro && <p className="evaluation-error">{erro}</p>}
+            <FormMessage className="evaluation-error">{erro}</FormMessage>
 
             <div className="evaluation-actions">
-              <button
+              <Button
+                variant="neutral"
                 type="button"
                 className="evaluation-secondary-button"
                 onClick={() => navigate("/convites")}
               >
                 Voltar
-              </button>
+              </Button>
               <Button variant="gradient" type="submit" className="evaluation-primary-button">
                 Enviar avaliação
               </Button>
@@ -320,7 +321,7 @@ export default function Avaliacao() {
         </div>
       </main>
 
-      <Rodape />
+      </PageLayout>
 
       <Alert
         isOpen={confirmOpen}

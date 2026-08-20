@@ -18,8 +18,8 @@ import CollectorCard from "../../components/cards/CollectorCard";
 import SelectedCard from "../../components/map/SelectedCard";
 import ConfirmarConvite from "../convites/ConfirmarConvites";
 import Alert from "../../components/alert/Alert";
-import Navbar from "../../components/navbar/Navbar";
-import Rodape from "../../components/rodape/Rodape";
+import FormMessage from "../../components/form/FormMessage";
+import PageLayout from "../../components/layout/PageLayout";
 import { PageHeader } from "../../components/typography/Typography";
 import { useAuth } from "../../contexts/AuthContext";
 import { db } from "../../services/Firebase";
@@ -247,7 +247,7 @@ const DoarMateriais = () => {
 
   return (
     <>
-      <Navbar />
+      <PageLayout>
 
       <main className="donation-page">
         <section className="donation-hero">
@@ -335,7 +335,9 @@ const DoarMateriais = () => {
 
           {loading && <div className="donation-loading">Buscando locais...</div>}
 
-          {error && <div className="donation-error">{error}</div>}
+          <FormMessage as="div" className="donation-error">
+            {error}
+          </FormMessage>
 
           {renderRegisteredMaterialTags()}
 
@@ -461,7 +463,7 @@ const DoarMateriais = () => {
         </div>
       </Alert>
 
-      <Rodape />
+      </PageLayout>
     </>
   );
 };

@@ -4,6 +4,7 @@ import Modal from "../../components/modal/Modal";
 import ModalHeader from "../../components/modal/ModalHeader";
 import Alert from "../../components/alert/Alert";
 import FormActions from "../../components/form/FormActions";
+import FormMessage from "../../components/form/FormMessage";
 
 const TAMANHO_MAXIMO_MB = 2;
 
@@ -114,7 +115,7 @@ export default function ModalEditarFoto({
         )}
       </div>
 
-      {erro && <p className="perfil-form-error">{erro}</p>}
+      <FormMessage className="perfil-form-error">{erro}</FormMessage>
 
       <FormActions
         className="perfil-modal-acoes"

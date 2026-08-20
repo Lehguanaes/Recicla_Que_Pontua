@@ -125,8 +125,8 @@ const CollectorMap = ({ collectors = [], selected, onSelectCollector, origin = n
           <div style="
             width: 18px; height: 18px; border-radius: 50%;
             background: ${MAP_COLORS.origin};
-            border: 3px solid var(--color-keyword-white);
-            box-shadow: 0 0 0 4px var(--color-rgba-33-150-243-0p25), 0 2px 6px var(--color-rgba-0-0-0-0p3);
+            border: 3px solid var(--color-white);
+            box-shadow: 0 0 0 4px var(--color-map-origin-ring), 0 2px 6px var(--shadow-color-map-marker);
           "></div>
         `,
         iconSize: [18, 18],

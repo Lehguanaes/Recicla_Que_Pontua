@@ -3,12 +3,12 @@ import { Link, useNavigate } from "react-router-dom";
 import { sendPasswordResetEmail } from "firebase/auth";
 import { FaArrowLeft, FaEnvelope } from "react-icons/fa";
 
-import Navbar from "../../components/navbar/Navbar";
-import Rodape from "../../components/rodape/Rodape";
+import PageLayout from "../../components/layout/PageLayout";
 import Alert from "../../components/alert/Alert";
 import { PageHeader } from "../../components/typography/Typography";
 import Button from "../../components/button/Button";
 import Input from "../../components/form/Input";
+import FormMessage from "../../components/form/FormMessage";
 import { auth } from "../../services/Firebase";
 import PetLogin from "../../assets/PetLogin.png";
 
@@ -54,7 +54,7 @@ export default function RecuperarSenha() {
 
   return (
     <>
-      <Navbar />
+      <PageLayout>
 
       <main className="auth-page recovery-page">
         <div className="login-slider">
@@ -93,7 +93,9 @@ export default function RecuperarSenha() {
                 />
               </div>
 
-              {erro && <span className="login-error">{erro}</span>}
+              <FormMessage as="span" className="login-error">
+                {erro}
+              </FormMessage>
 
               <Button
                 variant="gradient"
@@ -120,7 +122,7 @@ export default function RecuperarSenha() {
         </div>
       </main>
 
-      <Rodape />
+      </PageLayout>
 
       <Alert
         isOpen={avisoEnviado}

@@ -23,11 +23,14 @@ import {
   FaPhoneAlt,
   FaStar,
 } from "react-icons/fa";
-import Navbar from "../../components/navbar/Navbar";
-import Rodape from "../../components/rodape/Rodape";
+import PageLayout from "../../components/layout/PageLayout";
 import { createChatIfNotExists } from "../../services/chatService";
 import { PageHeader } from "../../components/typography/Typography";
 import EmptyState from "../../components/common/EmptyState";
+import Button from "../../components/button/Button";
+import Alert from "../../components/alert/Alert";
+import FormMessage from "../../components/form/FormMessage";
+import Loading from "../../contexts/Loading";
 import { getProfileLabel } from "../../constants/profiles";
 import "./convite.css";
 
@@ -37,6 +40,9 @@ export default function Convite() {
   const [senders, setSenders] = useState({});
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState("pendentes"); // "pendentes" | "historico"
+  const [pendingAction, setPendingAction] = useState(null);
+  const [actionLoading, setActionLoading] = useState(false);
+  const [actionError, setActionError] = useState("");
 
   useEffect(() => {
     if (!user?.uid) {
@@ -141,6 +147,7 @@ export default function Convite() {
       await createChatIfNotExists(invitation.remetenteId, invitation.destinatarioId);
     } catch (err) {
       console.error("Erro ao aceitar convite:", err);
+      throw err;
     }
   };
 
@@ -153,8 +160,33 @@ export default function Convite() {
       });
     } catch (err) {
       console.error("Erro ao recusar convite:", err);
+      throw err;
     }
   };
+
+  async function confirmPendingAction() {
+    if (!pendingAction) return;
+
+    setActionLoading(true);
+    setActionError("");
+
+    try {
+      if (pendingAction.type === "accept") {
+        await handleAccept(pendingAction.invitation.id);
+      } else {
+        await handleRefuse(pendingAction.invitation.id);
+      }
+      setPendingAction(null);
+    } catch {
+      setActionError(
+        `Não foi possível ${
+          pendingAction.type === "accept" ? "aceitar" : "recusar"
+        } o convite. Tente novamente.`
+      );
+    } finally {
+      setActionLoading(false);
+    }
+  }
 
   // Filter invitations based on active tab
   const filteredInvitations = useMemo(() => {
@@ -179,21 +211,16 @@ export default function Convite() {
 
   if (loading) {
     return (
-      <>
-        <Navbar />
-        <div className="convites-loading">
-          <div className="convites-spinner"></div>
-          <p>Carregando solicitações...</p>
-        </div>
-        <Rodape />
-      </>
+      <PageLayout>
+        <Loading mensagem="Carregando solicitações" />
+      </PageLayout>
     );
   }
 
   return (
     <>
-      <Navbar />
-      <main className="convites-page">
+      <PageLayout>
+        <main className="convites-page">
         <section className="convites-main-section">
           <PageHeader
             className="convites-header"
@@ -304,22 +331,30 @@ export default function Convite() {
                         </div>
                       ) : (
                         <div className="convite-card-actions">
-                          <button
+                          <Button
+                            variant="green"
                             className="action-btn accept-btn"
-                            onClick={() => handleAccept(inv.id)}
+                            onClick={() => {
+                              setActionError("");
+                              setPendingAction({ type: "accept", invitation: inv });
+                            }}
                             aria-label="Aceitar convite"
                           >
                             <FaCheck />
                             <span>Aceitar</span>
-                          </button>
-                          <button
+                          </Button>
+                          <Button
+                            variant="danger"
                             className="action-btn refuse-btn"
-                            onClick={() => handleRefuse(inv.id)}
+                            onClick={() => {
+                              setActionError("");
+                              setPendingAction({ type: "refuse", invitation: inv });
+                            }}
                             aria-label="Recusar convite"
                           >
                             <FaTimes />
                             <span>Recusar</span>
-                          </button>
+                          </Button>
                         </div>
                       )
                     ) : (
@@ -362,8 +397,36 @@ export default function Convite() {
           </div>
           </div>
         </section>
-      </main>
-      <Rodape />
+        </main>
+      </PageLayout>
+
+      <Alert
+        isOpen={Boolean(pendingAction)}
+        title={
+          pendingAction?.type === "accept"
+            ? "Aceitar este convite?"
+            : "Recusar este convite?"
+        }
+        message={
+          pendingAction?.type === "accept"
+            ? "Ao aceitar, uma conversa será liberada para vocês combinarem os detalhes da troca."
+            : "O convite será movido para o histórico como recusado."
+        }
+        variant={pendingAction?.type === "refuse" ? "danger" : "info"}
+        confirmText={pendingAction?.type === "accept" ? "Aceitar convite" : "Recusar convite"}
+        cancelText="Voltar"
+        onConfirm={confirmPendingAction}
+        onCancel={() => {
+          if (actionLoading) return;
+          setPendingAction(null);
+          setActionError("");
+        }}
+        loading={actionLoading}
+      >
+        <FormMessage className="convite-action-error">
+          {actionError}
+        </FormMessage>
+      </Alert>
     </>
   );
 }

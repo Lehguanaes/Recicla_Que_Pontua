@@ -26,6 +26,10 @@
   animation: alert-box-enter 0.24s ease both;
 }
 
+.alert-box:focus {
+  outline: none;
+}
+
 .alert-icon {
   width: 62px;
   height: 62px;

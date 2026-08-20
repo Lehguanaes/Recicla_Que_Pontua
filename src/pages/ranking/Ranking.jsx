@@ -1,5 +1,4 @@
-import Navbar from "../../components/navbar/Navbar";
-import Rodape from "../../components/rodape/Rodape";
+import PageLayout from "../../components/layout/PageLayout";
 import { SectionHeader } from "../../components/typography/Typography";
 import AccordionItem from "../../components/common/AccordionItem";
 import Button from "../../components/button/Button";
@@ -69,7 +68,7 @@ export default function Ranking() {
 
   return (
     <>
-      <Navbar />
+      <PageLayout>
 
       <div className="ranking-container">
         <div className="ranking-bg-decor" aria-hidden="true">
@@ -255,7 +254,7 @@ export default function Ranking() {
         </section>
       </div>
 
-      <Rodape />
+      </PageLayout>
     </>
   );
 }

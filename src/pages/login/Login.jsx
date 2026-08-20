@@ -2,8 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import PetLogin from "../../assets/PetLogin.png";
-import Navbar from "../../components/navbar/Navbar";
-import Rodape from "../../components/rodape/Rodape";
+import PageLayout from "../../components/layout/PageLayout";
 import LoginForm from "../login/LoginForm";
 import CadastroPanel from "../login/cadastro/CadastroPanel";
 import ModalPerfil from "../login/modalPerfil/ModalPerfil";
@@ -90,7 +89,7 @@ export default function Login({ iniciarCadastro = false }) {
 
   return (
     <>
-      <Navbar />
+      <PageLayout>
 
       <div className="auth-page">
         <div className="login-slider">
@@ -135,7 +134,7 @@ export default function Login({ iniciarCadastro = false }) {
         onClose={() => setModalAberto(false)}
       />
 
-      <Rodape />
+      </PageLayout>
     </>
   );
 }

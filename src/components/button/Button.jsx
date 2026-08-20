@@ -11,6 +11,7 @@ export default function Button({
   disabled = false,
   loading = false,
   loadingText = "Carregando...",
+  onClick,
   ...props
 }) {
   const classes = [
@@ -21,9 +22,27 @@ export default function Button({
   const content = loading ? loadingText : children;
   const isDisabled = disabled || loading;
 
+  function handleLinkClick(event) {
+    if (isDisabled) {
+      event.preventDefault();
+      event.stopPropagation();
+      return;
+    }
+
+    onClick?.(event);
+  }
+
   if (to) {
     return (
-      <Link className={classes} to={to} {...props}>
+      <Link
+        className={`${classes}${isDisabled ? " is-disabled" : ""}`}
+        to={to}
+        {...props}
+        aria-disabled={isDisabled || undefined}
+        aria-busy={loading || undefined}
+        tabIndex={isDisabled ? -1 : props.tabIndex}
+        onClick={handleLinkClick}
+      >
         {content}
       </Link>
     );
@@ -31,7 +50,15 @@ export default function Button({
 
   if (href) {
     return (
-      <a className={classes} href={href} {...props}>
+      <a
+        className={`${classes}${isDisabled ? " is-disabled" : ""}`}
+        href={href}
+        {...props}
+        aria-disabled={isDisabled || undefined}
+        aria-busy={loading || undefined}
+        tabIndex={isDisabled ? -1 : props.tabIndex}
+        onClick={handleLinkClick}
+      >
         {content}
       </a>
     );
@@ -43,6 +70,7 @@ export default function Button({
       className={classes}
       disabled={isDisabled}
       aria-busy={loading}
+      onClick={onClick}
       {...props}
     >
       {content}

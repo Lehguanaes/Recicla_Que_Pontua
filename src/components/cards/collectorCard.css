@@ -47,7 +47,7 @@
 .collector-card:not(.is-static):hover,
 .collector-card:not(.is-static):focus-visible {
   transform: translateY(-2px);
-  border-color: color-mix(in srgb, var(--collector-accent) 34%, transparent);
+  border-color: color-mix(in srgb, var(--collector-accent) 34%, var(--color-transparent));
   box-shadow: 0 14px 30px rgb(var(--rgb-shadow-green) / 0.13);
 }
 

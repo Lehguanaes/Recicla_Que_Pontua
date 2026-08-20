@@ -92,7 +92,7 @@
 
 .selected-type-tag {
   padding: 4px 9px;
-  border: 1px solid color-mix(in srgb, var(--selected-accent) 32%, transparent);
+  border: 1px solid color-mix(in srgb, var(--selected-accent) 32%, var(--color-transparent));
   border-radius: 999px;
   background: var(--selected-soft);
   color: var(--color-text-primary);

@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { FaArrowLeft } from "react-icons/fa";
-import Rodape from "../../components/rodape/Rodape";
+import PageLayout from "../../components/layout/PageLayout";
+import Button from "../../components/button/Button";
 import { PageHeader } from "../../components/typography/Typography";
 import "./termosUso.css";
 
@@ -17,17 +18,18 @@ export default function TermosUso() {
   }
 
   return (
-    <>
+    <PageLayout showNavbar={false}>
       <main className="termos-page">
         <div className="termos-card">
-        <button
+        <Button
+          variant="neutral"
           type="button"
           className="termos-back-button"
           onClick={handleVoltar}
         >
           <FaArrowLeft />
           Voltar
-        </button>
+        </Button>
 
         <PageHeader
           className="termos-header"
@@ -243,7 +245,6 @@ export default function TermosUso() {
         </div>
       </main>
 
-      <Rodape />
-    </>
+    </PageLayout>
   );
 }

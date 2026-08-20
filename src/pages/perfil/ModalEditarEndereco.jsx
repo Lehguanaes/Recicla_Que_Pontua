@@ -4,6 +4,7 @@ import ModalHeader from "../../components/modal/ModalHeader";
 import Alert from "../../components/alert/Alert";
 import InputField from "../../components/form/InputField";
 import FormActions from "../../components/form/FormActions";
+import FormMessage from "../../components/form/FormMessage";
 import { maskCEP } from "../../utils/Formatters";
 import { validarCampos } from "../../utils/AuthValidation";
 
@@ -209,7 +210,9 @@ export default function ModalEditarEndereco({
           ))}
         </div>
 
-        {errors.geral && <p className="perfil-form-error">{errors.geral}</p>}
+        <FormMessage className="perfil-form-error">
+          {errors.geral}
+        </FormMessage>
 
         <FormActions
           className="perfil-modal-acoes"

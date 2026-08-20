@@ -1,5 +1,6 @@
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import Input from "./Input";
+import IconButton from "../button/IconButton";
 
 export default function PasswordInput({
   visible,
@@ -14,14 +15,14 @@ export default function PasswordInput({
   return (
     <div className={containerClassName}>
       <Input {...inputProps} type={visible ? "text" : "password"} />
-      <button
-        type="button"
+      <IconButton
         className={buttonClassName}
         onClick={onToggle}
-        aria-label={visible ? hideLabel : showLabel}
+        label={visible ? hideLabel : showLabel}
+        pressed={visible}
       >
         {visible ? <FaEyeSlash /> : <FaEye />}
-      </button>
+      </IconButton>
       {children}
     </div>
   );

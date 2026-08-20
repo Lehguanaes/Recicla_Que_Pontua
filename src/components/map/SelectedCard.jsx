@@ -2,6 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { FaStar, FaUserPlus, FaComments } from "react-icons/fa";
 import Button from "../button/Button";
+import IconButton from "../button/IconButton";
 
 import "./selectedCard.css";
 
@@ -19,7 +20,9 @@ export default function SelectedCard({
   if (!collector) return null;
 
   const isCenter = collector.tipo === LOCAL_TYPES.CENTER;
-  const typeColor = isCenter ? "var(--color-info)" : "var(--color-primary)";
+  const avatarColor = isCenter
+    ? "var(--color-highlight-info)"
+    : "rgb(var(--rgb-brand-green-deep) / 13%)";
   const fotoPerfil = collector.fotoPerfil || collector.foto;
 
   const canSendInvite =
@@ -33,7 +36,7 @@ export default function SelectedCard({
         <div
           className={`collector-avatar ${fotoPerfil ? "has-photo" : ""}`}
           style={{
-            "--collector-avatar-color": `${typeColor}22`,
+            "--collector-avatar-color": avatarColor,
           }}
         >
           {fotoPerfil ? (
@@ -106,14 +109,14 @@ export default function SelectedCard({
                 alignItems: "center",
                 justifyContent: "center",
                 gap: "10px",
-                background: "#ffffff",
+                background: "var(--color-white)",
                 color: "var(--color-brand-green-deep)",
                 border: "none",
                 borderRadius: "15px",
                 marginRight: "50px",
                 fontWeight: 600,
                 fontSize: "14px",
-                boxShadow: "0 8px 20px rgba(0,0,0,.18)",
+                boxShadow: "0 8px 20px var(--shadow-color-neutral)",
                 cursor: btnDisabled ? "not-allowed" : "pointer",
                 transition: "all .25s ease",
               }}
@@ -124,7 +127,7 @@ export default function SelectedCard({
                   height: 30,
                   borderRadius: "50%",
                   background: "var(--color-brand-green-deep)",
-                  color: "#ffffff",
+                  color: "var(--color-white)",
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
@@ -139,14 +142,13 @@ export default function SelectedCard({
         })()
       )}
 
-      <button
-        type="button"
+      <IconButton
         className="selected-close"
         onClick={onClose}
-        aria-label="Fechar detalhes do local"
+        label="Fechar detalhes do local"
       >
         ✕
-      </button>
+      </IconButton>
     </div>
   );
 }

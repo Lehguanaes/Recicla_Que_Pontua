@@ -4,6 +4,7 @@ import ModalHeader from "../../components/modal/ModalHeader";
 import Alert from "../../components/alert/Alert";
 import FormField from "../../components/form/FormField";
 import FormActions from "../../components/form/FormActions";
+import FormMessage from "../../components/form/FormMessage";
 import SelectField from "../../components/form/SelectField";
 import {
   normalizeMaterialId,
@@ -193,7 +194,7 @@ export default function ModalConfigurarColeta({
           </FormField>
         )}
 
-        {erro && <p className="perfil-form-error">{erro}</p>}
+        <FormMessage className="perfil-form-error">{erro}</FormMessage>
 
         <FormActions
           className="perfil-modal-acoes"

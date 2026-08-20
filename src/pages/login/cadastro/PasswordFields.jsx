@@ -1,5 +1,6 @@
 import Input from "../../../components/form/Input";
 import PasswordInput from "../../../components/form/PasswordInput";
+import FormMessage from "../../../components/form/FormMessage";
 
 export default function PasswordFields({
   password,
@@ -31,9 +32,9 @@ export default function PasswordFields({
           },
         }}
       >
-        {errors.senha && (
-          <span className="form-error">{errors.senha}</span>
-        )}
+        <FormMessage as="span" className="form-error">
+          {errors.senha}
+        </FormMessage>
       </PasswordInput>
 
       <div className="input-group">
@@ -51,9 +52,9 @@ export default function PasswordFields({
           }}
         />
 
-        {errors.confirmSenha && (
-          <span className="form-error">{errors.confirmSenha}</span>
-        )}
+        <FormMessage as="span" className="form-error">
+          {errors.confirmSenha}
+        </FormMessage>
       </div>
     </>
   );

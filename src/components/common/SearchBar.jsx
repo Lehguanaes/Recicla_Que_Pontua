@@ -1,5 +1,6 @@
 import { useState } from "react";
 import SearchSuggestion from "./SearchSuggestion";
+import IconButton from "../button/IconButton";
 import "./SearchBar.css";
 
 export default function SearchBar({
@@ -70,13 +71,13 @@ export default function SearchBar({
           />
 
           {value && (
-            <button
-              type="button"
+            <IconButton
               className="search-bar-clear"
+              label="Limpar busca"
               onClick={onClear}
             >
               ×
-            </button>
+            </IconButton>
           )}
 
           <SearchSuggestion

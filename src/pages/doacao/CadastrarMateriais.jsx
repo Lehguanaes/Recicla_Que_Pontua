@@ -14,10 +14,10 @@ import {
   FaWineBottle,
 } from "react-icons/fa";
 import { MATERIAL_TYPES } from "../../constants";
-import Navbar from "../../components/navbar/Navbar";
-import Rodape from "../../components/rodape/Rodape";
+import PageLayout from "../../components/layout/PageLayout";
 import Alert from "../../components/alert/Alert";
 import Button from "../../components/button/Button";
+import IconButton from "../../components/button/IconButton";
 import {
   PageHeader,
   SectionHeader,
@@ -179,7 +179,7 @@ const CadastrarMateriais = () => {
 
   return (
     <>
-      <Navbar />
+      <PageLayout>
 
       <main className="materials-page">
         <section className="materials-hero">
@@ -229,9 +229,8 @@ const CadastrarMateriais = () => {
                     <p>{estimate.description}</p>
 
                     <div className="material-stepper">
-                      <button
-                        type="button"
-                        aria-label={`Diminuir ${material.label}`}
+                      <IconButton
+                        label={`Diminuir ${material.label}`}
                         onClick={() =>
                           updateQuantity(
                             material.value,
@@ -240,7 +239,7 @@ const CadastrarMateriais = () => {
                         }
                       >
                         <FaMinus />
-                      </button>
+                      </IconButton>
                       <input
                         type="number"
                         min="0"
@@ -251,9 +250,8 @@ const CadastrarMateriais = () => {
                           updateQuantity(material.value, event.target.value)
                         }
                       />
-                      <button
-                        type="button"
-                        aria-label={`Aumentar ${material.label}`}
+                      <IconButton
+                        label={`Aumentar ${material.label}`}
                         onClick={() =>
                           updateQuantity(
                             material.value,
@@ -262,7 +260,7 @@ const CadastrarMateriais = () => {
                         }
                       >
                         <FaPlus />
-                      </button>
+                      </IconButton>
                     </div>
                   </article>
                 );
@@ -358,7 +356,7 @@ const CadastrarMateriais = () => {
         </Alert>
       </main>
 
-      <Rodape />
+      </PageLayout>
     </>
   );
 };

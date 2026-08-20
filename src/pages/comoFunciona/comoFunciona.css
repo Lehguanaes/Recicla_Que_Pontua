@@ -21,22 +21,22 @@
 }
 
 .comunidade-hero {
-  min-height: calc(100vh - 82px);
+  min-height: calc(100vh - var(--layout-navbar-height));
   display: grid;
   grid-template-columns: minmax(0, 1.08fr) minmax(340px, 0.92fr);
   gap: 54px;
   align-items: center;
-  padding: 64px 7% 86px;
+  padding: 64px var(--layout-page-gutter) 86px;
   background:
     radial-gradient(circle at 82% 18%, rgb(var(--rgb-brand-orange) / 0.2), var(--color-transparent) 26%),
-    linear-gradient(135deg, var(--color-surface-green) 0%, var(--color-surface-card) 48%, var(--color-surface-green-strong) 100%);
+    var(--gradient-hero-soft);
 }
 
 .comunidade-hero::after {
   content: "";
   position: absolute;
-  left: 7%;
-  right: 7%;
+  left: var(--layout-page-gutter);
+  right: var(--layout-page-gutter);
   bottom: 0;
   height: 1px;
   background: var(--gradient-section-divider);
@@ -95,7 +95,7 @@
 .comunidade-flow-section,
 .comunidade-prep-section,
 .comunidade-videos-section {
-  padding: 68px 7%;
+  padding: 68px var(--layout-page-gutter);
 }
 
 .comunidade-composer-section {
@@ -2094,7 +2094,7 @@
   grid-template-columns: minmax(0, 0.9fr) minmax(320px, 1.1fr);
   gap: 42px;
   align-items: center;
-  padding: 72px 7%;
+  padding: 72px var(--layout-page-gutter);
   background:
     radial-gradient(circle at 88% 12%, rgb(var(--rgb-brand-orange) / 0.16), var(--color-transparent) 42%),
     linear-gradient(135deg, var(--color-surface-green-dark), var(--color-surface-green-dark)),
@@ -2172,7 +2172,7 @@
   align-items: center;
   gap: clamp(28px, 7vw, 92px);
   margin: 0;
-  padding: 72px 7% 88px;
+  padding: 72px var(--layout-page-gutter) 88px;
   overflow: hidden;
   text-align: left;
   background:

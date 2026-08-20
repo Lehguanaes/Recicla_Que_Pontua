@@ -3,6 +3,7 @@ import { PageHeader } from "../../components/typography/Typography";
 import PasswordInput from "../../components/form/PasswordInput";
 import Input from "../../components/form/Input";
 import Button from "../../components/button/Button";
+import FormMessage from "../../components/form/FormMessage";
 import './login.css';
 
 export default function LoginForm({
@@ -46,11 +47,9 @@ export default function LoginForm({
         }}
       />
 
-      {erroLogin && (
-        <span className="login-error">
-          {erroLogin}
-        </span>
-      )}
+      <FormMessage as="span" className="login-error">
+        {erroLogin}
+      </FormMessage>
 
       <Link to="/recuperar-senha" className="forgot">
         Esqueceu sua senha?

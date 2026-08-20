@@ -1,6 +1,6 @@
 .evaluation-page {
-  min-height: calc(100vh - 82px);
-  padding: 64px 7% 84px;
+  min-height: calc(100vh - var(--layout-navbar-height));
+  padding: 64px var(--layout-page-gutter) 84px;
   background:
     radial-gradient(circle at 88% 8%, rgb(var(--rgb-brand-orange) / 0.12), var(--color-transparent) 28%),
     radial-gradient(circle at 8% 24%, rgb(var(--rgb-brand-green) / 0.08), var(--color-transparent) 32%),

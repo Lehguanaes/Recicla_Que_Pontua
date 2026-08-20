@@ -1,5 +1,5 @@
 .donation-page {
-  min-height: calc(100vh - 82px);
+  min-height: calc(100vh - var(--layout-navbar-height));
   background:
     radial-gradient(
       circle at 88% 6%,
@@ -18,7 +18,7 @@
 .donation-hero {
   width: 100%;
   margin: 0;
-  padding: 54px 7% 30px;
+  padding: 54px var(--layout-page-gutter) 30px;
   display: grid;
   grid-template-columns: minmax(0, 0.9fr) minmax(360px, 1.1fr);
   gap: clamp(32px, 5vw, 64px);
@@ -227,7 +227,7 @@
 .donation-content {
   width: 100%;
   margin: 0;
-  padding: 0 7% 64px;
+  padding: 0 var(--layout-page-gutter) 64px;
   position: relative;
 }
 

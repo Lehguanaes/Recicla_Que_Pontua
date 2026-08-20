@@ -2,6 +2,7 @@ import React from "react";
 import { FaEdit, FaPaperPlane, FaRecycle } from "react-icons/fa";
 import Alert from "../../components/alert/Alert";
 import CollectorCard from "../../components/cards/CollectorCard";
+import Button from "../../components/button/Button";
 import "./convite.css";
 
 const ConfirmarConvite = ({
@@ -64,7 +65,8 @@ const ConfirmarConvite = ({
           </p>
         )}
 
-        <button
+        <Button
+          variant="neutral"
           type="button"
           className="convite-review-button"
           onClick={onReviewMaterials}
@@ -72,7 +74,7 @@ const ConfirmarConvite = ({
         >
           <FaEdit aria-hidden="true" />
           {hasMaterials ? "Revisar escolhas" : "Escolher materiais"}
-        </button>
+        </Button>
       </section>
 
       <p className="convite-alert-note">

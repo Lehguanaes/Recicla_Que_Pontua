@@ -26,7 +26,7 @@
 
 .ranking-hero-section {
   position: relative;
-  padding: 68px 7% 56px;
+  padding: 68px var(--layout-page-gutter) 56px;
   background:
     radial-gradient(circle at 82% 8%, rgb(var(--rgb-brand-orange) / 0.16), var(--color-transparent) 28%),
     radial-gradient(circle at 12% 24%, rgb(var(--rgb-brand-green) / 0.08), var(--color-transparent) 38%),
@@ -39,13 +39,13 @@
 
 .ranking-table-section {
   position: relative;
-  padding: 56px 7%;
+  padding: 56px var(--layout-page-gutter);
   background: var(--gradient-surface-soft);
 }
 
 .ranking-faq-section {
   position: relative;
-  padding: 56px 7% 84px;
+  padding: 56px var(--layout-page-gutter) 84px;
   background: var(--color-surface-card);
 }
 

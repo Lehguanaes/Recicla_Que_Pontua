@@ -2,6 +2,7 @@ import { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
 import Alert from "../alert/Alert";
+import IconButton from "../button/IconButton";
 import "./navbar.css";
 import Logo from "../../assets/logo.png";
 import PetMenu from "../../assets/PetMenu.png";
@@ -69,14 +70,14 @@ export default function Navbar() {
           </NavLink>
         )}
 
-      <button
+      <IconButton
         className="menu-toggle"
-        type="button"
-        aria-label={menuOpen ? "Fechar menu" : "Abrir menu"}
+        label={menuOpen ? "Fechar menu" : "Abrir menu"}
+        pressed={menuOpen}
         onClick={() => setMenuOpen(!menuOpen)}
       >
         {menuOpen ? <FaTimes /> : <FaBars />}
-      </button>
+      </IconButton>
       </div>
 
       <div

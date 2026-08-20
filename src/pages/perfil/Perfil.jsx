@@ -13,8 +13,8 @@ import {
   FaRecycle,
 } from "react-icons/fa";
 
-import Navbar from "../../components/navbar/Navbar";
-import Rodape from "../../components/rodape/Rodape";
+import PageLayout from "../../components/layout/PageLayout";
+import IconButton from "../../components/button/IconButton";
 import { PageHeader } from "../../components/typography/Typography";
 import ProfileNotice from "../../components/profile/ProfileNotice";
 import ProfileInfoRow from "../../components/profile/ProfileInfoRow";
@@ -113,12 +113,14 @@ export default function Perfil() {
         .join("/") || "Não informado";
 
   if (carregando) {
-    return <Loading mensagem="Carregando seu perfil..." />;
+    return (
+      <PageLayout>
+        <Loading mensagem="Carregando seu perfil" />
+      </PageLayout>
+    );
   }
   return (
-    <>
-      <Navbar />
-
+    <PageLayout>
       <main className="perfil-page">
         <div className="perfil-container">
           <PageHeader
@@ -164,14 +166,13 @@ export default function Perfil() {
                   <FaUserCircle className="perfil-avatar-placeholder" />
                 )}
 
-                <button
-                  type="button"
+                <IconButton
                   className="perfil-avatar-editar"
-                  aria-label="Alterar foto de perfil"
+                  label="Alterar foto de perfil"
                   onClick={() => setModalAberto("foto")}
                 >
                   <FaCamera />
-                </button>
+                </IconButton>
               </div>
 
               <div className="perfil-resumo-texto">
@@ -328,7 +329,6 @@ export default function Perfil() {
         onSalvo={atualizarDadosLocais}
       />
 
-      <Rodape />
-    </>
+    </PageLayout>
   );
 }

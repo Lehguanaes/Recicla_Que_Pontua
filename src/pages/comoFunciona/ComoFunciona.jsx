@@ -17,11 +17,12 @@ import {
   FaVideo,
   FaXmark,
 } from "react-icons/fa6";
-import Navbar from "../../components/navbar/Navbar";
-import Rodape from "../../components/rodape/Rodape";
+import PageLayout from "../../components/layout/PageLayout";
 import Alert from "../../components/alert/Alert";
 import { SectionHeader } from "../../components/typography/Typography";
 import Button from "../../components/button/Button";
+import IconButton from "../../components/button/IconButton";
+import FormMessage from "../../components/form/FormMessage";
 import LogoRetrato from "../../assets/LogoRetrato.png";
 import { useAuth } from "../../contexts/AuthContext";
 import PetDicas from "../../assets/PetDicas.png";
@@ -478,9 +479,9 @@ function PostComposer({ user, onPublished }) {
             <strong>Imagem selecionada</strong>
             <span>{imageFile?.name}</span>
           </div>
-          <button type="button" onClick={removeImage} aria-label="Remover imagem">
+          <IconButton label="Remover imagem" onClick={removeImage}>
             <FaTimes />
-          </button>
+          </IconButton>
         </div>
       )}
 
@@ -494,34 +495,33 @@ function PostComposer({ user, onPublished }) {
             value={link}
             onChange={(event) => setLink(event.target.value)}
           />
-          <button
-            type="button"
-            aria-label="Remover link"
+          <IconButton
+            label="Remover link"
             onClick={() => {
               setLink("");
               setShowLinkInput(false);
             }}
           >
             <FaTimes />
-          </button>
+          </IconButton>
         </div>
       )}
 
       {showEmojiPicker && (
         <div className="composer-emoji-picker" aria-label="Escolha um emoji">
           {BLOG_EMOJIS.map((emoji) => (
-            <button key={emoji} type="button" onClick={() => insertEmoji(emoji)}>
+            <IconButton
+              key={emoji}
+              label={`Adicionar emoji ${emoji}`}
+              onClick={() => insertEmoji(emoji)}
+            >
               {emoji}
-            </button>
+            </IconButton>
           ))}
         </div>
       )}
 
-      {formError && (
-        <p className="composer-error" role="alert">
-          {formError}
-        </p>
-      )}
+      <FormMessage className="composer-error">{formError}</FormMessage>
 
       <div className="composer-footer">
         <div className="composer-tools">
@@ -532,33 +532,33 @@ function PostComposer({ user, onPublished }) {
             accept="image/jpeg,image/png,image/webp,image/gif"
             onChange={(event) => handleImage(event.target.files[0])}
           />
-          <button
-            type="button"
+          <IconButton
             className={imageFile ? "active" : ""}
             onClick={() => imageInputRef.current?.click()}
-            aria-label="Adicionar imagem"
+            label="Adicionar imagem"
+            pressed={Boolean(imageFile)}
             title="Adicionar imagem de até 600 KB"
           >
             <FaImage />
-          </button>
-          <button
-            type="button"
+          </IconButton>
+          <IconButton
             className={showLinkInput ? "active" : ""}
             onClick={() => setShowLinkInput((visible) => !visible)}
-            aria-label="Adicionar link"
+            label="Adicionar link"
+            pressed={showLinkInput}
             title="Adicionar link"
           >
             <FaLink />
-          </button>
-          <button
-            type="button"
+          </IconButton>
+          <IconButton
             className={showEmojiPicker ? "active" : ""}
             onClick={() => setShowEmojiPicker((visible) => !visible)}
-            aria-label="Adicionar emoji"
+            label="Adicionar emoji"
+            pressed={showEmojiPicker}
             title="Adicionar emoji"
           >
             <FaSmile />
-          </button>
+          </IconButton>
         </div>
 
         <Button
@@ -758,7 +758,7 @@ export default function ComoFunciona() {
 
   return (
     <>
-      <Navbar />
+      <PageLayout>
 
       <main className="como-funciona">
         <section id="comunidade" className="comunidade">
@@ -819,12 +819,13 @@ export default function ComoFunciona() {
                     <span>Conteúdo em destaque</span>
                     <h3>{featuredArticle.title}</h3>
                     <p>{featuredArticle.text}</p>
-                    <button
+                    <Button
+                      variant="green"
                       type="button"
                       onClick={() => setFeaturedArticleOpen(true)}
                     >
                       Ler conteúdo completo <FaArrowRight />
-                    </button>
+                    </Button>
                   </div>
                 </article>
 
@@ -1178,11 +1179,9 @@ export default function ComoFunciona() {
                     outros acessos, entre na sua conta.
                   </p>
                 )}
-                {guideError && (
-                  <p className="comunidade-course-error" role="alert">
-                    {guideError}
-                  </p>
-                )}
+                <FormMessage className="comunidade-course-error">
+                  {guideError}
+                </FormMessage>
 
                 <div className="comunidade-course-layout">
                   <nav
@@ -1362,7 +1361,7 @@ export default function ComoFunciona() {
         </section>
       </main>
 
-      <Rodape />
+      </PageLayout>
     </>
   );
 }

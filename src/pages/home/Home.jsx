@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
-import Navbar from "../../components/navbar/Navbar";
-import Rodape from "../../components/rodape/Rodape";
+import PageLayout from "../../components/layout/PageLayout";
 import { PageHeader, SectionHeader } from "../../components/typography/Typography";
 import AccordionItem from "../../components/common/AccordionItem";
 import Button from "../../components/button/Button";
@@ -264,7 +263,7 @@ export default function Home() {
 
   return (
     <>
-      <Navbar />
+      <PageLayout>
 
       <main className="home-page">
         <section className="home-hero">
@@ -470,7 +469,7 @@ export default function Home() {
         </section>
       </main>
 
-      <Rodape />
+      </PageLayout>
     </>
   );
 }

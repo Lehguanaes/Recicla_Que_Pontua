@@ -7,22 +7,22 @@
 
 .home-hero {
   position: relative;
-  min-height: calc(100vh - 82px);
+  min-height: calc(100vh - var(--layout-navbar-height));
   display: grid;
   grid-template-columns: minmax(0, 1.08fr) minmax(340px, 0.92fr);
   gap: 54px;
   align-items: center;
-  padding: 64px 7% 86px;
+  padding: 64px var(--layout-page-gutter) 86px;
   background:
     radial-gradient(circle at 82% 18%, rgb(var(--rgb-brand-orange) / 0.2), var(--color-transparent) 26%),
-    linear-gradient(135deg, var(--color-surface-green) 0%, var(--color-surface-card) 48%, var(--color-surface-green-strong) 100%);
+    var(--gradient-hero-soft);
 }
 
 .home-hero::after {
   content: "";
   position: absolute;
-  left: 7%;
-  right: 7%;
+  left: var(--layout-page-gutter);
+  right: var(--layout-page-gutter);
   bottom: 0;
   height: 1px;
   background: var(--gradient-section-divider);
@@ -123,7 +123,7 @@
 .home-partners-section,
 .home-audience-section,
 .home-faq-section {
-  padding: 68px 7%;
+  padding: 68px var(--layout-page-gutter);
 }
 
 /* "O que é o site" — respiro limpo após o hero */
@@ -572,7 +572,7 @@
   grid-template-columns: minmax(0, 0.9fr) minmax(320px, 1.1fr);
   gap: 42px;
   align-items: center;
-  padding: 72px 7%;
+  padding: 72px var(--layout-page-gutter);
   background:
     radial-gradient(circle at 88% 12%, rgb(var(--rgb-brand-orange) / 0.16), var(--color-transparent) 42%),
     linear-gradient(135deg, var(--color-surface-green-dark), var(--color-surface-green-dark)),
@@ -784,7 +784,7 @@
   gap: 20px;
   align-items: center;
   margin: 0;
-  padding: 64px 7% 84px;
+  padding: 64px var(--layout-page-gutter) 84px;
   overflow: visible;
   background:
     radial-gradient(circle at 18% 15%, rgb(var(--rgb-brand-orange) / 0.14), var(--color-transparent) 45%),

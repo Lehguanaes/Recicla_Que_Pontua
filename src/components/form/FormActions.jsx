@@ -16,13 +16,14 @@ export default function FormActions({
   return (
     <div className={className}>
       {onCancel && (
-        <button
+        <Button
+          variant="neutral"
           type="button"
           className={cancelClassName}
           onClick={onCancel}
         >
           {cancelText}
-        </button>
+        </Button>
       )}
 
       <Button

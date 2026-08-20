@@ -3,6 +3,29 @@
   width: 100%;
 }
 
+.ui-form-message {
+  display: block;
+  margin: 0;
+  font-size: var(--font-size-body-small);
+  line-height: var(--line-height-compact);
+}
+
+.ui-form-message--error {
+  color: var(--color-danger);
+}
+
+.ui-form-message--warning {
+  color: var(--color-text-orange);
+}
+
+.ui-form-message--success {
+  color: var(--color-brand-green-dark);
+}
+
+.ui-form-message--info {
+  color: var(--color-text-secondary);
+}
+
 .custom-select-trigger {
   width: 100%;
   min-height: 52px;
@@ -76,7 +99,7 @@
   padding: 10px 12px;
   border: 0;
   border-radius: 6px;
-  background: transparent;
+  background: var(--color-transparent);
   color: var(--color-text-strong);
   font: inherit;
   text-align: left;

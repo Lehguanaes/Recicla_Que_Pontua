@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useId, useRef } from "react";
 import { createPortal } from "react-dom";
 import {
   FaCheckCircle,
@@ -31,18 +31,36 @@ export default function Alert({
   className = "",
   confirmIcon = null,
 }) {
+  const dialogRef = useRef(null);
+  const onCancelRef = useRef(onCancel);
+  const titleId = useId();
+  const messageId = useId();
+
+  useEffect(() => {
+    onCancelRef.current = onCancel;
+  }, [onCancel]);
+
   useEffect(() => {
     if (!isOpen) return undefined;
 
+    const previousActiveElement = document.activeElement;
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    dialogRef.current?.focus();
+
     function handleKeyDown(event) {
       if (event.key === "Escape" && !loading) {
-        onCancel?.();
+        onCancelRef.current?.();
       }
     }
 
     document.addEventListener("keydown", handleKeyDown);
-    return () => document.removeEventListener("keydown", handleKeyDown);
-  }, [isOpen, loading, onCancel]);
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+      document.body.style.overflow = previousOverflow;
+      previousActiveElement?.focus?.();
+    };
+  }, [isOpen, loading]);
 
   if (!isOpen) return null;
 
@@ -55,32 +73,35 @@ export default function Alert({
       onMouseDown={() => !loading && onCancel?.()}
     >
       <section
+        ref={dialogRef}
         className={`alert-box alert-${variant} ${className}`.trim()}
         role="alertdialog"
         aria-modal="true"
-        aria-labelledby="alert-title"
-        aria-describedby={message ? "alert-message" : undefined}
+        aria-labelledby={titleId}
+        aria-describedby={message ? messageId : undefined}
+        tabIndex="-1"
         onMouseDown={(event) => event.stopPropagation()}
       >
         <div className="alert-icon" aria-hidden="true">
           <Icon />
         </div>
 
-        <h2 id="alert-title">{title}</h2>
+        <h2 id={titleId}>{title}</h2>
 
-        {message && <p id="alert-message">{message}</p>}
+        {message && <p id={messageId}>{message}</p>}
         {children && <div className="alert-content">{children}</div>}
 
         <div className="alert-actions">
           {showCancel && (
-            <button
+            <Button
+              variant="neutral"
               type="button"
               className="alert-button alert-cancel"
               onClick={onCancel}
               disabled={loading}
             >
               {cancelText}
-            </button>
+            </Button>
           )}
 
           <Button

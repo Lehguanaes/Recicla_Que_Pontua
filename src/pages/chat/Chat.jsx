@@ -16,11 +16,12 @@ import {
   FaUserCircle,
   FaChevronLeft,
 } from "react-icons/fa";
-import Navbar from "../../components/navbar/Navbar";
-import Rodape from "../../components/rodape/Rodape";
+import PageLayout from "../../components/layout/PageLayout";
 import { PageHeader } from "../../components/typography/Typography";
 import EmptyState from "../../components/common/EmptyState";
 import Button from "../../components/button/Button";
+import IconButton from "../../components/button/IconButton";
+import Loading from "../../contexts/Loading";
 import { getProfileLabel } from "../../constants/profiles";
 import "./chat.css";
 
@@ -149,21 +150,14 @@ export default function Chat() {
 
   if (loading) {
     return (
-      <>
-        <Navbar />
-        <div className="chat-page-loading">
-          <div className="chat-spinner"></div>
-          <p>Carregando conversas...</p>
-        </div>
-        <Rodape />
-      </>
+      <PageLayout>
+        <Loading mensagem="Carregando conversas" />
+      </PageLayout>
     );
   }
 
   return (
-    <>
-      <Navbar />
-
+    <PageLayout>
       <main className="chat-page">
         <div className="chat-container">
           <PageHeader
@@ -248,9 +242,13 @@ export default function Chat() {
                 <>
                   {/* Conversation Header */}
                   <header className="conversation-header">
-                    <button className="chat-back-btn" onClick={handleBackToList}>
+                    <IconButton
+                      className="chat-back-btn"
+                      label="Voltar para a lista de conversas"
+                      onClick={handleBackToList}
+                    >
                       <FaChevronLeft />
-                    </button>
+                    </IconButton>
 
                     {(() => {
                       const otherUid = selectedChat.participantes.find((id) => id !== user.uid);
@@ -318,9 +316,13 @@ export default function Chat() {
                       onChange={(e) => setMessageText(e.target.value)}
                       aria-label="Mensagem"
                     />
-                    <button type="submit" disabled={!messageText.trim()}>
+                    <IconButton
+                      type="submit"
+                      label="Enviar mensagem"
+                      disabled={!messageText.trim()}
+                    >
                       <FaPaperPlane />
-                    </button>
+                    </IconButton>
                   </form>
                 </>
               ) : (
@@ -336,8 +338,6 @@ export default function Chat() {
           )}
         </div>
       </main>
-
-      <Rodape />
-    </>
+    </PageLayout>
   );
 }
