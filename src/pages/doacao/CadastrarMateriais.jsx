@@ -115,7 +115,7 @@ const formatNumber = (value, decimals = 1) =>
 const CadastrarMateriais = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const [showConfirm, setShowConfirm] = useState(false);
+  const [showImpact, setShowImpact] = useState(false);
   const materialOptions = MATERIAL_TYPES.filter(
     (material) => material.value && MATERIAL_ESTIMATES[material.value]
   );
@@ -266,6 +266,18 @@ const CadastrarMateriais = () => {
                 );
               })}
             </div>
+
+            <div className="materials-actions">
+              <Button
+                variant="gradient"
+                type="button"
+                className="materials-submit"
+                onClick={() => setShowImpact(true)}
+                disabled={selectedMaterials.length === 0}
+              >
+                Continuar
+              </Button>
+            </div>
           </div>
         </section>
 
@@ -277,46 +289,46 @@ const CadastrarMateriais = () => {
             <SectionHeader
               className="impact-heading"
               eyebrowClassName="materials-section-tag"
-              eyebrow="Impacto previsto"
+              eyebrow="Impacto da reciclagem"
               icon={<FaLeaf />}
               titleId="impact-section-title"
-              title="Veja o impacto da sua seleção"
-              text="Esta é uma prévia calculada a partir dos tipos e das quantidades informadas. Ela ajuda a visualizar o peso aproximado, os recursos que podem ser poupados e os pontos que a entrega pode gerar. Os valores finais são confirmados após a reciclagem."
+              title="Entenda o que cada métrica representa"
+              text="As estimativas ajudam a transformar sua seleção em informações fáceis de visualizar. Conheça o significado de cada indicador antes de conferir os valores calculados para os seus materiais."
             />
 
-            <div className="impact-grid">
-              <article className="impact-card">
+            <div className="impact-grid impact-explanation-grid">
+              <article className="impact-card impact-explanation-card">
                 <FaBoxOpen />
-                <strong>{formatNumber(totals.weight)} kg</strong>
-                <span>Peso total</span>
+                <strong>Peso estimado</strong>
+                <p>
+                  Converte as quantidades informadas em um peso aproximado dos
+                  materiais separados.
+                </p>
               </article>
-              <article className="impact-card">
+              <article className="impact-card impact-explanation-card">
                 <FaTint />
-                <strong>{formatNumber(totals.water, 0)} L</strong>
-                <span>Água economizada</span>
+                <strong>Água preservada</strong>
+                <p>
+                  Indica a quantidade estimada de água que pode ser poupada com
+                  o reaproveitamento dos materiais.
+                </p>
               </article>
-              <article className="impact-card">
+              <article className="impact-card impact-explanation-card">
                 <FaBatteryHalf />
-                <strong>{formatNumber(totals.energy)} kWh</strong>
-                <span>Energia poupada</span>
+                <strong>Energia poupada</strong>
+                <p>
+                  Representa a economia aproximada de energia em comparação à
+                  produção com novas matérias-primas.
+                </p>
               </article>
-              <article className="impact-card">
+              <article className="impact-card impact-explanation-card">
                 <FaLeaf />
-                <strong>{formatNumber(totals.points, 0)}</strong>
-                <span>Pontos previstos</span>
+                <strong>Pontos previstos</strong>
+                <p>
+                  Mostra uma prévia dos pontos que a entrega poderá gerar após a
+                  reciclagem ser confirmada.
+                </p>
               </article>
-            </div>
-
-            <div className="materials-actions">
-              <Button
-                variant="gradient"
-                type="button"
-                className="materials-submit"
-                onClick={() => setShowConfirm(true)}
-                disabled={selectedMaterials.length === 0}
-              >
-                Continuar
-              </Button>
             </div>
           </div>
         </section>
@@ -337,22 +349,54 @@ const CadastrarMateriais = () => {
         </section>
 
         <Alert
-          isOpen={showConfirm}
-          title="Confirmar materiais?"
-          message="Vamos usar esses itens para filtrar coletores e centros de reciclagem que aceitam seus materiais."
-          variant="success"
-          confirmText="Confirmar"
-          cancelText="Revisar"
+          isOpen={showImpact}
+          title="Confira o impacto previsto"
+          message="Estas métricas são estimativas calculadas a partir dos materiais e das quantidades informadas. Os valores finais serão confirmados depois da reciclagem."
+          variant="info"
+          confirmText="Encontrar parceiros"
+          cancelText="Revisar materiais"
           onConfirm={handleRegister}
-          onCancel={() => setShowConfirm(false)}
+          onCancel={() => setShowImpact(false)}
+          className="materials-impact-modal"
         >
-          <div className="materials-confirm-tags">
-            {selectedMaterials.map((material) => (
-              <span key={material.value}>
-                {material.quantity} {material.estimate.unit} de {material.label}
-              </span>
-            ))}
+          <div className="materials-impact-selection">
+            <strong>Materiais selecionados</strong>
+            <div className="materials-confirm-tags">
+              {selectedMaterials.map((material) => (
+                <span key={material.value}>
+                  {material.quantity} {material.estimate.unit} de {material.label}
+                </span>
+              ))}
+            </div>
           </div>
+
+          <div className="impact-grid" aria-label="Métricas de impacto previstas">
+            <article className="impact-card">
+              <FaBoxOpen />
+              <strong>{formatNumber(totals.weight)} kg</strong>
+              <span>Peso total</span>
+            </article>
+            <article className="impact-card">
+              <FaTint />
+              <strong>{formatNumber(totals.water, 0)} L</strong>
+              <span>Água economizada</span>
+            </article>
+            <article className="impact-card">
+              <FaBatteryHalf />
+              <strong>{formatNumber(totals.energy)} kWh</strong>
+              <span>Energia poupada</span>
+            </article>
+            <article className="impact-card">
+              <FaLeaf />
+              <strong>{formatNumber(totals.points, 0)}</strong>
+              <span>Pontos previstos</span>
+            </article>
+          </div>
+
+          <p className="materials-impact-note">
+            Ao continuar, usaremos sua seleção para encontrar coletores e centros
+            de reciclagem compatíveis.
+          </p>
         </Alert>
       </main>
 

@@ -88,18 +88,6 @@
   filter: drop-shadow(0 28px 38px var(--shadow-color-green));
 }
 
-.impact-heading {
-  margin-bottom: 30px;
-}
-
-.impact-heading h2 {
-  margin-top: 16px;
-}
-
-.impact-heading p {
-  margin-top: 14px;
-}
-
 .materials-grid {
   display: grid;
   grid-template-columns: repeat(8, minmax(0, 1fr));
@@ -295,11 +283,7 @@
       rgb(var(--rgb-brand-orange) / 0.18),
       var(--color-transparent) 30%
     ),
-    linear-gradient(
-      135deg,
-      var(--color-surface-green-dark),
-      var(--color-surface-green-dark)
-    );
+    var(--color-surface-green-dark);
   color: var(--color-white);
 }
 
@@ -311,6 +295,7 @@
 .impact-heading {
   position: relative;
   z-index: 1;
+  margin-bottom: 30px;
 }
 
 .impact-heading .materials-section-tag {
@@ -319,38 +304,40 @@
   color: var(--color-brand-green-soft);
 }
 
+.impact-heading h2 {
+  margin-top: 16px;
+}
+
+.impact-heading p {
+  margin-top: 14px;
+  opacity: 0.86;
+}
+
 .impact-heading h2,
 .impact-heading p {
   color: var(--color-white);
 }
 
-.impact-heading p {
-  opacity: 0.86;
-}
-
-.impact-section .impact-card {
-  border-color: rgb(var(--rgb-white) / 0.14);
-  background: rgb(var(--rgb-white) / 0.96);
-}
-
 .impact-grid {
-  position: relative;
-  z-index: 1;
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.impact-explanation-grid {
   gap: 16px;
 }
 
 .impact-card {
   position: relative;
-  min-height: 150px;
+  min-height: 126px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   gap: 9px;
   overflow: hidden;
-  padding: 22px;
-  border-radius: 18px;
+  padding: 18px;
+  border-radius: 14px;
   transition:
     transform 0.25s ease,
     box-shadow 0.25s ease;
@@ -380,7 +367,7 @@
 
 .impact-card strong {
   color: var(--color-text-heading);
-  font-size: 1.75rem;
+  font-size: 1.45rem;
   font-weight: var(--font-weight-bold);
   line-height: 1;
 }
@@ -393,7 +380,7 @@
 }
 
 .materials-actions {
-  margin-top: 30px;
+  margin-top: 38px;
   display: flex;
   justify-content: center;
 }
@@ -439,7 +426,7 @@
   flex-wrap: wrap;
   justify-content: center;
   gap: 8px;
-  margin-bottom: 22px;
+  margin: 10px 0 22px;
 }
 
 .materials-confirm-tags span {
@@ -453,6 +440,68 @@
   align-items: center;
   font-size: var(--font-size-caption);
   font-weight: var(--font-weight-semibold);
+}
+
+.materials-impact-modal {
+  width: min(100%, 790px);
+  padding: 28px 30px 30px;
+}
+
+.materials-impact-modal .alert-icon {
+  width: 54px;
+  height: 54px;
+  margin-bottom: 14px;
+  font-size: 1.55rem;
+}
+
+.materials-impact-modal > p {
+  max-width: 650px;
+}
+
+.materials-impact-modal .alert-content {
+  margin-top: 20px;
+}
+
+.materials-impact-selection > strong {
+  display: block;
+  color: var(--color-brand-green-dark);
+  font-size: var(--font-size-body-small);
+  font-weight: var(--font-weight-bold);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.impact-section .impact-card {
+  border-color: rgb(var(--rgb-white) / 0.14);
+  background: rgb(var(--rgb-white) / 0.96);
+}
+
+.impact-explanation-card {
+  min-height: 188px;
+  justify-content: flex-start;
+  gap: 11px;
+  padding: 24px 22px;
+}
+
+.impact-explanation-card strong {
+  font-size: 1.12rem;
+  line-height: 1.2;
+}
+
+.impact-explanation-card p {
+  margin: 0;
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-body-small);
+  line-height: 1.55;
+}
+
+.materials-impact-note {
+  max-width: 620px;
+  margin: 18px auto 0;
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-body-small);
+  line-height: var(--line-height-compact);
+  text-align: center;
 }
 
 .materials-help-section {
@@ -610,8 +659,15 @@
     gap: 24px;
   }
 
-  .materials-grid,
+  .materials-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
   .impact-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .impact-explanation-grid {
     grid-template-columns: minmax(0, 1fr);
   }
 
@@ -624,12 +680,16 @@
     margin-top: 32px;
   }
 
-  .impact-section {
-    padding: 46px 0;
+  .impact-card {
+    min-height: 112px;
   }
 
-  .impact-card {
-    min-height: 136px;
+  .impact-explanation-card {
+    min-height: 0;
+  }
+
+  .materials-impact-modal {
+    padding: 26px 20px 22px;
   }
 
   .materials-submit {
