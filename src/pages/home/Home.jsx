@@ -25,8 +25,8 @@ import {
 import { FaBoxOpen, FaFileAlt, FaOilCan } from "react-icons/fa";
 import LogoRetrato from "../../assets/LogoRetrato.png";
 import PetRecicla from "../../assets/PetRecicla.png";
-import Coletor from "../../assets/coletor.png";
-import CentroColeta from "../../assets/centrocoleta.png";
+import Coletor from "../../assets/ColetorAutonomo.png";
+import CentroColeta from "../../assets/CentroDeColeta.png";
 import PetDuvidas from "../../assets/PetDuvidas.png";
 import PetComecar from "../../assets/PetComecar.png";
 import { useAuth } from "../../contexts/AuthContext";
@@ -36,7 +36,7 @@ const websiteFeatures = [
   {
     icon: FaBoxesStacked,
     title: "Cadastre seus recicláveis",
-    text: "Informe plástico, vidro, papel, metal, papelão, óleo ou eletrônicos por unidade, litro ou kg.",
+    text: "Informe plástico, vidro, papel, alumínio e metais, papelão, óleo ou eletrônicos por unidade, litro ou kg.",
   },
   {
     icon: FaScaleBalanced,

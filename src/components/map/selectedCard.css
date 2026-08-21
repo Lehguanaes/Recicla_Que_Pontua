@@ -121,8 +121,45 @@
   color: var(--selected-accent);
 }
 
+.selected-subtitle {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px 12px;
+  color: var(--color-text-secondary);
+}
+
+.selected-rating {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
 .selected-star {
-  color: var(--color-brand-orange) !important;
+  color: var(--color-text-strong) !important;
+}
+
+.selected-card-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-right: 12px;
+}
+
+.selected-card-profile-button {
+  min-height: 46px;
+  flex-shrink: 0;
+  gap: 7px;
+  padding: 11px 15px;
+  border-radius: 11px;
+  font-size: 0.86rem;
+  font-weight: var(--font-weight-bold);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.selected-card-profile-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 22px rgb(var(--rgb-shadow-green) / 0.13);
 }
 
 .selected-card-button {
@@ -210,6 +247,17 @@
   }
 
   .selected-card-button {
+    width: 100%;
+  }
+
+  .selected-card-actions {
+    width: 100%;
+    align-items: stretch;
+    flex-direction: column-reverse;
+    margin-right: 0;
+  }
+
+  .selected-card-profile-button {
     width: 100%;
   }
 }

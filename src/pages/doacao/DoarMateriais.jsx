@@ -1,7 +1,6 @@
-import React, { useMemo, useState, useEffect } from "react";
+import React, { useMemo, useState, useEffect, useRef } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import {
-  FaBell,
   FaFilter,
   FaListUl,
   FaMapMarkedAlt,
@@ -20,9 +19,11 @@ import ConfirmarConvite from "../convites/ConfirmarConvites";
 import Alert from "../../components/alert/Alert";
 import FormMessage from "../../components/form/FormMessage";
 import PageLayout from "../../components/layout/PageLayout";
+import PublicProfileModal from "../../components/profile/PublicProfileModal";
 import { PageHeader } from "../../components/typography/Typography";
 import { useAuth } from "../../contexts/AuthContext";
 import { db } from "../../services/Firebase";
+import { startDirectExchange } from "../../services/chatService";
 import {
   collection,
   query,
@@ -66,6 +67,10 @@ const DoarMateriais = () => {
   const [selectedInvite, setSelectedInvite] = useState(null);
   const [sendingInvite, setSendingInvite] = useState(false);
   const [inviteSuccess, setInviteSuccess] = useState(null);
+  const [openingDirectChat, setOpeningDirectChat] = useState(false);
+  const [directChatError, setDirectChatError] = useState("");
+  const [profilePreview, setProfilePreview] = useState(null);
+  const mapFocusRef = useRef(null);
 
   const { user } = useAuth();
   const [sentInvitations, setSentInvitations] = useState([]);
@@ -127,6 +132,24 @@ const DoarMateriais = () => {
   );
   const semLocalizacaoCount = results.length - mapCollectors.length;
   const selectedForMap = temCoordenadasValidas(selected) ? selected : null;
+
+  useEffect(() => {
+    if (!selected || view !== "mapa") return undefined;
+
+    const animationFrame = window.requestAnimationFrame(() => {
+      const mapSection = mapFocusRef.current;
+      if (!mapSection) return;
+
+      const targetTop =
+        window.scrollY + mapSection.getBoundingClientRect().top - 96;
+      window.scrollTo({
+        top: Math.max(0, targetTop),
+        behavior: "smooth",
+      });
+    });
+
+    return () => window.cancelAnimationFrame(animationFrame);
+  }, [selected, view]);
 
   const renderRegisteredMaterialTags = () =>
     registeredMaterials.length > 0 && (
@@ -198,12 +221,21 @@ const DoarMateriais = () => {
     </div>
   );
 
+  const getExchangeMaterials = () =>
+    registeredMaterials.map((material) => ({
+      value: material.value,
+      label: material.label,
+      quantity: Number(material.quantity) || 0,
+      unit: material.unit || "un",
+    }));
+
   const handleConfirmInvite = async () => {
     if (!user?.uid || !selectedInvite || sendingInvite) return;
     const inviteReceiver = selectedInvite;
     const existingInv = sentInvitations.find(
       (inv) => inv.destinatarioId === inviteReceiver.id
     );
+    const invitationMaterials = getExchangeMaterials();
     setSendingInvite(true);
     try {
       if (existingInv) {
@@ -212,6 +244,8 @@ const DoarMateriais = () => {
           status: "pendente",
           createdAt: serverTimestamp(),
           respondedAt: null,
+          solicitacaoId: `${existingInv.id}-${Date.now()}`,
+          materiais: invitationMaterials,
         });
       } else {
         const newDocRef = doc(collection(db, "convites"));
@@ -222,6 +256,8 @@ const DoarMateriais = () => {
           status: "pendente",
           createdAt: serverTimestamp(),
           respondedAt: null,
+          solicitacaoId: newDocRef.id,
+          materiais: invitationMaterials,
         });
       }
       setOpenInvite(false);
@@ -230,6 +266,30 @@ const DoarMateriais = () => {
       console.error("Erro ao enviar convite:", error);
     } finally {
       setSendingInvite(false);
+    }
+  };
+
+  const handleOpenDirectChat = async (collector) => {
+    if (!user?.uid || !collector?.id || openingDirectChat) return;
+
+    setOpeningDirectChat(true);
+    setDirectChatError("");
+    try {
+      const chatId = await startDirectExchange({
+        senderId: user.uid,
+        recipientId: collector.id,
+        materials: getExchangeMaterials(),
+      });
+      navigate("/chat", { state: { chatId } });
+    } catch (error) {
+      console.error("Erro ao iniciar troca direta:", error);
+      setDirectChatError(
+        error.code === "chat/direct-access-not-allowed"
+          ? "Este perfil ainda exige um convite para iniciar uma nova troca."
+          : "Não foi possível abrir uma nova troca agora. Tente novamente."
+      );
+    } finally {
+      setOpeningDirectChat(false);
     }
   };
 
@@ -271,8 +331,8 @@ const DoarMateriais = () => {
                 Próximo passo
               </span>
               <p>
-                Escolha com quem você quer compartilhar seus materiais e envie
-                um convite!
+                Escolha com quem compartilhar seus materiais e envie um convite
+                ou inicie uma nova troca pelo chat!
               </p>
             </div>
             <img
@@ -342,7 +402,7 @@ const DoarMateriais = () => {
           {renderRegisteredMaterialTags()}
 
           {view === "mapa" ? (
-            <div className="donation-map-layout">
+            <div className="donation-map-layout" ref={mapFocusRef}>
               <div className="donation-map-card">
                 <div className="donation-map-header">
                   <div>
@@ -372,12 +432,15 @@ const DoarMateriais = () => {
                     <SelectedCard
                       collector={selected}
                       onClose={() => selectCollector(null)}
+                      onViewProfile={setProfilePreview}
                       onOpenInvite={(collector) => {
                         setSelectedInvite(collector);
                         setOpenInvite(true);
                       }}
+                      onOpenChat={handleOpenDirectChat}
                       invitation={invitation}
                       userProfile={user?.perfil}
+                      directChatLoading={openingDirectChat}
                     />
                   )}
                 </div>
@@ -400,16 +463,6 @@ const DoarMateriais = () => {
               {renderResultList()}
             </div>
           )}
-
-          <aside className="donation-invite-reminder">
-            <span className="donation-reminder-icon" aria-hidden="true">
-              <FaBell />
-            </span>
-            <p>
-              Ao <strong>enviar o convite para iniciar a troca</strong>, fique
-              atento quando uma solicitação for aceita.
-            </p>
-          </aside>
 
           {showFilters && (
             <FilterPanel
@@ -462,6 +515,23 @@ const DoarMateriais = () => {
           </div>
         </div>
       </Alert>
+
+      <Alert
+        isOpen={Boolean(directChatError)}
+        title="Não foi possível abrir o chat"
+        message={directChatError}
+        variant="warning"
+        confirmText="Entendi"
+        showCancel={false}
+        onConfirm={() => setDirectChatError("")}
+        onCancel={() => setDirectChatError("")}
+      />
+
+      <PublicProfileModal
+        isOpen={Boolean(profilePreview)}
+        profile={profilePreview}
+        onClose={() => setProfilePreview(null)}
+      />
 
       </PageLayout>
     </>

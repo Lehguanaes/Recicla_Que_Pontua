@@ -5,7 +5,7 @@ export const RECYCLABLE_MATERIALS = [
   { value: 'papelao', label: 'Papelão' },
   { value: 'plastico', label: 'Plástico' },
   { value: 'vidro', label: 'Vidro' },
-  { value: 'metal', label: 'Metal' },
+  { value: 'metal', label: 'Alumínio e metais' },
   { value: 'eletronico', label: 'Eletrônico' },
   { value: 'oleo', label: 'Óleo de cozinha' },
 ];
@@ -14,6 +14,16 @@ export const MATERIAL_TYPES = [
   { value: '', label: 'Todos os materiais' },
   ...RECYCLABLE_MATERIALS,
 ];
+
+export const MATERIAL_POINTS = Object.freeze({
+  metal: 8,
+  eletronico: 7,
+  plastico: 6,
+  oleo: 5,
+  papel: 4,
+  papelao: 3,
+  vidro: 2,
+});
 
 const MATERIAL_ALIASES = {
   eletronicos: 'eletronico',

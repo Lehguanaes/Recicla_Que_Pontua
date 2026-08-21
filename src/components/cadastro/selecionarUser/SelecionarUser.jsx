@@ -1,10 +1,10 @@
 import "./selecionarUser.css";
 import ProfileCard from "../profileCard/ProfileCard";
 
-import Coletor from "../../../assets/coletor.png";
-import CentroColeta from "../../../assets/centrocoleta.png";
-import Instituicao from "../../../assets/instituicao.png";
-import PessoaRec from "../../../assets/pessoa-recicladora.png";
+import Coletor from "../../../assets/ColetorAutonomo.png";
+import CentroColeta from "../../../assets/CentroDeColeta.png";
+import Instituicao from "../../../assets/InstituicaoRecicladora.png";
+import PessoaRec from "../../../assets/PessoaRecicladora.png";
 import { PROFILE_OPTIONS, PROFILE_IDS } from "../../../constants/profiles";
 
 const PROFILE_IMAGES = {

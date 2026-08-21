@@ -117,12 +117,17 @@ export default function useCollectorSearch(uidParam, filtrosIniciais = {}) {
   }, [cidadeUsuario]);
 
   const obterLocalizacaoUsuario = useCallback(async () => {
-    if (!uid) return { coords: null, enderecoTexto: null };
+    if (!uid) return { coords: null, enderecoTexto: null, favoritos: [] };
 
     const snapUsuario = await getDoc(doc(db, "usuarios", uid));
-    if (!snapUsuario.exists()) return { coords: null, enderecoTexto: null };
+    if (!snapUsuario.exists()) {
+      return { coords: null, enderecoTexto: null, favoritos: [] };
+    }
 
     const dadosUsuario = snapUsuario.data();
+    const favoritos = Array.isArray(dadosUsuario.favoritos)
+      ? dadosUsuario.favoritos
+      : [];
     const endereco = dadosUsuario.endereco || {};
     const cidade = endereco.cidade || dadosUsuario.cidade;
     const estado = endereco.estado || dadosUsuario.estado;
@@ -140,6 +145,7 @@ export default function useCollectorSearch(uidParam, filtrosIniciais = {}) {
       return {
         coords: { lat: dadosUsuario.latitude, lng: dadosUsuario.longitude },
         enderecoTexto,
+        favoritos,
       };
     }
 
@@ -156,7 +162,7 @@ export default function useCollectorSearch(uidParam, filtrosIniciais = {}) {
       coordenadas = await geocodificarEndereco({ cidade, estado });
     }
 
-    if (!coordenadas) return { coords: null, enderecoTexto };
+    if (!coordenadas) return { coords: null, enderecoTexto, favoritos };
 
     // Cache: evita geocodificar o mesmo usuário toda vez que ele abrir a tela
     updateDoc(doc(db, "usuarios", uid), {
@@ -166,7 +172,7 @@ export default function useCollectorSearch(uidParam, filtrosIniciais = {}) {
       console.error("Não foi possível salvar a localização em cache:", err)
     );
 
-    return { coords: coordenadas, enderecoTexto };
+    return { coords: coordenadas, enderecoTexto, favoritos };
   }, [uid]);
 
   // Busca os coletores/centros no Firestore e geocodifica quem ainda não
@@ -276,9 +282,11 @@ export default function useCollectorSearch(uidParam, filtrosIniciais = {}) {
           veiculo: coletor.possuiVeiculo
             ? LABEL_TIPO_VEICULO[coletor.tipoVeiculo] || "Possui veículo"
             : null,
-          // Ainda não existe avaliação (rating) nem preço por kg cadastrados
-          // no perfil de coletores/centros no Firestore.
-          rating: null,
+          rating:
+            Number(coletor.avaliacaoQuantidade) > 0
+              ? Number(coletor.avaliacaoSoma || 0) /
+                Number(coletor.avaliacaoQuantidade)
+              : null,
           preco_kg: {},
           lat: typeof coordenadasExibicao.lat === "number" ? coordenadasExibicao.lat : null,
           lng: typeof coordenadasExibicao.lng === "number" ? coordenadasExibicao.lng : null,
@@ -286,6 +294,8 @@ export default function useCollectorSearch(uidParam, filtrosIniciais = {}) {
           localizacaoAproximada: ehColetorAutonomo && temCoordenadas,
           materiais: (coletor.materiaisAceitos || []).map(normalizeMaterialId),
           fotoPerfil: coletor.fotoPerfil || null,
+          favorito: (localizacaoUsuario.favoritos || []).includes(coletor.id),
+          acessoDireto: (coletor.acessosDiretosChat || []).includes(uid),
           telefone: coletor.telefone || null,
           disponivel: Boolean(
             (coletor.materiaisAceitos || []).length > 0 &&
@@ -301,7 +311,7 @@ export default function useCollectorSearch(uidParam, filtrosIniciais = {}) {
     } finally {
       setLoading(false);
     }
-  }, [obterLocalizacaoUsuario, buscarColetores]);
+  }, [obterLocalizacaoUsuario, buscarColetores, uid]);
 
   useEffect(() => {
     carregarDados();
@@ -399,11 +409,13 @@ export default function useCollectorSearch(uidParam, filtrosIniciais = {}) {
       );
     }
 
-    if (filters.ordenar_por === "menor_distancia") {
-      lista.sort(
-        (a, b) => (a.distancia_km ?? Infinity) - (b.distancia_km ?? Infinity)
-      );
-    }
+    lista.sort((a, b) => {
+      if (a.favorito !== b.favorito) return a.favorito ? -1 : 1;
+      if (filters.ordenar_por === "menor_distancia") {
+        return (a.distancia_km ?? Infinity) - (b.distancia_km ?? Infinity);
+      }
+      return 0;
+    });
     // "maior_preco" não é aplicado: preço por kg ainda não é um dado real
     // cadastrado no perfil dos coletores/centros.
 

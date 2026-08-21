@@ -440,47 +440,6 @@
   gap: 13px;
 }
 
-.donation-invite-reminder {
-  width: fit-content;
-  max-width: min(100%, 560px);
-  margin: 18px 0 0 auto;
-  padding: 11px 15px;
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  gap: 10px;
-  border: 1px solid var(--color-border-green);
-  border-radius: 12px;
-  background: var(--color-surface-card);
-  box-shadow: 0 10px 26px rgb(var(--rgb-shadow-green) / 0.08);
-  color: var(--color-text-default);
-}
-
-.donation-reminder-icon {
-  width: 34px;
-  height: 34px;
-  flex-shrink: 0;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-  background: var(--color-surface-green);
-  color: var(--color-brand-green-dark);
-  font-size: 0.88rem;
-}
-
-.donation-invite-reminder p {
-  margin: 0;
-  color: var(--color-text-secondary);
-  font-size: 0.86rem;
-  line-height: 1.4;
-  text-align: left;
-}
-
-.donation-invite-reminder strong {
-  color: var(--color-brand-green-deep);
-}
-
 .alert-box.donation-invite-success-alert {
   width: min(100%, 500px);
   padding: 26px 28px 28px;
@@ -695,12 +654,6 @@
   .donation-results-heading {
     min-height: auto;
     padding: 14px;
-  }
-
-  .donation-invite-reminder {
-    width: 100%;
-    margin-top: 16px;
-    padding: 11px 12px;
   }
 
   .alert-box.donation-invite-success-alert {

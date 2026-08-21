@@ -100,10 +100,20 @@
 }
 
 .collector-name {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
   color: var(--color-text-strong);
   font-size: 0.94rem;
   font-weight: var(--font-weight-bold);
   line-height: 1.25;
+}
+
+.collector-favorite-star {
+  flex: 0 0 auto;
+  color: var(--color-brand-orange);
+  font-size: 0.9rem;
+  filter: drop-shadow(0 2px 4px rgb(var(--rgb-brand-orange) / 0.18));
 }
 
 .collector-info {

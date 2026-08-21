@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useMemo } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
 import { db } from "../../services/Firebase";
 import {
@@ -21,21 +21,24 @@ import {
   FaMapMarkerAlt,
   FaPaperPlane,
   FaPhoneAlt,
-  FaStar,
+  FaEye,
 } from "react-icons/fa";
 import PageLayout from "../../components/layout/PageLayout";
-import { createChatIfNotExists } from "../../services/chatService";
+import { acceptInvitationWithAutomaticMessage } from "../../services/chatService";
 import { PageHeader } from "../../components/typography/Typography";
 import EmptyState from "../../components/common/EmptyState";
 import Button from "../../components/button/Button";
 import Alert from "../../components/alert/Alert";
 import FormMessage from "../../components/form/FormMessage";
 import Loading from "../../contexts/Loading";
+import PublicProfileModal from "../../components/profile/PublicProfileModal";
 import { getProfileLabel } from "../../constants/profiles";
 import "./convite.css";
 
 export default function Convite() {
+  const navigate = useNavigate();
   const { user } = useAuth();
+  const userId = user?.uid || "";
   const [invitations, setInvitations] = useState([]);
   const [senders, setSenders] = useState({});
   const [loading, setLoading] = useState(true);
@@ -43,9 +46,10 @@ export default function Convite() {
   const [pendingAction, setPendingAction] = useState(null);
   const [actionLoading, setActionLoading] = useState(false);
   const [actionError, setActionError] = useState("");
+  const [profilePreview, setProfilePreview] = useState(null);
 
   useEffect(() => {
-    if (!user?.uid) {
+    if (!userId) {
       setLoading(false);
       return;
     }
@@ -82,7 +86,7 @@ export default function Convite() {
     // 1. Query for received invitations
     const qReceived = query(
       collection(db, "convites"),
-      where("destinatarioId", "==", user.uid)
+      where("destinatarioId", "==", userId)
     );
 
     const unsubscribeReceived = onSnapshot(
@@ -106,7 +110,7 @@ export default function Convite() {
     // 2. Query for sent invitations
     const qSent = query(
       collection(db, "convites"),
-      where("remetenteId", "==", user.uid)
+      where("remetenteId", "==", userId)
     );
 
     const unsubscribeSent = onSnapshot(
@@ -131,20 +135,15 @@ export default function Convite() {
       unsubscribeReceived();
       unsubscribeSent();
     };
-  }, [user?.uid]);
+  }, [userId]);
 
   const handleAccept = async (invitationId) => {
     try {
       const invitation = invitations.find((inv) => inv.id === invitationId);
       if (!invitation) return;
 
-      const docRef = doc(db, "convites", invitationId);
-      await updateDoc(docRef, {
-        status: "aceito",
-        respondedAt: serverTimestamp(),
-      });
-
-      await createChatIfNotExists(invitation.remetenteId, invitation.destinatarioId);
+      const chatId = await acceptInvitationWithAutomaticMessage(invitation);
+      navigate("/chat", { state: { chatId } });
     } catch (err) {
       console.error("Erro ao aceitar convite:", err);
       throw err;
@@ -217,6 +216,8 @@ export default function Convite() {
     );
   }
 
+  if (!userId) return null;
+
   return (
     <>
       <PageLayout>
@@ -278,7 +279,7 @@ export default function Convite() {
               />
             ) : (
               filteredInvitations.map((inv) => {
-                const isSentByMe = inv.remetenteId === user.uid;
+                const isSentByMe = inv.remetenteId === userId;
                 const otherUserId = isSentByMe ? inv.destinatarioId : inv.remetenteId;
                 const otherUser = senders[otherUserId] || {};
                 const labelPerfil = getProfileLabel(otherUser.perfil);
@@ -328,9 +329,29 @@ export default function Convite() {
                           <span className="status-label pending-sent">
                             Pendente
                           </span>
+                          <Button
+                            variant="neutral"
+                            className="action-btn profile-btn"
+                            onClick={() =>
+                              setProfilePreview({ id: otherUserId, ...otherUser })
+                            }
+                          >
+                            <FaEye aria-hidden="true" />
+                            Ver perfil
+                          </Button>
                         </div>
                       ) : (
                         <div className="convite-card-actions">
+                          <Button
+                            variant="neutral"
+                            className="action-btn profile-btn"
+                            onClick={() =>
+                              setProfilePreview({ id: otherUserId, ...otherUser })
+                            }
+                          >
+                            <FaEye aria-hidden="true" />
+                            <span>Ver perfil</span>
+                          </Button>
                           <Button
                             variant="green"
                             className="action-btn accept-btn"
@@ -360,29 +381,9 @@ export default function Convite() {
                     ) : (
                       <div className="convite-card-status">
                         {inv.status === "aceito" ? (
-                          <>
-                            <span className="status-label accepted">
-                              <FaCheck /> Aceito
-                            </span>
-                            <Link
-                              to="/avaliacao"
-                              state={{
-                                conviteId: inv.id,
-                                parceiro: {
-                                  id: otherUserId,
-                                  nome: otherUser.nome || "Parceiro da reciclagem",
-                                  perfil: labelPerfil,
-                                  fotoPerfil: otherUser.fotoPerfil || "",
-                                  cidade: otherUser.cidade || "",
-                                  estado: otherUser.estado || "",
-                                },
-                              }}
-                              className="convite-evaluate-button"
-                            >
-                              <FaStar />
-                              Avaliar troca
-                            </Link>
-                          </>
+                          <span className="status-label accepted">
+                            <FaCheck /> Aceito
+                          </span>
                         ) : (
                           <span className="status-label refused">
                             <FaTimes /> Recusado
@@ -427,6 +428,12 @@ export default function Convite() {
           {actionError}
         </FormMessage>
       </Alert>
+
+      <PublicProfileModal
+        isOpen={Boolean(profilePreview)}
+        profile={profilePreview}
+        onClose={() => setProfilePreview(null)}
+      />
     </>
   );
 }

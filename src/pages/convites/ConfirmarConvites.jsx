@@ -79,7 +79,8 @@ const ConfirmarConvite = ({
 
       <p className="convite-alert-note">
         A conversa será liberada depois que o perfil aceitar o convite. Os
-        detalhes da troca serão combinados pelo chat.
+        materiais escolhidos serão enviados automaticamente no chat para vocês
+        combinarem os detalhes da troca.
       </p>
     </Alert>
   );

@@ -59,7 +59,16 @@ export default function CollectorCard({ collector, onClick, compact = false }) {
 
       <div className="collector-content">
         <div className="collector-header">
-          <span className="collector-name">{collector.nome}</span>
+          <span className="collector-name">
+            {collector.nome}
+            {collector.favorito && (
+              <FaStar
+                className="collector-favorite-star"
+                aria-label="Perfil favorito"
+                title="Perfil favorito"
+              />
+            )}
+          </span>
           <Badge tone={isCenter ? "center" : "collector"}>
             {collector.subtipo ||
               (isCenter ? "Centro de coleta" : "Coletor autônomo")}

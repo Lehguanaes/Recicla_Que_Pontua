@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { addDoc, collection, serverTimestamp } from "firebase/firestore";
+import { doc, getDoc } from "firebase/firestore";
 import {
   FaCheck,
+  FaComments,
   FaMapMarkerAlt,
   FaRecycle,
   FaRegStar,
@@ -16,7 +17,9 @@ import Button from "../../components/button/Button";
 import FormMessage from "../../components/form/FormMessage";
 import { PageHeader } from "../../components/typography/Typography";
 import { useAuth } from "../../contexts/AuthContext";
+import { submitExchangeEvaluation } from "../../services/evaluationService";
 import { db } from "../../services/Firebase";
+import { PROFILE_IDS } from "../../constants/profiles";
 import PetAvaliacao from "../../assets/PetAvaliacao.png";
 
 import "./avaliacao.css";
@@ -50,17 +53,69 @@ export default function Avaliacao() {
   const { user } = useAuth();
   const parceiro = location.state?.parceiro || {};
   const conviteId = location.state?.conviteId || "";
+  const chatId = location.state?.chatId || "";
+  const solicitacaoId =
+    location.state?.solicitacaoId || conviteId || "original";
 
   const [nota, setNota] = useState(0);
   const [notaEmFoco, setNotaEmFoco] = useState(0);
   const [destaques, setDestaques] = useState([]);
   const [comentario, setComentario] = useState("");
+  const [adicionarFavorito, setAdicionarFavorito] = useState(false);
+  const [permitirAcessoDireto, setPermitirAcessoDireto] = useState(() =>
+    Boolean(user?.acessosDiretosChat?.includes(parceiro.id))
+  );
+  const [acessoDiretoInicial, setAcessoDiretoInicial] = useState(false);
+  const [permissaoDiretaCarregada, setPermissaoDiretaCarregada] = useState(false);
   const [erro, setErro] = useState("");
   const [confirmOpen, setConfirmOpen] = useState(false);
   const [successOpen, setSuccessOpen] = useState(false);
   const [salvando, setSalvando] = useState(false);
+  const [pontosConcedidos, setPontosConcedidos] = useState(0);
+  const [acessoDiretoConcedido, setAcessoDiretoConcedido] = useState(false);
 
-  const parceiroDisponivel = Boolean(parceiro.id);
+  const parceiroDisponivel = Boolean(parceiro.id && chatId);
+  const podeAdicionarFavorito = [
+    PROFILE_IDS.PERSON,
+    PROFILE_IDS.INSTITUTION,
+  ].includes(user?.perfil);
+  const podePermitirAcessoDireto =
+    [PROFILE_IDS.COLLECTOR, PROFILE_IDS.CENTER].includes(user?.perfil) &&
+    [PROFILE_IDS.PERSON, PROFILE_IDS.INSTITUTION].includes(parceiro.perfilId);
+
+  useEffect(() => {
+    let active = true;
+
+    if (!podePermitirAcessoDireto || !user?.uid || !parceiro.id) {
+      setPermissaoDiretaCarregada(true);
+      return () => {
+        active = false;
+      };
+    }
+
+    setPermissaoDiretaCarregada(false);
+    getDoc(doc(db, "usuarios", user.uid))
+      .then((snapshot) => {
+        if (!active) return;
+        const savedAccess = snapshot.exists()
+          ? snapshot.data().acessosDiretosChat
+          : [];
+        const allowedProfiles = Array.isArray(savedAccess) ? savedAccess : [];
+        const hasDirectAccess = allowedProfiles.includes(parceiro.id);
+        setPermitirAcessoDireto(hasDirectAccess);
+        setAcessoDiretoInicial(hasDirectAccess);
+      })
+      .catch((error) => {
+        console.error("Erro ao carregar permissão de acesso direto:", error);
+      })
+      .finally(() => {
+        if (active) setPermissaoDiretaCarregada(true);
+      });
+
+    return () => {
+      active = false;
+    };
+  }, [podePermitirAcessoDireto, user?.uid, parceiro.id]);
 
   function alternarDestaque(item) {
     setDestaques((atuais) =>
@@ -74,7 +129,12 @@ export default function Avaliacao() {
     event.preventDefault();
 
     if (!parceiroDisponivel) {
-      setErro("Abra esta avaliação a partir de um convite aceito.");
+      setErro("Abra esta avaliação pelo chat de uma troca finalizada.");
+      return;
+    }
+
+    if (podePermitirAcessoDireto && !permissaoDiretaCarregada) {
+      setErro("Aguarde enquanto verificamos a permissão de acesso direto.");
       return;
     }
 
@@ -102,24 +162,33 @@ export default function Avaliacao() {
     setSalvando(true);
 
     try {
-      await addDoc(collection(db, "avaliacoes"), {
-        avaliadorId: user.uid,
-        avaliadorNome: user.nome || "",
-        avaliadoId: parceiro.id,
-        avaliadoNome: parceiro.nome || "",
-        conviteId,
-        nota,
-        destaques,
-        comentario: comentario.trim(),
-        createdAt: serverTimestamp(),
+      const result = await submitExchangeEvaluation({
+        chatId,
+        exchangeId: solicitacaoId,
+        invitationId: conviteId,
+        evaluator: { id: user.uid, name: user.nome || "" },
+        evaluated: { id: parceiro.id, name: parceiro.nome || "" },
+        rating: nota,
+        highlights: destaques,
+        comment: comentario,
+        addFavorite: podeAdicionarFavorito && adicionarFavorito,
+        allowDirectChat: podePermitirAcessoDireto && permitirAcessoDireto,
       });
 
+      setPontosConcedidos(result.bonusPoints);
+      setAcessoDiretoConcedido(result.directAccessGranted);
       setConfirmOpen(false);
       setSuccessOpen(true);
     } catch (error) {
       console.error("Erro ao enviar avaliação:", error);
       setConfirmOpen(false);
-      setErro("Não foi possível enviar sua avaliação. Tente novamente.");
+      if (error.code === "evaluation/already-submitted") {
+        setErro("Você já avaliou esta troca.");
+      } else if (error.code === "evaluation/exchange-not-finished") {
+        setErro("Finalize a troca no chat antes de enviar a avaliação.");
+      } else {
+        setErro("Não foi possível enviar sua avaliação. Tente novamente.");
+      }
     } finally {
       setSalvando(false);
     }
@@ -239,7 +308,7 @@ export default function Avaliacao() {
 
               <p className="evaluation-rating-label" aria-live="polite">
                 {notaVisual
-                  ? `${notaVisual} de 5 — ${RATING_LABELS[notaVisual]}`
+                  ? `${notaVisual} de 5 — ${RATING_LABELS[notaVisual]} · +${notaVisual * 10} pontos para o perfil avaliado`
                   : "Nenhuma nota selecionada"}
               </p>
             </section>
@@ -302,6 +371,56 @@ export default function Avaliacao() {
               </span>
             </section>
 
+            {podeAdicionarFavorito && (
+              <section className="evaluation-favorite-card">
+                <label>
+                  <input
+                    type="checkbox"
+                    checked={adicionarFavorito}
+                    onChange={(event) => setAdicionarFavorito(event.target.checked)}
+                  />
+                  <span className="evaluation-favorite-icon" aria-hidden="true">
+                    <FaStar />
+                  </span>
+                  <span className="evaluation-favorite-copy">
+                    <strong>Adicionar este perfil aos favoritos?</strong>
+                    <span>
+                      Perfis favoritos aparecem primeiro na lista do mapa e recebem
+                      uma estrela de destaque.
+                    </span>
+                  </span>
+                  <span className="evaluation-favorite-switch" aria-hidden="true" />
+                </label>
+              </section>
+            )}
+
+            {podePermitirAcessoDireto && (
+              <section className="evaluation-favorite-card evaluation-direct-access-card">
+                <label>
+                  <input
+                    type="checkbox"
+                    checked={permitirAcessoDireto}
+                    onChange={(event) =>
+                      setPermitirAcessoDireto(event.target.checked)
+                    }
+                    disabled={!permissaoDiretaCarregada}
+                  />
+                  <span className="evaluation-favorite-icon" aria-hidden="true">
+                    <FaComments />
+                  </span>
+                  <span className="evaluation-favorite-copy">
+                    <strong>Permitir novas trocas sem convite?</strong>
+                    <span>
+                      {permissaoDiretaCarregada
+                        ? "Esta pessoa ou instituição poderá selecionar materiais e iniciar uma nova troca diretamente pelo chat."
+                        : "Verificando a permissão atual..."}
+                    </span>
+                  </span>
+                  <span className="evaluation-favorite-switch" aria-hidden="true" />
+                </label>
+              </section>
+            )}
+
             <FormMessage className="evaluation-error">{erro}</FormMessage>
 
             <div className="evaluation-actions">
@@ -309,11 +428,16 @@ export default function Avaliacao() {
                 variant="neutral"
                 type="button"
                 className="evaluation-secondary-button"
-                onClick={() => navigate("/convites")}
+                onClick={() => navigate("/chat")}
               >
                 Voltar
               </Button>
-              <Button variant="gradient" type="submit" className="evaluation-primary-button">
+              <Button
+                variant="gradient"
+                type="submit"
+                className="evaluation-primary-button"
+                disabled={podePermitirAcessoDireto && !permissaoDiretaCarregada}
+              >
                 Enviar avaliação
               </Button>
             </div>
@@ -349,17 +473,37 @@ export default function Avaliacao() {
               {destaques.length ? destaques.join(", ") : "Nenhum selecionado"}
             </strong>
           </div>
+          <div>
+            <span>Bônus</span>
+            <strong>+{nota * 10} pontos para {parceiro.nome || "o perfil avaliado"}</strong>
+          </div>
+          {podeAdicionarFavorito && (
+            <div>
+              <span>Favorito</span>
+              <strong>{adicionarFavorito ? "Será adicionado" : "Não adicionar"}</strong>
+            </div>
+          )}
+          {podePermitirAcessoDireto && (
+            <div>
+              <span>Acesso direto</span>
+              <strong>
+                {permitirAcessoDireto
+                  ? "Poderá iniciar novas trocas sem convite"
+                  : "Continuará exigindo convite"}
+              </strong>
+            </div>
+          )}
         </div>
       </Alert>
 
       <Alert
         isOpen={successOpen}
         title="Avaliação enviada!"
-        message="Obrigado por contribuir para uma comunidade de reciclagem mais segura e colaborativa."
+        message={`Sua avaliação concedeu ${pontosConcedidos} pontos ao perfil avaliado${podeAdicionarFavorito && adicionarFavorito ? " e ele foi adicionado aos seus favoritos" : ""}${podePermitirAcessoDireto && acessoDiretoInicial !== acessoDiretoConcedido ? acessoDiretoConcedido ? ". O acesso direto para novas trocas também foi liberado" : ". O acesso direto foi desativado e novas trocas voltarão a exigir convite" : ""}.`}
         variant="success"
         confirmText="Entendi"
         showCancel={false}
-        onConfirm={() => navigate("/convites", { replace: true })}
+        onConfirm={() => navigate("/chat", { replace: true })}
         onCancel={() => setSuccessOpen(false)}
       />
     </>

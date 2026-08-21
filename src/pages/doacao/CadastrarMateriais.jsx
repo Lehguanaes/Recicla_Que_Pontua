@@ -13,7 +13,7 @@ import {
   FaTint,
   FaWineBottle,
 } from "react-icons/fa";
-import { MATERIAL_TYPES } from "../../constants";
+import { MATERIAL_POINTS, MATERIAL_TYPES } from "../../constants";
 import PageLayout from "../../components/layout/PageLayout";
 import Alert from "../../components/alert/Alert";
 import Button from "../../components/button/Button";
@@ -35,7 +35,7 @@ const MATERIAL_ESTIMATES = {
     weightPerUnit: 1,
     waterPerUnit: 22,
     energyPerUnit: 1.8,
-    pointsPerUnit: 8,
+    pointsPerUnit: MATERIAL_POINTS.papel,
     icon: FaFileAlt,
   },
   papelao: {
@@ -46,7 +46,7 @@ const MATERIAL_ESTIMATES = {
     weightPerUnit: 1,
     waterPerUnit: 16,
     energyPerUnit: 1.4,
-    pointsPerUnit: 7,
+    pointsPerUnit: MATERIAL_POINTS.papelao,
     icon: FaBoxOpen,
   },
   plastico: {
@@ -57,7 +57,7 @@ const MATERIAL_ESTIMATES = {
     weightPerUnit: 0.04,
     waterPerUnit: 2.5,
     energyPerUnit: 0.35,
-    pointsPerUnit: 2,
+    pointsPerUnit: MATERIAL_POINTS.plastico,
     icon: FaRecycle,
   },
   vidro: {
@@ -68,7 +68,7 @@ const MATERIAL_ESTIMATES = {
     weightPerUnit: 1,
     waterPerUnit: 5,
     energyPerUnit: 0.9,
-    pointsPerUnit: 6,
+    pointsPerUnit: MATERIAL_POINTS.vidro,
     icon: FaWineBottle,
   },
   metal: {
@@ -79,7 +79,7 @@ const MATERIAL_ESTIMATES = {
     weightPerUnit: 0.015,
     waterPerUnit: 8,
     energyPerUnit: 0.6,
-    pointsPerUnit: 3,
+    pointsPerUnit: MATERIAL_POINTS.metal,
     icon: FaLeaf,
   },
   eletronico: {
@@ -90,7 +90,7 @@ const MATERIAL_ESTIMATES = {
     weightPerUnit: 0.8,
     waterPerUnit: 35,
     energyPerUnit: 3.4,
-    pointsPerUnit: 20,
+    pointsPerUnit: MATERIAL_POINTS.eletronico,
     icon: FaLaptop,
   },
   oleo: {
@@ -101,7 +101,7 @@ const MATERIAL_ESTIMATES = {
     weightPerUnit: 0.92,
     waterPerUnit: 1000,
     energyPerUnit: 1.2,
-    pointsPerUnit: 15,
+    pointsPerUnit: MATERIAL_POINTS.oleo,
     icon: FaOilCan,
   },
 };
@@ -329,6 +329,72 @@ const CadastrarMateriais = () => {
                   reciclagem ser confirmada.
                 </p>
               </article>
+            </div>
+
+            <div className="impact-points-reference">
+              <div className="impact-points-heading">
+                <div>
+                  <span>Referência de pontuação</span>
+                  <h3>Tabela de pontos por material</h3>
+                </div>
+                <p>
+                  Compare a pontuação de cada categoria. Os valores são aplicados
+                  à quantidade informada e confirmados depois da entrega.
+                </p>
+              </div>
+
+              <div className="impact-points-table-scroll">
+                <table className="impact-points-table">
+                  <thead>
+                    <tr>
+                      <th scope="col">Material</th>
+                      <th scope="col">Como calculamos</th>
+                      <th scope="col">Valor</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {[...materialOptions]
+                      .sort(
+                        (first, second) =>
+                          MATERIAL_ESTIMATES[second.value].pointsPerUnit -
+                          MATERIAL_ESTIMATES[first.value].pointsPerUnit
+                      )
+                      .map((material) => {
+                        const estimate = MATERIAL_ESTIMATES[material.value];
+                        const MaterialIcon = estimate.icon;
+                        const reference =
+                          estimate.unit === "un"
+                            ? "Por unidade"
+                            : estimate.unit === "L"
+                              ? "Por litro"
+                              : "Por quilograma";
+
+                        return (
+                          <tr key={material.value}>
+                            <td>
+                              <div className="impact-points-material">
+                                <span aria-hidden="true">
+                                  <MaterialIcon />
+                                </span>
+                                <div>
+                                  <strong>{material.label}</strong>
+                                  <small>{estimate.description}</small>
+                                </div>
+                              </div>
+                            </td>
+                            <td>{reference}</td>
+                            <td>
+                              <span className="impact-points-value">
+                                <strong>{estimate.pointsPerUnit}</strong>
+                                <small>pontos</small>
+                              </span>
+                            </td>
+                          </tr>
+                        );
+                      })}
+                  </tbody>
+                </table>
+              </div>
             </div>
           </div>
         </section>

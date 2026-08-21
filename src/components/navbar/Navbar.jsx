@@ -5,7 +5,7 @@ import Alert from "../alert/Alert";
 import IconButton from "../button/IconButton";
 import NotificationBell from "../notifications/NotificationBell";
 import "./navbar.css";
-import Logo from "../../assets/logo.png";
+import Logo from "../../assets/LogoPrincipal.png";
 import PetMenu from "../../assets/PetMenu.png";
 import {
   FaBars,

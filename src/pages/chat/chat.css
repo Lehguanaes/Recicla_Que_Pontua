@@ -249,6 +249,40 @@
   font-weight: var(--font-weight-bold);
 }
 
+.conversation-header-actions {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+}
+
+.chat-finish-button,
+.chat-evaluate-button {
+  min-height: 40px;
+  padding: 9px 15px;
+  border-radius: 10px;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: var(--font-size-body-small);
+  font-weight: var(--font-weight-bold);
+  white-space: nowrap;
+  box-shadow: 0 10px 22px rgb(var(--rgb-brand-orange) / 0.16);
+}
+
+.chat-finished-badge {
+  min-height: 36px;
+  padding: 8px 12px;
+  border: 1px solid var(--color-border-green);
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  background: var(--color-surface-green);
+  color: var(--color-brand-green-dark);
+  font-size: var(--font-size-caption);
+  font-weight: var(--font-weight-bold);
+}
+
 .perfil-badge {
   font-size: 0.72rem;
   font-weight: var(--font-weight-semibold);
@@ -331,6 +365,23 @@
   font-size: 0.95rem;
   line-height: 1.45;
   word-break: break-word;
+}
+
+.automatic-message-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 7px;
+  font-size: var(--font-size-caption);
+  font-weight: var(--font-weight-bold);
+}
+
+.message-bubble-wrapper.outgoing .automatic-message-label {
+  color: rgb(var(--rgb-white) / 82%);
+}
+
+.message-bubble-wrapper.incoming .automatic-message-label {
+  color: var(--color-brand-green-dark);
 }
 
 .message-meta {
@@ -439,6 +490,22 @@
     display: block;
   }
 
+  .conversation-header {
+    flex-wrap: wrap;
+  }
+
+  .conversation-header-actions {
+    width: 100%;
+    margin-left: 0;
+  }
+
+  .chat-finish-button,
+  .chat-evaluate-button,
+  .chat-finished-badge {
+    width: 100%;
+    justify-content: center;
+  }
+
   .chat-layout-container.panel-list .chat-conversation-panel {
     display: none;
   }
@@ -454,4 +521,34 @@
   .chat-empty {
     margin-top: 32px;
   }
+}
+
+.chat-closed-notice {
+  min-height: 72px;
+  padding: 14px 24px;
+  border-top: 1px solid var(--color-border-orange-soft);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  background: var(--color-surface-orange);
+  color: var(--color-text-heading);
+}
+
+.chat-closed-notice > svg {
+  flex: 0 0 auto;
+  color: var(--color-brand-orange);
+  font-size: 1.4rem;
+}
+
+.chat-closed-notice strong,
+.chat-closed-notice span {
+  display: block;
+}
+
+.chat-closed-notice span {
+  margin-top: 3px;
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-body-small);
 }

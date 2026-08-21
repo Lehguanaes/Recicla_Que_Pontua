@@ -22,12 +22,24 @@ const notificationIcons = {
   message: FaCommentDots,
 };
 
-function getStoredReadIds(storageKey) {
+const READ_NOTIFICATION_RETENTION_MS = 2 * 24 * 60 * 60 * 1000;
+
+function getStoredReadRecords(storageKey) {
   try {
     const stored = JSON.parse(localStorage.getItem(storageKey) || "[]");
-    return Array.isArray(stored) ? stored : [];
+    if (Array.isArray(stored)) {
+      const migratedAt = Date.now();
+      return Object.fromEntries(stored.map((id) => [id, migratedAt]));
+    }
+    if (!stored || typeof stored !== "object") return {};
+
+    return Object.fromEntries(
+      Object.entries(stored).filter(
+        ([id, timestamp]) => id && Number.isFinite(Number(timestamp))
+      )
+    );
   } catch {
-    return [];
+    return {};
   }
 }
 
@@ -57,12 +69,22 @@ export default function NotificationBell({ userId, onOpen }) {
   const storageKey = `recicla-notifications-read-${userId}`;
   const [isOpen, setIsOpen] = useState(false);
   const [notifications, setNotifications] = useState([]);
-  const [readIds, setReadIds] = useState(() => getStoredReadIds(storageKey));
+  const [readRecords, setReadRecords] = useState(() =>
+    getStoredReadRecords(storageKey)
+  );
+  const [currentTime, setCurrentTime] = useState(() => Date.now());
   const [loading, setLoading] = useState(true);
   const [hasError, setHasError] = useState(false);
 
   useEffect(() => {
-    setReadIds(getStoredReadIds(storageKey));
+    const storedRecords = getStoredReadRecords(storageKey);
+    setReadRecords(storedRecords);
+    setCurrentTime(Date.now());
+    try {
+      localStorage.setItem(storageKey, JSON.stringify(storedRecords));
+    } catch {
+      // A interface continua funcional mesmo se o armazenamento estiver bloqueado.
+    }
   }, [storageKey]);
 
   useEffect(() => {
@@ -87,6 +109,8 @@ export default function NotificationBell({ userId, onOpen }) {
   useEffect(() => {
     if (!isOpen) return undefined;
 
+    setCurrentTime(Date.now());
+
     function handlePointerDown(event) {
       if (!containerRef.current?.contains(event.target)) setIsOpen(false);
     }
@@ -103,28 +127,66 @@ export default function NotificationBell({ userId, onOpen }) {
     };
   }, [isOpen]);
 
-  const readIdSet = useMemo(() => new Set(readIds), [readIds]);
-  const unreadCount = notifications.filter(
-    (notification) => !readIdSet.has(notification.id)
+  const visibleNotifications = useMemo(
+    () =>
+      notifications.filter((notification) => {
+        const readAt = Number(readRecords[notification.id]);
+        return !readAt || currentTime - readAt < READ_NOTIFICATION_RETENTION_MS;
+      }),
+    [currentTime, notifications, readRecords]
+  );
+  const unreadCount = visibleNotifications.filter(
+    (notification) => !readRecords[notification.id]
   ).length;
 
-  function saveReadIds(nextIds) {
-    const uniqueIds = Array.from(new Set(nextIds)).slice(-200);
-    setReadIds(uniqueIds);
+  useEffect(() => {
+    const remainingTimes = visibleNotifications
+      .map((notification) => Number(readRecords[notification.id]))
+      .filter(Boolean)
+      .map(
+        (readAt) =>
+          readAt + READ_NOTIFICATION_RETENTION_MS - currentTime
+      )
+      .filter((remaining) => remaining > 0);
+
+    if (remainingTimes.length === 0) return undefined;
+    const timer = window.setTimeout(
+      () => setCurrentTime(Date.now()),
+      Math.max(1000, Math.min(...remainingTimes) + 50)
+    );
+    return () => window.clearTimeout(timer);
+  }, [currentTime, readRecords, visibleNotifications]);
+
+  function saveReadRecords(nextRecords) {
+    const limitedRecords = Object.fromEntries(
+      Object.entries(nextRecords)
+        .sort(([, timeA], [, timeB]) => Number(timeB) - Number(timeA))
+        .slice(0, 400)
+    );
+    setReadRecords(limitedRecords);
     try {
-      localStorage.setItem(storageKey, JSON.stringify(uniqueIds));
+      localStorage.setItem(storageKey, JSON.stringify(limitedRecords));
     } catch {
       // A interface continua funcional mesmo se o navegador bloquear o armazenamento local.
     }
   }
 
   function markAsRead(notificationId) {
-    if (readIdSet.has(notificationId)) return;
-    saveReadIds([...readIds, notificationId]);
+    if (readRecords[notificationId]) return;
+    const readAt = Date.now();
+    setCurrentTime(readAt);
+    saveReadRecords({ ...readRecords, [notificationId]: readAt });
   }
 
   function markAllAsRead() {
-    saveReadIds([...readIds, ...notifications.map((item) => item.id)]);
+    const readAt = Date.now();
+    setCurrentTime(readAt);
+    saveReadRecords({
+      ...readRecords,
+      ...Object.fromEntries(
+        visibleNotifications.map((notification) => [notification.id, readAt])
+      ),
+    });
   }
 
   function openNotification(notification) {
@@ -190,7 +252,7 @@ export default function NotificationBell({ userId, onOpen }) {
               <p className="notification-state">Carregando notificações...</p>
             )}
 
-            {!loading && !hasError && notifications.length === 0 && (
+            {!loading && !hasError && visibleNotifications.length === 0 && (
               <div className="notification-empty">
                 <FaBell />
                 <strong>Tudo acompanhado por aqui</strong>
@@ -198,15 +260,15 @@ export default function NotificationBell({ userId, onOpen }) {
               </div>
             )}
 
-            {!loading && hasError && notifications.length === 0 && (
+            {!loading && hasError && visibleNotifications.length === 0 && (
               <p className="notification-state is-error">
                 Não foi possível carregar as notificações agora.
               </p>
             )}
 
-            {notifications.slice(0, 12).map((notification) => {
+            {visibleNotifications.slice(0, 12).map((notification) => {
               const Icon = notificationIcons[notification.type] || FaBell;
-              const isUnread = !readIdSet.has(notification.id);
+              const isUnread = !readRecords[notification.id];
 
               return (
                 <button

@@ -1,6 +1,5 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
-import { FaStar, FaUserPlus, FaComments } from "react-icons/fa";
+import { FaComments, FaEye, FaStar, FaUserPlus } from "react-icons/fa";
 import Button from "../button/Button";
 import IconButton from "../button/IconButton";
 
@@ -13,10 +12,11 @@ export default function SelectedCard({
   onClose,
   onViewProfile,
   onOpenInvite,
+  onOpenChat,
   invitation,
   userProfile,
+  directChatLoading = false,
 }) {
-  const navigate = useNavigate();
   if (!collector) return null;
 
   const isCenter = collector.tipo === LOCAL_TYPES.CENTER;
@@ -61,10 +61,10 @@ export default function SelectedCard({
             <span>{collector.subtipo}</span>
 
             {collector.rating && (
-              <>
+              <span className="selected-rating">
                 <FaStar className="selected-star" />
                 <span>{collector.rating.toFixed(1)}</span>
-              </>
+              </span>
             )}
           </div>
 
@@ -89,55 +89,65 @@ export default function SelectedCard({
             btnText = "Convite enviado";
             btnDisabled = true;
             btnClick = undefined;
-          } else if (status === "aceito") {
-            btnText = "Chat";
-            btnDisabled = false;
+          } else if (collector.acessoDireto) {
+            btnText = directChatLoading ? "Abrindo chat..." : "Chat";
+            btnDisabled = directChatLoading;
             btnIcon = <FaComments size={13} />;
-            btnClick = () => {
-              navigate("/chat");
-            };
+            btnClick = () => onOpenChat?.(collector);
           }
 
           return (
-            <Button
-              onClick={btnClick}
-              disabled={btnDisabled}
-              className="selected-card-button"
-              style={{
-                display: "flex",
-                height: "50px",
-                alignItems: "center",
-                justifyContent: "center",
-                gap: "10px",
-                background: "var(--color-white)",
-                color: "var(--color-brand-green-deep)",
-                border: "none",
-                borderRadius: "15px",
-                marginRight: "50px",
-                fontWeight: 600,
-                fontSize: "14px",
-                boxShadow: "0 8px 20px var(--shadow-color-neutral)",
-                cursor: btnDisabled ? "not-allowed" : "pointer",
-                transition: "all .25s ease",
-              }}
-            >
-              <span
+            <div className="selected-card-actions">
+              {status === "pendente" && onViewProfile && (
+                <Button
+                  variant="neutral"
+                  className="selected-card-profile-button"
+                  onClick={() => onViewProfile(collector)}
+                >
+                  <FaEye aria-hidden="true" />
+                  Ver perfil
+                </Button>
+              )}
+
+              <Button
+                onClick={btnClick}
+                disabled={btnDisabled}
+                className="selected-card-button"
                 style={{
-                  width: 30,
-                  height: 30,
-                  borderRadius: "50%",
-                  background: "var(--color-brand-green-deep)",
-                  color: "var(--color-white)",
                   display: "flex",
+                  height: "50px",
                   alignItems: "center",
                   justifyContent: "center",
-                  flexShrink: 0,
+                  gap: "10px",
+                  background: "var(--color-white)",
+                  color: "var(--color-brand-green-deep)",
+                  border: "none",
+                  borderRadius: "15px",
+                  fontWeight: 600,
+                  fontSize: "14px",
+                  boxShadow: "0 8px 20px var(--shadow-color-neutral)",
+                  cursor: btnDisabled ? "not-allowed" : "pointer",
+                  transition: "all .25s ease",
                 }}
               >
-                {btnIcon}
-              </span>
-              <span>{btnText}</span>
-            </Button>
+                <span
+                  style={{
+                    width: 30,
+                    height: 30,
+                    borderRadius: "50%",
+                    background: "var(--color-brand-green-deep)",
+                    color: "var(--color-white)",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    flexShrink: 0,
+                  }}
+                >
+                  {btnIcon}
+                </span>
+                <span>{btnText}</span>
+              </Button>
+            </div>
           );
         })()
       )}
